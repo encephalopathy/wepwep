@@ -1,0 +1,1 @@
+Will decide on coding standards and folder naming conventions when we decide on a development environment and platform.
