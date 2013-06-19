@@ -1,0 +1,1 @@
+This is the folder where you can commit whatever the fuck you want THAT WILL NOT CONTRIBUTE TO THE DEVELOPMENT OF THE PROJECT! Thank you.
