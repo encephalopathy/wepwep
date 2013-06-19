@@ -31,3 +31,6 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/nicks
 
 !ENTRY org.eclipse.ui 4 4 2013-06-19 00:09:41.102
 !MESSAGE Invalid preference page path: XML Syntax
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-06-19 01:10:30.767
+!MESSAGE No projects found for [/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW-android/AndroidManifest.xml]

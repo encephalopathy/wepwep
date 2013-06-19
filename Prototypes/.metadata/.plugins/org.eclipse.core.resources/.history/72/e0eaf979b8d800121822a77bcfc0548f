@@ -9,7 +9,7 @@ public class Main {
 		cfg.title = "Shoot 'Em Up: PEW!! PEW!! Prototype";
 		cfg.useGL20 = false;
 		cfg.width = 720;
-		cfg.height = 1280;
+		cfg.height = 720;
 		
 		new LwjglApplication(new ShootEmUpPEWPEW(), cfg);
 	}
