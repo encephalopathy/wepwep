@@ -1,0 +1,112 @@
+package com.me.shootemupPEWPEW;
+
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+
+public class ShootEmUpPEWPEW implements ApplicationListener {
+	
+	private OrthographicCamera camera;
+	private SpriteBatch batch;
+	
+	//player data
+	private Texture          playerTexture;
+	//PRO TIP: Sprites should only be used if you want to draw
+	//different images from texture atlases.
+	//private Sprite           playerSprite;
+	private Texture          playerBulletTexture;
+	private Rectangle        player;
+	private Array<Rectangle> playerBullets;
+	
+	//enemy data (I'm assuming there's only one enemy for now)
+	private Texture enemyTexture;
+	private Texture enemyBulletTexture;
+	private Rectangle enemy;
+	private Array<Rectangle> enemyBullets;
+	
+	//sounds and music
+	private Sound hit;
+	private Sound playerShooting;
+	private Sound playerDying;
+	private Sound enemyShooting;
+	private Sound enemyDying;
+	private Music backgroundMusic;
+	
+	//touch input data
+	//NOTE: putting this here helps avoid too much garbage collection,
+	//you don't want to constantly instantiate new things all the time
+	private Vector3 touchPosition;
+	
+	@Override
+	public void create() {		
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+		
+		camera = new OrthographicCamera(w, h);
+		batch = new SpriteBatch();
+		
+		//create all of the player data
+		playerTexture = new Texture(Gdx.files.internal("textures/player_01.png"));
+		player = new Rectangle(0, 0, 256, 256);
+		
+		playerBulletTexture = new Texture(Gdx.files.internal("textures/bullet_01.png"));
+		
+		//input data
+		touchPosition = new Vector3();
+	}
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+		//TODO: Dispose all the textures in here
+	}
+
+	@Override
+	public void render() {		
+		
+		//set the clear color, then clear the screen with that color
+		Gdx.gl.glClearColor(0, 0, 0.4f, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		camera.update();
+		
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		//Draw everything in here
+		batch.draw(playerTexture, player.x, player.y);
+		batch.end();
+		
+		if (Gdx.input.isTouched()) {
+			int touchedPositionX = Gdx.input.getX();
+			int touchedPositionY = Gdx.input.getY();
+			touchPosition.set(touchedPositionX, touchedPositionY, 0);
+			camera.unproject(touchPosition);
+			player.x = touchedPositionX;
+			Gdx.app.log("TouchInput",
+					"Touched at (" + touchedPositionX + ", " + touchedPositionY + ")");
+		}
+	}
+
+	@Override
+	public void resize(int width, int height) {
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
+}

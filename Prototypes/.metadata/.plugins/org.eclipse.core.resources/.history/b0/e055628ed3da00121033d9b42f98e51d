@@ -1,0 +1,46 @@
+package com.me.shootemupPEWPEW.player;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
+public class Player {
+	private Texture   texture;
+	private Sprite    sprite;
+	private Rectangle boundingBox;
+	private Vector3   position;
+	private float     displayHeight;
+	
+	public Player(int shipWidth, float displayWidth, float displayHeight){
+		
+		//TODO: Fill in the texture stuff here once you're ready
+		this.displayHeight = displayHeight;
+		position = new Vector3(displayWidth/2 - shipWidth/2, 75, 0);
+		boundingBox = new Rectangle(position.x, position.y, shipWidth, shipWidth);
+	}
+	
+	public void update(){
+		if(Gdx.input.isTouched()){
+			position.x = Gdx.input.getX() - boundingBox.width/2;
+			position.y = displayHeight - Gdx.input.getY() - boundingBox.width/2;
+		}
+	}
+	
+	public void draw(SpriteBatch batch){
+		//TODO: fill this in once you've got the bounding boxes all set up
+	}
+	
+	public void drawDebugRectangle(ShapeRenderer shapeRenderer){
+		shapeRenderer.setColor(1, 1, 0, 1);
+		shapeRenderer.box(position.x, position.y, 0, boundingBox.width, boundingBox.height, 0);
+	}
+	
+	public void dispose(){
+		//TODO: dispose of everything once you're done using player
+	}
+}

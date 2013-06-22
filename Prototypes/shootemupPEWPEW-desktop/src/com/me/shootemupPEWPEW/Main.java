@@ -7,7 +7,6 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Shoot 'Em Up: PEW!! PEW!! Prototype";
-		cfg.useGL20 = false;
 		cfg.width = 720;
 		cfg.height = 1280;
 		

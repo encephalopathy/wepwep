@@ -1,0 +1,126 @@
+package com.me.shootemupPEWPEW;
+
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+
+import com.me.shootemupPEWPEW.player.Player;
+
+public class ShootEmUpPEWPEW implements ApplicationListener {
+	
+	private OrthographicCamera camera;
+	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
+	
+	//player data
+	private Player player;
+	//private Texture          playerTexture;
+	//private Sprite           playerSprite; //need it because I wanna scale the texture
+	private Texture          playerBulletTexture;
+	//private Rectangle        player;
+	private Array<Rectangle> playerBullets;
+	
+	//enemy data (I'm assuming there's only one enemy for now)
+	private Texture enemyTexture;
+	private Texture enemyBulletTexture;
+	private Rectangle enemy;
+	private Array<Rectangle> enemyBullets;
+	
+	//sounds and music
+	private Sound hit;
+	private Sound playerShooting;
+	private Sound playerDying;
+	private Sound enemyShooting;
+	private Sound enemyDying;
+	private Music backgroundMusic;
+	
+	//touch input data
+	//NOTE: putting this here helps avoid too much garbage collection,
+	//you don't want to constantly instantiate new things all the time
+	private Vector3 touchPosition;
+	
+	@Override
+	public void create() {		
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+		
+		camera = new OrthographicCamera(1, h/w);
+		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+		
+		//create all of the player data
+		/*playerTexture = new Texture(Gdx.files.internal("textures/player_01.png"));
+		playerSprite = new Sprite(playerTexture);
+		player = new Rectangle(0, 0, 256, 256);
+		playerSprite.setX(0); playerSprite.setY(0);*/
+		
+		player = new Player();
+		//input data
+		touchPosition = new Vector3();
+	}
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+		//TODO: Dispose all the textures in here
+	}
+
+	@Override
+	public void render() {		
+		
+		//set the clear color, then clear the screen with that color
+		Gdx.gl.glClearColor(0, 0, 0.4f, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		camera.update();
+		
+		//sprite batch work
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		//Draw everything in here
+		//batch.draw(playerTexture, player.x, player.y);
+		player.draw(batch);
+		batch.end();
+		
+		//debug shape renderer
+		//shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.begin(ShapeType.Line);
+		player.drawDebugRectangle(shapeRenderer);
+		shapeRenderer.end();
+		
+		
+		if (Gdx.input.isTouched()) {
+			int touchedPositionX = Gdx.input.getX();
+			int touchedPositionY = Gdx.input.getY();
+			Gdx.app.log("TouchInput",
+					"Touched at (" + touchedPositionX + ", " + touchedPositionY + ")");
+			Gdx.app.log("PlayerPos",
+					"Player at (" + player.x + ", " + player.y + ")");
+		}
+	}
+
+	@Override
+	public void resize(int width, int height) {
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
+}

@@ -92,3 +92,6 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/nicks
 
 !ENTRY org.eclipse.ui 4 4 2013-06-21 08:53:06.195
 !MESSAGE Invalid preference page path: XML Syntax
+
+!ENTRY org.eclipse.ui 4 4 2013-06-21 10:28:26.141
+!MESSAGE Referenced part does not exist yet: org.eclipse.ui.views.ProblemView.

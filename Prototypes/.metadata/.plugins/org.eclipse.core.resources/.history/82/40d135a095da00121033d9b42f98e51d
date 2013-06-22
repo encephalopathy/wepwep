@@ -1,0 +1,82 @@
+package com.me.shootemupPEWPEW;
+
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+
+public class ShootEmUpPEWPEW implements ApplicationListener {
+	
+	private OrthographicCamera camera;
+	private SpriteBatch batch;
+	
+	//player data
+	private Texture playerTexture;
+	private Texture playerBulletTexture;
+	private Rectangle player;
+	private Array<Rectangle> playerBullets;
+	
+	//enemy data (I'm assuming there's only one enemy for now)
+	private Texture enemyTexture;
+	private Texture enemyBulletTexture;
+	private Rectangle enemy;
+	private Array<Rectangle> enemyBullets;
+	
+	//sounds and music
+	private Sound hit;
+	private Sound playerShooting;
+	private Sound playerDying;
+	private Sound enemyShooting;
+	private Sound enemyDying;
+	private Music backgroundMusic;
+	
+	@Override
+	public void create() {		
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+		
+		camera = new OrthographicCamera(1, h/w);
+		batch = new SpriteBatch();
+		
+		playerTexture = new Texture(Gdx.files.internal("textures/player_01.png"));
+		playerBulletTexture = new Texture(Gdx.files.internal("textures/bullet_01.png"));
+	}
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+		//TODO: Dispose all the textures in here
+	}
+
+	@Override
+	public void render() {		
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		//TODO: Draw everything in here
+		batch.end();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
+}

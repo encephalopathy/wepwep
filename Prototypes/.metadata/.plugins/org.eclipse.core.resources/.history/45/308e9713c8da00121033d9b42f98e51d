@@ -1,0 +1,37 @@
+package com.me.shootemupPEWPEW.player;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
+public class Player {
+	private Texture   texture;
+	private Sprite    sprite;
+	private Rectangle boundingBox;
+	private Vector3   position;
+	
+	public Player(){
+		//TODO: Fill in the texture stuff here once you're ready
+		position = new Vector3(0, 0, 0);
+		boundingBox = new Rectangle(position.x, position.y, 128, 128);
+	}
+	
+	public void update(){
+		position.x += Gdx.input.getDeltaX();
+	    position.y += Gdx.input.getDeltaY();
+	}
+	
+	public void draw(SpriteBatch batch){
+		//TODO: fill this in once you've got the bounding boxes all set up
+	}
+	
+	public void drawDebugRectangle(ShapeRenderer shapeRenderer){
+		sr.setColor(1, 1, 0, 1);
+		sr.box(position.x, position.y, 0, boundingBox.width, boundingBox.height, 0);
+	}
+}
