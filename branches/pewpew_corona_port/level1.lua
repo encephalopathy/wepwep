@@ -1,3 +1,4 @@
+require("Player")
 -----------------------------------------------------------------------------------------
 --
 -- level1.lua
@@ -7,9 +8,12 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
+local player = nil
+
 -- include Corona's "physics" library
 local physics = require "physics"
 physics.start(); physics.pause()
+physics.setGravity(0, 0)
 
 --------------------------------------------
 
@@ -24,35 +28,45 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 -- 
 -----------------------------------------------------------------------------------------
 
+local function onTouch()
+	print('TOUCHING THE SCENE')
+end
+
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
 
 	-- create a grey rectangle as the backdrop
-	local background = display.newRect( 0, 0, screenW, screenH )
-	background:setFillColor( 128 )
+	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
+	background:setReferencePoint( display.TopLeftReferencePoint )
+	background.x, background.y = 0, 0
+	group:insert( background )
+	
+	
+	player = Player:new(group, "sprites/player_01.png",0, 0, 0, 100, 100)
+	--player:addEventListenter("touch", player)
 	
 	-- make a crate (off-screen), position it, and rotate slightly
-	local crate = display.newImageRect( "crate.png", 90, 90 )
-	crate.x, crate.y = 160, -100
-	crate.rotation = 15
+	--local crate = display.newImage( "crate.png")
+	--crate.x, crate.y = 160, -100
+	--crate.rotation = 15
 	
 	-- add physics to the crate
-	physics.addBody( crate, { density=1.0, friction=0.3, bounce=0.3 } )
+	--physics.addBody( crate, { density=1.0, friction=0.3, bounce=0.3 } )
 	
 	-- create a grass object and add physics (with custom shape)
-	local grass = display.newImageRect( "grass.png", screenW, 82 )
-	grass:setReferencePoint( display.BottomLeftReferencePoint )
-	grass.x, grass.y = 0, display.contentHeight
+	--local grass = display.newImageRect( "grass.png", screenW, 82 )
+	--grass:setReferencePoint( display.BottomLeftReferencePoint )
+	--grass.x, grass.y = 0, display.contentHeight
 	
 	-- define a shape that's slightly shorter than image bounds (set draw mode to "hybrid" or "debug" to see)
-	local grassShape = { -halfW,-34, halfW,-34, halfW,34, -halfW,34 }
-	physics.addBody( grass, "static", { friction=0.3, shape=grassShape } )
+	--local grassShape = { -halfW,-34, halfW,-34, halfW,34, -halfW,34 }
+	--physics.addBody( grass, "static", { friction=0.3, shape=grassShape } )
 	
 	-- all display objects must be inserted into group
-	group:insert( background )
-	group:insert( grass)
-	group:insert( crate )
+	
+	--group:insert( grass)
+	--group:insert( crate )
 end
 
 -- Called immediately after scene has moved onscreen:

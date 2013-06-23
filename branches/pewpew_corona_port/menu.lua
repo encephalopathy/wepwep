@@ -13,15 +13,19 @@ local widget = require "widget"
 --------------------------------------------
 
 -- forward declarations and other locals
-local playBtn
+local playButton, weaponShopButton, EquipRideButton
 
--- 'onRelease' event listener for playBtn
-local function onPlayBtnRelease()
+-- 'onRelease' event listener for newGameButton
+local function onPlayButtonRelease()
 	
 	-- go to level1.lua scene
 	storyboard.gotoScene( "level1", "fade", 500 )
-	
 	return true	-- indicates successful touch
+end
+
+local function onDefaultRelease()
+	print('hello this button does not do anything')
+	return true
 end
 
 -----------------------------------------------------------------------------------------
@@ -32,15 +36,34 @@ end
 -- 
 -----------------------------------------------------------------------------------------
 
-local function createPlayBttn(widget)
-	playBtn = widget.newButton{
-		label="Play Now",
+local function createBttn(widget, display, labelName, x, y, onReleaseCallback)
+
+	if onReleaseCallback == nil then
+		onReleaseCallback = onDefaultRelease
+	end
+
+	local newGameButton = widget.newButton{
+		label=labelName,
 		labelColor = { default={255}, over={128} },
 		defaultFile="button.png",
 		overFile="button-over.png",
 		width=154, height=40,
-		onRelease = onPlayBtnRelease	-- event listener function
+		onRelease = onReleaseCallback	-- event listener function
 	}
+	
+	if display ~= nil then
+		newGameButton:setReferencePoint(  display.CenterReferencePoint )
+	end
+	
+	if x ~= nil then
+		newGameButton.x = x
+	end
+	
+	if y ~= nil then
+		newGameButton.y = y
+	end
+
+	return newGameButton
 end
 
 -- Called when the scene's view does not exist:
@@ -48,26 +71,37 @@ function scene:createScene( event )
 	local group = self.view
 
 	-- display a background image
-	local background = display.newImageRect( "background.jpg", display.contentWidth, display.contentHeight )
+	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	
 	-- create/position logo/title image on upper-half of the screen
-	local titleLogo = display.newImageRect( "logo.png", 264, 42 )
-	titleLogo:setReferencePoint( display.CenterReferencePoint )
-	titleLogo.x = display.contentWidth * 0.5
-	titleLogo.y = 100
+	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
+	--titleLogo:setReferencePoint( display.CenterReferencePoint )
+	--titleLogo.x = display.contentWidth * 0.5
+	--titleLogo.y = 100
 	
 	-- create a widget button (which will loads level1.lua on release)
-	createPlayBttn(widget)
-	playBtn:setReferencePoint( display.CenterReferencePoint )
-	playBtn.x = display.contentWidth*0.5
-	playBtn.y = display.contentHeight - 125
+	local centerOfScreenX = display.contentWidth*0.5
+	
+	playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
+		display.contentHeight - 225, onPlayButtonRelease)
+	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
+		display.contentHeight - 225)
+	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
+		display.contentHeight - 75)
+	
+	--playButton:setReferencePoint( display.CenterReferencePoint )
+	--playButton.x = display.contentWidth*0.5
+	--playButton.y = display.contentHeight - 125
 	
 	-- all display objects must be inserted into group
+	
+	--group:insert( titleLogo )
 	group:insert( background )
-	group:insert( titleLogo )
-	group:insert( playBtn )
+	group:insert( weaponShopButton )
+	group:insert( equipRideButton )
+	group:insert( playButton )
 end
 
 -- Called immediately after scene has moved onscreen:
@@ -90,9 +124,14 @@ end
 function scene:destroyScene( event )
 	local group = self.view
 	
-	if playBtn then
-		playBtn:removeSelf()	-- widgets must be manually removed
-		playBtn = nil
+	if playButton then
+		playButton:removeSelf()	-- widgets must be manually removed
+		playButton = nil
+	end
+	
+	if weaponShopButton then
+		weaponShopButton:removeSelf()
+		weaponShopButton = nil
 	end
 end
 
