@@ -1,6 +1,5 @@
 require("GameConstants")
 require("Queue")
---require("rapanui-sdk/RNPhysics")
 --[[
 	Game Class:
 	Responsible for managing all managers of the game.
@@ -351,8 +350,6 @@ function Game.onCreate()
 	--level number of the game
 	currentLevel = setLevel(currentLevelNumber)
 	--currentLevelNumber = currentLevelNumber + 1
-
-	expolisionList = {}
 
 	playerWon = false
 

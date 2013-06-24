@@ -3,6 +3,10 @@
 -- menu.lua
 --
 -----------------------------------------------------------------------------------------
+require("Utility")
+require("Inventory")
+
+mainInvetory = nil
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -23,6 +27,16 @@ local function onPlayButtonRelease()
 	return true	-- indicates successful touch
 end
 
+local function onEquipButtonRelease()
+	storyboard.gotoScene("EquipMenu", "fade", 500)
+	return true
+end
+
+local function onWeaponShopButtonRelease()
+	storyboard.gotoScene("BuyMenu", "fade", 500)
+	return true
+end
+
 local function onDefaultRelease()
 	print('hello this button does not do anything')
 	return true
@@ -36,36 +50,6 @@ end
 -- 
 -----------------------------------------------------------------------------------------
 
-local function createBttn(widget, display, labelName, x, y, onReleaseCallback)
-
-	if onReleaseCallback == nil then
-		onReleaseCallback = onDefaultRelease
-	end
-
-	local newGameButton = widget.newButton{
-		label=labelName,
-		labelColor = { default={255}, over={128} },
-		defaultFile="button.png",
-		overFile="button-over.png",
-		width=154, height=40,
-		onRelease = onReleaseCallback	-- event listener function
-	}
-	
-	if display ~= nil then
-		newGameButton:setReferencePoint(  display.CenterReferencePoint )
-	end
-	
-	if x ~= nil then
-		newGameButton.x = x
-	end
-	
-	if y ~= nil then
-		newGameButton.y = y
-	end
-
-	return newGameButton
-end
-
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
@@ -75,6 +59,7 @@ function scene:createScene( event )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	
+	mainInventory = Inventory:new(group)
 	-- create/position logo/title image on upper-half of the screen
 	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
 	--titleLogo:setReferencePoint( display.CenterReferencePoint )

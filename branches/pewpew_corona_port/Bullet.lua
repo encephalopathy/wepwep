@@ -64,7 +64,7 @@ PARAMETERS:
 	@See inherit doc
 RETURN: VOID
 ]]--
---[[function Bullet:onHit(you, collitor)
+function Bullet:onHit(you, collitor)
 	if not collitor.sprite.type == "player" and you.isPlayerBullet then
 		if you.alive == true then
 			you.alive = false
@@ -83,4 +83,4 @@ RETURN: VOID
 		end
 	end
 	--self.bulletList[self] = nil
-end]]--
+end

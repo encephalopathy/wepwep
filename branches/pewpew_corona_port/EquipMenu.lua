@@ -18,7 +18,7 @@
 --[[
 	  
 	  SCENES MUST HAVE 
-	  1)a sceneGroup where all instances are inserted
+	  1)a equipMenu where all instances are inserted
 	  2)onCreate function in which we create everything
 	  3)onEnd function in which we clean the instance
 
@@ -26,38 +26,41 @@
 
 EquipMenu = {}
 
-local sceneGroup = RNGroup:new()
+local storyboard = require( "storyboard" )
+local equipMenu = storyboard.newScene()
+
+local widget = require "widget"
 
 
 --init Scene
-function EquipMenu.onCreate()
-    --add things to sceneGroup
-local background = RNFactory.createImage("sprites/sheet_metal.png", { parentGroup = sceneGroup }); background.x = 240; background.y = 420; background.scaleX=2; background.scaleY=3;
+function EquipMenu:createScene()
+    --add things to equipMenu
+	local background = display.createImageRect("sprites/sheet_metal.png", 240, 480)
 
-background:sendToBottom()
+	background:sendToBottom()
 	
 	local text1 = RNFactory.createText("Dollaz : " .. mainInventory.dollaz, { size = 25, top = 5, left = 5, width = 200, height = 50 })
 	text1:setTextColor(15, 40, 20)
-	sceneGroup:insert(text1)
+	equipMenu:insert(text1)
 	
 	local ammoText = RNFactory.createText("Ammo :" .. mainInventory.SecondaryWeapons[1].ammo .. " left", { size = 25, top = 5, left = 305, width = 200, height = 50 })
 	ammoText:setTextColor(15, 40, 20)
-	sceneGroup:insert(ammoText)
+	equipMenu:insert(ammoText)
 	
 	rect = RNFactory.createRect(00, 0, 480, 750, { rgb = { 20, 70, 10 } })
 	rect:setAlpha(0.01)
-	--sceneGroup:insert(rect)
+	--equipMenu:insert(rect)
 	
 	weaponRect = RNFactory.createRect(30, 150, 150, 450, { rgb = {30, 20, 10 } })
 	weaponRect:setAlpha(0.9)
-	--sceneGroup:insert(weaponRect)
+	--equipMenu:insert(weaponRect)
 	
 	subWeaponRect = RNFactory.createRect(280, 150, 150, 450, { rgb = {10, 30, 20 } })
 	subWeaponRect:setAlpha(0.9)
-	--sceneGroup:insert(subWeaponRect)
+	--equipMenu:insert(subWeaponRect)
 	
 	local equipText = RNFactory.createBitmapText("EQUIP MENU", {
-        parentGroup = sceneGroup,
+        parentGroup = equipMenu,
         image = "images/kromasky.png",
         charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
         top = 55,
@@ -67,10 +70,10 @@ background:sendToBottom()
     })
 	equipText.x = 150
 	equipText.y = 65
-	sceneGroup:insert(equipText)
+	equipMenu:insert(equipText)
 	
 	local mainText = RNFactory.createBitmapText("MAIN WEAPONS", {
-        parentGroup = sceneGroup,
+        parentGroup = equipMenu,
         image = "images/kromasky.png",
         charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
         top = 55,
@@ -80,10 +83,10 @@ background:sendToBottom()
     })
 	mainText.x = 30
 	mainText.y = 130
-	sceneGroup:insert(mainText)
+	equipMenu:insert(mainText)
 	
 	local subText = RNFactory.createBitmapText("SUB WEAPONS", {
-        parentGroup = sceneGroup,
+        parentGroup = equipMenu,
         image = "images/kromasky.png",
         charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
         top = 55,
@@ -93,13 +96,13 @@ background:sendToBottom()
     })
 	subText.x = 280
 	subText.y = 130
-	sceneGroup:insert(subText)
+	equipMenu:insert(subText)
 	
 	    regularshot = RNFactory.createButton("images/button-plain.png",
 
         {
             text = "Regular",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 160,
@@ -114,7 +117,7 @@ background:sendToBottom()
 
         {
             text = "Spread",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 260,
@@ -128,7 +131,7 @@ background:sendToBottom()
 		sineshot = RNFactory.createButton("images/button-plain.png",
         {
             text = "Sine",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 360,
@@ -142,7 +145,7 @@ background:sendToBottom()
 		doubleshot = RNFactory.createButton("images/button-plain.png",
         {
             text = "Double",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 460,
@@ -156,7 +159,7 @@ background:sendToBottom()
 		homingshot = RNFactory.createButton("images/button-plain.png",
         {
             text = "Homing",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 560,
@@ -170,7 +173,7 @@ background:sendToBottom()
 		subBomb = RNFactory.createButton("images/button-plain.png",
         {
             text = "Bombs",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 180,
@@ -184,7 +187,7 @@ background:sendToBottom()
 		subRocket = RNFactory.createButton("images/button-plain.png",
         {
             text = "Rockets",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 300,
@@ -198,7 +201,7 @@ background:sendToBottom()
 		subFreezeMissile = RNFactory.createButton("images/button-plain.png",
         {
             text = "Freeze Missile",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 420,
@@ -213,7 +216,7 @@ background:sendToBottom()
 
         {
             text = "Back",
-            parentGroup = sceneGroup,
+            parentGroup = equipMenu,
             imageOver = "images/button-over.png",
             font = "dwarves.TTF",
             top = 650,
@@ -233,13 +236,13 @@ background:sendToBottom()
 	--if the music IS NOT PLAYING then
 	--this check needs to be here to make sure that when you come back here,
 	--it doesn't start the music over again
-	if equipBGMPlaying == false then 
-		equipBGM:play()
-		equipBGMPlaying = true
-	end
+	--if equipBGMPlaying == false then 
+	--	equipBGM:play()
+	--	equipBGMPlaying = true
+	--end
 
 	setThingsUp()
-    return sceneGroup
+    return equipMenu
 end
 
 function setThingsUp()
@@ -348,8 +351,8 @@ end
 
 
 function EquipMenu.onEnd()
-    for i = 1, table.getn(sceneGroup.displayObjects), 1 do
-        sceneGroup.displayObjects[1]:remove();
+    for i = 1, table.getn(equipMenu.displayObjects), 1 do
+        equipMenu.displayObjects[1]:remove();
     end
 end
 
