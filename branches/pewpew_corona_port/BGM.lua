@@ -22,7 +22,7 @@ local loadTypes = {
 }]]--
 
 local platform
-local loopTypes = { 'bgm' : -1, 'soundfx' : 1 }
+--local loopTypes = { 'bgm' : -1, 'soundfx' : 1 }
 local bgmMusicChannel = 1
 local soundFxStack = 2
 
