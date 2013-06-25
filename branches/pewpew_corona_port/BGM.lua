@@ -1,10 +1,5 @@
-local platform
-local fileExtentions = { 'soundfx' : 'sounds/'
-local loopTypes = { 'musicFile' : -1, 'soundfx' : 1 }
-local currentBGPlaying = nil
-
 --Check what platform we are running this sample on
-if system.getInfo( "platformName" ) == "Android" then
+--[[if system.getInfo( "platformName" ) == "Android" then
 	platform = "Android"
 elseif system.getInfo( "platformName" ) == "Mac OS X" then
 	platform = "Mac"
@@ -24,15 +19,39 @@ local supportedAudio = {
 local loadTypes = {
 	["sound"] = { extensions = { ".aac", ".aif", ".caf", ".wav" } },
 	["stream"] = { extensions = { ".mp3", ".ogg" } },
-}
+}]]--
 
-MOAIUntzSystem.setVolume(1) --set the initial volume
-volumeValue = MOAIUntzSystem.getVolume() --get the volume you shit
+local platform
+local loopTypes = { 'bgm' : -1, 'soundfx' : 1 }
+local bgmMusicChannel = 1
+local soundFxStack = 2
 
-local musicFiles = {'sounds/menuBackMusic.ogg', 'sounds/equipMusic.ogg', 'sounds/gameBackMusic.ogg', 'sounds/shopMusic.ogg' }
+local currentBGMPlaying = nil
 
+function playBGM(file, fadeInTime, onComplete)
+	if fadeInTime == nil then
+		fadeInTime = 500
+	end
+	
+	currentBGMPlaying = audio.loadStream(file)
+	currentBGMPlaying = audio.play(file, { channel = bgmMusicChannel, loops = loopTypes['bgm'], fadein = fadeInTime })
+end
 
+function pauseBGM()
 
+end
+
+function stopBGM()
+
+end
+
+function printCurrentBGMPlaying()
+	print (currentBGMPlaying.name)
+end
+
+function playSoundFX(file, duration, fadein, onComplete)
+
+end
 
 
 --BGM for the main menu
