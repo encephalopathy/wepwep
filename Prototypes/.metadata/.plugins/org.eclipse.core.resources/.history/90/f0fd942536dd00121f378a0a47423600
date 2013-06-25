@@ -1,0 +1,15 @@
+package com.me.shootemupPEWPEW;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+public class Player extends Ship{
+
+	public Player(int size, Vector2 startPosition, String textureName, float dispHeight){
+		super(size, startPosition, textureName, dispHeight);
+	}
+
+}

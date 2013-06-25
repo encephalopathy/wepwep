@@ -1,0 +1,20 @@
+package com.me.shootemupPEWPEW.player;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+public class Enemy {
+	public Texture texture;
+	public Sprite sprite;
+	public int shipSize;
+	public Rectangle boundingBox;
+	public Vector2 position;
+	public float displayHeight;
+	public int health;
+
+	public Enemy(int shipSize) {
+		this.shipSize = shipSize;
+	}
+}

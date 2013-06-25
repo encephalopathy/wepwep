@@ -1,0 +1,21 @@
+package com.me.shootemupPEWPEW;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+public class Player extends Ship{
+
+	public Player(int size, Vector2 startPosition, String textureName, float dispHeight){
+		position = new Vector2(startPosition.x, startPosition.y);
+		texture  = new Texture(Gdx.files.internal(textureName));
+		sprite   = new Sprite(texture);
+		sprite.setBounds(position.x - size / 2, position.y - size / 2, size * 2, size * 2);
+		boundingBox = new Rectangle(position.x, position.y, size, size);
+		displayHeight = dispHeight;
+		health = 5;
+	}
+
+}

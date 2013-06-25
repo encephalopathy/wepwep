@@ -1,0 +1,150 @@
+package com.me.shootemupPEWPEW.player;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+
+/**
+ * Describes a space ship that appears during play, whether it is the player's ship
+ * or an enemy.
+ * 
+ * @author Nick Patti
+ */
+public class Ship {
+	
+	
+	//TODO: The audio used by player will go here
+	
+	private Enemy data = new Enemy(64);
+
+	/**
+	 * Constructor for the player's ship. The position of the ship is halfway across the screen
+	 * and about 
+	 * 
+	 * @param dispWidth Just as it says.
+	 * @param dispHeight Same here as well. Used for calculating the proper position of the player.
+	 * @return The player's ship, including collision, position, and drawing data.
+	 */
+	public Ship(float dispWidth, float dispHeight){
+		
+		//TODO: Perhaps clean this up a little bit?
+		data.position = new Vector2(dispWidth/2 - data.shipSize/2, 75);
+		data.texture  = new Texture(Gdx.files.internal("textures/player_01.png"));
+		data.sprite   = new Sprite(data.texture);
+		//set the position and the scale of the sprite in one function
+		data.sprite.setBounds(data.position.x - data.shipSize / 2, data.position.y - data.shipSize / 2,
+				         data.shipSize * 2, data.shipSize * 2);
+		data.boundingBox = new Rectangle(data.position.x, data.position.y, data.shipSize, data.shipSize);
+		data.displayHeight = dispHeight;
+		data.health = 5;
+	}
+	
+	
+	/**
+	 * The constructor used for enemy ships. Can select the size, position,
+	 * and texture name to create an enemy.
+	 * 
+	 * @param size The size of the ship in pixels
+	 * @param startPosition The starting location of the ship
+	 * @param textureName The internal file name of the texture to be used
+	 * @param dispHeight Required to calculate proper position of this ship
+	 * @return An enemy ship in the location, size, and texture specified
+	 */
+	public Ship(int size, Vector2 startPosition, String textureName, float dispHeight){
+		data.position = new Vector2(startPosition.x, startPosition.y);
+		data.texture  = new Texture(Gdx.files.internal(textureName));
+		data.sprite   = new Sprite(data.texture);
+		data.sprite.setBounds(data.position.x - size / 2, data.position.y - size / 2, size * 2, size * 2);
+		data.boundingBox = new Rectangle(data.position.x, data.position.y, size, size);
+		data.displayHeight = dispHeight;
+		data.health = 5;
+	}
+	
+	
+	
+	/**
+	 * Updates the ship's position and health during play. Read's input from the player,
+	 * and checks for collisions. NOTE: This is where the conversion from screen coordinates
+	 * to drawing coordinates takes place.
+	 * 
+	 * @return void
+	 */
+	public void update(){
+		
+		//are you touching the screen?
+		if(Gdx.input.isTouched()){
+			setPosition(Gdx.input.getX(), Gdx.input.getY());
+		}
+		
+		//TODO: Did your ship get hit by a bullet or an enemy?	
+	}
+	
+	
+	/**
+	 * Sets the position of the player, taking into account the various coordinate conversions
+	 * that would otherwise make this a bitch to do. New coordinates are relative to the origin
+	 * being placed on the bottom left corner of the screen.
+	 * 
+	 * @param x The player's new x position.
+	 * @param y The player's new y position.
+	 * @return void
+	 */
+	public void setPosition(int x, int y){
+		float offset = data.boundingBox.width/2;
+		data.position.x = x - offset;
+		data.position.y = data.displayHeight - y - offset;
+		data.sprite.setPosition(data.position.x - offset, data.position.y - offset);
+	}
+	
+	
+	/**
+	 * Draws the ship's sprite. This should be called after the SpriteBatch's begin(),
+	 * but before it's end().
+	 * 
+	 * @param batch The SpriteBatch that the ship is drawn.
+	 * @return void
+	 */
+	public void draw(SpriteBatch batch){
+		data.sprite.draw(batch);
+	}
+	
+	
+	/**
+	 * Draws the bounding box. Works like draw(SpriteBatch batch), but for
+	 * the ShapeRenderer instead
+	 * 
+	 * @param shapeRenderer The ShapeRenderer that the box will be drawn with.
+	 * @return void
+	 */
+	public void drawDebugRectangle(ShapeRenderer shapeRenderer){
+		shapeRenderer.setColor(1, 1, 0, 1);
+		shapeRenderer.box(data.position.x, data.position.y, 0, data.boundingBox.width, data.boundingBox.height, 0);
+	}
+	
+	
+	/**
+	 * Useful getter method in case the ship's health needs to be used in another class,
+	 * such as a UI element or something.
+	 * 
+	 * @return The ship's current health.
+	 */
+	public int getHealth(){
+		return data.health;
+	}
+	
+	
+	/**
+	 * Disposes of all disposable fields inside player.
+	 * 
+	 * @return void
+	 */
+	public void dispose(){
+		data.texture.dispose();
+		//TODO: Audio will be disposed in here once it's implemented
+	}
+}
