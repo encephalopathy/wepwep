@@ -33,7 +33,7 @@ function playBGM(file, fadeInTime, onComplete)
 	end
 	
 	--if audio.isChannelPlaying(bgmMusicChannel) then
-		stopBGM()
+		--stopBGM()
 	--end
 	
 	if file ~= nil then

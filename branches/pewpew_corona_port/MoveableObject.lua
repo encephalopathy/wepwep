@@ -27,10 +27,9 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	
 	if width == nil or height == nil then
 		sprite = display.newImage(imgSrc)
-		sprite.width, sprite.height = 0, 0
 		sprite.x, sprite.y = startX, startY
 	else
-		sprite = display.newImage(imgSrc)
+		sprite = display.newImageRect(imgSrc, width, height)
 		sprite.width, sprite.height = width, height
 		sprite.x, sprite.y = startX, startY
 	end

@@ -175,7 +175,7 @@ local function update(event)
 		player.sprite.y = 5000
 	end
 	
-	player:fire()
+	--player:fire()
 	--updateHaters(step)
 	--updateParticleEmitters()
 	--mainInventory:checkBullets(haterList)
