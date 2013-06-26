@@ -38,6 +38,8 @@ function Singleshot:fire(player)
 			--player.powah = player.powah - self.energyCost
 			
 			--SFX stuff
+			
+			playSoundFX("sounds/soundfx/laser.ogg")
 			--singleShotSFX:play()
 		end
 	end

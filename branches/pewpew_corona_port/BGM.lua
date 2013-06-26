@@ -21,56 +21,66 @@ local loadTypes = {
 	["stream"] = { extensions = { ".mp3", ".ogg" } },
 }]]--
 
-local platform
-local loopTypes = { 'bgm' : -1, 'soundfx' : 1 }
+local loopTypes = { ["bgm"] = -1, ["soundfx"] = 1 }
 local bgmMusicChannel = 1
 local soundFxStack = 2
-
+local lastSoundFXFileLoaded
 local currentBGMPlaying = nil
 
 function playBGM(file, fadeInTime, onComplete)
 	if fadeInTime == nil then
-		fadeInTime = 500
+		fadeInTime = 5000
 	end
 	
-	currentBGMPlaying = audio.loadStream(file)
-	currentBGMPlaying = audio.play(file, { channel = bgmMusicChannel, loops = loopTypes['bgm'], fadein = fadeInTime })
+	--if audio.isChannelPlaying(bgmMusicChannel) then
+		stopBGM()
+	--end
+	
+	if file ~= nil then
+		local loadedAudioFile = audio.loadStream(file)
+		currentBGMPlaying = audio.play(loadedAudioFile, { channel = bgmMusicChannel, 
+		loops = loopTypes['bgm'], fadein = fadeInTime })
+	else
+		print('Attempted to load a nil file in playBGM')
+	end
 end
 
 function pauseBGM()
+	if audio.isChannelPlaying(bgmMusicChannel) then
+		audio.pause(bgmMusicChannel)
+	end
+end
 
+function resumeBGM()
+	if audio.isChannelPaused(bgmMusicChannel) then
+		audio.resume(bgmMusicChannel)
+	end
 end
 
 function stopBGM()
-
+	audio.stop(currentBGMPlaying)
 end
 
 function printCurrentBGMPlaying()
 	print (currentBGMPlaying.name)
 end
 
-function playSoundFX(file, duration, fadein, onComplete)
+function playMultipleSounds(event)
 
 end
 
+local loadedAudioFile = audio.loadSound("sounds/soundfx/laser.ogg")
 
---BGM for the main menu
-audio.load('menuBackMusic.ogg')
-mainMenuBGM:setLooping(true)
-
---BGM for the game
-gameBGM = MOAIUntzSound.new()
-gameBGM:load('gameBackMusic.ogg')
-gameBGM:setLooping(true)
-
---BGM for the shop
-storeBGM = MOAIUntzSound.new()
-storeBGM:load('shopMusic.ogg')
-storeBGM:setLooping(true)
-storeBGMPlaying = false
-
---BGM for the equip screen
-equipBGM = MOAIUntzSound.new()
-equipBGM:load('equipMusic.ogg')
-equipBGM:setLooping(true)
-equipBGMPlaying = false
+function playSoundFX(file, duration, fadein, onComplete)
+	if fadeInTime == nil then
+		fadeInTime = 0
+	end
+	
+	if onComplete == nil then
+		--onComplete = 
+	end
+	
+	
+	currentBGMPlaying = audio.play(loadedAudioFile, { channel = soundFxStack, 
+	loops = loopTypes['soundfx']} )
+end

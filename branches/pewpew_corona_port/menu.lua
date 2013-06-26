@@ -3,8 +3,9 @@
 -- menu.lua
 --
 -----------------------------------------------------------------------------------------
-require("Utility")
 require("Inventory")
+require("Utility")
+require("BGM")
 
 mainInvetory = nil
 
@@ -21,7 +22,6 @@ local playButton, weaponShopButton, EquipRideButton
 
 -- 'onRelease' event listener for newGameButton
 local function onPlayButtonRelease()
-	
 	-- go to level1.lua scene
 	storyboard.gotoScene( "level1", "fade", 500 )
 	return true	-- indicates successful touch
@@ -58,7 +58,7 @@ function scene:createScene( event )
 	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-	
+	playBGM("/sounds/bgmusic/menuBackMusic.ogg")
 	mainInventory = Inventory:new(group)
 	-- create/position logo/title image on upper-half of the screen
 	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
@@ -94,13 +94,12 @@ function scene:enterScene( event )
 	local group = self.view
 	
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
-	
 end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
-	
+	stopBGM()
 	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
 	
 end
@@ -119,7 +118,6 @@ function scene:destroyScene( event )
 		weaponShopButton = nil
 	end
 end
-
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
 -----------------------------------------------------------------------------------------

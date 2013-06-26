@@ -72,7 +72,6 @@ function Player:touch(event)
 	local touchTarget = event.target
 	local phase = event.phase
 	
-	
 	if phase == "began" then
 		local parent = touchTarget.parent
 		parent:insert(touchTarget)
