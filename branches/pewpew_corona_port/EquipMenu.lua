@@ -1,360 +1,307 @@
---[[
+-----------------------------------------------------------------------------------------
 --
--- RapaNui
+-- EquipMenu.lua
 --
--- by Ymobe ltd  (http://ymobe.co.uk)
---
--- LICENSE:
---
--- RapaNui uses the Common Public Attribution License Version 1.0 (CPAL) http://www.opensource.org/licenses/cpal_1.0.
--- CPAL is an Open Source Initiative approved
--- license based on the Mozilla Public License, with the added requirement that you attribute
--- Moai (http://getmoai.com/) and RapaNui in the credits of your program.
-]]
-
-
-
-
---[[
-	  
-	  SCENES MUST HAVE 
-	  1)a equipMenu where all instances are inserted
-	  2)onCreate function in which we create everything
-	  3)onEnd function in which we clean the instance
-
-]] --
-
-EquipMenu = {}
+-----------------------------------------------------------------------------------------
+require("Utility")
+require("Inventory")
 
 local storyboard = require( "storyboard" )
-local equipMenu = storyboard.newScene()
+local scene = storyboard.newScene()
 
+-- include Corona's "widget" library
 local widget = require "widget"
 
+--------------------------------------------
 
---init Scene
-function EquipMenu:createScene()
-    --add things to equipMenu
-	local background = display.createImageRect("sprites/sheet_metal.png", 240, 480)
+-- forward declarations and other locals
+local regularButton, sineButton, doubleButton, homingButton, spreadButton,
+		bombsButton, rocketsButton, freezeButton, backButton
 
-	background:sendToBottom()
-	
-	local text1 = RNFactory.createText("Dollaz : " .. mainInventory.dollaz, { size = 25, top = 5, left = 5, width = 200, height = 50 })
-	text1:setTextColor(15, 40, 20)
-	equipMenu:insert(text1)
-	
-	local ammoText = RNFactory.createText("Ammo :" .. mainInventory.SecondaryWeapons[1].ammo .. " left", { size = 25, top = 5, left = 305, width = 200, height = 50 })
-	ammoText:setTextColor(15, 40, 20)
-	equipMenu:insert(ammoText)
-	
-	rect = RNFactory.createRect(00, 0, 480, 750, { rgb = { 20, 70, 10 } })
-	rect:setAlpha(0.01)
-	--equipMenu:insert(rect)
-	
-	weaponRect = RNFactory.createRect(30, 150, 150, 450, { rgb = {30, 20, 10 } })
-	weaponRect:setAlpha(0.9)
-	--equipMenu:insert(weaponRect)
-	
-	subWeaponRect = RNFactory.createRect(280, 150, 150, 450, { rgb = {10, 30, 20 } })
-	subWeaponRect:setAlpha(0.9)
-	--equipMenu:insert(subWeaponRect)
-	
-	local equipText = RNFactory.createBitmapText("EQUIP MENU", {
-        parentGroup = equipMenu,
-        image = "images/kromasky.png",
-        charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
-        top = 55,
-        left = 10,
-        charWidth = 16,
-        charHeight = 16
-    })
-	equipText.x = 150
-	equipText.y = 65
-	equipMenu:insert(equipText)
-	
-	local mainText = RNFactory.createBitmapText("MAIN WEAPONS", {
-        parentGroup = equipMenu,
-        image = "images/kromasky.png",
-        charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
-        top = 55,
-        left = 10,
-        charWidth = 16,
-        charHeight = 16
-    })
-	mainText.x = 30
-	mainText.y = 130
-	equipMenu:insert(mainText)
-	
-	local subText = RNFactory.createBitmapText("SUB WEAPONS", {
-        parentGroup = equipMenu,
-        image = "images/kromasky.png",
-        charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
-        top = 55,
-        left = 10,
-        charWidth = 16,
-        charHeight = 16
-    })
-	subText.x = 280
-	subText.y = 130
-	equipMenu:insert(subText)
-	
-	    regularshot = RNFactory.createButton("images/button-plain.png",
+-- 'onRelease' event listener for newGameButton
+local function back()	
+	-- go to menu
+	storyboard.gotoScene( "menu", "fade", 500 )
+	return true	-- indicates successful touch
+end
 
-        {
-            text = "Regular",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 160,
-            left = 50,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = regular
-        })
-		
-		spreadshot = RNFactory.createButton("images/button-plain.png",
+local function regular(event)
+	mainInventory:equipOneWeapon(1)
+		setThingsUp()
+end
 
-        {
-            text = "Spread",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 260,
-            left = 50,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = spread
-        })
-		
-		sineshot = RNFactory.createButton("images/button-plain.png",
-        {
-            text = "Sine",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 360,
-            left = 50,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = sine
-        })
-		
-		doubleshot = RNFactory.createButton("images/button-plain.png",
-        {
-            text = "Double",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 460,
-            left = 50,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = double
-        })
-		
-		homingshot = RNFactory.createButton("images/button-plain.png",
-        {
-            text = "Homing",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 560,
-            left = 50,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = homing
-        })
-		
-		subBomb = RNFactory.createButton("images/button-plain.png",
-        {
-            text = "Bombs",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 180,
-            left = 300,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = bomb
-        })
-		
-		subRocket = RNFactory.createButton("images/button-plain.png",
-        {
-            text = "Rockets",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 300,
-            left = 300,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = rocket
-        })
-		
-		subFreezeMissile = RNFactory.createButton("images/button-plain.png",
-        {
-            text = "Freeze Missile",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 420,
-            left = 300,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = freeze
-        })
+local function spread(event)
+	mainInventory:equipOneWeapon(2)
+		setThingsUp()
+end
 
-    local button3 = RNFactory.createButton("images/button-plain.png",
+local function sine(event)
+	mainInventory:equipOneWeapon(3)
+		setThingsUp()
+end
 
-        {
-            text = "Back",
-            parentGroup = equipMenu,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 650,
-            left = 190,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = back
-        })
-		
-	highlightWeaponRect = RNFactory.createRect(280, 150, 110, 90, { rgb = {30, 130, 90 } })
-	highlightWeaponRect:setAlpha(0.9)
+local function double(event)
+	mainInventory:equipOneWeapon(5)
+		setThingsUp()
+end
+
+local function homing(event)
+	mainInventory:equipOneWeapon(4)
+		setThingsUp()
+end
+
+local function bombs(event)
+	mainInventory:selectSecondaryWeapon(1)
+		setThingsUp()
+end
+
+local function rockets(event)
+	mainInventory:selectSecondaryWeapon(3)
+		setThingsUp()
+end
+
+local function freeze(event)
+	mainInventory:selectSecondaryWeapon(2)
+		setThingsUp()
+end
+
+-----------------------------------------------------------------------------------------
+-- BEGINNING OF YOUR IMPLEMENTATION
+-- 
+-- NOTE: Code outside of listener functions (below) will only be executed once,
+--		 unless storyboard.removeScene() is called.
+-- 
+-----------------------------------------------------------------------------------------
+
+-- Called when the scene's view does not exist:
+function scene:createScene( event )
+	local group = self.view
+
+	-- display a background image
+	local background = display.newImageRect( "sprites/sheet_metal.png", display.contentWidth, display.contentHeight )
+	background:setReferencePoint( display.TopLeftReferencePoint )
+	background.x, background.y = 0, 0
 	
-	highlightSubWeaponRect = RNFactory.createRect(280, 150, 110, 90, { rgb = {130, 30, 90 } })
-	highlightSubWeaponRect:setAlpha(0.9)
-		
-	--if the music IS NOT PLAYING then
-	--this check needs to be here to make sure that when you come back here,
-	--it doesn't start the music over again
-	--if equipBGMPlaying == false then 
-	--	equipBGM:play()
-	--	equipBGMPlaying = true
-	--end
+	-- create a widget button (which will loads level1.lua on release)
+	local centerOfScreenX = display.contentWidth*0.5
+	
+	--display.newText( string, left, top, font, size )
+	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.01, native.systemFont, 25 )
+	local ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammo, display.contentWidth * 0.7, display.contentHeight * 0.01, native.systemFont, 25 )
+	local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
+	local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
+	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
+
+
+
+    regularButton = createBttn(widget, display, "Regular", display.contentWidth * 0.3, 
+		display.contentHeight * 0.3, regular)
+    sineButton = createBttn(widget, display, "Sine", display.contentWidth * 0.3, 
+		display.contentHeight * 0.4, sine)
+	doubleButton = createBttn(widget, display, "Double", display.contentWidth * 0.3, 
+		display.contentHeight * 0.5, double)
+	homingButton = createBttn(widget, display, "Homing", display.contentWidth * 0.3, 
+		display.contentHeight * 0.6, homing)
+	spreadButton = createBttn(widget, display, "Spread", display.contentWidth * 0.3, 
+		display.contentHeight * 0.7, spread)
+
+ 
+    bombsButton = createBttn(widget, display, "Bombs", display.contentWidth * 0.7, 
+		display.contentHeight * 0.3, bombs)
+	rocketsButton = createBttn(widget, display, "Rockets", display.contentWidth * 0.7, 
+		display.contentHeight * 0.4, rockets)
+	freezeButton = createBttn(widget, display, "Freeze", display.contentWidth * 0.7, 
+		display.contentHeight * 0.5, freeze)
+
+	backButton = createBttn(widget, display, "Back", display.contentWidth * 0.5, 
+		display.contentHeight * 0.9, back)
+
+	
+	--playButton:setReferencePoint( display.CenterReferencePoint )
+	--playButton.x = display.contentWidth*0.5
+	--playButton.y = display.contentHeight - 125
+	
+	-- all display objects must be inserted into group
+	
+	--group:insert( titleLogo )
+	bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
+	bgRect:setFillColor(20, 70, 10, 130)
+	--bgRect:setStrokeColor(20, 70, 10, 130)
+
+	highlightWeaponRect = display.newRect(180, 150, 150, 50)
+	highlightWeaponRect:setFillColor(30, 130, 130, 150)
+	--highlightWeaponRect:setStrokeColor(30, 130, 90, 230)
+
+	highlightSubWeaponRect = display.newRect(280, 150, 150, 50)
+	highlightSubWeaponRect:setFillColor(180, 70, 50, 150)
+	--highlightSubWeaponRect:setStrokeColor(130, 30, 90, 230)
+
+	group:insert( background )
+	group:insert( bgRect )
+	
+	group:insert( dollaztext )
+	group:insert( ammotext )
+	group:insert( equiptext )
+	group:insert( maintext )
+	group:insert( subtext )
+
+	group:insert( regularButton )
+	group:insert( sineButton )
+	group:insert( doubleButton )
+	group:insert( spreadButton )
+	group:insert( homingButton )
+
+	group:insert( bombsButton )
+	group:insert( rocketsButton )
+	group:insert( freezeButton )
+
+	group:insert( backButton )
+
+	group:insert( highlightWeaponRect )
+	group:insert( highlightSubWeaponRect )
 
 	setThingsUp()
-    return equipMenu
 end
 
 function setThingsUp()
-	if not mainInventory.permission[1] then regularshot.x = 5000 end
-	if not mainInventory.permission[2] then spreadshot.x = 5000 end
-	if not mainInventory.permission[3] then sineshot.x = 5000 end
-	if not mainInventory.permission[5] then doubleshot.x = 5000 end
-	if not mainInventory.permission[4] then homingshot.x = 5000 end
+	if not mainInventory.permission[1] then regularButton.x = 5000 end
+	if not mainInventory.permission[2] then spreadButton.x = 5000 end
+	if not mainInventory.permission[3] then sineButton.x = 5000 end
+	if not mainInventory.permission[5] then doubleButton.x = 5000 end
+	if not mainInventory.permission[4] then homingButton.x = 5000 end
 	if not mainInventory.permission[6] then end
 	if not mainInventory.permission[7] then end	
 	
 	if (mainInventory.equippedWeapon == 1) 
 	then 
-		highlightWeaponRect.x = regularshot.x
-		highlightWeaponRect.y = regularshot.y 
+		highlightWeaponRect.x = regularButton.x
+		highlightWeaponRect.y = regularButton.y 
 	end
+
 	if (mainInventory.equippedWeapon == 2) 
 	then  
-		highlightWeaponRect.x = spreadshot.x
-		highlightWeaponRect.y = spreadshot.y 
+		highlightWeaponRect.x = spreadButton.x
+		highlightWeaponRect.y = spreadButton.y 
 	end
+
 	if (mainInventory.equippedWeapon == 3) 
 	then  
-		highlightWeaponRect.x = sineshot.x
-		highlightWeaponRect.y = sineshot.y 
+		highlightWeaponRect.x = sineButton.x
+		highlightWeaponRect.y = sineButton.y 
 	end
+
 	if (mainInventory.equippedWeapon == 5) 
 	then  
-		highlightWeaponRect.x = doubleshot.x
-		highlightWeaponRect.y = doubleshot.y 
+		highlightWeaponRect.x = doubleButton.x
+		highlightWeaponRect.y = doubleButton.y 
 	end
+
 	if (mainInventory.equippedWeapon == 4) 
 	then  
-		highlightWeaponRect.x = homingshot.x
-		highlightWeaponRect.y = homingshot.y 
+		highlightWeaponRect.x = homingButton.x
+		highlightWeaponRect.y = homingButton.y 
 	end
 	
 	if (mainInventory.equippedSecondaryWeapon == 1) 
 	then  
-		highlightSubWeaponRect.x = subBomb.x
-		highlightSubWeaponRect.y = subBomb.y
+		highlightSubWeaponRect.x = bombsButton.x
+		highlightSubWeaponRect.y = bombsButton.y
 	end
+
 	if (mainInventory.equippedSecondaryWeapon == 2) 
 	then  
-		highlightSubWeaponRect.x = subFreezeMissile.x
-		highlightSubWeaponRect.y = subFreezeMissile.y
+		highlightSubWeaponRect.x = freezeButton.x
+		highlightSubWeaponRect.y = freezeButton.y
 	end
+
 	if (mainInventory.equippedSecondaryWeapon == 3) 
 	then  
-		highlightSubWeaponRect.x = subRocket.x
-		highlightSubWeaponRect.y = subRocket.y
+		highlightSubWeaponRect.x = rocketsButton.x
+		highlightSubWeaponRect.y = rocketsButton.y
 	end
 	--highlightSubWeaponRect:bringToFront()
 	--highlightWeaponRect:bringToFront()
 end
 
-function regular(event)
-	mainInventory:equipOneWeapon(1)
-		setThingsUp()
+
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene( event )
+	local group = self.view
+	
+	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
+	
 end
 
-function spread(event)
-	mainInventory:equipOneWeapon(2)
-		setThingsUp()
+-- Called when scene is about to move offscreen:
+function scene:exitScene( event )
+	local group = self.view
+	
+	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
+	
 end
 
-function sine(event)
-	mainInventory:equipOneWeapon(3)
-		setThingsUp()
+-- If scene's view is removed, scene:destroyScene() will be called just prior to:
+function scene:destroyScene( event )
+	local group = self.view
+	
+	if backButton then
+		backButton:removeSelf()	-- widgets must be manually removed
+		backButton = nil
+	end
+	
+	if regularButton then
+		regularButton:removeSelf()
+		regularButton = nil
+	end
+
+	if sineButton then
+		sineButton:removeSelf()
+		sineButton = nil
+	end
+	if doubleButton then
+		doubleButton:removeSelf()
+		doubleButton = nil
+	end
+	if spreadButton then
+		spreadButton:removeSelf()
+		spreadButton = nil
+	end
+	if homingButton then
+		homingButton:removeSelf()
+		homingButton = nil
+	end
+	if bombsButton then
+		bombsButton:removeSelf()
+		bombsButton = nil
+	end
+	if rocketsButton then
+		rocketsButton:removeSelf()
+		rocketsButton = nil
+	end
+	if freezeButton then
+		freezeButton:removeSelf()
+		freezeButton = nil
+	end
 end
 
-function double(event)
-	mainInventory:equipOneWeapon(5)
-		setThingsUp()
-end
+-----------------------------------------------------------------------------------------
+-- END OF YOUR IMPLEMENTATION
+-----------------------------------------------------------------------------------------
 
-function homing(event)
-	mainInventory:equipOneWeapon(4)
-		setThingsUp()
-end
+-- "createScene" event is dispatched if scene's view does not exist
+scene:addEventListener( "createScene", scene )
 
-function bomb(event)
-	mainInventory:selectSecondaryWeapon(1)
-		setThingsUp()
-end
+-- "enterScene" event is dispatched whenever scene transition has finished
+scene:addEventListener( "enterScene", scene )
 
-function rocket(event)
-	mainInventory:selectSecondaryWeapon(3)
-		setThingsUp()
-end
+-- "exitScene" event is dispatched whenever before next scene's transition begins
+scene:addEventListener( "exitScene", scene )
 
-function freeze(event)
-	mainInventory:selectSecondaryWeapon(2)
-		setThingsUp()
-end
+-- "destroyScene" event is dispatched before view is unloaded, which can be
+-- automatically unloaded in low memory situations, or explicitly via a call to
+-- storyboard.purgeScene() or storyboard.removeScene().
+scene:addEventListener( "destroyScene", scene )
 
+-----------------------------------------------------------------------------------------
 
-function back(event) --go back to the MainMenu
-	--print('Please work')
-    if not director:isTransitioning() then
-		equipBGM:stop()
-		equipBGMPlaying = false
-        director:showScene("MainMenu", "crossfade")
-    end
-end
-
-
-function EquipMenu.onEnd()
-    for i = 1, table.getn(equipMenu.displayObjects), 1 do
-        equipMenu.displayObjects[1]:remove();
-    end
-end
-
-
-return EquipMenu
+return scene

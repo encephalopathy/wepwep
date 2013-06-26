@@ -6,7 +6,7 @@
 require("Utility")
 require("Inventory")
 
-mainInvetory = nil
+mainInventory = nil
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -74,7 +74,7 @@ function scene:createScene( event )
 	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
 		display.contentHeight - 225)
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
-		display.contentHeight - 75)
+		display.contentHeight - 75, onEquipButtonRelease)
 	
 	--playButton:setReferencePoint( display.CenterReferencePoint )
 	--playButton.x = display.contentWidth*0.5
