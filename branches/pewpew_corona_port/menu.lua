@@ -28,12 +28,12 @@ local function onPlayButtonRelease()
 end
 
 local function onEquipButtonRelease()
-	storyboard.gotoScene("EquipMenu", "fade", 500)
+	storyboard.gotoScene("MenuEquip", "fade", 500)
 	return true
 end
 
 local function onWeaponShopButtonRelease()
-	storyboard.gotoScene("BuyMenu", "fade", 500)
+	storyboard.gotoScene("MenuBuy", "fade", 500)
 	return true
 end
 
