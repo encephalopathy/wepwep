@@ -33,10 +33,11 @@ Player = Ride:subclass("Player")
 	
 	RETURN: VOID
 ]]--
-thisplayer = nil
+
 
 function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height) 
+
 	self.health = 10
 	self.powah = 100
 	self.sprite.weapon = Singleshot:new(sceneGroup)
@@ -46,63 +47,57 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.isFiring = false
 	self.sprite.type = "player"
 	self.sprite.weapon.owner = self.sprite
-	self.sprite:addEventListener("touch", self)
-    Runtime:addEventListener("touch", screenTouched)
-	--self.sprite:addEventListener("enterFrame", self.enterFrame)
-	--playerHitSFX = MOAIUntzSound.new()
-	--playerHitSFX:load('playerHit.ogg')
-	
-	--playerDeathSFX = MOAIUntzSound.new()
-	--playerDeathSFX:load('playerDeath.ogg')
+	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0
 	self.y0 = 0
     self.prevX = 0
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	self.sprite.objRef = self
-	thisplayer = self
+	
+	Player.player = self
+	--Player.MAX_MOVEMENT_X = self.width / 2
+	--Player.MAX_MOVEMENT_Y = self.height / 2
 end
 
-function screenTouched(event, player)
-		print("omg you touch player")
-	--local touchTarget = event.target
+local function clampPlayerMovement(value)
+	local MAX_MOVEMENT = 30
+	if value > MAX_MOVEMENT then 
+		return MAX_MOVEMENT
+	elseif value < - MAX_MOVEMENT then
+		return -MAX_MOVEMENT
+	else
+		return value
+	end
+end
+
+function Player.touch(event, player)
+	local player = 	Player.static.player
+	local playerSprite = player.sprite
 	local phase = event.phase
-    if(thisplayer.isFiring) then thisplayer:fire() end
+    if(player.isFiring) then player:fire() end
 	
 	if phase == "began" then
-		thisplayer.isFiring = true
-		--local parent = touchTarget.parent
-		--parent:insert(touchTarget)
-		--display.getCurrentStage():setFocus(touchTarget)
-		
-		--touchTarget.isFocus = true
-
-	--elseif touchTarget.isFocus then
+		player.isFiring = true
 		elseif phase == "moved" then
-			
-			thisplayer.x0 = event.x - thisplayer.prevX
-			thisplayer.y0 = event.y - thisplayer.prevY
-			if(thisplayer.x0 > 30) then thisplayer.x0 = 30 end
-			if(thisplayer.x0 < -30) then thisplayer.x0 = -30 end		
-			if(thisplayer.y0 > 30) then thisplayer.y0 = 30 end
-			if(thisplayer.y0 < -30) then thisplayer.y0 = -30 end
+			player.x0 = event.x - player.prevX
+			player.y0 = event.y - player.prevY
+			player.x0 = clampPlayerMovement(player.x0)
+			player.y0 = clampPlayerMovement(player.y0)
 
-			if (thisplayer.sprite.x + thisplayer.x0 < display.contentWidth-30 
-				and thisplayer.sprite.x + thisplayer.x0 > 20 ) then
-				thisplayer.sprite.x = thisplayer.sprite.x + thisplayer.x0
+			if (player.sprite.x + player.x0 < display.contentWidth-30
+				and player.sprite.x + player.x0 > 30 ) then
+				player.sprite.x = player.sprite.x + player.x0
 			end
-			if(thisplayer.sprite.y + thisplayer.y0 < display.contentHeight-30 
-				and thisplayer.sprite.y + thisplayer.y0 > 20 )then
-				thisplayer.sprite.y = thisplayer.sprite.y + thisplayer.y0
+			if(player.sprite.y + player.y0 < display.contentHeight-30 
+				and player.sprite.y + player.y0 > 30 )then
+				player.sprite.y = player.sprite.y + player.y0
 			end
 		elseif phase == "ended" or phase == "cancelled" then
-			thisplayer.isFiring = false
-			--display.getCurrentStage():setFocus(nil)
-			--touchTarget.isFocus = false
+			player.isFiring = false
 		end
-	--end
-	thisplayer.prevX = event.x
-	thisplayer.prevY = event.y
+	player.prevX = event.x
+	player.prevY = event.y
 end
 
 
@@ -116,11 +111,11 @@ end
 		@x: x location of where the player is going to move to.
 		@y: y location of where the player is going to move to.
 ]]--
-function Player:touch(event)
+--[[function Player:touch(event)
 	print("omg you touch player")
 	local touchTarget = event.target
 	local phase = event.phase
-
+	
 	
 	if phase == "began" then
 		local parent = touchTarget.parent
@@ -141,7 +136,7 @@ function Player:touch(event)
 	end
 	
 	return true
-end
+end]]--
 
 function Player:enterFrame(event)
 	--self:fire()
