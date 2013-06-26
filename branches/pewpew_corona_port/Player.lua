@@ -60,14 +60,14 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	--Player.MAX_MOVEMENT_Y = self.height / 2
 end
 
-local function clampPlayerMovement(value)
-	local MAX_MOVEMENT = 30
-	if value > MAX_MOVEMENT then 
-		return MAX_MOVEMENT
-	elseif value < - MAX_MOVEMENT then
-		return -MAX_MOVEMENT
+local function clampPlayerMovement(currentSpeed)
+	local MAX_SPEED = 30
+	if currentSpeed > MAX_SPEED then 
+		return MAX_SPEED
+	elseif currentSpeed < - MAX_SPEED then
+		return -MAX_SPEED
 	else
-		return value
+		return currentSpeed
 	end
 end
 

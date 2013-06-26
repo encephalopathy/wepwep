@@ -28,7 +28,7 @@ function Inventory:init (scene)
    self.Weapons[5] = Doubleshot:new(scene) 
    --self.scene = scene
    
-   self.dollaz = 1000
+   self.dollaz = 5000
    self.equippedWeapon = 1
    self.equippedGameWeapon = nil
    
@@ -67,8 +67,8 @@ function Inventory:equip(player, sceneGroup)
 
       weapon = self.Weapons[self.equippedWeapon]
 	   weapon.owner = player
-      self.player = player
-      self.sceneGroup = sceneGroup
+		self.player = player
+		self.sceneGroup = sceneGroup
 		weapon:load(40, sceneGroup)
    end
 	player.weapon = weapon
