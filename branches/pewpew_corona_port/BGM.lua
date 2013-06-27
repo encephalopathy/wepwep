@@ -25,11 +25,11 @@ local loopTypes = { ["bgm"] = -1, ["soundfx"] = 1 }
 local bgmMusicChannel = 1
 local soundFxStack = 2
 local lastSoundFXFileLoaded
-local currentBGMPlaying = nil
+currentBGMPlaying = nil
 
 function playBGM(file, fadeInTime, onComplete)
 	if fadeInTime == nil then
-		fadeInTime = 5000
+		fadeInTime = 500
 	end
 	
 	--if audio.isChannelPlaying(bgmMusicChannel) then

@@ -33,7 +33,7 @@ local function onEquipButtonRelease()
 end
 
 local function onWeaponShopButtonRelease()
-	storyboard.gotoScene("MenuBuy", "fade", 500)
+	storyboard.gotoScene("MenuStore", "fade", 500)
 	return true
 end
 
@@ -58,7 +58,7 @@ function scene:createScene( event )
 	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-	playBGM("/sounds/bgmusic/menuBackMusic.ogg")
+	
 	mainInventory = Inventory:new(group)
 	-- create/position logo/title image on upper-half of the screen
 	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
@@ -72,7 +72,7 @@ function scene:createScene( event )
 	playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
 		display.contentHeight - 225, onPlayButtonRelease)
 	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
-		display.contentHeight - 225)
+		display.contentHeight - 225,onWeaponShopButtonRelease)
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
 		display.contentHeight - 75, onEquipButtonRelease)
 	
@@ -92,7 +92,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	
+	playBGM("/sounds/bgmusic/menuBackMusic.ogg")
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 

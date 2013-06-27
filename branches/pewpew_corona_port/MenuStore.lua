@@ -1,141 +1,145 @@
---[[
+-----------------------------------------------------------------------------------------
 --
--- RapaNui
+-- MenuStore.lua
 --
--- by Ymobe ltd  (http://ymobe.co.uk)
---
--- LICENSE:
---
--- RapaNui uses the Common Public Attribution License Version 1.0 (CPAL) http://www.opensource.org/licenses/cpal_1.0.
--- CPAL is an Open Source Initiative approved
--- license based on the Mozilla Public License, with the added requirement that you attribute
--- Moai (http://getmoai.com/) and RapaNui in the credits of your program.
-]]
+-----------------------------------------------------------------------------------------
+require("Inventory")
+require("Utility")
+require("BGM")
 
+local storyboard = require( "storyboard" )
+local scene = storyboard.newScene()
 
+-- include Corona's "widget" library
+local widget = require "widget"
 
+--------------------------------------------
 
---[[
-	  
-	  SCENES MUST HAVE 
-	  1)a sceneGroup where all instances are inserted
-	  2)onCreate function in which we create everything
-	  3)onEnd function in which we clean the instance
+-- forward declarations and other locals
+local buyButton, sellButton, backButton
 
-]] --
+-- 'onRelease' event listener for newGameButton
+local function onBuyButtonRelease()
+	-- go to level1.lua scene
+	storyboard.gotoScene( "MenuBuy", "fade", 500 )
+	return true	-- indicates successful touch
+end
 
-StoreMenu = {}
+local function onSellButtonRelease()
+	storyboard.gotoScene("MenuSell", "fade", 500)
+	return true
+end
 
-local sceneGroup = RNGroup:new()
+local function onBackButtonRelease()
+    audio.stop()
+	storyboard.gotoScene("menu", "fade", 500)
+	return true
+end
 
+local function onDefaultRelease()
+	print('hello this button does not do anything')
+	return true
+end
 
---init Scene
-function StoreMenu.onCreate()
-    --add things to sceneGroup
-local background = RNFactory.createImage("sprites/sheet_metal.png", { parentGroup = sceneGroup }); background.x = 240; background.y = 420; background.scaleX=2; background.scaleY=3;
+-----------------------------------------------------------------------------------------
+-- BEGINNING OF YOUR IMPLEMENTATION
+-- 
+-- NOTE: Code outside of listener functions (below) will only be executed once,
+--		 unless storyboard.removeScene() is called.
+-- 
+-----------------------------------------------------------------------------------------
 
-	    local button1 = RNFactory.createButton("images/button-plain.png",
+-- Called when the scene's view does not exist:
+function scene:createScene( event )
+	local group = self.view
 
-        {
-            text = "Buy Menu",
-            parentGroup = sceneGroup,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 150,
-            left = 80,
-            size = 16,
-            width = 200,
-            height = 250,
-            onTouchUp = buyMenu
-        })
+	-- display a background image
+	local background = display.newImageRect( "sprites/sheet_metal.png", display.contentWidth, display.contentHeight )
+	background:setReferencePoint( display.TopLeftReferencePoint )
+	background.x, background.y = 0, 0
 	
-	    local button2 = RNFactory.createButton("images/button-plain.png",
-
-        {
-            text = "Sell Menu",
-            parentGroup = sceneGroup,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 150,
-            left = 280,
-            size = 16,
-            width = 200,
-            height = 250,
-            onTouchUp = sellMenu
-        })
+	mainInventory = Inventory:new(group)
+	-- create/position logo/title image on upper-half of the screen
+	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
+	--titleLogo:setReferencePoint( display.CenterReferencePoint )
+	--titleLogo.x = display.contentWidth * 0.5
+	--titleLogo.y = 100
 	
-
-    local button3 = RNFactory.createButton("images/button-plain.png",
-
-        {
-            text = "Back to Main Menu",
-            parentGroup = sceneGroup,
-            imageOver = "images/button-over.png",
-            font = "dwarves.TTF",
-            top = 580,
-            left = 185,
-            size = 16,
-            width = 200,
-            height = 50,
-            onTouchUp = mainMenu
-        })
-		
-		
-	local equipText = RNFactory.createBitmapText("MAIN STORE", {
-        parentGroup = sceneGroup,
-        image = "images/kromasky.png",
-        charcodes = " ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789:;?!\"%',.",
-        top = 55,
-        left = 10,
-        charWidth = 16,
-        charHeight = 16
-    })
-	equipText.x = 150
-	equipText.y = 65
-	sceneGroup:insert(equipText)
-		
-        --if the music IS NOT PLAYING then
-		--this check needs to be here to make sure that when you come back here,
-		--it doesn't start the music over again
-		if storeBGMPlaying == false then 
-			storeBGM:play()
-			storeBGMPlaying = true
-		end
-		
-    return sceneGroup
+	-- create a widget button (which will loads level1.lua on release)
+	local centerOfScreenX = display.contentWidth*0.5
+	
+	buyButton = createBttn(widget, display, "Buy", display.contentWidth*0.25, 
+		display.contentHeight*0.4, onBuyButtonRelease)
+	sellButton = createBttn(widget, display, "Sell", display.contentWidth*0.75,
+		display.contentHeight*0.4, onSellButtonRelease)
+	backButton = createBttn(widget, display, "Back", centerOfScreenX, 
+		display.contentHeight *0.7, onBackButtonRelease)
+	
+	--playButton:setReferencePoint( display.CenterReferencePoint )
+	--playButton.x = display.contentWidth*0.5
+	--playButton.y = display.contentHeight - 125
+	
+	-- all display objects must be inserted into group
+	
+	--group:insert( titleLogo )
+	group:insert( background )
+	group:insert( buyButton )
+	group:insert( sellButton )
+	group:insert( backButton )
 end
 
-
-
-function mainMenu(event)
-	--print('Please work')
-    if not director:isTransitioning() then
-		storeBGM:stop() --putting this here will stop the music when you hit the Main Menu button
-		storeBGMPlaying = false
-        director:showScene("MainMenu", "crossfade")
-    end
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene( event )
+	local group = self.view
+	playBGM("/sounds/bgmusic/shopMusic.ogg")
+	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 
-function buyMenu(event)
-	--print('Please work')
-    if not director:isTransitioning() then
-        director:showScene("BuyMenu", "crossfade")
-    end
+-- Called when scene is about to move offscreen:
+function scene:exitScene( event )
+	local group = self.view
+	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
+	
 end
 
-function sellMenu(event)
-	--print('Please work')
-    if not director:isTransitioning() then
-        director:showScene("SellMenu", "crossfade")
-    end
+-- If scene's view is removed, scene:destroyScene() will be called just prior to:
+function scene:destroyScene( event )
+	local group = self.view
+	
+	if backButton then
+		backButton:removeSelf()	-- widgets must be manually removed
+		backButton = nil
+	end
+
+	if buyButton then
+		buyButton:removeSelf()	-- widgets must be manually removed
+		buyButton = nil
+	end
+
+	if sellButton then
+		sellButton:removeSelf()
+		sellButton = nil
+	end
 end
+-----------------------------------------------------------------------------------------
+-- END OF YOUR IMPLEMENTATION
+-----------------------------------------------------------------------------------------
 
+-- "createScene" event is dispatched if scene's view does not exist
+scene:addEventListener( "createScene", scene )
 
-function StoreMenu.onEnd()
-    for i = 1, table.getn(sceneGroup.displayObjects), 1 do
-        sceneGroup.displayObjects[1]:remove();
-    end
-end
+-- "enterScene" event is dispatched whenever scene transition has finished
+scene:addEventListener( "enterScene", scene )
 
+-- "exitScene" event is dispatched whenever before next scene's transition begins
+scene:addEventListener( "exitScene", scene )
 
-return StoreMenu
+-- "destroyScene" event is dispatched before view is unloaded, which can be
+-- automatically unloaded in low memory situations, or explicitly via a call to
+-- storyboard.purgeScene() or storyboard.removeScene().
+scene:addEventListener( "destroyScene", scene )
+
+-----------------------------------------------------------------------------------------
+
+return scene
+
