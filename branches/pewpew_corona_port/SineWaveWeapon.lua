@@ -18,11 +18,11 @@ function SineWave:fire(player)
 	   bullet1 = self:getNextShot()
 	   bullet2 = self:getNextShot()
 
-	   bullet1.sprite.x = self.owner.x;
-	   bullet1.sprite.y = self.owner.y - 100
+	   bullet1.sprite.x = self.owner.sprite.x;
+	   bullet1.sprite.y = self.owner.sprite.y - 100
 
-	   bullet2.sprite.x = self.owner.x;
-	   bullet2.sprite.y = self.owner.y - 100
+	   bullet2.sprite.x = self.owner.sprite.x;
+	   bullet2.sprite.y = self.owner.sprite.y - 100
 
 	   bullet1.initialX = bullet1.sprite.x
 	   bullet1.initialY = bullet1.sprite.y

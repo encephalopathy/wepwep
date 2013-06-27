@@ -64,7 +64,6 @@ function Inventory:equip(player, sceneGroup)
    
 	if (self.permission[self.equippedWeapon] == true and
 		self.Weapons[self.equippedWeapon] ~= nil) then
-
       weapon = self.Weapons[self.equippedWeapon]
 	   weapon.owner = player
 		self.player = player

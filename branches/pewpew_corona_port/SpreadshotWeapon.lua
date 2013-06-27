@@ -38,8 +38,8 @@ function Spreadshot:fire (player)
 			 break
 		  end
 		  
-		  bullet.sprite.y = self.owner.y - 100;
-		  bullet.sprite.x = self.owner.x;
+		  bullet.sprite.y = self.owner.sprite.y - 100;
+		  bullet.sprite.x = self.owner.sprite.x;
 		  angle = startAngle + (i * angleStep)
 		  xVelocity = speed * math.cos(math.rad(angle)) * -1
 		  yVelocity = math.abs(speed * math.sin(math.rad(angle))) * -1

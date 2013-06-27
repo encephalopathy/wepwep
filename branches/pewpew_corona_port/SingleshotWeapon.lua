@@ -31,8 +31,8 @@ function Singleshot:fire(player)
 		local ammo = self:getNextShot()
 		
 		if ammo then  --you are allowed to shoot
-			ammo.sprite.y = self.owner.y - 100
-			ammo.sprite.x = self.owner.x
+			ammo.sprite.y = self.owner.sprite.y - 100
+			ammo.sprite.x = self.owner.sprite.x
 			ammo:fire(0, -BULLET_VELOCITY)
 			--powah stuff
 			--player.powah = player.powah - self.energyCost

@@ -51,7 +51,6 @@ function scene:createScene( event )
 	background.x, background.y = 225, 0
 	group:insert( background )
 	
-	
 	player = Player:new(group, "sprites/player_01.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
 	mainInventory:equip(player, sceneGroup)

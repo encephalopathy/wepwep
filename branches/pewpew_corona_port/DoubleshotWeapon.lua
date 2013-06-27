@@ -20,11 +20,11 @@ function Doubleshot:fire (player)
 		local ammo = self:getNextShot()
 		local ammo2 = self:getNextShot()
 		if ammo and ammo2 then
-			ammo.sprite.y = self.owner.y - 100
-			ammo.sprite.x = self.owner.x + BULLET_SEPERATION_DIST
+			ammo.sprite.y = self.owner.sprite.y - 100
+			ammo.sprite.x = self.owner.sprite.x + BULLET_SEPERATION_DIST
 			
-			ammo2.sprite.y = self.owner.y - 100
-			ammo2.sprite.x = self.owner.x - BULLET_SEPERATION_DIST
+			ammo2.sprite.y = self.owner.sprite.y - 100
+			ammo2.sprite.x = self.owner.sprite.x - BULLET_SEPERATION_DIST
 			ammo:fire(0, -BULLET_VELOCITY)
 			ammo2:fire(0, -BULLET_VELOCITY)
 			

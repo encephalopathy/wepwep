@@ -45,13 +45,13 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 
 	self.health = 10
 	self.powah = PLAYER_MAXPOWAH
-	self.sprite.weapon = Singleshot:new(sceneGroup)
-	self.sprite.weapon:load(100, sceneGroup)
+	--self.sprite.weapon = Singleshot:new(sceneGroup)
+	--self.sprite.weapon:load(100, sceneGroup)
 	self.bombs = {}
 	self.heaters = {}
 	self.isFiring = false
 	self.sprite.type = "player"
-	self.sprite.weapon.owner = self.sprite
+	--self.sprite.weapon.owner = self.sprite
 	
 	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0
@@ -162,7 +162,7 @@ end
 
 function Player:fire()
 	if self.alive ~= false then
-		self.sprite.weapon:fire(self)
+		self.weapon:fire(self)
 		
 	end
 end
