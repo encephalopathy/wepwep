@@ -9,7 +9,7 @@ BULLET_SIZEZ = 5
 
 function Spreadshot:init (sceneGroup)
 
-   self.super:init("sprites/bullet_06.png", sceneGroup, 15)
+   self.super:init(sceneGroup, "sprites/bullet_06.png", 15)
    --self.fireCount = fireCount
    --self.soundPath = 'pew.ogg'
    --spreadShotSFX = MOAIUntzSound.new()
@@ -48,12 +48,10 @@ function Spreadshot:fire (player)
 		  bullet.sprite.rotation = (-math.deg(rotate))
 		  
 		  bullet:fire(xVelocity, yVelocity)
-	end
-	
-	self.super:fire()
-	
+		end
+
    end
-   
+   self.super:fire()
    --powah stuff
    --player.powah = player.powah - self.energyCost
    

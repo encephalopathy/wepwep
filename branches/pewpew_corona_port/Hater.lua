@@ -23,7 +23,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation ,width, height, shipPiece
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.bulletsOutOfView = Queue.new()
 	for i = 1, 4, 1 do
-		Queue.insertFront(self.bulletsOutOfView, Bullet:new(4000 + math.random(10,440), 4000+ math.random(50,350), 1, 1, "img/bullet.png", sceneGroup, false))
+		Queue.insertFront(self.bulletsOutOfView, Bullet:new(sceneGroup, "img/bullet.png", false, 4000 + math.random(10,440), 4000+ math.random(50,350)))
 	end
 	self.bulletsInView = Queue.new()
 	self.health = 1
@@ -34,8 +34,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation ,width, height, shipPiece
 	self.time = 0
    self.isFrozen = false
    self.freezeTimer = 0
-	haterDeathSFX = MOAIUntzSound.new()
-	haterDeathSFX:load('enemyDeath.ogg')
+	--haterDeathSFX = MOAIUntzSound.new()
+	--haterDeathSFX:load('enemyDeath.ogg')
 end
 
 

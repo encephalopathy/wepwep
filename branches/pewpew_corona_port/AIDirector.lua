@@ -1,0 +1,176 @@
+require("Queue")
+require("Hater_Cracka")
+
+AIDirector = {}
+
+local haterList = {}
+
+local haterTimer = timer.performWithDelay(30, spawnHater, 0)
+
+local haterSkimMilkInViewList = nil
+local haterSkimMilkOutofViewList = nil
+
+local haterCrackaInViewList = nil
+local haterCrackaOutofViewList = nil
+
+local haterHonkeyInViewList = nil
+local haterHonkeyOutofViewList = nil
+	
+local haterPigInViewList = nil
+local haterPigOutofViewList = nil
+	
+local haterTheFuzzInViewList = nil
+local haterTheFuzzOutofViewList = nil
+	
+local haterFatBoyInViewList = nil
+local haterFatBoyOutofViewList = nil
+	
+local haterRedneckInViewList = nil
+local haterRedneckOutofViewList = nil
+
+local function createHaterList()
+
+	--haterSkimMilkInViewList = Queue.new()
+	--haterSkimMilkOutofViewList = Queue.new()
+
+	haterCrackaInViewList = Queue.new()
+	haterCrackaOutofViewList = Queue.new()
+
+	--[[haterHonkeyInViewList = Queue.new()
+	haterHonkeyOutofViewList = Queue.new()
+	
+	haterPigInViewList = Queue.new()
+	haterPigOutofViewList = Queue.new()
+	
+	haterTheFuzzInViewList = Queue.new()
+	haterTheFuzzOutofViewList = Queue.new()
+	
+	haterFatBoyInViewList = Queue.new()
+	haterFatBoyOutofViewList = Queue.new()
+	
+	haterRedneckInViewList = Queue.new()
+	haterRedneckOutofViewList = Queue.new()
+
+	local temp = nil
+	for i = 1, 10, 1 do
+		temp = Hater_Honkey:new(sceneGroup, "sprites/enemy_02.png", -1000 + i * 300, -1000, 100, 100)
+		Queue.insertFront(haterHonkeyOutofViewList, temp)
+	end
+	]]--
+	for i = 1, 10, 1 do
+		temp = Hater_Cracka:new(sceneGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 100, 100)
+		Queue.insertFront(haterCrackaOutofViewList, temp)
+	end
+	
+	--[[for i = 1, 10, 1 do
+		temp = Hater_SkimMilk:new(sceneGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 100, 100)
+		Queue.insertFront(haterSkimMilkOutofViewList, temp)
+	end
+	
+	for i = 1, 10, 1 do
+		temp = Hater_TheFuzz:new(sceneGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 100, 100)
+		Queue.insertFront(haterTheFuzzOutofViewList, temp)
+	end
+	
+	for i = 1, 10, 1 do
+		temp = Hater_Pig:new(sceneGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 100, 100)
+		Queue.insertFront(haterPigOutofViewList, temp)
+	end
+	
+	for i = 1, 10, 1 do
+		temp = Hater_FatBoy:new(sceneGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 100, 100)
+		Queue.insertFront(haterFatBoyOutofViewList, temp)
+	end
+	
+	
+	for i = 1, 10, 1 do
+		temp = Hater_Redneck:new(sceneGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 100, 100)
+		Queue.insertFront(haterRedneckOutofViewList, temp)
+	end]]--
+end
+
+local function moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc)
+	--print("moving hater to screen")
+	if outOfViewList.size > 0 then
+		--10 columns in the level editor
+		local hater = Queue.removeBack(outOfViewList)
+		hater.sprite.x = (xLoc - 1) * hater.sprite.originalWidth
+		hater.sprite.y = -200
+		Queue.insertFront(inViewList, hater)
+		haterList[hater] = hater
+	end
+end
+
+local function spawnHater(event)
+		print('spawning hater')
+		local wave = createNewHaterSet(currentLevel)
+		
+		if wave ~= nil then
+			for i = 1, #wave, 1 do
+				local haterId = wave[i]
+				if haterId == 1 then
+					moveHaterToTopOfScreen(haterHonkeyInViewList, haterHonkeyOutofViewList, i)
+				elseif haterId == 2 then
+					moveHaterToTopOfScreen(haterCrackaInViewList, haterCrackaOutofViewList, i)
+				elseif haterId == 3 then
+					moveHaterToTopOfScreen(haterSkimMilkInViewList, haterSkimMilkOutofViewList, i)
+				elseif haterId == 4 then
+					moveHaterToTopOfScreen(haterPigInViewList, haterPigOutofViewList, i)
+				elseif haterId == 5 then
+					moveHaterToTopOfScreen(haterTheFuzzInViewList, haterTheFuzzOutofViewList, i)
+				elseif haterId == 6 then
+					boss.sprite.x = 120
+					boss.sprite.y = -100
+					haterList[boss] = boss
+				elseif haterId == 7 then
+					moveHaterToTopOfScreen(haterFatBoyInViewList, haterFatBoyOutofViewList, i)
+				elseif haterId == 8 then
+					moveHaterToTopOfScreen(haterRedneckInViewList, haterRedneckOutofViewList, i)
+				end
+			end
+		else
+			playerWon = true
+			enemyTimer = nil
+		end
+	return true
+end
+
+local function updateHaters()
+	local enemeiesOnScreen = true
+	for enemy1 in pairs (haterList) do
+		enemiesOnScreen = false
+		haterList[enemy1]:update(AIDirector.player)
+		if not enemy1.alive then
+			moveHaterOffScreen(enemy1)
+		end
+	end
+	if playerWon and enemiesOnScreen then
+		--director:showScene("MainMenu", "fade")
+	end
+end
+
+function AIDirector.initialize(player)
+	createHaterList()
+	AIDirector.haterList = haterList
+	AIDirector.player = player
+end
+
+function AIDirector.update()
+	updateHaters()
+end
+
+function AIDirector.pause()
+	timer.pause(haterTimer)
+end
+
+function AIDirector.resume()
+	timer.resume(haterTimer)
+end
+
+function AIDirector.deactivate()
+	Runtime:removeEventListener("enterFrame", AIDirector.update)
+end
+
+Runtime:addEventListener("enterFrame", AIDirector.update)
+
+

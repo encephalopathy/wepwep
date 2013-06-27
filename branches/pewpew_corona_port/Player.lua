@@ -1,8 +1,13 @@
 require("Ride")
+PLAYER_MAXHEALTH = 10
 
+PLAYER_MAXPOWAH = 100
+PLAYER_POWAH_REGENERATION_RATE = 3
 --For testing
 --require("SingleshotWeapon")
 require("DoubleshotWeapon")
+require("SpreadshotWeapon")
+require("SineWaveWeapon")
 --require("ParticleEmitter")
 --[[
 	CLASS NAME: Player
@@ -39,7 +44,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height) 
 
 	self.health = 10
-	self.powah = 100
+	self.powah = PLAYER_MAXPOWAH
 	self.sprite.weapon = Singleshot:new(sceneGroup)
 	self.sprite.weapon:load(100, sceneGroup)
 	self.bombs = {}
@@ -47,6 +52,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.isFiring = false
 	self.sprite.type = "player"
 	self.sprite.weapon.owner = self.sprite
+	
 	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0
 	self.y0 = 0
@@ -60,6 +66,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	--Player.MAX_MOVEMENT_Y = self.height / 2
 end
 
+
 local function clampPlayerMovement(currentSpeed)
 	local MAX_SPEED = 30
 	if currentSpeed > MAX_SPEED then 
@@ -71,11 +78,16 @@ local function clampPlayerMovement(currentSpeed)
 	end
 end
 
+
 function Player.touch(event, player)
 	local player = 	Player.static.player
 	local playerSprite = player.sprite
 	local phase = event.phase
-    if(player.isFiring) then player:fire() end
+    if(player.isFiring) then 
+		player:fire()
+	else
+		player:regeneratePowah()
+	end
 	
 	if phase == "began" then
 		player.isFiring = true
@@ -98,6 +110,12 @@ function Player.touch(event, player)
 		end
 	player.prevX = event.x
 	player.prevY = event.y
+end
+
+function Player:regeneratePowah()
+	if not self.isFiring and self.powah < PLAYER_MAXPOWAH then
+		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE 
+	end
 end
 
 
@@ -142,10 +160,10 @@ function Player:enterFrame(event)
 	--self:fire()
 end
 
-
 function Player:fire()
 	if self.alive ~= false then
 		self.sprite.weapon:fire(self)
+		
 	end
 end
 
@@ -195,3 +213,4 @@ function Player:onHit(you, collitor)
 	end
 	
 end
+

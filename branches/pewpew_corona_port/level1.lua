@@ -1,4 +1,4 @@
-require("Queue")
+require("AIDirector")
 require("Player")
 -----------------------------------------------------------------------------------------
 --
@@ -11,27 +11,6 @@ local scene = storyboard.newScene()
 
 local player = nil
 local background = nil
-
-local haterSkimMilkInViewList = nil
-local haterSkimMilkOutofViewList = nil
-
-local haterCrackaInViewList = nil
-local haterCrackaOutofViewList = nil
-
-local haterHonkeyInViewList = nil
-local haterHonkeyOutofViewList = nil
-	
-local haterPigInViewList = nil
-local haterPigOutofViewList = nil
-	
-local haterTheFuzzInViewList = nil
-local haterTheFuzzOutofViewList = nil
-	
-local haterFatBoyInViewList = nil
-local haterFatBoyOutofViewList = nil
-	
-local haterRedneckInViewList = nil
-local haterRedneckOutofViewList = nil
 
 -- include Corona's "physics" library
 local physics = require "physics"
@@ -55,100 +34,41 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 
 
 local function updateBackground()
-	background.y = background.y - 1
-	if background.y <= -750 then
-		background.y = 0
+	background.y = background.y + 1
+	if background.y >= 1250 then
+		background.y = 720
 	end
 end
 
-local function createHaterList()
-
-	haterSkimMilkInViewList = Queue.new()
-	haterSkimMilkOutofViewList = Queue.new()
-
-	haterCrackaInViewList = Queue.new()
-	haterCrackaOutofViewList = Queue.new()
-
-	haterHonkeyInViewList = Queue.new()
-	haterHonkeyOutofViewList = Queue.new()
-	
-	haterPigInViewList = Queue.new()
-	haterPigOutofViewList = Queue.new()
-	
-	haterTheFuzzInViewList = Queue.new()
-	haterTheFuzzOutofViewList = Queue.new()
-	
-	haterFatBoyInViewList = Queue.new()
-	haterFatBoyOutofViewList = Queue.new()
-	
-	haterRedneckInViewList = Queue.new()
-	haterRedneckOutofViewList = Queue.new()
-
-	--[[local temp = nil
-	for i = 1, 10, 1 do
-		temp = Hater_Honkey:new(sceneGroup, "sprites/enemy_02.png", -1000 + i * 300, -1000, 100, 100)
-		Queue.insertFront(haterHonkeyOutofViewList, temp)
-	end
-	
-	for i = 1, 10, 1 do
-		temp = Hater_Cracka:new(sceneGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 100, 100)
-		Queue.insertFront(haterCrackaOutofViewList, temp)
-	end
-	
-	for i = 1, 10, 1 do
-		temp = Hater_SkimMilk:new(sceneGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 100, 100)
-		Queue.insertFront(haterSkimMilkOutofViewList, temp)
-	end
-	
-	for i = 1, 10, 1 do
-		temp = Hater_TheFuzz:new(sceneGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 100, 100)
-		Queue.insertFront(haterTheFuzzOutofViewList, temp)
-	end
-	
-	for i = 1, 10, 1 do
-		temp = Hater_Pig:new(sceneGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 100, 100)
-		Queue.insertFront(haterPigOutofViewList, temp)
-	end
-	
-	for i = 1, 10, 1 do
-		temp = Hater_FatBoy:new(sceneGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 100, 100)
-		Queue.insertFront(haterFatBoyOutofViewList, temp)
-	end
-	
-	
-	for i = 1, 10, 1 do
-		temp = Hater_Redneck:new(sceneGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 100, 100)
-		Queue.insertFront(haterRedneckOutofViewList, temp)
-	end	]]--
-end
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
 
 	-- create a grey rectangle as the backdrop
-	background = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 4)
-	background:setReferencePoint( display.TopLeftReferencePoint )
-	background.x, background.y = 0, 0
+	background = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
+	background:setReferencePoint( display.CenterReferencePoint )
+	background.x, background.y = 225, 0
 	group:insert( background )
 	
 	
 	player = Player:new(group, "sprites/player_01.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
-	--mainInventory:equip(player, sceneGroup)
-	--mainInventory:equipSecondaryWeapon(player, sceneGroup)
+	mainInventory:equip(player, sceneGroup)
+	mainInventory:equipSecondaryWeapon(player, sceneGroup)
 	
-	createHaterList()
-	
+	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
+	AIDirector.initialize(player)
 
 end
+
+
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
 	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	physics.start()
-	
 end
 
 -- Called when scene is about to move offscreen:
@@ -175,15 +95,12 @@ local function update(event)
 		player.sprite.y = 5000
 	end
 	
-	--player:fire()
+	AIDirector.update()
 	--updateHaters(step)
 	--updateParticleEmitters()
 	--mainInventory:checkBullets(haterList)
 	--mainInventory:checkBombs(haterList)
 	
-	--[[if (step % 100 == 0) then
-		player:fireSecondaryWeapon()
-	end--]]
 	
 	--[[if step % 20 == 0 and player.isFiring and not cannotFire and (player.powah - player.weapon.energyCost) > 0 then --firing check
 		player:fire()
