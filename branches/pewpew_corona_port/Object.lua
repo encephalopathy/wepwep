@@ -23,7 +23,7 @@ local function duplicate(t)
   for k,v in pairs(t) do t2[k] = v end
   return t2
 end
-	
+
 -----------------------------------------------------------------------------------
 -- internal function 'newInstance'
 
@@ -151,16 +151,16 @@ local function subclass(baseClass, name)
   function inst_stuff.__index(inst, key) -- Look for field 'key' in instance 'inst'
 	local res = inst_stuff[key] 		-- Is it present?
 	if res~=nil then return res end		-- Okay, return it
-	
+
 	res = inst.super[key]  				-- Is it somewhere higher in the hierarchy?
-	
+
 	if type(res)=='function' and
 		res ~= callup then 				-- If it is a method of the superclass,
 		callup_inst = inst.super  		-- we will need to do a special forwarding
 		callup_target = res  			-- to call 'res' with the correct 'self'
 		return callup 					-- The 'callup' function will do that
 	end
-	
+
 	return res
   end
  
@@ -224,4 +224,3 @@ end
 end -- 2 global things remain: 'Object' and 'newclass'
 
 -- end of code
-

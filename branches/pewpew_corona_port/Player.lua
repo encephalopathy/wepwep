@@ -45,13 +45,13 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 
 	self.health = 10
 	self.powah = PLAYER_MAXPOWAH
-	--self.sprite.weapon = Singleshot:new(sceneGroup)
-	--self.sprite.weapon:load(100, sceneGroup)
+	
 	self.bombs = {}
 	self.heaters = {}
 	self.isFiring = false
 	self.sprite.type = "player"
-	--self.sprite.weapon.owner = self.sprite
+	
+	print('Player created')
 	
 	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0
@@ -60,7 +60,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	self.sprite.objRef = self
-	
+	self:weaponEquipDebug()
 	Player.player = self
 	--Player.MAX_MOVEMENT_X = self.width / 2
 	--Player.MAX_MOVEMENT_Y = self.height / 2
@@ -76,6 +76,12 @@ local function clampPlayerMovement(currentSpeed)
 	else
 		return currentSpeed
 	end
+end
+
+function Player:weaponEquipDebug() 
+	self.weapon = SineWave:new(sceneGroup)
+	self.weapon:load(100, sceneGroup)
+	self.weapon.owner = self
 end
 
 
@@ -110,12 +116,18 @@ function Player.touch(event, player)
 		end
 	player.prevX = event.x
 	player.prevY = event.y
+	--print('Player pos: ( ' .. playerSprite.x .. ', ' .. playerSprite.y .. ' )') 
 end
 
 function Player:regeneratePowah()
 	if not self.isFiring and self.powah < PLAYER_MAXPOWAH then
 		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE 
 	end
+end
+
+function Player:cullBulletsOffScreen()
+	 self.weapon:checkBullets()
+	 --self.equippedSecondaryGameWeapon:checkBombs()
 end
 
 

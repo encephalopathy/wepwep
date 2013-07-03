@@ -14,7 +14,7 @@ require("StandardBombSecondaryWeapon")
 require("FreezeMissileSecondaryWeapon")
 require("StandardMissileSecondaryWeapon")
 
-Inventory = Object:subclass("Inventory")
+Inventory = newclass("Inventory")
 
 
 function Inventory:init (scene)
@@ -88,14 +88,14 @@ function Inventory:selectSecondaryWeapon(weaponNumber)
    self.equippedSecondaryWeapon = weaponNumber
 end
 
-function Inventory:checkBullets(haterList)
+--[[function Inventory:checkBullets(haterList)
    self.equippedGameWeapon:checkBullets(haterList)
 end
 
 function Inventory:checkBombs(haterList)
    self.equippedSecondaryGameWeapon:checkBombs(haterList)
 end
-
+]]--
 
 function Inventory:unequip(player)
 	player.weapon.owner = nil

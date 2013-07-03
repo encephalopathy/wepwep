@@ -45,6 +45,7 @@ RETURN: VOID
 
 function Bullet:fire(x, y)
 	self.sprite:setLinearVelocity(x, y)
+	self.alive = true
 end
 
 function Bullet:move(x, y)
@@ -84,3 +85,6 @@ function Bullet:onHit(you, collitor)
 	end
 	--self.bulletList[self] = nil
 end
+
+Bullet:virtual("update")
+Bullet:virtual("recycle")

@@ -13,7 +13,7 @@ require("Object")
 	@destroy: Destructor for the class, removes the MOAIProp ("sprite"), fixture, and body of the object
 --]]
 
-MoveableObject = Object:subclass("MoveableObject")
+MoveableObject = newclass("MoveableObject")
 
 function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotation, width, height)
 	local sprite

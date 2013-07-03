@@ -55,7 +55,6 @@ function SecondaryWeapon:getNewBomb(bombType)
    end
    
    return nil
-
 end
 
 function handleStandardBomb (bomb, haterList)

@@ -1,14 +1,22 @@
 require("Object")
 require("Queue")
-Weapon = Object:subclass("Weapon")
+require("SineWaveBullet")
+Weapon = newclass("Weapon")
 
-function Weapon:init(sceneGroup, imgSrc, rateOfFire)
+function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType)
     self.isLoaded = false
 	self.ammo = Queue.new()
+	self.firedAmmo = Queue.new()
 	self.imgSrc = imgSrc
     self.sceneGroup = sceneGroup
 	self.rateOfFire = rateOfFire
 	self.fireAttempts = 0
+	if classType == nil then
+		self.ammoType = Bullet
+	else
+		self.ammoType = classType
+	end
+	
 	self.owner = nil --Needs to be set before weapon can be used
 end
 
@@ -16,15 +24,21 @@ function Weapon:load(amount, sceneGroup)
 
    if (not isLoaded) then
    	for i = 1, amount, 1 do
-	   	Queue.insertFront(self.ammo, Bullet:new(sceneGroup, self.imgSrc, true, 5000, 5000, 0, 50, 50))
+	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, true, 5000, i*5000, 0, 50, 50))
    	end
    end
    self.isLoaded = true
 end
 
 function Weapon:unload()
+	local ammo
+	while self.firedAmmo.size > 0 do
+		ammo = Queue.removeBack(self.fireAmmo)
+		ammo:destroy()
+	end
+
 	while self.ammo.size > 0 do
-		local ammo = Queue.removeBack(self.ammo)
+		ammo = Queue.removeBack(self.ammo)
 		ammo:destroy()
 	end
 end
@@ -34,23 +48,24 @@ end
 Consolidation of functions that need to check on bullets every frame.
 This way we only have to loop through the bullet array once
 --]]
-function Weapon:checkBullets(haterList)
-   bulletList = self.ammo
-   for i = bulletList.first, bulletList.last, 1 do
-      local bullet = bulletList[i]
-      
+function Weapon:checkBullets()
+   
+   local bulletList = self.firedAmmo
+   local shotsFired = bulletList.size
+   for i = 1, shotsFired, 1 do
+      local bullet = Queue.removeBack(bulletList)
       -- Check for bullets on sine wave path
-      if (bullet.isSine) then
-         moveSineBullet(bullet)
-      end
+      --if (bullet.isSine) then
+      --   moveSineBullet(bullet)
+      --end
       
       -- Check for bullets that are out of bounds
-      cacheAmmoIfOutofBounds(bullet)
+      self:cacheAmmoIfOutofBounds(bullet)
       
       -- Check for homing bullets
-      if (bullet.isHoming) then
-         moveHomingBullet(bullet, haterList)
-      end
+      --if (bullet.isHoming) then
+      --   moveHomingBullet(bullet, haterList)
+      --end
       
    end
 end
@@ -77,8 +92,6 @@ end
 
 
 function moveHomingBullet(bullet, haterList)
-   
-   
    if (bullet.hater == nil and bullet.hasTarget == false) then
       assignClosestHater(bullet, haterList)
       bullet.hasTarget = true
@@ -124,13 +137,17 @@ function moveSineBullet(bullet)
    bullet.time = bullet.time + 1
 end
 
-function cacheAmmoIfOutofBounds(bullet)
+function Weapon:cacheAmmoIfOutofBounds(bullet)
    if (bullet.sprite.y >= 650  or bullet.sprite.y <=  -50 or bullet.sprite.x >= 850 or 
-       bullet.sprite.x <= -50 or bullet.alive == false) then
+       bullet.sprite.x <= -50 or not bullet.alive) then
       --Location 5000, 5000 is the registration spawn point of all bullets
       bullet.sprite.x = 5000
       bullet.sprite.y = 5000
       bullet.alive = false
+	  bullet:recycle()
+	  Queue.insertFront(self.ammo, bullet)
+   else
+	  Queue.insertFront(self.firedAmmo, bullet)
    end
 end
 
@@ -152,27 +169,13 @@ function Weapon:canFire()
 	end
 end
 
-function Weapon:getNextShot(numberOfShots)
-	--local ammo = nil
-	--[[if numberOfShots > 0 then
-		local ammoClip = {}
-		while numberOfShots > 0 do
-			ammo = getNextShot()
-			if ammo == nil then 
-				break 
-			end
-			table.insert(ammoClip, ammo)
-			numberOfShots = numberOfShots - 1
-		end
-		return ammoClip
-	end]]--
-	
+function Weapon:getNextShot(numberOfShots)	
 	if self.ammo.size > 0 then
 		local ammo = Queue.removeBack(self.ammo) 
 		self.fireAttempts = self.fireAttempts + 1
 		if ammo.alive == false then
 			ammo.alive = true
-			Queue.insertFront(self.ammo, ammo)
+			Queue.insertFront(self.firedAmmo, ammo)
 			return ammo
 		else
 			return nil

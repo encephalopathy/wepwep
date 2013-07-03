@@ -53,8 +53,8 @@ function scene:createScene( event )
 	
 	player = Player:new(group, "sprites/player_01.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
-	mainInventory:equip(player, sceneGroup)
-	mainInventory:equipSecondaryWeapon(player, sceneGroup)
+	--mainInventory:equip(player, sceneGroup)
+	--mainInventory:equipSecondaryWeapon(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 	AIDirector.initialize(player)
@@ -73,7 +73,8 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
-	
+	mainInventory.equippedGameWeapon:unload()
+    mainInventory.equippedSecondaryGameWeapon:unload()
 	physics.stop()
 	
 end
@@ -95,6 +96,7 @@ local function update(event)
 	end
 	
 	AIDirector.update()
+	player:cullBulletsOffScreen()
 	--updateHaters(step)
 	--updateParticleEmitters()
 	--mainInventory:checkBullets(haterList)
