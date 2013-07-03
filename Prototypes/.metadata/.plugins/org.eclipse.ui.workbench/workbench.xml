@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="22" version="2.0">
 <workbenchAdvisor/>
-<window height="792" width="1236" x="21" y="57">
+<window height="792" width="1236" x="75" y="22">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -37,6 +37,8 @@
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
+<part id="4"/>
+<part id="5"/>
 </presentation>
 </folder>
 </info>
@@ -45,17 +47,25 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW-android/src/com/me/shootemupPEWPEW/MainActivity.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="456" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ShootEmUpPEWPEW.java" partName="ShootEmUpPEWPEW.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW/src/com/me/shootemupPEWPEW/ShootEmUpPEWPEW.java" title="ShootEmUpPEWPEW.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/ShootEmUpPEWPEW.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ShootEmUpPEWPEW.java" partName="ShootEmUpPEWPEW.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW/src/com/me/shootemupPEWPEW/ShootEmUpPEWPEW.java" title="ShootEmUpPEWPEW.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/ShootEmUpPEWPEW.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/ShootEmUpPEWPEW.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1479" selectionTopPixel="536"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1485" selectionTopPixel="386"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW-desktop/src/com/me/shootemupPEWPEW/Main.java" title="Main.java" tooltip="shootemupPEWPEW-desktop/src/com/me/shootemupPEWPEW/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW-desktop/src/com/me/shootemupPEWPEW/Main.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="399" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW/src/com/me/shootemupPEWPEW/player/Player.java" title="Player.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/player/Player.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/player/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3740" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Ship.java" partName="Ship.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Ship.java" title="Ship.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/Ship.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Ship.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1231" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Player.java" title="Player.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/Player.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Player.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="225" selectionTopPixel="256"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Enemy.java" partName="Enemy.java" path="/Users/nickspatties/Documents/game_dev/PEWPEW/wepwep/Prototypes/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Enemy.java" title="Enemy.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/Enemy.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Enemy.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="820" selectionTopPixel="151"/>
 </editor>
 </editors>
 <views>
@@ -69,7 +79,6 @@
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
 <category IMemento.internal.id="Warnings (10 items)"/>
-<category IMemento.internal.id="Errors"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -219,7 +228,7 @@
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.25" ratioLeft="254" ratioRight="762" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.67897725" ratioLeft="478" ratioRight="226" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
@@ -364,158 +373,160 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/ShootEmUpPEWPEW.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/player/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Ship.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/shootemupPEWPEW-desktop/src/com/me/shootemupPEWPEW/Main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Enemy.java"/>
 </editors>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1843" y="0"/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="157" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1600" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="668" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="2679" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="3743" y="0"/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="157" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1600" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="668" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="157" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="668" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1379" y="0"/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="157" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="3743" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="668" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="157" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1485" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="668" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="72" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1485" y="0"/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="2679" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1068" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="63" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1485" y="0"/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="72" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1068" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="63" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1600" y="0"/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="729" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="63" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1485" y="0"/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="72" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="729" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1476" y="0"/>
-</item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1476" y="0"/>
-</item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="2070" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1476" y="0"/>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="72" y="0"/>
 </item>
 <item historyLabel="Main.java" index="2">
 <position info="not_deleted" x="399" y="0"/>
 </item>
 <item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="2070" y="0"/>
+<position info="not_deleted" x="1496" y="0"/>
+</item>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="729" y="0"/>
+</item>
+<item historyLabel="Main.java" index="2">
+<position info="not_deleted" x="399" y="0"/>
 </item>
 <item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="2166" y="17"/>
+<position info="not_deleted" x="1496" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1828" y="0"/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="729" y="0"/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1094" y="0"/>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="1119" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="930" y="0"/>
-</item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1487" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="930" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1476" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2645" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1703" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2905" y="0"/>
+<item historyLabel="Main.java" index="2">
+<position info="not_deleted" x="399" y="0"/>
 </item>
 <item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1487" y="0"/>
+<position info="not_deleted" x="1496" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2905" y="0"/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="729" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="1119" y="0"/>
+</item>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="72" y="0"/>
+</item>
+<item historyLabel="Main.java" index="2">
+<position info="not_deleted" x="399" y="0"/>
+</item>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="729" y="0"/>
+</item>
+<item historyLabel="ShootEmUpPEWPEW.java" index="0">
+<position info="not_deleted" x="1496" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="1119" y="0"/>
+</item>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="2621" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="1119" y="0"/>
+</item>
+<item historyLabel="Main.java" index="2">
+<position info="not_deleted" x="399" y="0"/>
+</item>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="751" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="1119" y="0"/>
+</item>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="751" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="225" y="0"/>
+</item>
+<item historyLabel="Enemy.java" index="4">
+<position info="not_deleted" x="820" y="0"/>
+</item>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="751" y="0"/>
+</item>
+<item historyLabel="Main.java" index="2">
+<position info="not_deleted" x="399" y="0"/>
+</item>
+<item historyLabel="ShootEmUpPEWPEW.java" index="0">
 <position/>
 </item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1487" y="0"/>
+<item historyLabel="Ship.java" index="1">
+<position info="not_deleted" x="1231" y="0"/>
 </item>
-<item historyLabel="Player.java" index="1">
+<item active="true" historyLabel="ShootEmUpPEWPEW.java" index="0">
 <position/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1476" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2615" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2638" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2636" y="0"/>
-</item>
-<item historyLabel="ShootEmUpPEWPEW.java" index="0">
-<position info="not_deleted" x="1479" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2636" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position/>
-</item>
-<item active="true" historyLabel="Player.java" index="1">
-<position info="not_deleted" x="3675" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -534,14 +545,20 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Enemy.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/Enemy.java">
+<persistable path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Enemy.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/Player.java">
+<persistable path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/Player.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="LwjglApplication.class" tooltip="com.badlogic.gdx.backends.lwjgl.LwjglApplication">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=shootemupPEWPEW-desktop/libs\/gdx-backend-lwjgl.jar&lt;com.badlogic.gdx.backends.lwjgl(LwjglApplication.class"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" tooltip="shootemupPEWPEW/src/com/me/shootemupPEWPEW/player/Player.java">
 <persistable path="/shootemupPEWPEW/src/com/me/shootemupPEWPEW/player/Player.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="player_01.png" tooltip="shootemupPEWPEW-android/assets/textures/player_01.png">
 <persistable path="/shootemupPEWPEW-android/assets/textures/player_01.png"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="LwjglApplication.class" tooltip="com.badlogic.gdx.backends.lwjgl.LwjglApplication">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=shootemupPEWPEW-desktop/libs\/gdx-backend-lwjgl.jar&lt;com.badlogic.gdx.backends.lwjgl(LwjglApplication.class"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.manifest.ManifestEditor" name="AndroidManifest.xml" tooltip="shootemupPEWPEW-android/AndroidManifest.xml">
 <persistable path="/shootemupPEWPEW-android/AndroidManifest.xml"/>

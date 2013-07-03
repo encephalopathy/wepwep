@@ -7,4 +7,5 @@
 <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.Gdx"/>
 <fullyQualifiedTypeName name="com.me.shootemupPEWPEW.player.Player"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector2"/>
 </qualifiedTypeNameHistroy>
