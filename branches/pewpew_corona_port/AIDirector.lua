@@ -100,7 +100,6 @@ local function moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc)
 		--10 columns in the level editor
 		local hater = Queue.removeBack(outOfViewList)
 		hater.sprite.x = (xLoc - 1) * hater.sprite.width
-		print('Hater\'s x location ' .. hater.sprite.width)
 		hater.sprite.y = -200
 		Queue.insertFront(inViewList, hater)
 		haterList[hater] = hater

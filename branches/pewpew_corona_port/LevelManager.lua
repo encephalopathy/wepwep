@@ -81,7 +81,6 @@ function setLevel(levelNumber)
 	current_wave_number = 1
 	current_set_number = 1
 	if levelNumber == 0 then
-		print(level0)
 		return level0
 	end
 end

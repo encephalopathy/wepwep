@@ -51,7 +51,6 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.isFiring = false
 	self.sprite.type = "player"
 	
-	print('Player created')
 	
 	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0

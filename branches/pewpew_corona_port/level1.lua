@@ -71,7 +71,6 @@ function scene:enterScene( event )
 	local group = self.view
 	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	local currentLevel = setLevel(currentLevelNumber)
-	print(currentLevel)
 	AIDirector.initialize(player, currentLevel)
 	physics.start()
 end
