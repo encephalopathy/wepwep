@@ -43,10 +43,10 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	if bodyType ~= nil then
 		physics.addBody(sprite, {density = 0})
 		--if bodyType == "dynamic" then
-			sprite.isSensor = true
+		sprite.isSensor = true
 		--end
 	end
-	--sprite.postCollision = onHit
+	
 	sprite:addEventListener("postCollision", self.onHit)
 	self.sprite = sprite
 	

@@ -23,6 +23,7 @@ function SineWaveBullet:__tostring()
 end
 
 function SineWaveBullet:recycle(bullet)
+	self.super:recycle()
 	Runtime:removeEventListener("enterFrame", self.update)
 end
 

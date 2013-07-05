@@ -141,14 +141,28 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
    if (bullet.sprite.y >= 650  or bullet.sprite.y <=  -50 or bullet.sprite.x >= 850 or 
        bullet.sprite.x <= -50 or not bullet.alive) then
       --Location 5000, 5000 is the registration spawn point of all bullets
-      bullet.sprite.x = 5000
-      bullet.sprite.y = 5000
-      bullet.alive = false
-	  bullet:recycle()
+      
+	  --tprint(bullet.recycle, 5)
+	  --if bullet.recycle ~= undefined then 
+		bullet:recycle()
+	  --end
 	  Queue.insertFront(self.ammo, bullet)
    else
 	  Queue.insertFront(self.firedAmmo, bullet)
    end
+end
+
+function tprint (tbl, indent)
+  if not indent then indent = 0 end
+  for k, v in pairs(tbl) do
+    formatting = string.rep("  ", indent) .. k .. ": "
+    if type(v) == "table" then
+      print(formatting)
+      tprint(v, indent+1)
+    else
+      print(formatting .. v)
+    end
+  end
 end
 
 function Weapon:debugPrintBulletList()

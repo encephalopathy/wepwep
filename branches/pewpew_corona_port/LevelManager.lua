@@ -4,18 +4,20 @@ HATER_COLUMN_OFFSET = 325
 current_wave_number = 1
 current_set_number = 1
 
-function chomp(line)
+local function chomp(line)
    return string.gsub(line, "[\r\n]+$", "")
 end
 
 
 function createLevel(filename)
 	local waves = {}
-	
-	file = io.open(filename, "r")
+	local filePath = system.pathForFile( filename, system.ResourceDirectory )
+	local file = io.open(filePath, "r")
 	local wave = nil
 	local lineAmount = 0
 	local waveAmount = 0
+	print(filePath)
+	
 	for line in file:lines(), 1 do
       line = chomp(line)
 		if line == "@" then
@@ -79,11 +81,12 @@ function setLevel(levelNumber)
 	current_wave_number = 1
 	current_set_number = 1
 	if levelNumber == 0 then
+		print(level0)
 		return level0
 	end
 end
 
-level0 = createLevel('level0.txt')
+level0 = createLevel('leveltest.txt')
 
 for i = 1, level0.length, 1 do
 	local wave = level0[i]

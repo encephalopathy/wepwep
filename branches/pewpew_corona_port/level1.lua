@@ -1,4 +1,5 @@
 require("AIDirector")
+require("LevelManager")
 require("Player")
 -----------------------------------------------------------------------------------------
 --
@@ -11,6 +12,8 @@ local scene = storyboard.newScene()
 
 local player = nil
 local background = nil
+local currentLevelNumber = 0
+step = 0
 
 -- include Corona's "physics" library
 local physics = require "physics"
@@ -53,11 +56,11 @@ function scene:createScene( event )
 	
 	player = Player:new(group, "sprites/player_01.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
-	--mainInventory:equip(player, sceneGroup)
-	--mainInventory:equipSecondaryWeapon(player, sceneGroup)
+	mainInventory:equip(player, sceneGroup)
+	mainInventory:equipSecondaryWeapon(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
-	AIDirector.initialize(player)
+	
 
 end
 
@@ -67,6 +70,9 @@ end
 function scene:enterScene( event )
 	local group = self.view
 	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
+	local currentLevel = setLevel(currentLevelNumber)
+	print(currentLevel)
+	AIDirector.initialize(player, currentLevel)
 	physics.start()
 end
 
@@ -76,7 +82,7 @@ function scene:exitScene( event )
 	mainInventory.equippedGameWeapon:unload()
     mainInventory.equippedSecondaryGameWeapon:unload()
 	physics.stop()
-	
+	step = 0
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
@@ -164,6 +170,7 @@ end
 		text1.x = 200
         text1.y = 150
 	end]]--
+	step = step + 1
 	
 end
 

@@ -86,5 +86,11 @@ function Bullet:onHit(you, collitor)
 	--self.bulletList[self] = nil
 end
 
+function Bullet:recycle()
+	self.sprite.x = 5000
+    self.sprite.y = 5000
+    self.alive = false
+end
+
 Bullet:virtual("update")
 Bullet:virtual("recycle")

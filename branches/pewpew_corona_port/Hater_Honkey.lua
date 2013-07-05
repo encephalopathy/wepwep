@@ -10,8 +10,9 @@ Hater_Honkey = Hater:subclass("Hater_Honkey")
 
 switched = false
 
-function Hater_Honkey:init(x, y, scaleX, scaleY, imgSrc, sceneGroup)
-	self.super:init(x, y, scaleX, scaleY, imgSrc, sceneGroup)
+function Hater_Honkey:init(sceneGroup, imgSrc, x, y, rotation, width, height)
+	print('Hater_Honkey\'s width ' .. width .. ' and height are ' .. height)
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -44,7 +45,7 @@ function Hater_Honkey:update()
    if self.alive then
 	self:move(0,3)
 	if (step % 90 == 0 and self.alive == true) then
-			self:fire()						
+		self:fire()						
 	end
    end
 end

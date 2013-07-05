@@ -121,7 +121,7 @@ function Hater:update()
 				return
 			end
 	end
-	self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
+	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 
 end
 
