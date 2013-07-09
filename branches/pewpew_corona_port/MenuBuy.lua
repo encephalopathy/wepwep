@@ -17,7 +17,7 @@ local widget = require "widget"
 
 -- forward declarations and other locals
 local regularButton, sineButton, doubleButton, homingButton, spreadButton, subammoButton, subtenButton, yesButton, noButton, okButton, backButton
-local weapon, dollaztext, confirmText, denyText, buyText
+local weapon, dollaztext, confirmText, denyText, buyText, pauseScreen
 
 -- 'onRelease' event listeners
 local function back()	
