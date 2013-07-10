@@ -41,7 +41,7 @@ Player = Ride:subclass("Player")
 
 
 function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height) 
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, { categoryBits = 1, maskBits = 11} ) 
 
 	self.health = 10
 	self.powah = PLAYER_MAXPOWAH
@@ -205,7 +205,8 @@ function Player:__toString()
 end
 
 
-function Player:onHit(you, collitor)
+--function Player:onHit(you, collitor)
+function Player:onHit(event)
 	if you.alive == true then
 		print('I am in this function')
 		if not collitor.isPlayerBullet  then

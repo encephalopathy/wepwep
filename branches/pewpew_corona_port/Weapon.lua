@@ -3,7 +3,7 @@ require("Queue")
 require("SineWaveBullet")
 Weapon = newclass("Weapon")
 
-function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType)
+function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
     self.isLoaded = false
 	self.ammo = Queue.new()
 	self.firedAmmo = Queue.new()
@@ -16,7 +16,6 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType)
 	else
 		self.ammoType = classType
 	end
-	
 	self.owner = nil --Needs to be set before weapon can be used
 end
 
@@ -150,19 +149,6 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
    else
 	  Queue.insertFront(self.firedAmmo, bullet)
    end
-end
-
-function tprint (tbl, indent)
-  if not indent then indent = 0 end
-  for k, v in pairs(tbl) do
-    formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
-      print(formatting)
-      tprint(v, indent+1)
-    else
-      print(formatting .. v)
-    end
-  end
 end
 
 function Weapon:debugPrintBulletList()

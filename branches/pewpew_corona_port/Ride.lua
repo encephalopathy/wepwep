@@ -27,11 +27,13 @@ Ride = MoveableObject:subclass("Ride")
 	RETURN: VOID
 ]]--
 --function Ride:init(x, y, scaleX, scaleY, imgSrc, sceneGroup, shipPieces)
-function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height)
+function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, collisionFilter)
+	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
 	self.health = 0
 	self.powah = powah
-	--self:createParticleAssets(sceneGroup)
+	self.sprite.collision = self.onHit
+	self.sprite:addEventListener("collision", self.sprite)
+	--self:createExplosionSpriteSheet(sceneGroup, { {}, {}, {}})
 	--self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, scaleX, scaleY, shipPieces)
 end
 
@@ -44,22 +46,18 @@ end
 	RETURN: VOID
 
 --]]
---[[function Ride:createParticleAssets(sceneGroup)
+function Ride:createExplosionSpriteSheet(sceneGroup, spriteSheetOptions)
 
 	--creates an explosion particle effect by leveraging off of sprite sheets.
-	local explosion = RNFactory.createAnim("img/exp2.png", 64, 64, self.sprite.x, self.sprite.y, 3, 3)
-	explosion.scalex = 3; explosion.scaley = 3
-	explosion.frame = 0
-	explosion:newSequence("explode", {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, 24, 1, function()
-		explosion.visible = false
-	end)
+	local explosionSpriteSheet = graphics.newImageSheet("img/exp2.png", spriteSheetOptions )
+	local spriteOptions = { name = "explosion", start = 1, count = 16, time = 500 }
+	local explosion = display.newSprite(self.sprite, explosionSpriteSheet, spriteSheet)
 	explosion.visible = false
 	self.explosion = explosion
 
 	--Variables for the exploding particles.
 	
-end]]--
-
+end
 
 --[[function Ride:createShipPieceParticleEmitter(sceneGroup, scaleX, scaleY, shipPieces)
 	local v0x = 5
@@ -87,9 +85,30 @@ end]]--
 
 
 function Ride:onHit(event)
-	self.super:onHit(event)
+	--self.super:onHit(event)
+	--print(event.other)
+	--if ( event.phase == "began" ) then
+		--print( self.myName .. ": collision began with " .. event.other.myName )
+		--print('Collided began')
+	if ( event.phase == "ended" ) then
+		print('Collided ended')
+		--print( self.myName .. ": collision ended with " .. event.other.myName )
+	end
+	
 end
 
+function tprint (tbl, indent)
+  if not indent then indent = 0 end
+  for k, v in pairs(tbl) do
+    formatting = string.rep("  ", indent) .. k .. ": "
+    if type(v) == "table" then
+      print(formatting)
+      tprint(v, indent+1)
+    else
+      print(formatting .. v)
+    end
+  end
+end
 --[[
 	FUNCTION NAME: move
 	

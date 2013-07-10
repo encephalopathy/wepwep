@@ -20,7 +20,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation ,width, height, shipPiece
 	"sprites/enemy_02_piece_04.png", "sprites/enemy_02_piece_01"}
 	end
 	--self.super:init(x, y, scaleX, scaleY, imgSrc, sceneGroup, shipPieces)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height)
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, { categoryBits = 2, maskBits = 7 } )
 	self.bulletsOutOfView = Queue.new()
 	for i = 1, 4, 1 do
 		Queue.insertFront(self.bulletsOutOfView, Bullet:new(sceneGroup, "img/bullet.png", false, 4000 + math.random(10,440), 4000+ math.random(50,350)))
@@ -32,6 +32,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation ,width, height, shipPiece
 	self.sprite.type = "Hater"
 	self.sprite.objRef = self
 	self.time = 0
+	self.weapon = nil
    self.isFrozen = false
    self.freezeTimer = 0
 	--haterDeathSFX = MOAIUntzSound.new()
@@ -138,7 +139,8 @@ end
 	RETURN: VOID
 ]]--
 
-function Hater:onHit(you, collide)
+--function Hater:onHit(you, collide)
+function Hater:onHit(event)
 	if you.alive == true and collide.isPlayerBullet then
 		you.health = you.health - 1
 		--sound:load(self.soundPath)

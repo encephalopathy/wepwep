@@ -15,7 +15,7 @@ require("Object")
 
 MoveableObject = newclass("MoveableObject")
 
-function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotation, width, height)
+function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotation, width, height, collisionFilter)
 	local sprite
 	if startX == nil then
 	 startX = 0
@@ -41,13 +41,11 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	end
 	
 	if bodyType ~= nil then
-		physics.addBody(sprite, {density = 0})
-		--if bodyType == "dynamic" then
-		sprite.isSensor = true
-		--end
+		physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter})
+		if bodyType == "dynamic" then
+			sprite.isSensor = true
+		end
 	end
-	
-	sprite:addEventListener("postCollision", self.onHit)
 	self.sprite = sprite
 	
 	if sceneGroup ~= nil then

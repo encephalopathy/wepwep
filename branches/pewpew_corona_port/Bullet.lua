@@ -25,7 +25,13 @@ Bullet = MoveableObject:subclass("Bullet")
 	RETURN: VOID
 ]]--
 function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height)
+	local collisionFilter
+	if isPlayerBullet == true then
+		collisionFilter = { categoryBits = 4, maskBits = 14}
+	else
+		collisionFilter = { categoryBits = 8, maskBits = 13}
+	end
+	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height, collisionFilter)
 	self.alive = false
 	self.damage = 1
 	self.isPlayerBullet = isPlayerBullet
