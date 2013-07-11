@@ -69,7 +69,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	--playBGM("/sounds/bgmusic/gameBackMusic.ogg")
+	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	local currentLevel = setLevel(currentLevelNumber)
 	AIDirector.initialize(player, currentLevel)
 	physics.start()
