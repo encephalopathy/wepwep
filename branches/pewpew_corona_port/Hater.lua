@@ -29,7 +29,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation ,width, height, shipPiece
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
-	self.sprite.type = "Hater"
+	self.type = "Hater"
 	self.sprite.objRef = self
 	self.time = 0
 	self.weapon = nil
@@ -140,30 +140,25 @@ end
 ]]--
 
 --function Hater:onHit(you, collide)
-function Hater:onHit(event)
-	if you.alive == true and collide.isPlayerBullet then
-		you.health = you.health - 1
+function Hater:onHit(phase, collide)
+	if self.alive and collide.isPlayerBullet then
+		self.health = self.health - 1
 		--sound:load(self.soundPath)
-		haterDeathSFX:play()
+		--haterDeathSFX:play()
 		--this is the check to say you are dead; place the sound here to make it work
 		--later when weapons do different damage, you can make a check for a hit or a death
 		--for now, only a death sound will be played.
-		if you.health <= 0 then
-			you.alive = false
-			you:explode()
-			mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
-		end
 	end
    
-	if you.alive == true and collide.sprite.type == "player" then
-		you.health = you.health - 1
-		if you.health <= 0 then  --this is the check to say you are dead; place the sound here to make it work
-			you:explode()
-			you.alive = false
-			mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
-		end
+	if self.alive and collide.type == "player" then
+		self.health = self.health - 1
 	end
-	
+	self.super:onHit(phase, collide)
+end
+
+function Hater:die()
+	self.super:die()
+	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
 end
 
 --[[

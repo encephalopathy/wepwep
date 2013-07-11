@@ -52,6 +52,10 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 		sceneGroup:insert( sprite )
 	end
 	self.alive = true
+	
+	self.sprite.collision = self.collision
+	self.sprite:addEventListener("collision", self.sprite)
+	
 end
 --[[
 	FUNCTION NAME: move
@@ -80,9 +84,12 @@ end
 	@RETURN: void
 ]]--
 
-function MoveableObject:onHit(event)
-	--print('WHy does this not work')
-	print('Collided in moveable object\'s collision function')
+function MoveableObject:collision(event)
+	self.objRef:onHit(event.phase, event.other.objRef)
+end
+
+function MoveableObject:onHit(phase, collide)
+	
 end
 
 --[[

@@ -71,22 +71,24 @@ PARAMETERS:
 	@See inherit doc
 RETURN: VOID
 ]]--
-function Bullet:onHit(you, collitor)
-	if not collitor.sprite.type == "player" and you.isPlayerBullet then
-		if you.alive == true then
-			you.alive = false
+function Bullet:onHit(phase, collitor)
+	if phase == "ended" then
+		if not collitor.type == "player" and self.isPlayerBullet then
+			if self.alive then
+				self.alive = false
+			end
 		end
-	end
 
-	if collitor.sprite.type == "player" and not you.isPlayerBullet then
-		if you.alive == true then
-			you.alive = false
+		if collitor.type == "player" and not self.isPlayerBullet then
+			if self.alive then
+				self.alive = false
+			end
 		end
-	end
-	
-	if you.isPlayerBullet and collitor.sprite.type == "Hater" then
-		if you.alive then
-			you.alive = false
+		
+		if self.isPlayerBullet and collitor.type == "Hater" then
+			if self.alive then
+				self.alive = false
+			end
 		end
 	end
 	--self.bulletList[self] = nil

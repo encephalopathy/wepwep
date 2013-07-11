@@ -49,8 +49,6 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.bombs = {}
 	self.heaters = {}
 	self.isFiring = false
-	self.sprite.type = "player"
-	
 	
 	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0
@@ -58,13 +56,18 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevX = 0
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
-	self.sprite.objRef = self
+	
 	self:weaponEquipDebug()
 	Player.player = self
+	self:setPlayerType()
 	--Player.MAX_MOVEMENT_X = self.width / 2
 	--Player.MAX_MOVEMENT_Y = self.height / 2
 end
 
+function Player:setPlayerType()
+	self.type = "player"
+	self.sprite.objRef = self
+end
 
 local function clampPlayerMovement(currentSpeed)
 	local MAX_SPEED = 30
@@ -206,11 +209,11 @@ end
 
 
 --function Player:onHit(you, collitor)
-function Player:onHit(event)
-	if you.alive == true then
-		print('I am in this function')
-		if not collitor.isPlayerBullet  then
-			you.health = you.health - 1
+function Player:onHit(phase, collide)
+   if phase == "ended"  then
+		if self.alive == true then
+			if not collide.isPlayerBullet  then
+				self.health = self.health - 1
 			--sound:load(self.soundPathHit) --got hit by a dude
 			--[[if (you.health <= 0) then
 				--sound:load(self.soundPathDeath) 
@@ -221,8 +224,8 @@ function Player:onHit(event)
 			else
 				playerHitSFX:play()
 			end]]--
+			end
 		end
 	end
-	
 end
 

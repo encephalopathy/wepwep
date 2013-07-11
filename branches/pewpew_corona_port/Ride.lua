@@ -31,9 +31,8 @@ function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, 
 	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
 	self.health = 0
 	self.powah = powah
-	self.sprite.collision = self.onHit
-	self.sprite:addEventListener("collision", self.sprite)
-	--self:createExplosionSpriteSheet(sceneGroup, { {}, {}, {}})
+	
+	self:createExplosionSpriteSheet(sceneGroup, { width = 64, height = 64, numFrames = 16, sheetContentWidth = 256, sheetContentHeight = 256 } )
 	--self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, scaleX, scaleY, shipPieces)
 end
 
@@ -50,8 +49,10 @@ function Ride:createExplosionSpriteSheet(sceneGroup, spriteSheetOptions)
 
 	--creates an explosion particle effect by leveraging off of sprite sheets.
 	local explosionSpriteSheet = graphics.newImageSheet("img/exp2.png", spriteSheetOptions )
-	local spriteOptions = { name = "explosion", start = 1, count = 16, time = 500 }
-	local explosion = display.newSprite(self.sprite, explosionSpriteSheet, spriteSheet)
+	local spriteOptions = { name = "explosion", start = 1, count = 16, time = 1000, loopCount = 1 }
+	local explosion = display.newSprite(explosionSpriteSheet, spriteOptions)
+	explosion.x = 5000; explosion.y = 5000
+	explosion.xScale = 3; explosion.yScale = 3
 	explosion.visible = false
 	self.explosion = explosion
 
@@ -84,17 +85,23 @@ end
 end]]--
 
 
-function Ride:onHit(event)
+function Ride:onHit(phase, collide)
 	--self.super:onHit(event)
 	--print(event.other)
 	--if ( event.phase == "began" ) then
 		--print( self.myName .. ": collision began with " .. event.other.myName )
 		--print('Collided began')
-	if ( event.phase == "ended" ) then
-		print('Collided ended')
-		--print( self.myName .. ": collision ended with " .. event.other.myName )
+	if self.health <= 0 then
+		if phase == "ended" then
+			self:die()
+		end
 	end
 	
+end
+
+function Ride:die()
+	self.alive = false
+	self:explode()
 end
 
 function tprint (tbl, indent)
@@ -130,13 +137,16 @@ end
 	 
 	 RETURN: VOID
 ]]--
---[[function Ride:explode()
-	self.explosion.visible = true
-	self.particleEmitter:updateLoc(x, y)
-	self.particleEmitter:start()
-	self.explosion.x = self.sprite.x; self.explosion.y = self.sprite.y;
-	self.explosion:play("explode")
-end]]--
+function Ride:explode()
+	
+	--self.particleEmitter:updateLoc(x, y)
+	--self.particleEmitter:start()
+	if not self.explosion.isPlaying then
+		self.explosion.visible = true
+		self.explosion.x = self.sprite.x; self.explosion.y = self.sprite.y;
+		self.explosion:play()
+	end
+end
 
 --[[
 	FUNCTION NAME: destroy
