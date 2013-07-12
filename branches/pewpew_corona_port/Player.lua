@@ -41,7 +41,13 @@ Player = Ride:subclass("Player")
 
 
 function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, { categoryBits = 1, maskBits = 11} ) 
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
+	{"sprites/player_piece_01.png", 
+	"sprites/player_piece_02.png", 
+	"sprites/player_piece_03.png", 
+	"sprites/player_piece_04.png",
+	"sprites/player_piece_05.png"},
+	{ categoryBits = 1, maskBits = 11} ) 
 
 	self.health = 10
 	self.powah = PLAYER_MAXPOWAH

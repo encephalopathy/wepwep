@@ -1,7 +1,7 @@
 require("MoveableObject")
---require("ParticleManager")
---require("ParticleEmitter")
---require("Particle")
+require("ParticleManager")
+require("ParticleEmitter")
+require("Particle")
 --[[
 	CLASS NAME: Ride
 
@@ -27,13 +27,13 @@ Ride = MoveableObject:subclass("Ride")
 	RETURN: VOID
 ]]--
 --function Ride:init(x, y, scaleX, scaleY, imgSrc, sceneGroup, shipPieces)
-function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, collisionFilter)
+function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, shipPieces, collisionFilter)
 	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
 	self.health = 0
 	self.powah = powah
 	
 	self:createExplosionSpriteSheet(sceneGroup, { width = 64, height = 64, numFrames = 16, sheetContentWidth = 256, sheetContentHeight = 256 } )
-	--self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, scaleX, scaleY, shipPieces)
+	self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, shipPieces)
 end
 
 
@@ -55,12 +55,11 @@ function Ride:createExplosionSpriteSheet(sceneGroup, spriteSheetOptions)
 	explosion.xScale = 3; explosion.yScale = 3
 	explosion.visible = false
 	self.explosion = explosion
-
 	--Variables for the exploding particles.
 	
 end
 
---[[function Ride:createShipPieceParticleEmitter(sceneGroup, scaleX, scaleY, shipPieces)
+function Ride:createShipPieceParticleEmitter(sceneGroup, shipPieces)
 	local v0x = 5
 	local v0y = 5
 	local ax = -0.0035
@@ -73,16 +72,15 @@ end
 			local vx = v0x * math.cos(emitAngle / (2 * math.pi))
 			local vy = v0y * math.sin(emitAngle / (2 * math.pi))
 		
-			local newParticle = Particle:new(shipPieces[i], 0.8 * scaleX, 0.8 * scaleY, sceneGroup, vx, vy, ax, ay, 15, 200)
+			local newParticle = Particle:new(sceneGroup, shipPieces[i], 50, 50, vx, vy, ax, ay, 15, 200)
 			particleEmitter:add(newParticle)
 		
 			emitAngle = emitAngle + (75 / math.pi)
 		end
-	
 		addParticleEmitter(particleEmitter)
 	end
 	return particleEmitter
-end]]--
+end
 
 
 function Ride:onHit(phase, collide)
@@ -126,7 +124,6 @@ end
 	RETURN: VOID
 --]]
 function Ride:move(x, y)
-	--self.particleEmitter:updateLoc(x, y)
 	self.super:move(x, y)
 end
 
@@ -138,13 +135,12 @@ end
 	 RETURN: VOID
 ]]--
 function Ride:explode()
-	
-	--self.particleEmitter:updateLoc(x, y)
-	--self.particleEmitter:start()
 	if not self.explosion.isPlaying then
 		self.explosion.visible = true
 		self.explosion.x = self.sprite.x; self.explosion.y = self.sprite.y;
 		self.explosion:play()
+		self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
+	    self.particleEmitter:start()
 	end
 end
 
@@ -159,9 +155,9 @@ end
 function Ride:destroy()
 	self.bombs = nil
 	self.heaters = nil
-	--removeParticleEmitter(self.particleEmitter)
-	--self.particleEmitter:destroy()
-	--self.particleEmitter = nil
+	removeParticleEmitter(self.particleEmitter)
+	self.particleEmitter:destroy()
+	self.particleEmitter = nil
 	self.explosion = nil --[[Not sure if this garbage collects the explosion 
 							because it is not added to the Scene group in Rappanui.
 						]]--

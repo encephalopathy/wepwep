@@ -2,8 +2,11 @@ require("MoveableObject")
 
 Particle = MoveableObject:subclass("Particle")
 
-function Particle:init(imgSrc, scaleX, scaleY, sceneGroup, velX, velY, aX, aY, rotation, lifeTime, maxVelX, maxVelY, maxAX, maxAY)
-	self.super:init(0, 0, scaleX, scaleY, imgSrc, nil, sceneGroup)
+function Particle:init(sceneGroup, imgSrc, width, height, velX, velY, aX, aY, rotation, lifeTime, maxVelX, maxVelY, maxAX, maxAY)
+	print('imgSrc ' .. imgSrc)
+	print('width: ' .. width)
+	print('height: ' .. height)
+	self.super:init(sceneGroup, imgSrc, nil, 0, 0, 0, width, height)
 	if velX ~= nil then
 		self.velX = velX
 	else

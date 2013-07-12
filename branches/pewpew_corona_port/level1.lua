@@ -69,7 +69,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
+	--playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	local currentLevel = setLevel(currentLevelNumber)
 	AIDirector.initialize(player, currentLevel)
 	physics.start()
@@ -102,8 +102,7 @@ local function update(event)
 	
 	AIDirector.update()
 	player:cullBulletsOffScreen()
-	--updateHaters(step)
-	--updateParticleEmitters()
+	updateParticleEmitters()
 	--mainInventory:checkBullets(haterList)
 	--mainInventory:checkBombs(haterList)
 	
@@ -117,7 +116,6 @@ local function update(event)
 	displayHealth()
 	displayPowah()
    displayAmmoText()
-	step = step + 1
 	updateBackground()
 	
 		pauseScreen.x = 40000
