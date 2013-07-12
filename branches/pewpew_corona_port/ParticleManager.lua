@@ -16,7 +16,6 @@ function destroyParticleManager()
 		local particleEmitter = Queue.removeBack(particleEmitters)
 		particleEmitter:destroy()
 	end
-	--particleEmitters = nil
 end
 
 function updateParticleEmitters()

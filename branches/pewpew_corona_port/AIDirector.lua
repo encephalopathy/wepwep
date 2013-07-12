@@ -37,8 +37,8 @@ local function createHaterList()
 	--haterSkimMilkInViewList = Queue.new()
 	--haterSkimMilkOutofViewList = Queue.new()
 
-	--haterCrackaInViewList = Queue.new()
-	--haterCrackaOutofViewList = Queue.new()
+	haterCrackaInViewList = Queue.new()
+	haterCrackaOutofViewList = Queue.new()
 
 	haterHonkeyInViewList = Queue.new()
 	haterHonkeyOutofViewList = Queue.new()

@@ -16,7 +16,6 @@ function createLevel(filename)
 	local wave = nil
 	local lineAmount = 0
 	local waveAmount = 0
-	print(filePath)
 	
 	for line in file:lines(), 1 do
       line = chomp(line)

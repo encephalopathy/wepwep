@@ -14,12 +14,12 @@ require("Queue")
 ]]--
 Hater = Ride:subclass("Hater")
 
-function Hater:init(sceneGroup, imgSrc, x, y, rotation ,width, height, shipPieces)  --put the initial sound and load it here
+function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)  --put the initial sound and load it here
 	if shipPieces == nil then
 		shipPieces = {"sprites/enemy_02_piece_01.png", "sprites/enemy_02_piece_02.png", "sprites/enemy_02_piece_03.png", 
 	"sprites/enemy_02_piece_04.png", "sprites/enemy_02_piece_01.png"}
 	end
-	--self.super:init(x, y, scaleX, scaleY, imgSrc, sceneGroup, shipPieces)
+
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
 	self.bulletsOutOfView = Queue.new()
 	for i = 1, 4, 1 do

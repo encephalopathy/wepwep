@@ -136,9 +136,13 @@ end
 ]]--
 function Ride:explode()
 	if not self.explosion.isPlaying then
+	
+		--Makes the explosion appear on screen by translating it to the location of the exploded ship
 		self.explosion.visible = true
 		self.explosion.x = self.sprite.x; self.explosion.y = self.sprite.y;
 		self.explosion:play()
+		
+		--Creates the particles that fly off the ship when a ship dies
 		self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 	    self.particleEmitter:start()
 	end
