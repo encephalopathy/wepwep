@@ -36,6 +36,14 @@ function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, 
 	self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, shipPieces)
 end
 
+local function onExposion(event) 
+	if ( event.phase == "began" ) then
+		event.target.isVisible = true
+	elseif ( event.phase == "ended" ) then
+		print('Exploding')
+		event.target.isVisible = false
+	end
+end
 
 --[[
 	FUNCTION NAME: createParticleAssets
@@ -53,7 +61,8 @@ function Ride:createExplosionSpriteSheet(sceneGroup, spriteSheetOptions)
 	local explosion = display.newSprite(explosionSpriteSheet, spriteOptions)
 	explosion.x = 5000; explosion.y = 5000
 	explosion.xScale = 3; explosion.yScale = 3
-	explosion.visible = false
+	explosion.isVisible = false
+	explosion:addEventListener("sprite", self.afterExplosion)
 	self.explosion = explosion
 	--Variables for the exploding particles.
 	
@@ -102,6 +111,15 @@ function Ride:die()
 	self:explode()
 end
 
+function Ride:afterExplosion()
+	if ( self.phase == "began" ) then
+		self.target.isVisible = true
+	elseif ( self.phase == "ended" ) then
+		self.target.isVisible = false
+	end
+	
+end
+
 function tprint (tbl, indent)
   if not indent then indent = 0 end
   for k, v in pairs(tbl) do
@@ -138,7 +156,6 @@ function Ride:explode()
 	if not self.explosion.isPlaying then
 	
 		--Makes the explosion appear on screen by translating it to the location of the exploded ship
-		self.explosion.visible = true
 		self.explosion.x = self.sprite.x; self.explosion.y = self.sprite.y;
 		self.explosion:play()
 		

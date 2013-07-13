@@ -11,11 +11,11 @@ Hater_TheFuzz = Hater:subclass("Hater_TheFuzz")
 switched = false
 
 function Hater_TheFuzz:init(sceneGroup, imgSrc, x, y, rotation, width, height, player)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height,
 	{"sprites/enemy_06_piece_01.png", "sprites/enemy_06_piece_02.png", "sprites/enemy_06_piece_03.png", 
-	"sprites/enemy_06_piece_04.png", "sprites/enemy_06_piece_05"})
+	"sprites/enemy_06_piece_04.png", "sprites/enemy_06_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
-	
+	self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
 	self.health = 2
@@ -39,8 +39,9 @@ function Hater_TheFuzz:move(x, y)
 	
 end
 
-function Hater_TheFuzz:update(player)
+function Hater_TheFuzz:update()
 	self.super:update()
+	local player = self.playerRef
 	local speed = 3
 	local width = player.sprite.x - self.sprite.x
 	local height = player.sprite.y - self.sprite.y
@@ -70,6 +71,7 @@ function Hater_TheFuzz:fire()
 		--if player.sprite.y >= self.sprite.y then
 		--	self.super:fire()
 		--else
+			local player = self.playerRef
 			local haterToPlayerDist = math.sqrt(
 				(player.sprite.x - self.sprite.x) * (player.sprite.x - self.sprite.x)
 				+ (player.sprite.y - self.sprite.y) * (player.sprite.y - self.sprite.y)

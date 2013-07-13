@@ -1,9 +1,11 @@
 require("Queue")
---require("Hater_Cracka")
+require("Hater_Cracka")
 require("Hater_Honkey")
---require("Hater_SkimMilk")
---require("Hater_Pig")
---require("Hater_FatBoy")
+require("Hater_SkimMilk")
+require("Hater_Pig")
+require("Hater_FatBoy")
+require("Hater_TheFuzz")
+require("Hater_Redneck")
 
 AIDirector = {}
 
@@ -32,10 +34,10 @@ local haterFatBoyOutofViewList = nil
 local haterRedneckInViewList = nil
 local haterRedneckOutofViewList = nil
 
-local function createHaterList()
+local function createHaterList(currentLevel, player)
 
-	--haterSkimMilkInViewList = Queue.new()
-	--haterSkimMilkOutofViewList = Queue.new()
+	haterSkimMilkInViewList = Queue.new()
+	haterSkimMilkOutofViewList = Queue.new()
 
 	haterCrackaInViewList = Queue.new()
 	haterCrackaOutofViewList = Queue.new()
@@ -43,9 +45,9 @@ local function createHaterList()
 	haterHonkeyInViewList = Queue.new()
 	haterHonkeyOutofViewList = Queue.new()
 	
-	--[[haterPigInViewList = Queue.new()
+	haterPigInViewList = Queue.new()
 	haterPigOutofViewList = Queue.new()
-	
+
 	haterTheFuzzInViewList = Queue.new()
 	haterTheFuzzOutofViewList = Queue.new()
 	
@@ -54,44 +56,44 @@ local function createHaterList()
 	
 	haterRedneckInViewList = Queue.new()
 	haterRedneckOutofViewList = Queue.new()
-	]]--
+
 	local temp = nil
 	for i = 1, 10, 1 do
 		temp = Hater_Honkey:new(sceneGroup, "sprites/enemy_02.png", -1000 + i * 300, -1000, 0, 100, 100)
 		Queue.insertFront(haterHonkeyOutofViewList, temp)
 	end
 	
-	--[[
+	
 	for i = 1, 10, 1 do
-		temp = Hater_Cracka:new(sceneGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 100, 100)
+		temp = Hater_Cracka:new(sceneGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 0, 100, 100)
 		Queue.insertFront(haterCrackaOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_SkimMilk:new(sceneGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 100, 100)
+		temp = Hater_SkimMilk:new(sceneGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 0, 100, 100)
 		Queue.insertFront(haterSkimMilkOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_TheFuzz:new(sceneGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 100, 100)
+		temp = Hater_TheFuzz:new(sceneGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 0, 100, 100, player)
 		Queue.insertFront(haterTheFuzzOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_Pig:new(sceneGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 100, 100)
+		temp = Hater_Pig:new(sceneGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 0, 100, 100)
 		Queue.insertFront(haterPigOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_FatBoy:new(sceneGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 100, 100)
+		temp = Hater_FatBoy:new(sceneGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 0, 100, 100)
 		Queue.insertFront(haterFatBoyOutofViewList, temp)
 	end
 	
 	
 	for i = 1, 10, 1 do
-		temp = Hater_Redneck:new(sceneGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 100, 100)
+		temp = Hater_Redneck:new(sceneGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 0, 100, 100)
 		Queue.insertFront(haterRedneckOutofViewList, temp)
-	end]]--
+	end
 end
 
 local function moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc)
@@ -195,7 +197,7 @@ local function updateHaters()
 end
 
 function AIDirector.initialize(player, currentLevel)
-	createHaterList(currentLevel)
+	createHaterList(currentLevel, player)
 	AIDirector.haterList = haterList
 	if player ~= nil then
 		AIDirector.player = player

@@ -10,10 +10,10 @@ Hater_Pig = Hater:subclass("Hater_Pig")
 
 switched = false
 
-function Hater_Pig:init(x, y, scaleX, scaleY, imgSrc, sceneGroup)
-	self.super:init(x, y, scaleX, scaleY, imgSrc, sceneGroup, 
+function Hater_Pig:init(sceneGroup, imgSrc, x, y, rotation, width, height)
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
 	{"sprites/enemy_04_piece_01.png", "sprites/enemy_04_piece_02.png", "sprites/enemy_04_piece_03.png", 
-	"sprites/enemy_04_piece_04.png", "sprites/enemy_04_piece_05"})
+	"sprites/enemy_04_piece_04.png", "sprites/enemy_04_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
