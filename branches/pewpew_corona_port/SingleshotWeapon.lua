@@ -29,9 +29,8 @@ function Singleshot:fire(player)
 	
 	if self:canFire() then
 		local ammo = self:getNextShot()
-		
 		if ammo then  --you are allowed to shoot
-			ammo.sprite.y = self.owner.sprite.y - 100
+			ammo.sprite.y = self.owner.sprite.y - self.muzzleLocation.y
 			ammo.sprite.x = self.owner.sprite.x
 			ammo:fire(0, -BULLET_VELOCITY)
 			--powah stuff

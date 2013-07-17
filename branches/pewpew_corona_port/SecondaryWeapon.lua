@@ -1,27 +1,17 @@
-SecondaryWeapon = Object:subclass("SecondaryWeapon")
+SecondaryWeapon = Weapon:subclass("SecondaryWeapon")
 
-function SecondaryWeapon:init(imgSrc)
+function SecondaryWeapon:init(sceneGroup, imgSrc, bulletType, ownerIsPlayer)
+   self.super:init(sceneGroup, imgSrc, nil, bulletType, ownerIsPlayer)
    self.bombList = Queue.new()
    self.bulletType = bulletType
    self.imgSrc = imgSrc
    self.owner = nil --Needs to be set before weapon can be used
-   self.ammo = 0
+   self.ammoAmount = 0
 end
 
 -- check for ammo and subtract one if we can fire
 function SecondaryWeapon:canFire ()
-   if (self.ammo <= 0) then
-      return false
-   end
-   self.ammo = self.ammo - 1
-   return true
-end
-
-function SecondaryWeapon:unload()
-	while self.bombList.size > 0 do
-		local bomb = Queue.removeBack(self.bombList)
-		bomb:destroy()
-	end
+   return self.ammoAmount > 0
 end
 
 function SecondaryWeapon:checkBombs(haterList)
@@ -45,16 +35,22 @@ function SecondaryWeapon:checkBombs(haterList)
 
 end
 
-function SecondaryWeapon:getNewBomb(bombType)
-
-   for i = self.bombList.first, self.bombList.last, 1 do
-      local bomb = self.bombList[i]
-      if (bomb.sprite.x >= 10000 and bomb.type == bombType) then
-         return bomb
-      end
-   end
+function SecondaryWeapon:fire(secondaryAmmoType)
+	 if (not self:canFire()) then
+      self.ammoAmount = self.ammoAmmount - 1
+	  return
+    end
    
-   return nil
+	local ammoToFire = Queue.removeBack(self.ammo)
+	
+	local bomb = self:getNewBomb()
+	if bomb == nil then
+		bomb = Bomb:new(-5000, -5000, .15, .15, self.imgSrc, self.sceneGroup, true)
+		Queue.insertFront(self.bombList, bomb)
+	end
+	bomb.type = secondaryAmmoType
+	
+	
 end
 
 function handleStandardBomb (bomb, haterList)
@@ -81,7 +77,7 @@ end
 BOMB_DAMAGE = 3
 EXPLOSIO_RADIUS = 25
 function doStandardExplosion (bomb, haterList)
-   point = {}
+   local point = {}
    point.x = bomb.sprite.x
    point.y = bomb.sprite.y
    for hater1 in pairs(haterList) do
@@ -91,14 +87,7 @@ function doStandardExplosion (bomb, haterList)
       end
    end
    bomb.sprite.x = 10000 + math.random(0, 10000)
-   local muzzleFlare  = RNFactory.createAnim("img/exp2.png", 64, 64, point.x, point.y, 2, 2)
-   muzzleFlare.frame = 0
-   muzzleFlare:newSequence("fire", {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, 24, 1, 
-                           function()
-                              muzzleFlare.visible = false
-                              muzzleFlare:stop()
-                           end)
-	muzzleFlare:play("fire")
+   --Write make explosion code here Brent
    
 end
 

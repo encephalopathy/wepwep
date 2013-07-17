@@ -56,8 +56,9 @@ function scene:createScene( event )
 	
 	player = Player:new(group, "sprites/player_01.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
-	mainInventory:equip(player, sceneGroup)
-	mainInventory:equipSecondaryWeapon(player, sceneGroup)
+	mainInventory:equipRig(player, sceneGroup)
+	--mainInventory:equip(player, sceneGroup)
+	--mainInventory:equipSecondaryWeapon(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 	

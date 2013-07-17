@@ -101,11 +101,12 @@ end
 	@RETURN: VOID
 ]]--
 function MoveableObject:destroy()
-	if(self) then
-		if( self.alive == true ) then
-			self.sprite.reference = nil
-			self.alive = false
-			self.sprite = nil
-		end
+	if (self) then
+		self.sprite:removeEventListener("collision", self.sprite)
+		self.sprite.collision = nil
+		self.sprite:removeSelf()
+		self.sprite.reference = nil
+		self.objRef = nil
+		self.sprite = nil
 	end
 end

@@ -70,6 +70,9 @@ function Hater:fire()
 	end
 end
 
+function Hater:cull(event)
+
+end
 
 function Hater:update()
 	self.time = self.time + 1
@@ -123,7 +126,6 @@ function Hater:update()
 			end
 	end
 	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
-
 end
 
 --[[

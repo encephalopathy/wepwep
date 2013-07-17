@@ -179,6 +179,7 @@ function Ride:destroy()
 	removeParticleEmitter(self.particleEmitter)
 	self.particleEmitter:destroy()
 	self.particleEmitter = nil
+	self.explosion:removeEventListener("sprite", self.afterExplosion)
 	self.explosion = nil --[[Not sure if this garbage collects the explosion 
 							because it is not added to the Scene group in Rappanui.
 						]]--

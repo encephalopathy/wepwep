@@ -88,7 +88,7 @@ end
 
 function Player:weaponEquipDebug() 
 	self.weapon = SineWave:new(sceneGroup)
-	self.weapon:load(100, sceneGroup)
+	self.weapon:load(100, sceneGroup, { 0, 100 })
 	self.weapon.owner = self
 end
 
@@ -183,7 +183,6 @@ end
 function Player:fire()
 	if self.alive ~= false then
 		self.weapon:fire(self)
-		
 	end
 end
 

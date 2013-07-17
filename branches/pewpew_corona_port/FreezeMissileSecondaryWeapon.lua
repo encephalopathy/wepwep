@@ -10,7 +10,6 @@ function FreezeMissile:init (fireCount, sceneGroup)
    self.super:init("img/missile.png", "img/exp2.png", sceneGroup)
    self.fireCount = fireCount
    self.sceneGroup = sceneGroup	
-   
 end
 
 function FreezeMissile:fire (player)

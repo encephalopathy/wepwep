@@ -30,7 +30,6 @@ function Inventory:init (scene)
    
    self.dollaz = 5000
    self.equippedWeapon = 1
-   self.equippedGameWeapon = nil
    
    -- permissions list
    self.permission = {}
@@ -50,38 +49,42 @@ function Inventory:init (scene)
    self.SecondaryWeapons[3] = StandardMissile:new(scene)
       
    -- Keep track of ammo for each
-   self.SecondaryWeapons[1].ammo = 4
-   self.SecondaryWeapons[2].ammo = 4
-   self.SecondaryWeapons[3].ammo = 4
+   self.SecondaryWeapons[1].ammoAmount = 4
+   self.SecondaryWeapons[2].ammoAmount = 4
+   self.SecondaryWeapons[3].ammoAmount = 4
+   self.SecondaryWeapons[3].ammoAmount = 4
    
    self.euippedOnce = false
 	
 end
 
--- Do permissions check and change weapons
-function Inventory:equip(player, sceneGroup)
+-- Do permissions check and change weapons, will rename to equipRig
+function Inventory:equipPrimaryWeapon(player, sceneGroup)
    local weapon = nil
    
 	if (self.permission[self.equippedWeapon] == true and
 		self.Weapons[self.equippedWeapon] ~= nil) then
-      weapon = self.Weapons[self.equippedWeapon]
-	   weapon.owner = player
-		self.player = player
-		self.sceneGroup = sceneGroup
-		weapon:load(40, sceneGroup)
+		weapon = self.Weapons[self.equippedWeapon]
+		weapon.owner = player
+		--self.player = player
+		
+		--Choose the spawn location based on the ship later
+		weapon:load(40, sceneGroup, { 0, 100 })
    end
 	player.weapon = weapon
-	self.equippedGameWeapon = weapon
 end
 
 function Inventory:equipSecondaryWeapon(player, sceneGroup)
    local weapon = nil
    weapon = self.SecondaryWeapons[self.equippedSecondaryWeapon];
-   weapon.sceneGroup = sceneGroup
    weapon.owner = player
-   self.sceneGroup = sceneGroup
    self.equippedSecondaryGameWeapon = weapon
    player.secondaryWeapon = weapon
+end
+
+function Inventory:equipRig(player, sceneGroup)
+	self:equipPrimaryWeapon(player, sceneGroup)
+	self:equipSecondaryWeapon(player, sceneGroup)
 end
 
 function Inventory:selectSecondaryWeapon(weaponNumber)
@@ -122,14 +125,14 @@ end
 
 -- set ammo of all shots to the same number
 function Inventory:setAmmo(numShots)
-   self.SecondaryWeapons[1].ammo = numShots
-   self.SecondaryWeapons[2].ammo = numShots
-   self.SecondaryWeapons[3].ammo = numShots
+   self.SecondaryWeapons[1].ammoAmount = numShots
+   self.SecondaryWeapons[2].ammoAmount = numShots
+   self.SecondaryWeapons[3].ammoAmount = numShots
 end
 
 -- add ammo to all of the weapons
 function Inventory:addAmmo(numShots)
-   self.SecondaryWeapons[1].ammo = self.SecondaryWeapons[1].ammo + numShots
-   self.SecondaryWeapons[2].ammo = self.SecondaryWeapons[2].ammo + numShots
-   self.SecondaryWeapons[3].ammo = self.SecondaryWeapons[3].ammo + numShots
+   self.SecondaryWeapons[1].ammoAmount = self.SecondaryWeapons[1].ammo + numShots
+   self.SecondaryWeapons[2].ammoAmount = self.SecondaryWeapons[2].ammo + numShots
+   self.SecondaryWeapons[3].ammoAmount = self.SecondaryWeapons[3].ammo + numShots
 end

@@ -11,6 +11,12 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
     self.sceneGroup = sceneGroup
 	self.rateOfFire = rateOfFire
 	self.fireAttempts = 0
+	
+	
+	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
+	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
+		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
+		dispatch the class name by holding a reference to the class declaration. ]]--
 	if classType == nil then
 		self.ammoType = Bullet
 	else
@@ -19,14 +25,29 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
 	self.owner = nil --Needs to be set before weapon can be used
 end
 
-function Weapon:load(amount, sceneGroup)
-
+--Should eventually load from a static list of bullets, the type of Bullet SHOULD be specified by the weapon
+function Weapon:load(amount, sceneGroup, spawnVector)
    if (not isLoaded) then
    	for i = 1, amount, 1 do
 	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, true, 5000, i*5000, 0, 50, 50))
    	end
    end
+   self:setMuzzleLocation(spawnVector)
    self.isLoaded = true
+end
+
+function Weapon:equip(owner)
+	owner.weapon = self
+	self.owner = owner
+end
+
+function Weapon:setMuzzleLocation(spawnVector)
+	if spawnVector ~= nil then
+		spawnVector = { x = spawnVector[1], y = spawnVector[1], magnitude = math.sqrt(spawnVector[1]*spawnVector[1] + spawnVector[2]*spawnVector[2]) }
+	else
+		--print('Muzzle Location not set for ' .. self.name())
+	end
+	self.muzzleLocation = spawnVector
 end
 
 function Weapon:unload()
@@ -69,75 +90,8 @@ function Weapon:checkBullets()
    end
 end
 
-function distance (x1, y1, x2, y2)
-   return math.sqrt(math.pow(x1-x2, 2) + math.pow(y1-y2, 2))
-end
-
-function haterDistance (bullet, hater)
-   return distance (bullet.sprite.x, bullet.sprite.y, hater.sprite.x, hater.sprite.y)
-end
-
-function assignClosestHater(bullet, haterList)
-    local minDistance = -1
-    for hater1 in pairs(haterList) do
-       local currDistance = haterDistance (bullet, hater1)
-       if ((minDistance == -1 or currDistance < minDistance) and 
-            bullet.sprite.y > hater1.sprite.y) then
-          minDistance = currDistance
-          bullet.hater = hater1
-       end
-    end
-end
-
-
-function moveHomingBullet(bullet, haterList)
-   if (bullet.hater == nil and bullet.hasTarget == false) then
-      assignClosestHater(bullet, haterList)
-      bullet.hasTarget = true
-   end
-   
-   if (bullet.sprite.y < bullet.hater.sprite.y) then
-      return
-   end
-   
-   currX, currY = bullet.sprite:getLinearVelocity()
-   if (bullet.hater == nil or currY == 0) then
-      bullet:fire (0, -BULLET_VELOCITY)
-      return
-   end
-   
-   if (bullet.hater.health <= 0) then
-      return
-   end
-   
-   haterX = bullet.hater.sprite.x
-   haterY = bullet.hater.sprite.y
-   
-   bulletX = bullet.sprite.x
-   bulletY = bullet.sprite.y
-   
-   xDiff = haterX - bulletX
-   yDiff = haterY - bulletY
-   
-   triRatio = BULLET_VELOCITY / math.sqrt(math.pow(xDiff, 2) + math.pow(yDiff, 2))
-   
-   xVel = xDiff * triRatio
-   yVel = yDiff * triRatio
-   
-   bullet:fire (xVel, yVel)
-   
-end
-
-function moveSineBullet(bullet)
-   local speed = 5
-   local newY = bullet.initialY - bullet.time * speed
-   local newX = bullet.initialX + bullet.amp * math.sin(bullet.time * 4 * math.pi / 50)
-   bullet:move(newX, newY)
-   bullet.time = bullet.time + 1
-end
-
 function Weapon:cacheAmmoIfOutofBounds(bullet)
-   if (bullet.sprite.y >= 650  or bullet.sprite.y <=  -50 or bullet.sprite.x >= 850 or 
+   if (bullet.sprite.y >= display.contentHeight  or bullet.sprite.y <=  -50 or bullet.sprite.x >= display.contentWidth or 
        bullet.sprite.x <= -50 or not bullet.alive) then
       --Location 5000, 5000 is the registration spawn point of all bullets
       
@@ -146,9 +100,9 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
 		bullet:recycle()
 	  --end
 	  Queue.insertFront(self.ammo, bullet)
-   else
+	else
 	  Queue.insertFront(self.firedAmmo, bullet)
-   end
+	end
 end
 
 function Weapon:debugPrintBulletList()

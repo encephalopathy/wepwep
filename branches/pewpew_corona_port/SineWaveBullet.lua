@@ -27,3 +27,8 @@ function SineWaveBullet:recycle(bullet)
 	Runtime:removeEventListener("enterFrame", self.update)
 end
 
+function SineWaveBullet:destroy()
+	self.updateFunction = nil
+	self.super:destroy()
+end
+

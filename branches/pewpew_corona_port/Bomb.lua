@@ -17,23 +17,23 @@ function Bomb:fire(x, y)
    self.owner = owner
 end
 
-function Bomb:onHit (you, collitor)
+function Bomb:onHit (phase, collide)
 
-   if (you.isPlayerBomb and collitor.sprite.type == "Hater") then
-      you.hasCollided = true
-      you.haterHit = collitor
+   if (self.isPlayerBomb and collide.type == "Hater") then
+      self.hasCollided = true
+      self.haterHit = collitor
    end
    
-   if (you.isFreezeMissile and collitor.sprite.type == "Hater") then
-      you.hasCollided = true
-      you.haterHit = collitor
-      collitor.isFrozen = true
-      collitor.freezeTimer = 0
+   if (self.isFreezeMissile and collide.type == "Hater") then
+      self.hasCollided = true
+      self.haterHit = collitor
+      collide.isFrozen = true
+      collide.freezeTimer = 0
    end
    
-   if (you.isStandardMissile and collitor.sprite.type == "Hater") then
-      collitor.health = collitor.health - MISSILE_DAMAGE
-      you.hasCollided = true
+   if (self.isStandardMissile and collide.type == "Hater") then
+      collide.health = collide.health - MISSILE_DAMAGE
+      self.hasCollided = true
    end
 
 end

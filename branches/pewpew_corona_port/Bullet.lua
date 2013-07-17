@@ -100,5 +100,9 @@ function Bullet:recycle()
     self.alive = false
 end
 
+function Bullet:destroy()
+	self.super:destroy()
+end
+
 Bullet:virtual("update")
 Bullet:virtual("recycle")
