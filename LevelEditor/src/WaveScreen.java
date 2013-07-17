@@ -1,4 +1,4 @@
-package waveEditorPackage;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -23,7 +23,6 @@ import java.nio.file.Path;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
