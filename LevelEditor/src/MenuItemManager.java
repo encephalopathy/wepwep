@@ -19,13 +19,17 @@ public class MenuItemManager {
 		
 	}
 	
-	public void CreateWaveMenuItem(JMenu menu, String name){
-		JMenuItem newItem = new JMenuItem(name);
+	public static void CreateWaveMenuItem(final JMenu menu, final Wave newWave){
+		//String timeString = "" + newWave.time;
+		JMenuItem newItem = new JMenuItem(String.valueOf(newWave.time));
 		menu.add(newItem);
 		newItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               //enemyChoiceMenu.setText("Honkey");
+	        	   //String timeString = "" + newWave.time;
+	        	   menu.setText(String.valueOf(newWave.time));
+	        	   newWave.loadWave();
 	          }
 		});
 
