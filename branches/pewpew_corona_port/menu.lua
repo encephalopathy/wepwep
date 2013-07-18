@@ -42,6 +42,12 @@ local function onDefaultRelease()
 	return true
 end
 
+-- Slider listener
+--local function sliderListener( event )
+--   local slider = event.target
+--    local value = event.value
+--end
+
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 -- 
@@ -75,7 +81,7 @@ function scene:createScene( event )
 		display.contentHeight - 225,onWeaponShopButtonRelease)
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
 		display.contentHeight - 75, onEquipButtonRelease)
-	
+    slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 	--playButton:setReferencePoint( display.CenterReferencePoint )
 	--playButton.x = display.contentWidth*0.5
 	--playButton.y = display.contentHeight - 125
@@ -87,6 +93,7 @@ function scene:createScene( event )
 	group:insert( weaponShopButton )
 	group:insert( equipRideButton )
 	group:insert( playButton )
+    group:insert(slider)
 end
 
 -- Called immediately after scene has moved onscreen:
@@ -117,6 +124,11 @@ function scene:destroyScene( event )
 		weaponShopButton:removeSelf()
 		weaponShopButton = nil
 	end
+    if slider then
+        slider:removeSelf()
+        slider = nil
+    end    
+    
 end
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION

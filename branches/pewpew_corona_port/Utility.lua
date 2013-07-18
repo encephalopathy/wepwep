@@ -27,3 +27,10 @@ function createBttn(widget, display, labelName, x, y, onReleaseCallback)
 
 	return newGameButton
 end
+
+
+-- Slider listener
+local function sliderListener( event )
+    local slider = event.target
+    local value = event.value
+end
