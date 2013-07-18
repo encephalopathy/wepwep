@@ -42,11 +42,18 @@ public class WaveScreen extends JFrame {
 	private JPanel EnemyPlacementGrid;
 	//private
 	private List<String> enemyList = new ArrayList<String>();
+	private List<Enemy> enemyObjectList = new ArrayList<Enemy>(); //holds the enemyObject that are created
 	private List<String> waveList = new ArrayList<String>();
 	private List<String> aiList = new ArrayList<String>();
 	private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
-	public String seletedEnemy = "enemy";
+	public String selectedEnemy = "enemy";
+	
+	public final int enemyGridBorderTop = 200; //
+	public final int enemyGridBorderLeft = 200; //
+	public final int enemyGridBorderBottom = 200; 
+	public final int enemyGridBorderRight = 200; 
+	
 
 	/**
 	 * Launch the application.
@@ -87,18 +94,31 @@ public class WaveScreen extends JFrame {
 		//File enemyFile = new File(enemyFile, );
 		setTitle("Wave Editor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 400);
+		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderTop))); //size of the entire frame
+		setResizable(false);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
 		
 		/*
 		 * This is the Grid where enemies will be placed. When clicked an enemy will be placed down on the location of the mouse.
 		 */
 		EnemyPlacementGrid = new JPanel();
 		EnemyPlacementGrid.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			//@Override
+			public int mouseX;
+			public int mouseY;
+			public void mouseClicked(MouseEvent arg0) { //what happens when you click in the EnemyPlacementGrid
+				System.out.println("Correct Area for placement");
+				mouseX = arg0.getX();
+				mouseY = arg0.getY();
+				System.out.println("X:" + mouseX + ", Y:" + mouseY );
+				Enemy newEnemy = new Enemy(mouseX, mouseY);
+				System.out.println("newEnemy object: " + newEnemy);
+				enemyObjectList.add(newEnemy);
+				System.out.println("The enemyObjectList is: " + enemyObjectList.size());
 			}
 		});
 		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
@@ -113,10 +133,12 @@ public class WaveScreen extends JFrame {
 			}
 		});
 		EnemyPlacementGrid.setToolTipText("Put shit in here");
-		EnemyPlacementGrid.setBackground(new Color(152, 251, 152));
-		EnemyPlacementGrid.setBorder(new EmptyBorder(5, 5, 5, 5));
+		EnemyPlacementGrid.setBackground(new Color(152, 251, 152)); //creates the green part
+		EnemyPlacementGrid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
 		EnemyPlacementGrid.setLayout(new BorderLayout(0, 0));
 		setContentPane(EnemyPlacementGrid);
+		
+		//creating a new panel called GameScreen
 		
 		JPanel GameScreen = new JPanel();
 		GameScreen.setBounds(new Rectangle(0, 0, 400, 600));
@@ -124,7 +146,8 @@ public class WaveScreen extends JFrame {
 		GameScreen.setToolTipText("Don't put shit in here");
 		GameScreen.setBorder(null);
 		GameScreen.setBackground(Color.BLACK);
-		EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER);
+		EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); //places it on top of EnemyPlacementGrid
+		
 		
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
@@ -146,19 +169,20 @@ public class WaveScreen extends JFrame {
 		
 		final JMenu enemyChoiceMenu = new JMenu("Enemy");
 		menuBar.add(enemyChoiceMenu);
+		
+		//adding in Honkey enemy option
 		JMenuItem HonkeyItem = new JMenuItem("Honkey");
 		enemyChoiceMenu.add(HonkeyItem);
-		
 		HonkeyItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               enemyChoiceMenu.setText("Honkey");
 	          }
 	       });
+		
+		//adding in Redneck enemy option
 		JMenuItem RedneckItem = new JMenuItem("Redneck");
-		
 		enemyChoiceMenu.add(RedneckItem);
-		
 		RedneckItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
@@ -175,4 +199,6 @@ public class WaveScreen extends JFrame {
 	public void PrintToFile(String filename){
 		
 	}
+	
+	
 }
