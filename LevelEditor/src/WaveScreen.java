@@ -1,6 +1,7 @@
 
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.util.List;
 import java.util.ArrayList;
@@ -21,7 +22,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.file.Path;
 
+import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JMenu;
@@ -36,6 +39,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JTextPane;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JInternalFrame;
 
 public class WaveScreen extends JFrame {
 
@@ -115,7 +121,7 @@ public class WaveScreen extends JFrame {
 		EnemyPlacementGrid.setToolTipText("Put shit in here");
 		EnemyPlacementGrid.setBackground(new Color(152, 251, 152));
 		EnemyPlacementGrid.setBorder(new EmptyBorder(5, 5, 5, 5));
-		EnemyPlacementGrid.setLayout(new BorderLayout(0, 0));
+		EnemyPlacementGrid.setLayout(new BorderLayout(100, 50));
 		setContentPane(EnemyPlacementGrid);
 		
 		JPanel GameScreen = new JPanel();
@@ -124,7 +130,12 @@ public class WaveScreen extends JFrame {
 		GameScreen.setToolTipText("Don't put shit in here");
 		GameScreen.setBorder(null);
 		GameScreen.setBackground(Color.BLACK);
+		GameScreen.setPreferredSize(new Dimension(400,600));
+		//Dimension a = new Dimension(12,7);
 		EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER);
+		GameScreen.setLayout(new BoxLayout(GameScreen, BoxLayout.X_AXIS));
+		
+        
 		
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
