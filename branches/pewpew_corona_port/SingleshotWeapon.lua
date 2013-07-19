@@ -4,17 +4,17 @@ Singleshot = Weapon:subclass("Singleshot")
 
 local BULLET_VELOCITY = 200
 
-function Singleshot:init (sceneGroup, rateOfFire, bulletVelocity)
+function Singleshot:init (sceneGroup, rateOfFire, bulletSpeed)
    if rateOfFire == nil then
      rateOfFire = 25
    end
    
    self.super:init(sceneGroup, "sprites/bullet_02.png", rateOfFire)
    
-   if bulletVelocity == nil then
-		self.originalBulletVelocity = BULLET_VELOCITY 
+   if bulletSpeed == nil then
+		self.bulletSpeed = BULLET_VELOCITY 
    else
-		self.bulletVelocity = bulletVelocity
+		self.bulletSpeed = bulletSpeed
    end
    --self.soundPath = 'laser.ogg'
    --singleShotSFX = MOAIUntzSound.new()
@@ -32,17 +32,33 @@ end
 	muzzleFlare:play("explode")
 end]]--
 
-function Singleshot:calibrateMuzzleFlare(ammo, rotationAngle)
-	local muzzleLocX = self.muzzleLocation.x
-	local muzzleLocY = self.muzzleLocation.y
-	if rotationAngle ~= 0 then	
-		muzzleLocX = muzzleLocX * math.cos(math.rad(rotationAngle)) - muzzleLocX * math.sin(math.rad(rotationAngle))
-		muzzleLocY = muzzleLocY * math.sin(math.rad(rotationAngle)) + muzzleLocY * math.cos(math.rad(rotationAngle))
-	end
+--[[
+	FUNCTION NAME: calibrateMuzzleFlare
 	
-	ammo.sprite.x = self.owner.sprite.x + muzzleLocX
-	ammo.sprite.y = self.owner.sprite.y + muzzleLocY
-	return ammo
+	DESCRIPTION: Responsible for moving the object to the x and y location in the world
+	
+	PARAMETERS:
+		@muzzleLocX: The location of the x coordinate of the muzzle of the gun.
+		@muzzleLocY: The location of the y coordinate of the muzzle of the gun.
+		@bullet: The bullet that is to be fired by the gun.
+		@rotationAngle: An angle defined in radians that determines the rotation of the gun tip.
+	@RETURN: bullet
+]]--
+function Singleshot:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, bullet, rotationAngle)
+	if rotationAngle ~= 0 then	
+		--[[To rotate the vector locally, we multipy it by a rotation matrix around the origin(Top-left hand of the screen) then 
+			translate the rotated vector back to the its local origin, the location where that particular vector was located at.
+		]]--
+		muzzleLocX = muzzleLocX + muzzleLocX * math.cos(rotationAngle) - muzzleLocY * math.sin(rotationAngle)
+		muzzleLocY = muzzleLocY + muzzleLocY * math.cos(rotationAngle) + muzzleLocX * math.sin(rotationAngle)
+	end
+	bullet.sprite.rotation = math.deg(rotationAngle)
+	bullet.sprite.x = self.owner.sprite.x + muzzleLocX
+	bullet.sprite.y = self.owner.sprite.y + muzzleLocY
+end
+
+function Singleshot:calculateBulletVelocity(rotationAngle)
+	return { x = self.bulletSpeed * -math.sin(rotationAngle), y = self.bulletSpeed * math.cos(rotationAngle) }
 end
 
 function Singleshot:fire(player)
@@ -50,26 +66,13 @@ function Singleshot:fire(player)
 	
 	if self:canFire() then
 		
-		local ammo = self:getNextShot()
-		if ammo then  --you are allowed to shoot
+		local bullet = self:getNextShot()
+		if bullet then  --you are allowed to shoot
+			local rotationAngle = math.rad(self.owner.sprite.rotation)
 			
-			--ammo.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
-			--ammo.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-			local rotationAngle = self.owner.sprite.rotation
-			
-			ammo.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
-			ammo.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-			
-			--print(self.owner.sprite.rotation)
-			--local unitHeight = (height/math.sqrt(width*width+height*height))
-			--ammo.sprite.rotation = (180/math.pi) * math.acos(unitHeight)
-			local xVelocity = self.bulletVelocity * math.sin(math.rad(rotationAngle))
-			local yVelocity = self.bulletVelocity * math.cos(math.rad(rotationAngle))
-			
-			--print('xVelocity ' .. xVelocity)
-			--print('yVelocity ' .. yVelocity)
-			--local test = math.sqrt(xVelocity*xVelocity + yVelocity*yVelocity)
-			ammo:fire(xVelocity, yVelocity)
+			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, bullet, rotationAngle)
+			local bulletVelocity = self:calculateBulletVelocity(rotationAngle)
+			bullet:fire(bulletVelocity.x, bulletVelocity.y)
 			--powah stuff
 			--player.powah = player.powah - self.energyCost
 			

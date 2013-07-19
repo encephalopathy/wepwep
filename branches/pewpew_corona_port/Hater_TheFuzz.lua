@@ -70,10 +70,11 @@ end
 
 function Hater_TheFuzz:fire()
 	if self.alive == true then
+		self.super:fire()
 		--if player.sprite.y >= self.sprite.y then
 		--	self.super:fire()
 		--else
-			local player = self.playerRef
+			--[[local player = self.playerRef
 			local haterToPlayerDist = math.sqrt(
 				(player.sprite.x - self.sprite.x) * (player.sprite.x - self.sprite.x)
 				+ (player.sprite.y - self.sprite.y) * (player.sprite.y - self.sprite.y)
@@ -94,7 +95,7 @@ function Hater_TheFuzz:fire()
 				newBullet:fire(playerDirectionX * 500, playerDirectionY * 500)
 				newBullet.alive = true
 				Queue.insertFront(self.bulletsInView, newBullet)
-			end
+			end]]--
 		--end
 		
 	end

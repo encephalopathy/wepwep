@@ -110,6 +110,8 @@ function Weapon:canFire()
 	end
 end
 
+
+
 function Weapon:getNextShot(numberOfShots)
 	
 	if self.ammo.size > 0 then

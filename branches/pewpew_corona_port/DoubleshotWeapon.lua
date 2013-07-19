@@ -21,16 +21,26 @@ end
 
 function Doubleshot:fire (player)
 	if self:canFire() then
-		local ammo = self:getNextShot()
-		local ammo2 = self:getNextShot()
-		if ammo and ammo2 then
-			ammo.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-			ammo.sprite.x = self.owner.sprite.x + self.muzzleLocation.x + self.bulletSeperationDistance
+		local bullet = self:getNextShot()
+		local bullet2 = self:getNextShot()
+		if bullet and bullet2 then
+			 local rotationAngle = math.rad(self.owner.sprite.rotation)
+			--bullet.sprite.x = self.owner.sprite.x + self.muzzleLocation.x + self.bulletSeperationDistance
+			--bullet.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 			
-			ammo2.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-			ammo2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x - self.bulletSeperationDistane
-			ammo:fire(0, self.bulletVelocity)
-			ammo2:fire(0, self.bulletVelocity)
+			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, bullet, rotationAngle)
+			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, bullet2, rotationAngle)
+			
+			
+			--bullet2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x - self.bulletSeperationDistance
+			--bullet2.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
+			
+			local bulletVelocity = self:calculateBulletVelocity(rotationAngle)
+			
+			--bullet:fire(0, self.bulletVelocity)
+			--bullet2:fire(0, self.bulletVelocity)
+			bullet:fire(bulletVelocity.x, bulletVelocity.y)
+			bullet2:fire(bulletVelocity.x, bulletVelocity.y)
 			
 			--powah stuff
 			--player.powah = player.powah - self.energyCost
