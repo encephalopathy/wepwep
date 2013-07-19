@@ -21,11 +21,11 @@ function Inventory:init (scene)
 
    -- keep all the weapons in a master list
    self.Weapons = {}
-   self.Weapons[1] = Singleshot:new(scene)
+   self.Weapons[1] = Singleshot:new(scene, 25, -200)
    self.Weapons[2] = Spreadshot:new(scene)
    self.Weapons[3] = SineWave:new(scene)
    self.Weapons[4] = HomingShot:new(scene)
-   self.Weapons[5] = Doubleshot:new(scene) 
+   self.Weapons[5] = Doubleshot:new(scene, 25, -200, 7) 
    --self.scene = scene
    
    self.dollaz = 5000
@@ -69,7 +69,7 @@ function Inventory:equipPrimaryWeapon(player, sceneGroup)
 		--self.player = player
 		
 		--Choose the spawn location based on the ship later
-		weapon:load(40, sceneGroup, { 0, 100 })
+		weapon:load(40, sceneGroup, { 0, -100 }, true)
    end
 	player.weapon = weapon
 end
@@ -90,15 +90,6 @@ end
 function Inventory:selectSecondaryWeapon(weaponNumber)
    self.equippedSecondaryWeapon = weaponNumber
 end
-
---[[function Inventory:checkBullets(haterList)
-   self.equippedGameWeapon:checkBullets(haterList)
-end
-
-function Inventory:checkBombs(haterList)
-   self.equippedSecondaryGameWeapon:checkBombs(haterList)
-end
-]]--
 
 function Inventory:unequip(player)
 	player.weapon.owner = nil

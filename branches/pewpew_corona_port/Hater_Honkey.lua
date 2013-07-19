@@ -1,5 +1,5 @@
 require("Hater")
-
+require("SingleshotWeapon")
 --[[
 	This is a speific type of enemy, it moves at regular speed with a regular shot.
 	It is intended to move in a curve from the top of the screen to one of the sides
@@ -18,6 +18,10 @@ function Hater_Honkey:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.sprite.objRef = self 
 	self.health = 1
 	self.maxHealth = 1
+end
+
+function Hater_Honkey:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
 end
 
 function Hater_Honkey:move(x, y)
@@ -43,8 +47,10 @@ function Hater_Honkey:update()
    end
    if self.alive then
 	self:move(0,3)
-	if (step % 90 == 0 and self.alive == true) then
+	--if (step % 90 == 0 and self.alive == true) then
+	if self.alive == true then
 		self:fire()						
-	end
+	end					
+	--end
    end
 end

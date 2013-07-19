@@ -24,6 +24,10 @@ function Hater_TheFuzz:init(sceneGroup, imgSrc, x, y, rotation, width, height, p
 	self.moveYDirection = 1
 end
 
+function Hater_TheFuzz:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_TheFuzz:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
@@ -60,9 +64,7 @@ function Hater_TheFuzz:update()
 	self.sprite.rotation = rotAngle
 	self:move(speed*unitWidth,speed*unitHeight)
 	
-	if (step % 90 == 0) then
-		self:fire()						
-	end
+	self:fire()						
    end
 end
 

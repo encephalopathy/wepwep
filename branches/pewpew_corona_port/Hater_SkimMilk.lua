@@ -22,6 +22,10 @@ function Hater_SkimMilk:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.maxHealth = 2
 end
 
+function Hater_SkimMilk:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_SkimMilk:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
@@ -48,8 +52,8 @@ function Hater_SkimMilk:update()
 		else
 			self:move(0,4)
 		end
-		if (step % 90 == 0 ) then
+		if self.alive == true then
 			self:fire()						
-		end
+		end					
 	end
 end

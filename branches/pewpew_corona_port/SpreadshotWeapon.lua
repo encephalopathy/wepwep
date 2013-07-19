@@ -7,13 +7,35 @@ FIRING_ANGLE = 60
 BETWEEN = 3 -- space between bullets
 BULLET_SIZEZ = 5
 
-function Spreadshot:init (sceneGroup)
+function Spreadshot:init (sceneGroup, rateofFire, bulletVelocity, numberOfShots, firingAngle)
 
-   self.super:init(sceneGroup, "sprites/bullet_06.png", 15)
+	if rateOfFire == nil then
+		rateOfFIre = 15
+	end
+
+   self.super:init(sceneGroup, "sprites/bullet_06.png", rateOfFire)
    --self.fireCount = fireCount
    --self.soundPath = 'pew.ogg'
    --spreadShotSFX = MOAIUntzSound.new()
    --spreadShotSFX:load('pew.ogg')
+   if bulletVelocity ~= nil then
+	  self.bulletVelocity = bulletVelocity
+   else
+	  self.bulletVelocity = -200
+   end
+   
+   if numberOfShots ~= nil then
+	  self.numberOfShots = numberOfShots
+   else
+	  self.numberOfShots = NUM_SHOTS
+   end
+   
+   if firingAngle ~= nil then
+     self.firingAngle = firingAngle
+   else
+     self.firingAngle = FIRING_ANGLE
+   end
+   
    self.energyCost = 20
 end
 

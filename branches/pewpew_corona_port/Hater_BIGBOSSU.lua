@@ -23,6 +23,10 @@ function Hater_BIGBOSSU:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.maxHealth = 50
 end
 
+function Hater_BIGGBOSSU:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_BIGBOSSU:move(x, y)
 	--[[
 		This fool ominously floats down to the top of the screen and then oscillates left and right

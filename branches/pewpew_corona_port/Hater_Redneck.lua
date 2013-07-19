@@ -22,6 +22,10 @@ function Hater_Redneck:init(sceneGroup, imgSrc, x, y, rotation, width, height, s
 	self.maxHealth = 1
 end
 
+function Hater_Redneck:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_Redneck:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
@@ -62,8 +66,8 @@ function Hater_Redneck:update()
 		self:move(2,0)
 	end
 	
-	if (step % 90 == 0 and self.alive == true) then
-			self:fire()						
+	if self.alive == true then
+		self:fire()						
 	end
 	
 end

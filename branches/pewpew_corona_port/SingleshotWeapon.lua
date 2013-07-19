@@ -2,12 +2,20 @@ require("Weapon")
 require("Bullet")
 Singleshot = Weapon:subclass("Singleshot")
 
-NUM_SHOTS = 5
-FIRING_ANGLE = 60
-BULLET_VELOCITY = 200
+local BULLET_VELOCITY = 200
 
-function Singleshot:init (sceneGroup)
-   self.super:init(sceneGroup, "sprites/bullet_02.png", 25)
+function Singleshot:init (sceneGroup, rateOfFire, bulletVelocity)
+   if rateOfFire == nil then
+     rateOfFire = 25
+   end
+   
+   self.super:init(sceneGroup, "sprites/bullet_02.png", rateOfFire)
+   
+   if bulletVelocity == nil then
+		self.originalBulletVelocity = BULLET_VELOCITY 
+   else
+		self.bulletVelocity = bulletVelocity
+   end
    --self.soundPath = 'laser.ogg'
    --singleShotSFX = MOAIUntzSound.new()
    --singleShotSFX:load('laser.ogg')
@@ -24,15 +32,44 @@ end
 	muzzleFlare:play("explode")
 end]]--
 
+function Singleshot:calibrateMuzzleFlare(ammo, rotationAngle)
+	local muzzleLocX = self.muzzleLocation.x
+	local muzzleLocY = self.muzzleLocation.y
+	if rotationAngle ~= 0 then	
+		muzzleLocX = muzzleLocX * math.cos(math.rad(rotationAngle)) - muzzleLocX * math.sin(math.rad(rotationAngle))
+		muzzleLocY = muzzleLocY * math.sin(math.rad(rotationAngle)) + muzzleLocY * math.cos(math.rad(rotationAngle))
+	end
+	
+	ammo.sprite.x = self.owner.sprite.x + muzzleLocX
+	ammo.sprite.y = self.owner.sprite.y + muzzleLocY
+	return ammo
+end
+
 function Singleshot:fire(player)
 	self.super:fire()
 	
 	if self:canFire() then
+		
 		local ammo = self:getNextShot()
 		if ammo then  --you are allowed to shoot
-			ammo.sprite.y = self.owner.sprite.y - self.muzzleLocation.y
-			ammo.sprite.x = self.owner.sprite.x
-			ammo:fire(0, -BULLET_VELOCITY)
+			
+			--ammo.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
+			--ammo.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
+			local rotationAngle = self.owner.sprite.rotation
+			
+			ammo.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
+			ammo.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
+			
+			--print(self.owner.sprite.rotation)
+			--local unitHeight = (height/math.sqrt(width*width+height*height))
+			--ammo.sprite.rotation = (180/math.pi) * math.acos(unitHeight)
+			local xVelocity = self.bulletVelocity * math.sin(math.rad(rotationAngle))
+			local yVelocity = self.bulletVelocity * math.cos(math.rad(rotationAngle))
+			
+			--print('xVelocity ' .. xVelocity)
+			--print('yVelocity ' .. yVelocity)
+			--local test = math.sqrt(xVelocity*xVelocity + yVelocity*yVelocity)
+			ammo:fire(xVelocity, yVelocity)
 			--powah stuff
 			--player.powah = player.powah - self.energyCost
 			

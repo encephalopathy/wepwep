@@ -31,7 +31,6 @@ function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, 
 	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
 	self.health = 0
 	self.powah = powah
-	
 	self:createExplosionSpriteSheet(sceneGroup, { width = 64, height = 64, numFrames = 16, sheetContentWidth = 256, sheetContentHeight = 256 } )
 	self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, shipPieces)
 end

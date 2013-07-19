@@ -1,5 +1,6 @@
 require("Object")
 require("Queue")
+require("Utility")
 require("SineWaveBullet")
 Weapon = newclass("Weapon")
 
@@ -11,7 +12,7 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
     self.sceneGroup = sceneGroup
 	self.rateOfFire = rateOfFire
 	self.fireAttempts = 0
-	
+	self.ownerIsPlayer = ownerIsPlayer
 	
 	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
@@ -26,10 +27,12 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
 end
 
 --Should eventually load from a static list of bullets, the type of Bullet SHOULD be specified by the weapon
-function Weapon:load(amount, sceneGroup, spawnVector)
-   if (not isLoaded) then
+function Weapon:load(amount, sceneGroup, spawnVector, isPlayerBullet, width, height)
+   width = 50 or width
+   height = 50 or height
+   if (not self.isLoaded) then
    	for i = 1, amount, 1 do
-	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, true, 5000, i*5000, 0, 50, 50))
+	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, isPlayerBullet, 5000, i*5000, 0, width, height))
    	end
    end
    self:setMuzzleLocation(spawnVector)
@@ -38,16 +41,14 @@ end
 
 function Weapon:equip(owner)
 	owner.weapon = self
-	self.owner = owner
 end
 
 function Weapon:setMuzzleLocation(spawnVector)
 	if spawnVector ~= nil then
-		spawnVector = { x = spawnVector[1], y = spawnVector[1], magnitude = math.sqrt(spawnVector[1]*spawnVector[1] + spawnVector[2]*spawnVector[2]) }
+		self.muzzleLocation = { x = spawnVector[1], y = spawnVector[2], magnitude = math.sqrt(spawnVector[1]*spawnVector[1] + spawnVector[2]*spawnVector[2]) }
 	else
-		--print('Muzzle Location not set for ' .. self.name())
+		self.muzzleLocation = { x = 0, y = 0, magnitude = 1 }
 	end
-	self.muzzleLocation = spawnVector
 end
 
 function Weapon:unload()
@@ -74,19 +75,13 @@ function Weapon:checkBullets()
    local shotsFired = bulletList.size
    for i = 1, shotsFired, 1 do
       local bullet = Queue.removeBack(bulletList)
-      -- Check for bullets on sine wave path
-      --if (bullet.isSine) then
-      --   moveSineBullet(bullet)
-      --end
       
       -- Check for bullets that are out of bounds
       self:cacheAmmoIfOutofBounds(bullet)
-      
       -- Check for homing bullets
       --if (bullet.isHoming) then
       --   moveHomingBullet(bullet, haterList)
       --end
-      
    end
 end
 
@@ -105,16 +100,8 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
 	end
 end
 
-function Weapon:debugPrintBulletList()
-	for i = 1, 20, 1 do
-		print('i: ' .. i)
-		print(self.ammo[i].sprite)
-		print('x: ' .. self.ammo[i].sprite.x)
-		print('y: ' .. self.ammo[i].sprite.y)
-	end
-end
-
 function Weapon:canFire()
+	--print(self.ammo.size)
 	if self.rateOfFire - self.fireAttempts == 0 then
 		self.fireAttempts = 0
 		return true
@@ -123,10 +110,12 @@ function Weapon:canFire()
 	end
 end
 
-function Weapon:getNextShot(numberOfShots)	
+function Weapon:getNextShot(numberOfShots)
+	
 	if self.ammo.size > 0 then
 		local ammo = Queue.removeBack(self.ammo) 
 		self.fireAttempts = self.fireAttempts + 1
+		
 		if ammo.alive == false then
 			ammo.alive = true
 			Queue.insertFront(self.firedAmmo, ammo)
@@ -139,6 +128,6 @@ end
 
 function Weapon:fire()
 	--if self.owner then
-		self.fireAttempts = self.fireAttempts + 1
+	self.fireAttempts = self.fireAttempts + 1
 	--end
 end
