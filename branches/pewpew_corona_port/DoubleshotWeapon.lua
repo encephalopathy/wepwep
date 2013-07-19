@@ -28,8 +28,8 @@ function Doubleshot:fire (player)
 			--bullet.sprite.x = self.owner.sprite.x + self.muzzleLocation.x + self.bulletSeperationDistance
 			--bullet.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 			
-			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, bullet, rotationAngle)
-			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, bullet2, rotationAngle)
+			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet2, rotationAngle)
 			
 			
 			--bullet2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x - self.bulletSeperationDistance

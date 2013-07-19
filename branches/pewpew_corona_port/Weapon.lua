@@ -110,7 +110,31 @@ function Weapon:canFire()
 	end
 end
 
-
+--[[
+	FUNCTION NAME: calibrateMuzzleFlare
+	
+	DESCRIPTION: Responsible for moving the object to the x and y location in the world
+	
+	PARAMETERS:
+		@muzzleLocX: The location of the x coordinate of the muzzle of the gun.
+		@muzzleLocY: The location of the y coordinate of the muzzle of the gun.
+		@bullet: The bullet that is to be fired by the gun.
+		@owner: The owner of the gun, we need to pass this field in so we know which ship is firing the gun.
+		@rotationAngle: An angle defined in radians that determines the rotation of the gun tip.
+	@RETURN: bullet
+]]--
+function Weapon:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, owner, bullet, rotationAngle)
+	if rotationAngle ~= 0 then	
+		--[[To rotate the vector locally, we multipy it by a rotation matrix around the origin(Top-left hand of the screen) then 
+			translate the rotated vector back to the its local origin, the location where that particular vector was located at.
+		]]--
+		muzzleLocX = muzzleLocX + muzzleLocX * math.cos(rotationAngle) - muzzleLocY * math.sin(rotationAngle)
+		muzzleLocY = muzzleLocY + muzzleLocY * math.cos(rotationAngle) + muzzleLocX * math.sin(rotationAngle)
+	end
+	bullet.sprite.rotation = math.deg(rotationAngle)
+	bullet.sprite.x = owner.sprite.x + muzzleLocX
+	bullet.sprite.y = owner.sprite.y + muzzleLocY
+end
 
 function Weapon:getNextShot(numberOfShots)
 	
