@@ -105,7 +105,6 @@ function MoveableObject:destroy()
 		self.sprite:removeEventListener("collision", self.sprite)
 		self.sprite.collision = nil
 		self.sprite:removeSelf()
-		self.sprite.reference = nil
 		self.objRef = nil
 		self.sprite = nil
 	end
