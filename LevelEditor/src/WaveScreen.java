@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.InputMethodListener;
@@ -35,17 +37,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JTextPane;
 
 public class WaveScreen extends JFrame {
 
 	private JPanel EnemyPlacementGrid;
 	//private
-	private static List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
+	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
+	private Wave currentWave = new Wave(null, 0);
 	private List<Wave> waveList = new ArrayList<Wave>();
 	private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
+	JMenu WaveMenu = new JMenu();
 	
 	public final int enemyGridBorderTop = 200; //
 	public final int enemyGridBorderLeft = 200; //
@@ -56,7 +61,7 @@ public class WaveScreen extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void SetEnemyList(List<Enemy> newList){
+	public void SetEnemyList(List<Enemy> newList){
 		currentEnemyList = newList;
 	}
 	
@@ -166,14 +171,15 @@ public class WaveScreen extends JFrame {
 		JMenu LevelMenu = new JMenu("Level");
 		menuBar.add(LevelMenu);
 		
-		final JMenu WaveMenu = new JMenu("Wave");
+		WaveMenu = new JMenu("Wave");
 		JMenuItem newWaveItem = new JMenuItem("New Wave");
 		newWaveItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	        	   Wave w = new Wave(null, 0);
 	               waveList.add(w);
-	               MenuItemManager.CreateWaveMenuItem(WaveMenu, w);
+	               CreateWaveMenuItem();
+	               System.out.println("Wave: " + w);
 	          }
 		});
 		WaveMenu.add(newWaveItem);
@@ -206,6 +212,42 @@ public class WaveScreen extends JFrame {
 	
 	//public 
 
+	}
+	
+	public void CreateWaveMenuItem(){
+		//String timeString = "" + newWave.time;
+		final JMenuItem newItem = new JMenuItem(String.valueOf(currentWave.time));
+		WaveMenu.add(newItem);
+		newItem.addActionListener(new ActionListener() {
+	           @Override
+	           public void actionPerformed(ActionEvent event) {
+	               //enemyChoiceMenu.setText("Honkey");
+	        	   //String timeString = "" + newWave.time
+	        	   String s = newItem.getText();
+	        	   Search(s);
+	        	   WaveMenu.setText(String.valueOf(currentWave.time));
+	        	   //newWave.loadWave();
+	        	   System.out.println("Current Wave: " + currentWave);
+	          }
+		});
+	}
+	
+	public void Search(String s)
+	{
+		System.out.println("IN");
+		System.out.println(waveList.size());
+		int time = Integer.parseInt(s); //this is how you convert a sting to an int! just so you know...
+		System.out.println("YEEEEAAAAAHHHHHH");
+		for(int i = 0; i < waveList.size(); i++)
+		{
+			Wave w = waveList.get(i);
+			//.get(i) does not work
+			System.out.println("IN IN");
+			if (waveList.get(i).time == time)
+			{
+				currentWave = waveList.get(i);
+			}
+		}
 	}
 	
 	public void PrintToFile(String filename){
