@@ -6,7 +6,7 @@ local BULLET_VELOCITY = 200
 
 function Singleshot:init (sceneGroup, rateOfFire, bulletSpeed)
    if rateOfFire == nil then
-     rateOfFire = 25
+     rateOfFire = 50
    end
    
    self.super:init(sceneGroup, "sprites/bullet_02.png", rateOfFire)

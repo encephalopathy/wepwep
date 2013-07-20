@@ -164,7 +164,11 @@ local function update(event)
 		player.sprite.x = 4000
 		player.sprite.y = 4000
 	end
-	
+	if(player.isFiring) then 
+		player:fire()
+	else
+		player:regeneratePowah()
+	end
 	AIDirector.update()
 	player:cullBulletsOffScreen()
 --	updateParticleEmitters()
