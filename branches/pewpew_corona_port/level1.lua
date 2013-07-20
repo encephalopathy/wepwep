@@ -55,7 +55,6 @@ local function updateBackground()
 	end
 end
 
-
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
@@ -66,7 +65,7 @@ function scene:createScene( event )
 	background.x, background.y = 225, 0
 	group:insert( background )
 	
-	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 315, 100, 100)
+	player = Player:new(group, "sprites/player_01edges.png", display.contentWidth / 2, display.contentHeight / 2, 315, 100, 100)
 	
 	--mainInventory:equipRig(player, sceneGroup)
 	

@@ -115,7 +115,7 @@ function Ride:onHit(phase, collide)
 		--print( self.myName .. ": collision began with " .. event.other.myName )
 		--print('Collided began')
 	if self.health <= 0 then
-		if phase == "ended" then
+		if phase == "begin" and self.alive then
 			self:die()
 		end
 	end
@@ -134,19 +134,6 @@ function Ride:afterExplosion()
 		self.target.isVisible = false
 	end
 	
-end
-
-function tprint (tbl, indent)
-  if not indent then indent = 0 end
-  for k, v in pairs(tbl) do
-    formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
-      print(formatting)
-      tprint(v, indent+1)
-    else
-      print(formatting .. v)
-    end
-  end
 end
 --[[
 	FUNCTION NAME: move
