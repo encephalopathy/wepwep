@@ -43,11 +43,11 @@ local function onDefaultRelease()
 	return true
 end
 
--- Slider listener
---local function sliderListener( event )
---   local slider = event.target
---    local value = event.value
---end
+--Slider listener
+local function sliderListener( event )
+   local slider = event.target
+    local value = event.value
+end
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION

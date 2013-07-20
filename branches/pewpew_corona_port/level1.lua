@@ -11,6 +11,9 @@ require("Player")
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
+-- include Corona's "widget" library
+local widget = require "widget"
+
 -- local variables
 local player = nil
 local background = nil
@@ -68,6 +71,25 @@ function scene:createScene( event )
 	
 	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
+local myButton = widget.newButton
+{
+   left = screenW - screenW*0.3,
+   top = screenH - screenH*0.15,
+   width = screenW*0.3,
+   height = screenH*0.2,
+   defaultFile = "sprites/backtomenu_unpressed.png",
+   overFile = "sprites/backtomenu_pressed.png",
+   label = "",
+   labelAlign = "center",
+   font = "Arial",
+   fontSize = 18,
+   labelColor = { default = {0,0,0}, over = {255,255,255} },
+   onRelease = back
+}
+myButton.baseLabel = ""
+
+group:insert( myButton )
+	
 	mainInventory:equipRig(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
@@ -75,6 +97,12 @@ function scene:createScene( event )
 
 end
 
+
+local function back()
+    audio.stop()
+	storyboard.gotoScene("menu", "fade", 500)
+	return true
+end
 
 
 -- Called immediately after scene has moved onscreen:
@@ -102,6 +130,10 @@ function scene:destroyScene( event )
 	
 	package.loaded[physics] = nil
 	physics = nil
+	if myButton then
+		myButton:removeSelf()	-- widgets must be manually removed
+		myButton = nil
+	end
 end
 
 function particleCoroutine (a)
