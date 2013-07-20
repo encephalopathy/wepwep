@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Wave {
 
-	int time = 0;
+	public int time = 0;
 	private List<Enemy> waveEnemyList = new ArrayList<Enemy>();
 	
 	public Wave(List<Enemy> list, int t){
@@ -12,10 +12,12 @@ public class Wave {
 		waveEnemyList = list;
 	}
 	
+	/*
 	public void loadWave(){
 		System.out.println("LOADED BITCHES");
 		WaveScreen.SetEnemyList(waveEnemyList);
 	}
+	*/
 	
 	public List<Enemy> getWave(){
 		return waveEnemyList;

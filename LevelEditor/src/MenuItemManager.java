@@ -29,7 +29,7 @@ public class MenuItemManager {
 	               //enemyChoiceMenu.setText("Honkey");
 	        	   //String timeString = "" + newWave.time;
 	        	   menu.setText(String.valueOf(newWave.time));
-	        	   newWave.loadWave();
+	        	   //newWave.loadWave();
 	          }
 		});
 
