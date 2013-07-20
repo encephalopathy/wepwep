@@ -42,6 +42,8 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	
 	if bodyType ~= nil then
 		physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter})
+		--physics.setDrawMode( "debug" )
+		physics.setDrawMode( "hybrid" )
 		if bodyType == "dynamic" then
 			sprite.isSensor = true
 		end
