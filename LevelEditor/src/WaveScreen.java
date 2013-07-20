@@ -165,6 +165,9 @@ public class WaveScreen extends JFrame {
 		JMenuItem SaveAsButton = new JMenuItem("Save As...");
 		FileMenu.add(SaveAsButton);
 		
+		JMenuItem SaveWaveButton = new JMenuItem("Save Wave...");
+		FileMenu.add(SaveWaveButton);
+		
 		JMenuItem OpenButton = new JMenuItem("Open...");
 		FileMenu.add(OpenButton);
 		
