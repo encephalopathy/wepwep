@@ -21,8 +21,8 @@ function SineWave:fire(player)
 	   local muzzleLocY = self.muzzleLocation.y
 		
 		
-	   self:calculateMuzzlecalibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet1, rotationAngle)
-	   self:calculateMuzzlecalibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet2, rotationAngle)
+	   self:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet1, rotationAngle)
+	   self:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet2, rotationAngle)
 	   --bullet1.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
 	   --bullet1.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 
@@ -43,7 +43,9 @@ function SineWave:fire(player)
 	   bullet1.time = 0
 	   bullet2.time = 0
 	   
+	   print('Bullet 1')
 	   bullet1:fire()
+	   print('Bullet 2')
 	   bullet2:fire()
 	   
 	   bullet1.amp = -50

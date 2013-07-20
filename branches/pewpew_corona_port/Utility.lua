@@ -39,6 +39,12 @@ function distance (x1, y1, x2, y2)
    return math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 end
 
+function rotate2DPoint(x0, y0, rotationAngle)
+	local rotatedX = x0 * math.cos(rotationAngle) - y0 * math.sin(rotationAngle)
+	local rotatedY = y0 * math.cos(rotationAngle) + x0 * math.sin(rotationAngle)
+	return { x = rotatedX, y = rotatedY }
+end
+
 function tprint (tbl, indent)
   if not indent then indent = 0 end
   for k, v in pairs(tbl) do

@@ -72,7 +72,7 @@ PARAMETERS:
 RETURN: VOID
 ]]--
 function Bullet:onHit(phase, collitor)
-	if phase == "ended" then
+	if phase == "begin" and self.alive then
 		if not collitor.type == "player" and self.isPlayerBullet then
 			if self.alive then
 				self.alive = false
