@@ -87,7 +87,7 @@ function scene:createScene( event )
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
-	local ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammo, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
+	local ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammoAmount, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
 	local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
 	local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
 	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
