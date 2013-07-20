@@ -14,6 +14,7 @@ local scene = storyboard.newScene()
 -- local variables
 local player = nil
 local background = nil
+local backgroundBuffer = nil
 local currentLevelNumber = 0
 step = 0
 
@@ -50,8 +51,13 @@ end
 -- scrolls background of gamestate
 local function updateBackground()
 	background.y = background.y + 10
-	if background.y >= 1250 then
-		background.y = 720
+	backgroundBuffer.y = backgroundBuffer.y + 10
+	--background.x = 10
+	--backgroundBuffer.x = 70
+	if background.y >= 3600 then
+		background.y = 0
+		backgroundBuffer.y = -3600
+--	background.y = background.y + 10
 	end
 end
 
@@ -65,6 +71,13 @@ function scene:createScene( event )
 	background:setReferencePoint( display.CenterReferencePoint )
 	background.x, background.y = 225, 0
 	group:insert( background )
+	
+	-- creates backdropBuffer of current game
+	backgroundBuffer = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
+	backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
+	backgroundBuffer.x, backgroundBuffer.y = 225, -3600
+	group:insert(  backgroundBuffer )
+	
 	
 	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
