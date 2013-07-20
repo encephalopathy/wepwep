@@ -58,7 +58,6 @@ function scene:createScene( event )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	
-	mainInventory = Inventory:new(group)
 	-- create/position logo/title image on upper-half of the screen
 	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
 	--titleLogo:setReferencePoint( display.CenterReferencePoint )
