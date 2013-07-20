@@ -198,7 +198,7 @@ function scene:createScene( event )
 	
 	--display.newText( string, left, top, font, size )
 	 dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
-	local ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammo, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
+	local ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammoAmount, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
 	local selltext = display.newText( "SELL MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
 	 confirmText = display.newText( "...",  display.contentWidth * 0.5,  display.contentHeight * 0.3, native.systemFont, 25 )
 	 denyText = display.newText( "That weapon is equipped and cannot be sold.",  display.contentWidth * 0.25,  display.contentHeight * 0.3, native.systemFont, 25 )

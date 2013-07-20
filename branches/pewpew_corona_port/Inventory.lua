@@ -123,7 +123,7 @@ end
 
 -- add ammo to all of the weapons
 function Inventory:addAmmo(numShots)
-   self.SecondaryWeapons[1].ammoAmount = self.SecondaryWeapons[1].ammo + numShots
-   self.SecondaryWeapons[2].ammoAmount = self.SecondaryWeapons[2].ammo + numShots
-   self.SecondaryWeapons[3].ammoAmount = self.SecondaryWeapons[3].ammo + numShots
+   self.SecondaryWeapons[1].ammoAmount = self.SecondaryWeapons[1].ammoAmountAmmount + numShots
+   self.SecondaryWeapons[2].ammoAmount = self.SecondaryWeapons[2].ammoAmountAmmount + numShots
+   self.SecondaryWeapons[3].ammoAmount = self.SecondaryWeapons[3].ammoAmountAmmount + numShots
 end
