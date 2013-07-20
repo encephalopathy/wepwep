@@ -61,7 +61,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	
-	--self:weaponEquipDebug()
+	self:weaponEquipDebug()
 	Player.player = self
 	self:setPlayerType()
 	--Player.MAX_MOVEMENT_X = self.width / 2
@@ -85,8 +85,8 @@ local function clampPlayerMovement(currentSpeed)
 end
 
 function Player:weaponEquipDebug() 
-	self.weapon = SineWave:new(sceneGroup)
-	self.weapon:load(100, sceneGroup, { 0, 100 })
+	self.weapon = Singleshot:new(scene, 25, -200, true) 
+	self.weapon:load(40, sceneGroup, { 0, -100 }, true)
 	self.weapon.owner = self
 end
 

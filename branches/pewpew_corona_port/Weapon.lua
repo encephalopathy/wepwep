@@ -128,8 +128,8 @@ function Weapon:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, owner, bullet, rota
 		--[[To rotate the vector locally, we multipy it by a rotation matrix around the origin(Top-left hand of the screen) then 
 			translate the rotated vector back to the its local origin, the location where that particular vector was located at.
 		]]--
-		muzzleLocX = muzzleLocX + muzzleLocX * math.cos(rotationAngle) - muzzleLocY * math.sin(rotationAngle)
-		muzzleLocY = muzzleLocY + muzzleLocY * math.cos(rotationAngle) + muzzleLocX * math.sin(rotationAngle)
+		local rotatedVector = rotate2DPoint(muzzleLocX, muzzleLocY, rotationAngle)
+		muzzleLocX, muzzleLocY = muzzleLocX + rotatedVector.x, muzzleLocX + rotatedVector.y
 	end
 	bullet.sprite.rotation = math.deg(rotationAngle)
 	bullet.sprite.x = owner.sprite.x + muzzleLocX

@@ -25,20 +25,12 @@ function Doubleshot:fire (player)
 		local bullet2 = self:getNextShot()
 		if bullet and bullet2 then
 			 local rotationAngle = math.rad(self.owner.sprite.rotation)
-			--bullet.sprite.x = self.owner.sprite.x + self.muzzleLocation.x + self.bulletSeperationDistance
-			--bullet.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 			
 			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet2, rotationAngle)
 			
-			
-			--bullet2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x - self.bulletSeperationDistance
-			--bullet2.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-			
 			local bulletVelocity = self:calculateBulletVelocity(rotationAngle)
 			
-			--bullet:fire(0, self.bulletVelocity)
-			--bullet2:fire(0, self.bulletVelocity)
 			bullet:fire(bulletVelocity.x, bulletVelocity.y)
 			bullet2:fire(bulletVelocity.x, bulletVelocity.y)
 			

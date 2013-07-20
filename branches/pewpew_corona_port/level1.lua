@@ -66,9 +66,9 @@ function scene:createScene( event )
 	background.x, background.y = 225, 0
 	group:insert( background )
 	
-	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
+	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 315, 100, 100)
 	
-	mainInventory:equipRig(player, sceneGroup)
+	--mainInventory:equipRig(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 	
