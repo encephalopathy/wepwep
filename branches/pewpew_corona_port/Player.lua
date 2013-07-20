@@ -52,8 +52,6 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.health = 10
 	self.powah = PLAYER_MAXPOWAH
 	
-	self.bombs = {}
-	self.heaters = {}
 	self.isFiring = false
 	
 	Runtime:addEventListener("touch", self.touch)
@@ -63,7 +61,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	
-	self:weaponEquipDebug()
+	--self:weaponEquipDebug()
 	Player.player = self
 	self:setPlayerType()
 	--Player.MAX_MOVEMENT_X = self.width / 2
@@ -88,11 +86,20 @@ end
 
 function Player:weaponEquipDebug() 
 	self.weapon = SineWave:new(sceneGroup)
-	self.weapon:load(100, sceneGroup)
+	self.weapon:load(100, sceneGroup, { 0, 100 })
 	self.weapon.owner = self
 end
 
-
+--[[
+	FUNCTION NAME: move
+	
+	DESCRIPTION: moves the player to the specified x and y location in the world if the player
+	is alive.
+	
+	PARAMETERS:
+		@x: x location of where the player is going to move to.
+		@y: y location of where the player is going to move to.
+]]--
 function Player.touch(event, player)
 	local player = 	Player.static.player
 	local playerSprite = player.sprite
@@ -138,44 +145,6 @@ function Player:cullBulletsOffScreen()
 	 --self.equippedSecondaryGameWeapon:checkBombs()
 end
 
-
---[[
-	FUNCTION NAME: move
-	
-	DESCRIPTION: moves the player to the specified x and y location in the world if the player
-	is alive.
-	
-	PARAMETERS:
-		@x: x location of where the player is going to move to.
-		@y: y location of where the player is going to move to.
-]]--
---[[function Player:touch(event)
-	print("omg you touch player")
-	local touchTarget = event.target
-	local phase = event.phase
-	
-	
-	if phase == "began" then
-		local parent = touchTarget.parent
-		parent:insert(touchTarget)
-		display.getCurrentStage():setFocus(touchTarget)
-		
-		touchTarget.isFocus = true
-		touchTarget.x0 = event.x - touchTarget.x
-		touchTarget.y0 = event.y - touchTarget.y
-	elseif touchTarget.isFocus then
-		if phase == "moved" then
-			touchTarget.x = event.x - touchTarget.x0
-			touchTarget.y = event.y - touchTarget.y0
-		elseif phase == "ended" or phase == "cancelled" then
-			display.getCurrentStage():setFocus(nil)
-			touchTarget.isFocus = false
-		end
-	end
-	
-	return true
-end]]--
-
 function Player:enterFrame(event)
 	--self:fire()
 end
@@ -183,7 +152,6 @@ end
 function Player:fire()
 	if self.alive ~= false then
 		self.weapon:fire(self)
-		
 	end
 end
 

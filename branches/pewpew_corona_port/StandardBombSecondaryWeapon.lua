@@ -10,7 +10,7 @@ function StandardBomb:init (sceneGroup)
    self.sceneGroup = sceneGroup
 end
 
-function StandardBomb:fire (player)
+function StandardBomb:fire ()
 
    if (not self:canFire()) then
       return

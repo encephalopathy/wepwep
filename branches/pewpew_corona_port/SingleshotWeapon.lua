@@ -2,12 +2,20 @@ require("Weapon")
 require("Bullet")
 Singleshot = Weapon:subclass("Singleshot")
 
-NUM_SHOTS = 5
-FIRING_ANGLE = 60
-BULLET_VELOCITY = 200
+local BULLET_VELOCITY = 200
 
-function Singleshot:init (sceneGroup)
-   self.super:init(sceneGroup, "sprites/bullet_02.png", 25)
+function Singleshot:init (sceneGroup, rateOfFire, bulletSpeed)
+   if rateOfFire == nil then
+     rateOfFire = 25
+   end
+   
+   self.super:init(sceneGroup, "sprites/bullet_02.png", rateOfFire)
+   
+   if bulletSpeed == nil then
+		self.bulletSpeed = BULLET_VELOCITY 
+   else
+		self.bulletSpeed = bulletSpeed
+   end
    --self.soundPath = 'laser.ogg'
    --singleShotSFX = MOAIUntzSound.new()
    --singleShotSFX:load('laser.ogg')
@@ -24,16 +32,24 @@ end
 	muzzleFlare:play("explode")
 end]]--
 
+
+
+function Singleshot:calculateBulletVelocity(rotationAngle)
+	return { x = self.bulletSpeed * -math.sin(rotationAngle), y = self.bulletSpeed * math.cos(rotationAngle) }
+end
+
 function Singleshot:fire(player)
 	self.super:fire()
 	
 	if self:canFire() then
-		local ammo = self:getNextShot()
 		
-		if ammo then  --you are allowed to shoot
-			ammo.sprite.y = self.owner.sprite.y - 100
-			ammo.sprite.x = self.owner.sprite.x
-			ammo:fire(0, -BULLET_VELOCITY)
+		local bullet = self:getNextShot()
+		if bullet then  --you are allowed to shoot
+			local rotationAngle = math.rad(self.owner.sprite.rotation)
+			
+			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+			local bulletVelocity = self:calculateBulletVelocity(rotationAngle)
+			bullet:fire(bulletVelocity.x, bulletVelocity.y)
 			--powah stuff
 			--player.powah = player.powah - self.energyCost
 			

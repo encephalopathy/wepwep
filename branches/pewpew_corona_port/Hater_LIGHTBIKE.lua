@@ -23,6 +23,10 @@ function Hater_LIGHTBIKE:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.maxHealth = 50
 end
 
+function Hater_LIGHTBIKE:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_LIGHTBIKE:move(x, y)
 	--[[
 		This fool ominously floats down to the top of the screen and then oscillates left and right

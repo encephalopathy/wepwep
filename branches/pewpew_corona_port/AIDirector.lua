@@ -11,8 +11,6 @@ AIDirector = {}
 
 local haterList = {}
 
-
-
 local haterSkimMilkInViewList = nil
 local haterSkimMilkOutofViewList = nil
 

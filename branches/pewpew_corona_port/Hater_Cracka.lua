@@ -1,5 +1,4 @@
 require("Hater")
-
 --[[
 	This is a speific type of enemy, it moves at regular speed with a regular shot.
 	It is intended to move in a curve from the top of the screen to one of the sides
@@ -7,8 +6,6 @@ require("Hater")
 ]]--
 
 Hater_Cracka = Hater:subclass("Hater_Cracka")
-
-switched = false
 
 function Hater_Cracka:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
@@ -27,6 +24,10 @@ function Hater_Cracka:init(sceneGroup, imgSrc, x, y, rotation, width, height, sh
 	self.maxHealth = 1
 end
 
+function Hater_Cracka:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_Cracka:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
@@ -37,8 +38,8 @@ function Hater_Cracka:move(x, y)
 	]]--
 	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
 	--print("LOLOLOLOL")
-	if (step % 90 == 0 and self.alive == true) then
-			self:fire()						
+	if self.alive == true then
+		self:fire()						
 	end
 	self.sprite.x = self.sprite.x + math.sin(self.time*4*math.pi/400)*2
 	self.sprite.y = self.sprite.y + y

@@ -16,8 +16,8 @@ function HomingShot:fire()
    bullet = self.super:fire()
 
 
-   bullet.sprite.x = self.owner.x;
-   bullet.sprite.y = self.owner.y - 100
+   bullet.sprite.x = self.owner.x + self.muzzleLocation.x
+   bullet.sprite.y = self.owner.y + self.muzzleLocation.y
 
    bullet.isHoming = true
 

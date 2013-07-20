@@ -21,11 +21,15 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	end
 
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
-	self.bulletsOutOfView = Queue.new()
+	
+	--Creates the bullets for each weapon
+	--[[self.bulletsOutOfView = Queue.new()
 	for i = 1, 4, 1 do
 		Queue.insertFront(self.bulletsOutOfView, Bullet:new(sceneGroup, "img/bullet.png", false, 4000 + math.random(10,440), 4000+ math.random(50,350)))
 	end
-	self.bulletsInView = Queue.new()
+	self.bulletsInView = Queue.new()]]--
+	
+	
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
@@ -33,8 +37,13 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.sprite.objRef = self
 	self.time = 0
 	self.weapon = nil
-   self.isFrozen = false
-   self.freezeTimer = 0
+    self.isFrozen = false
+    self.freezeTimer = 0
+	
+	self.primaryWeapons = {}
+	self.secondaryWeapons = {}
+	self.defensePassives = {}
+	self:equipRig(sceneGroup)
 	--haterDeathSFX = MOAIUntzSound.new()
 	--haterDeathSFX:load('enemyDeath.ogg')
 end
@@ -61,15 +70,40 @@ function Hater:test()
 end
 
 function Hater:fire()
-	if self.alive == true then
+    --haters shoot 30 units in front of them at a speed of 400
+	--[[if self.alive == true then
 		local newBullet = Queue.removeBack(self.bulletsOutOfView)
 		newBullet:move(self.sprite.x, self.sprite.y + 30)
 		newBullet:fire(0, 400)
 		newBullet.alive = true
 		Queue.insertFront(self.bulletsInView, newBullet)
+	end]]--
+	for i = 1, #self.primaryWeapons , 1 do
+		--print('Hater firing weapon')
+		self.primaryWeapons[i]:fire()
 	end
+	
+	--Fire secondary weapons
+	--[[for i = 1, #self.secondaryWeapons, 1
+		self.secondaryWeapons[i]:fire()
+	end]]--
 end
 
+function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
+	local newItem = itemClass:new(sceneGroup, 90, 400)
+	collection[#collection + 1] = newItem
+	if amount ~= nil then
+		newItem:load(amount, sceneGroup, muzzleLocation, false)
+	end
+	newItem.owner = self
+end
+
+--Temporary function, will go away when bullets can update themselves.
+function Hater:cullBulletsOffScreen()
+	for i = 1, #self.primaryWeapons, 1 do
+		self.primaryWeapons[i].checkBullets()
+	end
+end
 
 function Hater:update()
 	self.time = self.time + 1
@@ -86,19 +120,10 @@ function Hater:update()
       end
    end
    
-   local length = self.bulletsInView.size
-	--[[for i = self.bulletsInView.first, self.bulletsInView.last, 1 do 					
-		if self.bulletsInView[i].sprite.y >= 800  or self.bulletsInView[i].sprite.y <=  -50 or self.bulletsInView[i].sprite.x >= 500 or self.bulletsInView[i].sprite.x <= -50 or self.bulletsInView[i].alive == false
-			then
-				--Location 5000, 5000 is the registration spawn point of all bulletsOutOfView
-				local bullet = Queue.remove(self.bulletsInView, i) --Need to program this
-				bullet.sprite.x = 5000
-				bullet.sprite.y = 5000
-				bullet.alive = false
-				Queue.insertFront(self.bulletsOutOfView, bullet)
-			end	
-
-	end]]--
+   --ALL THE BULLETS!
+   --self.weapon:checkBullets()
+   self:cullBulletsOffScreen()
+   --[[local length = self.bulletsInView.size
 	local newInViewQueue = Queue.new()
 	while self.bulletsInView.size > 0 do
 		local bullet = Queue.removeBack(self.bulletsInView)
@@ -111,19 +136,17 @@ function Hater:update()
 			Queue.insertFront(newInViewQueue, bullet)
 		end
 	end
-	self.bulletsInView = newInViewQueue
+	self.bulletsInView = newInViewQueue]]--
 	
 	
 	if self.alive == true then  
 					
-		if (self.sprite.y >=  850 and self.alive ) 
-			then
+		if (self.sprite.y >=  850 and self.alive ) then
 				self.alive = false
 				return
 			end
 	end
 	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
-
 end
 
 --[[
@@ -177,3 +200,4 @@ function Hater:destroy()
 	
 end
 
+Hater:virtual("equipRig")

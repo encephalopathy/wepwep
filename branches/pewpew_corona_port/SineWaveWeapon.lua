@@ -2,8 +2,7 @@ require("Weapon")
 
 SineWave = Weapon:subclass("SineWave")
 
-function SineWave:init (sceneGroup)
-
+function SineWave:init (sceneGroup, rateOfFire, bulletSpeed)
    self.super:init(sceneGroup, "sprites/bullet_05.png", 20, SineWaveBullet)
    --self.soundPath = 'sineWave.ogg'
    --sineWaveShotSFX = MOAIUntzSound.new()
@@ -16,18 +15,27 @@ function SineWave:fire(player)
    if self:canFire() then
 	   local bullet1 = self:getNextShot()
 	   local bullet2 = self:getNextShot()
+	   
+	   local rotationAngle = math.rad(self.owner.sprite.rotation)
+	   local muzzleLocX = self.muzzleLocation.x
+	   local muzzleLocY = self.muzzleLocation.y
+		
+		
+	   self:calculateMuzzlecalibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet1, rotationAngle)
+	   self:calculateMuzzlecalibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet2, rotationAngle)
+	   --bullet1.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
+	   --bullet1.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 
-	   bullet1.sprite.x = self.owner.sprite.x;
-	   bullet1.sprite.y = self.owner.sprite.y - 100
-
-	   bullet2.sprite.x = self.owner.sprite.x;
-	   bullet2.sprite.y = self.owner.sprite.y - 100
+	  -- bullet2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
+	   --bullet2.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 
 	   bullet1.initialX = bullet1.sprite.x
 	   bullet1.initialY = bullet1.sprite.y
+	   bullet1.rotation = self.owner.sprite.rotation
 
 	   bullet2.initialX = bullet2.sprite.x
 	   bullet2.initialY = bullet2.sprite.y
+	   bullet2.rotation = self.owner.sprite.rotation
 
 	   -- add some shit to the bullet tables
 	   --bullet1.isSine = true

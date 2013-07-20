@@ -22,6 +22,10 @@ function Hater_FatBoy:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.maxHealth = 5
 end
 
+function Hater_FatBoy:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_FatBoy:move(x, y)
 	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
 	--print("LOLOLOLOL")
@@ -32,9 +36,8 @@ end
 
 function Hater_FatBoy:update(player)
 	self.super:update()
-	if (step % 90 == 0 and self.alive == true) 
-		then
-			self:fire()						
+	if self.alive == true then
+		self:fire()						
 	end
    if (self.isFrozen) then
       return

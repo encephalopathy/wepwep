@@ -23,6 +23,10 @@ function Hater_Pig:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.movedown = true
 end
 
+function Hater_Pig:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_Pig:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
@@ -55,7 +59,7 @@ function Hater_Pig:update(player)
 	else
 		self:move(0,-1)
 	end
-	if (step % 90 == 0 ) then
+	if self.alive == true then
 		self:fire()						
 	end
    end

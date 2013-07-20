@@ -24,6 +24,10 @@ function Hater_TheFuzz:init(sceneGroup, imgSrc, x, y, rotation, width, height, p
 	self.moveYDirection = 1
 end
 
+function Hater_TheFuzz:equipRig(sceneGroup)
+	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+end
+
 function Hater_TheFuzz:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
@@ -60,18 +64,17 @@ function Hater_TheFuzz:update()
 	self.sprite.rotation = rotAngle
 	self:move(speed*unitWidth,speed*unitHeight)
 	
-	if (step % 90 == 0) then
-		self:fire()						
-	end
+	self:fire()						
    end
 end
 
 function Hater_TheFuzz:fire()
 	if self.alive == true then
+		self.super:fire()
 		--if player.sprite.y >= self.sprite.y then
 		--	self.super:fire()
 		--else
-			local player = self.playerRef
+			--[[local player = self.playerRef
 			local haterToPlayerDist = math.sqrt(
 				(player.sprite.x - self.sprite.x) * (player.sprite.x - self.sprite.x)
 				+ (player.sprite.y - self.sprite.y) * (player.sprite.y - self.sprite.y)
@@ -92,7 +95,7 @@ function Hater_TheFuzz:fire()
 				newBullet:fire(playerDirectionX * 500, playerDirectionY * 500)
 				newBullet.alive = true
 				Queue.insertFront(self.bulletsInView, newBullet)
-			end
+			end]]--
 		--end
 		
 	end

@@ -1,5 +1,6 @@
 require("Object")
 require("Queue")
+require("Utility")
 require("SineWaveBullet")
 Weapon = newclass("Weapon")
 
@@ -11,6 +12,12 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
     self.sceneGroup = sceneGroup
 	self.rateOfFire = rateOfFire
 	self.fireAttempts = 0
+	self.ownerIsPlayer = ownerIsPlayer
+	
+	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
+	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
+		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
+		dispatch the class name by holding a reference to the class declaration. ]]--
 	if classType == nil then
 		self.ammoType = Bullet
 	else
@@ -19,14 +26,29 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
 	self.owner = nil --Needs to be set before weapon can be used
 end
 
-function Weapon:load(amount, sceneGroup)
-
-   if (not isLoaded) then
+--Should eventually load from a static list of bullets, the type of Bullet SHOULD be specified by the weapon
+function Weapon:load(amount, sceneGroup, spawnVector, isPlayerBullet, width, height)
+   width = 50 or width
+   height = 50 or height
+   if (not self.isLoaded) then
    	for i = 1, amount, 1 do
-	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, true, 5000, i*5000, 0, 50, 50))
+	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, isPlayerBullet, 5000, i*5000, 0, width, height))
    	end
    end
+   self:setMuzzleLocation(spawnVector)
    self.isLoaded = true
+end
+
+function Weapon:equip(owner)
+	owner.weapon = self
+end
+
+function Weapon:setMuzzleLocation(spawnVector)
+	if spawnVector ~= nil then
+		self.muzzleLocation = { x = spawnVector[1], y = spawnVector[2], magnitude = math.sqrt(spawnVector[1]*spawnVector[1] + spawnVector[2]*spawnVector[2]) }
+	else
+		self.muzzleLocation = { x = 0, y = 0, magnitude = 1 }
+	end
 end
 
 function Weapon:unload()
@@ -53,91 +75,18 @@ function Weapon:checkBullets()
    local shotsFired = bulletList.size
    for i = 1, shotsFired, 1 do
       local bullet = Queue.removeBack(bulletList)
-      -- Check for bullets on sine wave path
-      --if (bullet.isSine) then
-      --   moveSineBullet(bullet)
-      --end
       
       -- Check for bullets that are out of bounds
       self:cacheAmmoIfOutofBounds(bullet)
-      
       -- Check for homing bullets
       --if (bullet.isHoming) then
       --   moveHomingBullet(bullet, haterList)
       --end
-      
    end
-end
-
-function distance (x1, y1, x2, y2)
-   return math.sqrt(math.pow(x1-x2, 2) + math.pow(y1-y2, 2))
-end
-
-function haterDistance (bullet, hater)
-   return distance (bullet.sprite.x, bullet.sprite.y, hater.sprite.x, hater.sprite.y)
-end
-
-function assignClosestHater(bullet, haterList)
-    local minDistance = -1
-    for hater1 in pairs(haterList) do
-       local currDistance = haterDistance (bullet, hater1)
-       if ((minDistance == -1 or currDistance < minDistance) and 
-            bullet.sprite.y > hater1.sprite.y) then
-          minDistance = currDistance
-          bullet.hater = hater1
-       end
-    end
-end
-
-
-function moveHomingBullet(bullet, haterList)
-   if (bullet.hater == nil and bullet.hasTarget == false) then
-      assignClosestHater(bullet, haterList)
-      bullet.hasTarget = true
-   end
-   
-   if (bullet.sprite.y < bullet.hater.sprite.y) then
-      return
-   end
-   
-   currX, currY = bullet.sprite:getLinearVelocity()
-   if (bullet.hater == nil or currY == 0) then
-      bullet:fire (0, -BULLET_VELOCITY)
-      return
-   end
-   
-   if (bullet.hater.health <= 0) then
-      return
-   end
-   
-   haterX = bullet.hater.sprite.x
-   haterY = bullet.hater.sprite.y
-   
-   bulletX = bullet.sprite.x
-   bulletY = bullet.sprite.y
-   
-   xDiff = haterX - bulletX
-   yDiff = haterY - bulletY
-   
-   triRatio = BULLET_VELOCITY / math.sqrt(math.pow(xDiff, 2) + math.pow(yDiff, 2))
-   
-   xVel = xDiff * triRatio
-   yVel = yDiff * triRatio
-   
-   bullet:fire (xVel, yVel)
-   
-end
-
-function moveSineBullet(bullet)
-   local speed = 5
-   local newY = bullet.initialY - bullet.time * speed
-   local newX = bullet.initialX + bullet.amp * math.sin(bullet.time * 4 * math.pi / 50)
-   bullet:move(newX, newY)
-   bullet.time = bullet.time + 1
 end
 
 function Weapon:cacheAmmoIfOutofBounds(bullet)
-   if (bullet.sprite.y >= 650  or bullet.sprite.y <=  -50 or bullet.sprite.x >= 850 or 
+   if (bullet.sprite.y >= display.contentHeight  or bullet.sprite.y <=  -50 or bullet.sprite.x >= display.contentWidth or 
        bullet.sprite.x <= -50 or not bullet.alive) then
       --Location 5000, 5000 is the registration spawn point of all bullets
       
@@ -146,21 +95,13 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
 		bullet:recycle()
 	  --end
 	  Queue.insertFront(self.ammo, bullet)
-   else
+	else
 	  Queue.insertFront(self.firedAmmo, bullet)
-   end
-end
-
-function Weapon:debugPrintBulletList()
-	for i = 1, 20, 1 do
-		print('i: ' .. i)
-		print(self.ammo[i].sprite)
-		print('x: ' .. self.ammo[i].sprite.x)
-		print('y: ' .. self.ammo[i].sprite.y)
 	end
 end
 
 function Weapon:canFire()
+	--print(self.ammo.size)
 	if self.rateOfFire - self.fireAttempts == 0 then
 		self.fireAttempts = 0
 		return true
@@ -169,10 +110,38 @@ function Weapon:canFire()
 	end
 end
 
-function Weapon:getNextShot(numberOfShots)	
+--[[
+	FUNCTION NAME: calibrateMuzzleFlare
+	
+	DESCRIPTION: Responsible for moving the object to the x and y location in the world
+	
+	PARAMETERS:
+		@muzzleLocX: The location of the x coordinate of the muzzle of the gun.
+		@muzzleLocY: The location of the y coordinate of the muzzle of the gun.
+		@bullet: The bullet that is to be fired by the gun.
+		@owner: The owner of the gun, we need to pass this field in so we know which ship is firing the gun.
+		@rotationAngle: An angle defined in radians that determines the rotation of the gun tip.
+	@RETURN: bullet
+]]--
+function Weapon:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, owner, bullet, rotationAngle)
+	if rotationAngle ~= 0 then	
+		--[[To rotate the vector locally, we multipy it by a rotation matrix around the origin(Top-left hand of the screen) then 
+			translate the rotated vector back to the its local origin, the location where that particular vector was located at.
+		]]--
+		muzzleLocX = muzzleLocX + muzzleLocX * math.cos(rotationAngle) - muzzleLocY * math.sin(rotationAngle)
+		muzzleLocY = muzzleLocY + muzzleLocY * math.cos(rotationAngle) + muzzleLocX * math.sin(rotationAngle)
+	end
+	bullet.sprite.rotation = math.deg(rotationAngle)
+	bullet.sprite.x = owner.sprite.x + muzzleLocX
+	bullet.sprite.y = owner.sprite.y + muzzleLocY
+end
+
+function Weapon:getNextShot(numberOfShots)
+	
 	if self.ammo.size > 0 then
 		local ammo = Queue.removeBack(self.ammo) 
 		self.fireAttempts = self.fireAttempts + 1
+		
 		if ammo.alive == false then
 			ammo.alive = true
 			Queue.insertFront(self.firedAmmo, ammo)
@@ -185,6 +154,6 @@ end
 
 function Weapon:fire()
 	--if self.owner then
-		self.fireAttempts = self.fireAttempts + 1
+	self.fireAttempts = self.fireAttempts + 1
 	--end
 end
