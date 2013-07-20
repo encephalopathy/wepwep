@@ -31,8 +31,25 @@ function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, 
 	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
 	self.health = 0
 	self.powah = powah
+	
+	--defense parameters
+	self.armor = 0       --this reduces damage by exactly this amount
+	self.shields = 1     --this divides total damage, before hitting the armor, by this amount
+	
 	self:createExplosionSpriteSheet(sceneGroup, { width = 64, height = 64, numFrames = 16, sheetContentWidth = 256, sheetContentHeight = 256 } )
 	self.particleEmitter = self:createShipPieceParticleEmitter(sceneGroup, shipPieces)
+end
+
+
+function Ride:takeDamage(bullet)
+	local finalDamage = 0;
+
+	finalDamage = (bullet / self.shields) - self.armor
+	
+	if finalDamage <= 0 then finalDamage = 1 end
+	
+	self.health = self.health - finalDamage
+
 end
 
 local function onExposion(event) 
