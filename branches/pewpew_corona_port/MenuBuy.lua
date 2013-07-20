@@ -186,7 +186,7 @@ function setThingsUp()
 	backButton.x = display.contentWidth * 0.5
 
 	dollaztext.text = "Dollaz : " .. mainInventory.dollaz
-    ammotext.text = "Ammo :" .. mainInventory.SecondaryWeapons[1].ammo
+    ammotext.text = "Ammo :" .. mainInventory.SecondaryWeapons[1].ammoAmount
 
 	okButton.x = 3000		
 	yesButton.x = 3000		
@@ -226,7 +226,7 @@ function scene:createScene( event )
 	
 	--display.newText( string, left, top, font, size )
 	 dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
-	 ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammo, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
+	 ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons[1].ammoAmount, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
 	local buyText = display.newText( "BUY MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
 	 confirmText = display.newText( "...",  display.contentWidth * 0.45,  display.contentHeight * 0.3, native.systemFont, 25 )
 	 denyText = display.newText( "You cannot afford that.",  display.contentWidth * 0.25,  display.contentHeight * 0.3, native.systemFont, 25 )
