@@ -32,6 +32,7 @@ function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotatio
 		collisionFilter = { categoryBits = 8, maskBits = 13}
 	end
 	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height, collisionFilter)
+	self.imgSrc = imgSrc
 	self.alive = false
 	self.damage = 1
 	self.isPlayerBullet = isPlayerBullet
