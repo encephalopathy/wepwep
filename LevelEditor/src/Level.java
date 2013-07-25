@@ -70,6 +70,7 @@ public class Level {
 			public void actionPerformed(ActionEvent e) {  //this part is only run once it is clicked
 				System.out.println("TEST ON downOneButton");
 				//change the levelNumber and index value on both levels; needs access to WaveScreen levelSet list;
+				
 			}
 		});
 		
