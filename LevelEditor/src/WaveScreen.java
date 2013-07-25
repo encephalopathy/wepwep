@@ -23,6 +23,7 @@ import java.net.URL;
 import java.nio.file.Path;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JMenu;
@@ -45,13 +46,17 @@ public class WaveScreen extends JFrame {
 	private JPanel EnemyPlacementGrid;
 	//private
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
-	private Wave currentWave = new Wave(null, 0);
-	private List<Wave> waveList = new ArrayList<Wave>();
+	static Wave currentWave = new Wave(0); //the current wave you are working on 
+	private Level currentLevel = new Level(null, 0); //the current level you are working on
+	private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
+	static List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
 	private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
-	JMenu WaveMenu = new JMenu();
+	JMenu LevelMenu = new JMenu(); //declarations of level menu
+	JFrame levelPopUp = new JFrame(); //JFrame for the level naming popup
 	
+	//border variables
 	public final int enemyGridBorderTop = 200; //
 	public final int enemyGridBorderLeft = 200; //
 	public final int enemyGridBorderBottom = 200; 
@@ -146,7 +151,6 @@ public class WaveScreen extends JFrame {
 		setContentPane(EnemyPlacementGrid);
 		
 		//creating a new panel called GameScreen
-		
 		JPanel GameScreen = new JPanel();
 		GameScreen.setBounds(new Rectangle(0, 0, 400, 600));
 		GameScreen.setMaximumSize(new Dimension(400, 600));
@@ -171,22 +175,28 @@ public class WaveScreen extends JFrame {
 		JMenuItem OpenButton = new JMenuItem("Open...");
 		FileMenu.add(OpenButton);
 		
-		JMenu LevelMenu = new JMenu("Level");
-		menuBar.add(LevelMenu);
-		
-		WaveMenu = new JMenu("Wave");
-		JMenuItem newWaveItem = new JMenuItem("New Wave");
-		newWaveItem.addActionListener(new ActionListener() {
-	           @Override
-	           public void actionPerformed(ActionEvent event) {
-	        	   Wave w = new Wave(null, 0);
-	               waveList.add(w);
-	               CreateWaveMenuItem();
-	               System.out.println("Wave: " + w);
-	          }
+		//creates the level menu and adds the ability to add new Levels
+		LevelMenu = new JMenu("Level");
+		JMenuItem newLevelItem = new JMenuItem("New Level");
+		newLevelItem.addActionListener(new ActionListener() {
+			@Override	
+			public void actionPerformed(ActionEvent event) {  //this part is only run once it is clicked
+				String s = (String)JOptionPane.showInputDialog(  //set up for the popup menu
+	                    levelPopUp,
+	                    "Enter a name for this level.",
+	                    "Time Selection",
+	                    JOptionPane.PLAIN_MESSAGE, null,
+	                    null, "");
+				System.out.println(s);
+				Level l = new Level(s, (levelSet.size()+1));  //build a new level
+				levelSet.add(l); //adds a new level to the levelSet
+				LevelMenu.add(l.levelWavesMenu); 
+				System.out.println("Level: " + l);
+			}
+			
 		});
-		WaveMenu.add(newWaveItem);
-		menuBar.add(WaveMenu);
+		LevelMenu.add(newLevelItem); //attach the newLevelItem under the LevelMenu item
+		menuBar.add(LevelMenu); //attach LevelMenu to the main menu bar
 		
 		final JMenu enemyChoiceMenu = new JMenu("Enemy");
 		menuBar.add(enemyChoiceMenu);
@@ -217,24 +227,7 @@ public class WaveScreen extends JFrame {
 
 	}
 	
-	public void CreateWaveMenuItem(){
-		//String timeString = "" + newWave.time;
-		final JMenuItem newItem = new JMenuItem(String.valueOf(currentWave.time));
-		WaveMenu.add(newItem);
-		newItem.addActionListener(new ActionListener() {
-	           @Override
-	           public void actionPerformed(ActionEvent event) {
-	               //enemyChoiceMenu.setText("Honkey");
-	        	   //String timeString = "" + newWave.time
-	        	   String s = newItem.getText();
-	        	   Search(s);
-	        	   WaveMenu.setText(String.valueOf(currentWave.time));
-	        	   //newWave.loadWave();
-	        	   System.out.println("Current Wave: " + currentWave);
-	          }
-		});
-	}
-	
+	/* PENDING REMOVAL
 	public void Search(String s)
 	{
 		System.out.println("IN");
@@ -252,9 +245,11 @@ public class WaveScreen extends JFrame {
 			}
 		}
 	}
+	*/
 	
 	public void PrintToFile(String filename){
-		
+		//walk through each wave in each level, print out the contents of each enemy and export to a
+		//.pew file.
 	}
 	
 	
