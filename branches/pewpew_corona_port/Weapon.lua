@@ -139,7 +139,7 @@ end
 
 function Weapon:getNextShot(numberOfShots)
 	
-	if self.ammo.size > 0 then
+	if self.ammo.size > 0 and self:canFire() then
 		local ammo = Queue.removeBack(self.ammo) 
 		self.fireAttempts = self.fireAttempts + 1
 		
@@ -155,12 +155,6 @@ end
 
 function Weapon:fire()
 	self.fireAttempts = self.fireAttempts + 1
-
-	if self:canFire() then
-		self:fireAmmo()
-		self:adjustPowah()
-		self:playFiringSound()
-	end
 end
 
 function Weapon:adjustPowah()
@@ -169,14 +163,6 @@ function Weapon:adjustPowah()
 	end
 end
 
-function Weapon:fireAmmo()
-
-end
-
 function Weapon:playFiringSound()
 
-end
-
-function Weapon:canFire()
-	
 end

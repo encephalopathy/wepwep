@@ -3,8 +3,8 @@ Doubleshot = Singleshot:subclass("Doubleshot")
 
 local BULLET_SEPERATION_DIST = 7
 
-function Doubleshot:init (sceneGroup, rateOfFire, bulletVelocity, bulletSeperationDistance)
-   self.super:init(sceneGroup, rateOfFire, bulletVelocity)
+function Doubleshot:init (sceneGroup, rateOfFire, bulletSpeed, bulletSeperationDistance)
+   self.super:init(sceneGroup, rateOfFire, bulletSpeed)
    
    if bulletSeperationDistance ~= nil then
 	 self.bulletSeperationDistance = bulletSeperationDistance
@@ -19,7 +19,7 @@ end
 
 
 
-function Doubleshot:fireAmmo(player)
+function Doubleshot:fire(player)
 	--if self:canFire() then
 		local bullet = self:getNextShot()
 		local bullet2 = self:getNextShot()
@@ -29,7 +29,7 @@ function Doubleshot:fireAmmo(player)
 			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet2, rotationAngle)
 			
-			local bulletVelocity = self:calculateBulletVelocity(rotationAngle)
+			local bulletVelocity = self:calculateBulletVelocity(bullet)
 			
 			bullet:fire(bulletVelocity.x, bulletVelocity.y)
 			bullet2:fire(bulletVelocity.x, bulletVelocity.y)

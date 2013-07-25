@@ -74,17 +74,18 @@ function scene:createScene( event )
 	background.x, background.y = 225, 0
 	group:insert( background )
 	
-	
-	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
-	
-	--print(#AIDirector.haterList)
-	--player:weaponEquipDebug(sceneGroup)
-	
 	-- creates backdropBuffer of current game
 	backgroundBuffer = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
 	backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
 	backgroundBuffer.x, backgroundBuffer.y = 225, -3600
 	group:insert(  backgroundBuffer )
+	
+	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 30, 100, 100)
+	
+	--print(#AIDirector.haterList)
+	--player:weaponEquipDebug(sceneGroup)
+	
+	
 	
 	
 	
@@ -125,9 +126,11 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
+	--playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	local currentLevel = setLevel(currentLevelNumber)
 	AIDirector.initialize(player, currentLevel)
+	player:weaponEquipDebug(group)
+	player.weapon.targets = AIDirector.haterList
 	physics.start()
 	step = 0
 end

@@ -87,8 +87,8 @@ local function clampPlayerMovement(currentSpeed)
 end
 
 function Player:weaponEquipDebug(sceneGroup) 
-	self.weapon = Singleshot:new(sceneGroup, 25, -200, true) 
-	--self.weapon.targets = AIDirector.haterList
+	self.weapon = HomingShot:new(sceneGroup, 25, 200, true) 
+	self.weapon.targets = AIDirector.haterList
 	self.weapon:load(40, sceneGroup, { 0, -100 }, true)
 	self.weapon.owner = self
 end

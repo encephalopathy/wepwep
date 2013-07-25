@@ -34,37 +34,39 @@ end]]--
 
 
 
-function Singleshot:calculateBulletVelocity(rotationAngle)
-	return { x = self.bulletSpeed * -math.sin(rotationAngle), y = self.bulletSpeed * math.cos(rotationAngle) }
+function Singleshot:calculateBulletVelocity(bullet)
+	
+	local firingMagnitude = distance(self.owner.sprite.x, self.owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
+	--return { x = self.bulletVelocity * -math.sin(rotationAngle), y = self.bulletVelocity * math.cos(rotationAngle) }
+	local firingDirectionX = (bullet.sprite.x - self.owner.sprite.x) / firingMagnitude
+	local firingDirectionY = (bullet.sprite.y - self.owner.sprite.y) / firingMagnitude
+	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
 end
 
-function Singleshot:fireAmmo()
+function Singleshot:fire()
+	self.super:fire()
 	--self.super:fire()
 	
 	--if self:canFire() then
-		
+	
 	local bullet = self:getNextShot()
 	if bullet then  --you are allowed to shoot
+		
 		local rotationAngle = math.rad(self.owner.sprite.rotation)
 			
 		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-		local bulletVelocity = self:calculateBulletVelocity(rotationAngle)
+		local bulletVelocity = self:calculateBulletVelocity(bullet)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 			--powah stuff
 			--player.powah = player.powah - self.energyCost
 			
 			--SFX stuff
 			
-		playSoundFX("sounds/soundfx/laser.ogg")
+		--playSoundFX("sounds/soundfx/laser.ogg")
 			--singleShotSFX:play()
-		return bullet
+		--return bullet
 	end
-	return nil
+	--return nil
 	--end
 	
-end
-
-function Singleshot:fireAmmo()
-	print(self.owner)
-	self.super:fire()
 end

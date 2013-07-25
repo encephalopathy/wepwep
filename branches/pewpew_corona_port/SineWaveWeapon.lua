@@ -10,7 +10,7 @@ function SineWave:init (sceneGroup, rateOfFire, bulletSpeed)
    self.energyCost = 15
 end
 
-function SineWave:fireAmmo(player)
+function SineWave:fire(player)
 	
    --if self:canFire() then
 	   local bullet1 = self:getNextShot()
@@ -50,7 +50,7 @@ function SineWave:fireAmmo(player)
    --powah stuff
    --player.powah = player.powah - self.energyCost
    
-   --self.super:fire()
+   self.super:fire()
    
    --SFX stuff
    --sineWaveShotSFX:play()
