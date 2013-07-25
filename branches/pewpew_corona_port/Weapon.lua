@@ -2,6 +2,7 @@ require("Object")
 require("Queue")
 require("Utility")
 require("SineWaveBullet")
+require("HomingBullet")
 Weapon = newclass("Weapon")
 
 function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
@@ -23,7 +24,7 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
 	else
 		self.ammoType = classType
 	end
-	self.owner = nil --Needs to be set before weapon can be used
+	--self.owner = nil --Needs to be set before weapon can be used
 end
 
 --Should eventually load from a static list of bullets, the type of Bullet SHOULD be specified by the weapon
@@ -153,7 +154,29 @@ function Weapon:getNextShot(numberOfShots)
 end
 
 function Weapon:fire()
-	--if self.owner then
 	self.fireAttempts = self.fireAttempts + 1
-	--end
+
+	if self:canFire() then
+		self:fireAmmo()
+		self:adjustPowah()
+		self:playFiringSound()
+	end
+end
+
+function Weapon:adjustPowah()
+	if self.owner.powah then
+		self.owner.powah = self.owner.powah - self.energyCost
+	end
+end
+
+function Weapon:fireAmmo()
+
+end
+
+function Weapon:playFiringSound()
+
+end
+
+function Weapon:canFire()
+	
 end

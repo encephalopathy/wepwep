@@ -10,6 +10,7 @@ require("Hater_Redneck")
 AIDirector = {}
 
 local haterList = {}
+local haterGroup = display.newGroup()
 
 local haterSkimMilkInViewList = nil
 local haterSkimMilkOutofViewList = nil
@@ -57,39 +58,39 @@ local function createHaterList(currentLevel, player)
 
 	local temp = nil
 	for i = 1, 10, 1 do
-		temp = Hater_Honkey:new(sceneGroup, "sprites/enemy_02.png", -1000 + i * 300, -1000, 0, 100, 100)
+		temp = Hater_Honkey:new(haterGroup, "sprites/enemy_02.png", -1000 + i * 300, -1000, 0, 100, 100)
 		Queue.insertFront(haterHonkeyOutofViewList, temp)
 	end
 	
 	
 	for i = 1, 10, 1 do
-		temp = Hater_Cracka:new(sceneGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 0, 100, 100)
+		temp = Hater_Cracka:new(haterGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 0, 100, 100)
 		Queue.insertFront(haterCrackaOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_SkimMilk:new(sceneGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 0, 100, 100)
+		temp = Hater_SkimMilk:new(haterGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 0, 100, 100)
 		Queue.insertFront(haterSkimMilkOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_TheFuzz:new(sceneGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 0, 100, 100, player)
+		temp = Hater_TheFuzz:new(haterGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 0, 100, 100, player)
 		Queue.insertFront(haterTheFuzzOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_Pig:new(sceneGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 0, 100, 100)
+		temp = Hater_Pig:new(haterGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 0, 100, 100)
 		Queue.insertFront(haterPigOutofViewList, temp)
 	end
 	
 	for i = 1, 10, 1 do
-		temp = Hater_FatBoy:new(sceneGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 0, 100, 100)
+		temp = Hater_FatBoy:new(haterGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 0, 100, 100)
 		Queue.insertFront(haterFatBoyOutofViewList, temp)
 	end
 	
 	
 	for i = 1, 10, 1 do
-		temp = Hater_Redneck:new(sceneGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 0, 100, 100)
+		temp = Hater_Redneck:new(haterGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 0, 100, 100)
 		Queue.insertFront(haterRedneckOutofViewList, temp)
 	end
 end

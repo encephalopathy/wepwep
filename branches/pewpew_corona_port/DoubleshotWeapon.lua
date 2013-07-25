@@ -19,8 +19,8 @@ end
 
 
 
-function Doubleshot:fire (player)
-	if self:canFire() then
+function Doubleshot:fireAmmo(player)
+	--if self:canFire() then
 		local bullet = self:getNextShot()
 		local bullet2 = self:getNextShot()
 		if bullet and bullet2 then
@@ -39,8 +39,9 @@ function Doubleshot:fire (player)
 			
 			--SFX stuff
 			--doubleShotSFX:play()
+			return bullet, bullet2
 		end
-	end
+	--end
 	
-	self.super.super:fire()
+	--self.super.super:fire()
 end

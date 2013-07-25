@@ -10,9 +10,9 @@ function SineWave:init (sceneGroup, rateOfFire, bulletSpeed)
    self.energyCost = 15
 end
 
-function SineWave:fire(player)
+function SineWave:fireAmmo(player)
 	
-   if self:canFire() then
+   --if self:canFire() then
 	   local bullet1 = self:getNextShot()
 	   local bullet2 = self:getNextShot()
 	   
@@ -23,11 +23,6 @@ function SineWave:fire(player)
 		
 	   self:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet1, rotationAngle)
 	   self:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet2, rotationAngle)
-	   --bullet1.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
-	   --bullet1.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-
-	  -- bullet2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
-	   --bullet2.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 
 	   bullet1.initialX = bullet1.sprite.x
 	   bullet1.initialY = bullet1.sprite.y
@@ -50,12 +45,12 @@ function SineWave:fire(player)
 	   
 	   bullet1.amp = -50
 	   bullet2.amp = 50	   
-	end
+	--end
    
    --powah stuff
    --player.powah = player.powah - self.energyCost
    
-   self.super:fire()
+   --self.super:fire()
    
    --SFX stuff
    --sineWaveShotSFX:play()

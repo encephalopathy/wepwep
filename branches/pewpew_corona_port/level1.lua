@@ -74,6 +74,12 @@ function scene:createScene( event )
 	background.x, background.y = 225, 0
 	group:insert( background )
 	
+	
+	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
+	
+	--print(#AIDirector.haterList)
+	--player:weaponEquipDebug(sceneGroup)
+	
 	-- creates backdropBuffer of current game
 	backgroundBuffer = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
 	backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
@@ -81,7 +87,6 @@ function scene:createScene( event )
 	group:insert(  backgroundBuffer )
 	
 	
-	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
 local myButton = widget.newButton
 {
@@ -102,7 +107,7 @@ myButton.baseLabel = ""
 
 group:insert( myButton )
 	
-	mainInventory:equipRig(player, sceneGroup)
+	--mainInventory:equipRig(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 	
@@ -148,7 +153,7 @@ function scene:destroyScene( event )
 	end
 end
 
-function particleCoroutine (a)
+function particleCoroutine ()
     return coroutine.ParticleCoroutine(function ()
     updateParticleEmitters()
     end)
