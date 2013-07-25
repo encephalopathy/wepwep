@@ -24,7 +24,9 @@ public class Wave {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//will make a call to load wave
-				
+				System.out.println("Before: " + WaveScreen.currentWave);
+				loadWave();
+				System.out.println("The current Wave has been changed: " + WaveScreen.currentWave);
 			}
 		});
 	}
@@ -32,7 +34,7 @@ public class Wave {
 	public void loadWave()
 	{
 		//need to set the currentWave to this newly created wave
-			
+		WaveScreen.currentWave = this;	
 	}
 	
 	public List<Enemy> getWave(){

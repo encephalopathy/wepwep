@@ -46,10 +46,10 @@ public class WaveScreen extends JFrame {
 	private JPanel EnemyPlacementGrid;
 	//private
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
-	private Wave currentWave = new Wave(0); //the current wave you are working on 
+	static Wave currentWave = new Wave(0); //the current wave you are working on 
 	private Level currentLevel = new Level(null, 0); //the current level you are working on
 	private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
-	private List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
+	static List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
 	private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
