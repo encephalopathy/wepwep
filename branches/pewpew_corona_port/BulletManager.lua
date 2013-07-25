@@ -7,20 +7,20 @@ function BulletManager:init (scene)
 	self.onScreenQueue = Queue.new()
 	self.offScreenQueue = Queue.new()
 	self.sceneGroup = scene
-	self:addEventListener("bulletOffScreen", self:bullet_listener)
+	self:addEventListener("bulletOffScreen", self.bullet_listener)
 	
 end
 
 function BulletManager:bulletListener (event)
-	if (event.type != "offScreen") then
+	if (event.type ~= "offScreen") then
 		return
 	end
 	local bullet = Queue.removeObject(self.onScreenBullets, event.bullet);
 	Queue.insertFront(self.offScreenBullets, bullet);
 end
 
-DEFAULT_WIDTH = 1
-DEFAULT_HEIGHT = 1
+DEFAULT_WIDTH = 50
+DEFAULT_HEIGHT = 50
 DEFAULT_ROTATION = 0
 
 function BulletManager:getBullet (bulletClass, className, imgSrc, width, height, rotation)
