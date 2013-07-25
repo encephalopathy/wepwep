@@ -46,8 +46,11 @@ public class Level {
 	                    null, "");
 				int t = Integer.parseInt(s);
 				Wave newWave = new Wave(t);	 //create a new wave
+				System.out.println("INDEX OF THE NEW WAVE: " + newWave);
 				waveList.add(newWave); //take that wave and add to this levels waveList
 				levelWavesMenu.add(newWave.waveButton); //add the newWave's waveButton to the level's wave menu
+				WaveScreen.currentWave = newWave; //sets the newly created wave to be the currentWave
+				System.out.println("ADDRESS OF THE CURRENT WAVE: " + WaveScreen.currentWave);
 			}
 		});
 		
@@ -59,6 +62,8 @@ public class Level {
 			public void actionPerformed(ActionEvent e) {  //this part is only run once it is clicked
 				System.out.println("TEST ON upOneButton");
 				//change the levelNumber and index value on both levels; needs access to WaveScreen levelSet list;
+				System.out.println("The levelSet: " + WaveScreen.levelSet); //verify that you are on the LevelSet
+
 			}
 		});
 		
@@ -70,6 +75,7 @@ public class Level {
 			public void actionPerformed(ActionEvent e) {  //this part is only run once it is clicked
 				System.out.println("TEST ON downOneButton");
 				//change the levelNumber and index value on both levels; needs access to WaveScreen levelSet list;
+				System.out.println("The levelSet: " + WaveScreen.levelSet);
 				
 			}
 		});

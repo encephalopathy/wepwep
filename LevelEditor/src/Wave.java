@@ -19,8 +19,8 @@ public class Wave {
 		time = t;
 		
 		//menu set up
-		waveButton = new JMenuItem(Integer.toString(t));
-		waveButton.addActionListener(new ActionListener(){
+		waveButton = new JMenuItem(Integer.toString(t));  //button for a given wave
+		waveButton.addActionListener(new ActionListener(){ //by clicking on it, you change the current wave
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//will make a call to load wave
