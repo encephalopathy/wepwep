@@ -80,7 +80,7 @@ function scene:createScene( event )
 	backgroundBuffer.x, backgroundBuffer.y = 225, -3600
 	group:insert(  backgroundBuffer )
 	
-	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 30, 100, 100)
+	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
 	--print(#AIDirector.haterList)
 	--player:weaponEquipDebug(sceneGroup)

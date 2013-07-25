@@ -2,6 +2,9 @@ require("Bullet")
 require("Utility")
 HomingBullet = Bullet:subclass("HomingBullet")
 
+--[[TODO: Would be nice if the homing bullet arched after fired.  For the person reading this and needs to implement this, this
+	would require the use of an acceleration vector that changes the velocity vector.
+]]--
 function HomingBullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, 0, width, height)
 	self.hasTarget = false
@@ -37,14 +40,25 @@ function HomingBullet:fire(bulletSpeed)
 				local targetVectorX = newTarget.sprite.x - self.sprite.x
 				local targetVectorY = newTarget.sprite.y - self.sprite.y
 				local targetVectorMagnitude = math.sqrt(targetVectorX * targetVectorX + targetVectorY * targetVectorY)
-				self.sprite.rotation = -math.deg(math.acos(-targetVectorY / targetVectorMagnitude))
+				
+				local rotationAngle = math.deg(math.acos(-targetVectorY / targetVectorMagnitude))
+				if targetVectorX < 0 then
+					rotationAngle = -rotationAngle
+				end
+				self.sprite.rotation = rotationAngle
 				
 				local speedRatio = bulletSpeed / targetVectorMagnitude
 				
 				local xVelocity = targetVectorX * speedRatio
 				local yVelocity = targetVectorY * speedRatio
-
+				
+				--if self.previousVelocity ~= nil then
+				--	local dotProdProjection = (yVelocity * self.previousVelocity.y + xVelocity * self.previousVelocity.x) / (distance(xVelocity, yVelocity, 0, 0) * distance(xVelocity, yVelocity, 0, 0))
+				--	print(dotProdProjection)
+				--	self.sprite.rotation = self.sprite.rotation - math.deg(math.acos(dotProdProjection))
+				--end
 				self.super:fire(xVelocity, yVelocity)
+				self.previousVelocity = { x = xVelocity, y = yVelocity }
 			end
 		end
 	end

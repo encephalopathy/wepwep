@@ -35,9 +35,7 @@ end]]--
 
 
 function Singleshot:calculateBulletVelocity(bullet)
-	
 	local firingMagnitude = distance(self.owner.sprite.x, self.owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
-	--return { x = self.bulletVelocity * -math.sin(rotationAngle), y = self.bulletVelocity * math.cos(rotationAngle) }
 	local firingDirectionX = (bullet.sprite.x - self.owner.sprite.x) / firingMagnitude
 	local firingDirectionY = (bullet.sprite.y - self.owner.sprite.y) / firingMagnitude
 	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
