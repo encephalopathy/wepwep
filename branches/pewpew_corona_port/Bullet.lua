@@ -73,22 +73,23 @@ PARAMETERS:
 RETURN: VOID
 ]]--
 function Bullet:onHit(phase, collitor)
-	if phase == "begin" and self.alive then
+	print(self.isPlayerBullet)
+	if phase == "began" and self.alive then
 		if not collitor.type == "player" and self.isPlayerBullet then
 			if self.alive then
-				self.alive = false
+				self:recycle()
 			end
 		end
 
 		if collitor.type == "player" and not self.isPlayerBullet then
 			if self.alive then
-				self.alive = false
+				self:recycle()
 			end
 		end
 		
 		if self.isPlayerBullet and collitor.type == "Hater" then
 			if self.alive then
-				self.alive = false
+				self:recycle()
 			end
 		end
 	end
