@@ -1,5 +1,6 @@
 require("Bullet")
 require("Utility")
+require("Hater")
 HomingBullet = Bullet:subclass("HomingBullet")
 
 --[[TODO: Would be nice if the homing bullet arched after fired.  For the person reading this and needs to implement this, this
@@ -15,10 +16,9 @@ function HomingBullet:selectATarget()
 	local closestTarget = nil
 	for target in pairs (self.targets) do
 		local currentTargetDistance = self:getDistanceToTarget(target)
-		if currentTargetDistance < closestTargetDistance and self.sprite.y > target.sprite.y and target.alive then
+		if currentTargetDistance < closestTargetDistance and self:bulletisPastTarget(target, self.sprite) and target.alive then
 			closestTarget = target
 			closestTargetDistance = currentTargetDistance
-			--print('piece of shit')
 		end
 	end
 	return closestTarget
@@ -29,14 +29,16 @@ function HomingBullet:getDistanceToTarget(target)
 	return haterDistance
 end
 
+--Will need to change this when we add passives that the player can equip and shoot things with
+function HomingBullet:bulletisPastTarget(target, bullet)
+	if Hater:made(target) then return (bullet.y > target.sprite.y) else return (bullet.y < target.sprite.y) end
+end
+
 function HomingBullet:fire(bulletSpeed)
 	local updateFunction = function()
 		if not self.hasTarget then
 			local newTarget = self:selectATarget()
 			if newTarget ~= nil then
-				--local rotation = math.rad(self.sprite.rotation)
-				--self.super:fire(bulletSpeed * math.cos(rotation), bulletSpeed * math.sin(rotation))
-			--else
 				local targetVectorX = newTarget.sprite.x - self.sprite.x
 				local targetVectorY = newTarget.sprite.y - self.sprite.y
 				local targetVectorMagnitude = math.sqrt(targetVectorX * targetVectorX + targetVectorY * targetVectorY)
@@ -51,12 +53,7 @@ function HomingBullet:fire(bulletSpeed)
 				
 				local xVelocity = targetVectorX * speedRatio
 				local yVelocity = targetVectorY * speedRatio
-				
-				--if self.previousVelocity ~= nil then
-				--	local dotProdProjection = (yVelocity * self.previousVelocity.y + xVelocity * self.previousVelocity.x) / (distance(xVelocity, yVelocity, 0, 0) * distance(xVelocity, yVelocity, 0, 0))
-				--	print(dotProdProjection)
-				--	self.sprite.rotation = self.sprite.rotation - math.deg(math.acos(dotProdProjection))
-				--end
+
 				self.super:fire(xVelocity, yVelocity)
 				self.previousVelocity = { x = xVelocity, y = yVelocity }
 			end
