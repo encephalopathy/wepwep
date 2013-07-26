@@ -1,5 +1,6 @@
 require("AIDirector")
 require("LevelManager")
+require("BulletManager")
 require("Player")
 -----------------------------------------------------------------------------------------
 --
@@ -64,29 +65,30 @@ local function updateBackground()
 	end
 end
 
--- Called when the scene's view does not exist:
-function scene:createScene( event )
-	local group = self.view
-
-	-- creates backdrop of current game
+-- creates the scrolling background for the current game
+local function createScrollingBackground(scene)
+	-- creates the maindropBuffer of the game
 	background = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
 	background:setReferencePoint( display.CenterReferencePoint )
 	background.x, background.y = 225, 0
-	group:insert( background )
+	scene:insert( background )
 	
 	-- creates backdropBuffer of current game
 	backgroundBuffer = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
 	backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
 	backgroundBuffer.x, backgroundBuffer.y = 225, -3600
-	group:insert(  backgroundBuffer )
+	scene:insert(  backgroundBuffer )
+end
+
+-- Called when the scene's view does not exist:
+function scene:createScene( event )
+	local group = self.view
+
+	-- creates the scrolling background for the current game
+	createScrollingBackground(group)
 	
 	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
-	
-	--print(#AIDirector.haterList)
-	--player:weaponEquipDebug(sceneGroup)
-	
-	
-	
+	bulletManager = BulletManager:new(group)
 	
 	
 local myButton = widget.newButton
@@ -126,7 +128,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	--playBGM("/sounds/bgmusic/gameBackMusic.ogg")
+	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	local currentLevel = setLevel(currentLevelNumber)
 	AIDirector.initialize(player, currentLevel)
 	player:weaponEquipDebug(group)

@@ -99,7 +99,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	--playBGM("/sounds/bgmusic/menuBackMusic.ogg")
+	playBGM("/sounds/bgmusic/menuBackMusic.ogg")
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 
