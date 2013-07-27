@@ -59,8 +59,8 @@ function Bullet:move(x, y)
 	self.super:move(x, y)
 end
 
-function Bullet:performAction(ride)
-
+function Bullet:__toString()
+	return "Bullet"
 end
 
 --[[
@@ -73,25 +73,26 @@ PARAMETERS:
 RETURN: VOID
 ]]--
 function Bullet:onHit(phase, collitor)
-	print(self.isPlayerBullet)
 	if phase == "began" and self.alive then
 		if not collitor.type == "player" and self.isPlayerBullet then
 			if self.alive then
-				self:recycle()
+				self.alive = false
 			end
 		end
 
 		if collitor.type == "player" and not self.isPlayerBullet then
 			if self.alive then
-				self:recycle()
+				self.alive = false
 			end
 		end
 		
 		if self.isPlayerBullet and collitor.type == "Hater" then
 			if self.alive then
-				self:recycle()
+				self.alive = false
 			end
 		end
+	elseif phase == "ended" and not self.alive then
+		self:recycle()
 	end
 	--self.bulletList[self] = nil
 end
@@ -99,7 +100,8 @@ end
 function Bullet:recycle()
 	self.sprite.x = 5000
     self.sprite.y = 5000
-    self.alive = false
+	local offScreen = { name = "offScreen", bullet = self }
+	Runtime:dispatchEvent(offScreen)
 end
 
 function Bullet:destroy()

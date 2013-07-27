@@ -65,7 +65,7 @@ function HomingBullet:fire(bulletSpeed)
 end
 
 function HomingBullet:__tostring()
-	return "A HomingBullet with initial.xy ( " .. self.initialX .. ", " .. self.initialY .. " )"
+	return "HomingBullet"
 end
 
 function HomingBullet:recycle(bullet)

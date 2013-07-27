@@ -33,7 +33,7 @@ function SineWaveBullet:fire()
 end
 
 function SineWaveBullet:__tostring()
-	return "A SineWaveBullet with initial.xy ( " .. self.initialX .. ", " .. self.initialY .. " )"
+	return "SineWaveBullet"
 end
 
 function SineWaveBullet:recycle(bullet)

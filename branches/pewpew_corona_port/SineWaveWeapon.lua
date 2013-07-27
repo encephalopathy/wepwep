@@ -2,8 +2,8 @@ require("Weapon")
 
 SineWave = Weapon:subclass("SineWave")
 
-function SineWave:init (sceneGroup, rateOfFire, bulletSpeed)
-   self.super:init(sceneGroup, "sprites/bullet_05.png", 20, SineWaveBullet)
+function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight)
+   self.super:init(sceneGroup, isPlayerOwned, "sprites/bullet_05.png", 20, SineWaveBullet, bulletWidth, bulletHeight)
    --self.soundPath = 'sineWave.ogg'
    --sineWaveShotSFX = MOAIUntzSound.new()
    --sineWaveShotSFX:load('sineWave.ogg')

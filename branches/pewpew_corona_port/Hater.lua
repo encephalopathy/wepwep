@@ -22,14 +22,6 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
 	
-	--Creates the bullets for each weapon
-	--[[self.bulletsOutOfView = Queue.new()
-	for i = 1, 4, 1 do
-		Queue.insertFront(self.bulletsOutOfView, Bullet:new(sceneGroup, "img/bullet.png", false, 4000 + math.random(10,440), 4000+ math.random(50,350)))
-	end
-	self.bulletsInView = Queue.new()]]--
-	
-	
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
@@ -71,13 +63,6 @@ end
 
 function Hater:fire()
     --haters shoot 30 units in front of them at a speed of 400
-	--[[if self.alive == true then
-		local newBullet = Queue.removeBack(self.bulletsOutOfView)
-		newBullet:move(self.sprite.x, self.sprite.y + 30)
-		newBullet:fire(0, 400)
-		newBullet.alive = true
-		Queue.insertFront(self.bulletsInView, newBullet)
-	end]]--
 	for i = 1, #self.primaryWeapons , 1 do
 		--print('Hater firing weapon')
 		self.primaryWeapons[i]:fire()
@@ -90,10 +75,11 @@ function Hater:fire()
 end
 
 function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
-	local newItem = itemClass:new(sceneGroup, 90, 400)
+	local newItem = itemClass:new(sceneGroup, false, 90, 400)
 	collection[#collection + 1] = newItem
 	if amount ~= nil then
-		newItem:load(amount, sceneGroup, muzzleLocation, false)
+		--newItem:load(amount, sceneGroup, muzzleLocation, false)
+		newItem:setMuzzleLocation(muzzleLocation)
 	end
 	newItem.owner = self
 end

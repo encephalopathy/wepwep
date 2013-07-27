@@ -3,8 +3,8 @@ Doubleshot = Singleshot:subclass("Doubleshot")
 
 local BULLET_SEPERATION_DIST = 7
 
-function Doubleshot:init (sceneGroup, rateOfFire, bulletSpeed, bulletSeperationDistance)
-   self.super:init(sceneGroup, rateOfFire, bulletSpeed)
+function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, isPlayerOwned, bulletWidth, bulletHeight, bulletSeperationDistance)
+   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, isPlayerOwned, bulletWidth, bulletHeight)
    
    if bulletSeperationDistance ~= nil then
 	 self.bulletSeperationDistance = bulletSeperationDistance

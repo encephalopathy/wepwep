@@ -4,12 +4,12 @@ Singleshot = Weapon:subclass("Singleshot")
 
 local BULLET_VELOCITY = 200
 
-function Singleshot:init (sceneGroup, rateOfFire, bulletSpeed)
+function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight)
    if rateOfFire == nil then
      rateOfFire = 25
    end
    
-   self.super:init(sceneGroup, "sprites/bullet_02.png", rateOfFire)
+   self.super:init(sceneGroup, isPlayerOwned, "sprites/bullet_02.png", rateOfFire, bulletWidth, bulletHeight)
    
    if bulletSpeed == nil then
 		self.bulletSpeed = BULLET_VELOCITY 
@@ -60,7 +60,7 @@ function Singleshot:fire()
 			
 			--SFX stuff
 			
-		--playSoundFX("sounds/soundfx/laser.ogg")
+		playSoundFX("sounds/soundfx/laser.ogg")
 			--singleShotSFX:play()
 		--return bullet
 	end

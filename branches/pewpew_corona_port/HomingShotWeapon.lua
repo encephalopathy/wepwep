@@ -3,9 +3,9 @@ require("HomingBullet")
 
 HomingShot = Weapon:subclass("HomingShot")
 
-function HomingShot:init (sceneGroup, rateOfFire, bulletSpeed, rotationSpeed, trackTime)
+function HomingShot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight, rotationSpeed, trackTime)
 
-   self.super:init(sceneGroup, "sprites/bullet_04.png", 25, HomingBullet)
+   self.super:init(sceneGroup, isPlayerOwned, "sprites/bullet_04.png", 25, HomingBullet, bulletWidth, bulletHeight)
    --self.soundPath = 'homingShot.ogg'
    --homingShotSFX = MOAIUntzSound.new()
    --homingShotSFX:load('homingShot.ogg')

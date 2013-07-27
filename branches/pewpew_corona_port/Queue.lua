@@ -43,6 +43,8 @@ function removeIndex (queue, index)
    end
    queue.first = queue.first + 1
    queue.size = queue.size - 1
+   print('queue.first: ' .. queue.first)
+   print('queue.last: ' .. queue.last)
    return value
 end
 
