@@ -1,5 +1,4 @@
 require("Object");
-require("OcclusionCullEvent")
 require("Queue");
 
 BulletManager = Object:subclass("BulletManager");
@@ -8,9 +7,9 @@ BulletManager.onScreenBullets = Queue.new()
 BulletManager.offScreenBullets = Queue.new()
 
 local function bulletListener (event)
-	--if (event.type ~= "offScreen") then
-	--	return
-	--end
+	if (event.name ~= "offScreen") then
+		return
+	end
 	local bullet = Queue.removeObject(BulletManager.static.onScreenBullets, event.bullet);
 	Queue.insertFront(BulletManager.static.offScreenBullets, bullet);
 end
@@ -43,13 +42,15 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	-- search for correct type of bullet in off screen queue
 	for i = BulletManager.static.offScreenBullets.first, BulletManager.static.offScreenBullets.last, 1 do
 	  	local bullet = BulletManager.static.offScreenBullets[i]
-		print(BulletManager.static.offScreenBullets.size)
-		print(bullet)
-		if (bullet.imgSrc == imgSrc) then
-			Queue.removeIndex(BulletManager.static.offScreenBullets, i);
-			Queue.insertFront(BulletManager.static.onScreenBullets, bullet)
-			bullet.isPlayerBullet = isPlayerBullet
-			return bullet
+		--print(BulletManager.static.offScreenBullets.size)
+		--print(bullet)
+		if bullet ~= nil then
+			if bullet.imgSrc == imgSrc then
+				Queue.removeIndex(BulletManager.static.offScreenBullets, i);
+				Queue.insertFront(BulletManager.static.onScreenBullets, bullet)
+				bullet.isPlayerBullet = isPlayerBullet
+				return bullet
+			end
 		end
 	end
 	local bullet = bulletClass:new(self.sceneGroup, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height);

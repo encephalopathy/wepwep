@@ -24,6 +24,7 @@ Bullet = MoveableObject:subclass("Bullet")
 		@See inherit doc
 	RETURN: VOID
 ]]--
+
 function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
 	local collisionFilter
 	if isPlayerBullet == true then
