@@ -46,8 +46,8 @@ public class WaveScreen extends JFrame {
 	private JPanel EnemyPlacementGrid;
 	//private
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
-	static Wave currentWave = new Wave(0); //the current wave you are working on 
-	private Level currentLevel = new Level(null, 0); //the current level you are working on
+	static Wave currentWave = new Wave(0, null); //the current wave you are working on 
+	static Level currentLevel = new Level(null, 0); //the current level you are working on
 	private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
 	static List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
 	private String waveNameString = "";
@@ -214,6 +214,35 @@ public class WaveScreen extends JFrame {
 		//adding in Redneck enemy option
 		JMenuItem RedneckItem = new JMenuItem("Redneck");
 		enemyChoiceMenu.add(RedneckItem);
+		
+		JMenu deleteMenu = new JMenu("Delete");
+		menuBar.add(deleteMenu);
+		
+		JMenuItem deleteWaveButton = new JMenuItem("Wave");
+		deleteMenu.add(deleteWaveButton);
+		deleteWaveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println(currentLevel.waveList.size());
+				currentLevel.levelWavesMenu.remove(currentWave.waveButton);
+				
+				currentLevel.waveList.remove(currentWave);
+				currentWave = currentLevel.waveList.get(0);
+			}
+		});
+		
+		JMenuItem deleteLevelButton = new JMenuItem("Level");
+		deleteMenu.add(deleteLevelButton);
+		deleteLevelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				LevelMenu.remove(currentLevel.levelWavesMenu);
+				levelSet.remove(currentLevel);
+				currentLevel = levelSet.get(0);
+			}
+		});
+		
+		
 		RedneckItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {

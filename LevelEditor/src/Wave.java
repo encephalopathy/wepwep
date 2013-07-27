@@ -12,12 +12,13 @@ public class Wave {
 
 	public int time = 0; //the time that the wave will begin
 	private List<Enemy> waveEnemyList = new ArrayList<Enemy>();
-	JMenuItem waveButton = null;
+	public JMenuItem waveButton = null;
+	private Level parentLevel;
 	
 	//constructor for wave
-	public Wave( int t){
+	public Wave(int t, Level l){
 		time = t;
-		
+		parentLevel = l;
 		//menu set up
 		waveButton = new JMenuItem(Integer.toString(t));  //button for a given wave
 		waveButton.addActionListener(new ActionListener(){ //by clicking on it, you change the current wave
@@ -35,6 +36,7 @@ public class Wave {
 	{
 		//need to set the currentWave to this newly created wave
 		WaveScreen.currentWave = this;	
+		WaveScreen.currentLevel = parentLevel;
 	}
 	
 	public List<Enemy> getWave(){

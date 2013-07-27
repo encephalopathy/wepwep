@@ -42,7 +42,7 @@ public class Level {
 	                    JOptionPane.PLAIN_MESSAGE, null,
 	                    null, "");
 				int t = Integer.parseInt(s);
-				Wave newWave = new Wave(t);	 //create a new wave
+				Wave newWave = new Wave(t, getSelf());	 //create a new wave
 				System.out.println("INDEX OF THE NEW WAVE: " + newWave);
 				waveList.add(newWave); //take that wave and add to this levels waveList
 				levelWavesMenu.add(newWave.waveButton); //add the newWave's waveButton to the level's wave menu
@@ -53,6 +53,10 @@ public class Level {
 		
 		levelWavesMenu.add(newWaveButton); //add the newWaveButton to the levelWavesMenu
 		
+	}
+	
+	private Level getSelf(){
+		return this;
 	}
 	
 	//adds a single wave to the Levels waveList field
