@@ -59,15 +59,6 @@ public class Level {
 		return this;
 	}
 	
-	//adds a single wave to the Levels waveList field
-	/*    PENDING REMOVAL
-	public void AddWave(Wave newWave)
-	{
-		System.out.println("Adding Wave");
-		waveList.add(newWave);
-		System.out.println("Size of Level: " + waveList.size());
-	}
-	*/
 	
 	
 }

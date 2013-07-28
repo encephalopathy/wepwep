@@ -43,12 +43,12 @@ public class Wave {
 		return waveEnemyList;
 	}
 	
-	public void setWave(Enemy e){
+	public void addEnemy(Enemy e){
 		System.out.println("WAVE: " + time + " " + e.DEBUGPRINTSTRING());
 		waveEnemyList.add(e);
 	}
 	
-	public void setWave(List<Enemy> enemyList){
+	public void addEnemyList(List<Enemy> enemyList){
 		waveEnemyList = enemyList;
 	}
 }

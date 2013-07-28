@@ -23,6 +23,7 @@ import java.net.URL;
 import java.nio.file.Path;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
@@ -55,6 +56,7 @@ public class WaveScreen extends JFrame {
 	public String selectedEnemy = "enemy";
 	JMenu LevelMenu = new JMenu(); //declarations of level menu
 	JFrame levelPopUp = new JFrame(); //JFrame for the level naming popup
+	//WeaponPopUp weaponPopUp = new WeaponPopUp();
 	
 	//border variables
 	public final int enemyGridBorderTop = 200; //
@@ -129,8 +131,7 @@ public class WaveScreen extends JFrame {
 				System.out.println("X:" + mouseX + ", Y:" + mouseY );
 				Enemy newEnemy = new Enemy(mouseX, mouseY);
 				System.out.println("newEnemy object: " + newEnemy);
-				currentEnemyList.add(newEnemy);
-				System.out.println("The currentEnemyList is: " + currentEnemyList.size());
+				currentWave.addEnemy(newEnemy);
 			}
 		});
 		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
@@ -215,67 +216,73 @@ public class WaveScreen extends JFrame {
 		JMenuItem RedneckItem = new JMenuItem("Redneck");
 		enemyChoiceMenu.add(RedneckItem);
 		
+		RedneckItem.addActionListener(new ActionListener() {
+	           @Override
+	           public void actionPerformed(ActionEvent event) {
+	               enemyChoiceMenu.setText("Redneck");
+		               try {
+						WeaponPopUp weaponPopUp = new WeaponPopUp(2);
+						weaponPopUp.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						weaponPopUp.setVisible(true);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	               
+	           }
+	       });
+		
+		//setting up the delete menu
 		JMenu deleteMenu = new JMenu("Delete");
 		menuBar.add(deleteMenu);
 		
+		//setting up the deleteWaveButton
 		JMenuItem deleteWaveButton = new JMenuItem("Wave");
 		deleteMenu.add(deleteWaveButton);
 		deleteWaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				if(currentWave == null){ //if no current wave
+					System.out.println("No currentWave to delete.");
+					return;
+				}
 				System.out.println(currentLevel.waveList.size());
 				currentLevel.levelWavesMenu.remove(currentWave.waveButton);
-				
 				currentLevel.waveList.remove(currentWave);
-				currentWave = currentLevel.waveList.get(0);
+				if(currentLevel.waveList.size() == 0){ //if no waves left
+					currentWave = null;
+				}
+				else {
+					currentWave = currentLevel.waveList.get(0);
+				}
 			}
 		});
 		
+		//setting up the deleteLevelButton
 		JMenuItem deleteLevelButton = new JMenuItem("Level");
 		deleteMenu.add(deleteLevelButton);
 		deleteLevelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				if(currentLevel == null){ //if no current level
+					System.out.println("No currentLevel to delete.");
+					return;
+				}
 				LevelMenu.remove(currentLevel.levelWavesMenu);
 				levelSet.remove(currentLevel);
-				currentLevel = levelSet.get(0);
+				if(levelSet.size() == 0){ //if no levels left
+					currentLevel = null;
+				}
+				else{
+					currentLevel = levelSet.get(0);
+				}
 			}
 		});
-		
-		
-		RedneckItem.addActionListener(new ActionListener() {
-	           @Override
-	           public void actionPerformed(ActionEvent event) {
-	               enemyChoiceMenu.setText("Redneck");
-	          }
-	       });
-		
-		
 		
 	
 	//public 
 
 	}
-	
-	/* PENDING REMOVAL
-	public void Search(String s)
-	{
-		System.out.println("IN");
-		System.out.println(waveList.size());
-		int time = Integer.parseInt(s); //this is how you convert a sting to an int! just so you know...
-		System.out.println("YEEEEAAAAAHHHHHH");
-		for(int i = 0; i < waveList.size(); i++)
-		{
-			Wave w = waveList.get(i);
-			//.get(i) does not work
-			System.out.println("IN IN");
-			if (waveList.get(i).time == time)
-			{
-				currentWave = waveList.get(i);
-			}
-		}
-	}
-	*/
 	
 	public void PrintToFile(String filename){
 		//walk through each wave in each level, print out the contents of each enemy and export to a
