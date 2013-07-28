@@ -2,8 +2,8 @@ require("Weapon")
 
 SineWave = Weapon:subclass("SineWave")
 
-function SineWave:init (sceneGroup, rateOfFire, bulletSpeed)
-   self.super:init(sceneGroup, "sprites/bullet_05.png", 20, SineWaveBullet)
+function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight)
+   self.super:init(sceneGroup, isPlayerOwned, "sprites/bullet_05.png", 20, SineWaveBullet, bulletWidth, bulletHeight)
    --self.soundPath = 'sineWave.ogg'
    --sineWaveShotSFX = MOAIUntzSound.new()
    --sineWaveShotSFX:load('sineWave.ogg')
@@ -12,7 +12,7 @@ end
 
 function SineWave:fire(player)
 	
-   if self:canFire() then
+   --if self:canFire() then
 	   local bullet1 = self:getNextShot()
 	   local bullet2 = self:getNextShot()
 	   
@@ -23,11 +23,6 @@ function SineWave:fire(player)
 		
 	   self:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet1, rotationAngle)
 	   self:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, self.owner, bullet2, rotationAngle)
-	   --bullet1.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
-	   --bullet1.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
-
-	  -- bullet2.sprite.x = self.owner.sprite.x + self.muzzleLocation.x
-	   --bullet2.sprite.y = self.owner.sprite.y + self.muzzleLocation.y
 
 	   bullet1.initialX = bullet1.sprite.x
 	   bullet1.initialY = bullet1.sprite.y
@@ -50,7 +45,7 @@ function SineWave:fire(player)
 	   
 	   bullet1.amp = -50
 	   bullet2.amp = 50	   
-	end
+	--end
    
    --powah stuff
    --player.powah = player.powah - self.energyCost

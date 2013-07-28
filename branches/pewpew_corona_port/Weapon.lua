@@ -1,19 +1,22 @@
 require("Object")
 require("Queue")
 require("Utility")
+require("BulletManager")
 require("SineWaveBullet")
+require("HomingBullet")
 Weapon = newclass("Weapon")
 
-function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
+function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight)
     self.isLoaded = false
 	self.ammo = Queue.new()
 	self.firedAmmo = Queue.new()
+	self.isPlayerOwned = isPlayerOwned
 	self.imgSrc = imgSrc
     self.sceneGroup = sceneGroup
 	self.rateOfFire = rateOfFire
 	self.fireAttempts = 0
-	self.ownerIsPlayer = ownerIsPlayer
-	
+	self.bulletWidth = bulletWidth
+	self.bulletHeight = bulletHeight
 	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
 		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
@@ -23,7 +26,7 @@ function Weapon:init(sceneGroup, imgSrc, rateOfFire, classType, ownerIsPlayer)
 	else
 		self.ammoType = classType
 	end
-	self.owner = nil --Needs to be set before weapon can be used
+	--self.owner = nil --Needs to be set before weapon can be used
 end
 
 --Should eventually load from a static list of bullets, the type of Bullet SHOULD be specified by the weapon
@@ -138,8 +141,10 @@ end
 
 function Weapon:getNextShot(numberOfShots)
 	
-	if self.ammo.size > 0 then
-		local ammo = Queue.removeBack(self.ammo) 
+	if self:canFire() then
+		--local ammo = Queue.removeBack(self.ammo)
+		
+		local ammo = bulletManager:getBullet (self.ammoType, self.imgSrc, self.isPlayerOwned, self.bulletWidth, bulletHeight)
 		self.fireAttempts = self.fireAttempts + 1
 		
 		if ammo.alive == false then
@@ -153,7 +158,15 @@ function Weapon:getNextShot(numberOfShots)
 end
 
 function Weapon:fire()
-	--if self.owner then
 	self.fireAttempts = self.fireAttempts + 1
-	--end
+end
+
+function Weapon:adjustPowah()
+	if self.owner.powah then
+		self.owner.powah = self.owner.powah - self.energyCost
+	end
+end
+
+function Weapon:playFiringSound()
+
 end

@@ -115,7 +115,7 @@ function Ride:onHit(phase, collide)
 		--print( self.myName .. ": collision began with " .. event.other.myName )
 		--print('Collided began')
 	if self.health <= 0 then
-		if phase == "begin" and self.alive then
+		if phase == "ended" and self.alive then
 			self:die()
 		end
 	end

@@ -5,6 +5,7 @@ SineWaveBullet = Bullet:subclass("SineWaveBullet")
 function SineWaveBullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height)
 	self.rotation = rotation or 0
+	self.className = "SineWaveBullet"
 end
 
 function SineWaveBullet:fire()
@@ -32,7 +33,7 @@ function SineWaveBullet:fire()
 end
 
 function SineWaveBullet:__tostring()
-	return "A SineWaveBullet with initial.xy ( " .. self.initialX .. ", " .. self.initialY .. " )"
+	return "SineWaveBullet"
 end
 
 function SineWaveBullet:recycle(bullet)

@@ -21,3 +21,38 @@ function removeBack(queue)
 	return value
 end
 
+function removeIndex (queue, index)
+   if (index < queue.first or index > queue.last) then
+      return
+   end
+   if (index == queue.last) then
+      return removeBack(queue)
+   end
+   if (index == 0) then
+      local oldFirst = queue.first
+      queue.first = queue.first + 1
+      local value = queue[oldFirst]
+      queue[oldFirst] = nil
+      queue.size = queue.size - 1
+      return value
+   end
+   local value = queue[index]
+   queue[index] = nil
+   for i = index, queue.first, -1 do
+      queue[i] = queue[i-1]
+   end
+   queue.first = queue.first + 1
+   queue.size = queue.size - 1
+   print('queue.first: ' .. queue.first)
+   print('queue.last: ' .. queue.last)
+   return value
+end
+
+function removeObject(queue, object)
+	for i = queue.first, queue.last, 1 do
+		if (queue[i] == object) then
+			return removeIndex(queue, i)
+		end
+	end
+	return nil
+end

@@ -7,7 +7,9 @@ PLAYER_POWAH_REGENERATION_RATE = 3
 --require("SingleshotWeapon")
 require("DoubleshotWeapon")
 require("SpreadshotWeapon")
+require("HomingshotWeapon")
 require("SineWaveWeapon")
+require("AIDirector")
 --require("ParticleEmitter")
 --[[
 	CLASS NAME: Player
@@ -61,7 +63,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	
-	self:weaponEquipDebug()
+	self:weaponEquipDebug(sceneGroup)
 	Player.player = self
 	self:setPlayerType()
 	--Player.MAX_MOVEMENT_X = self.width / 2
@@ -84,9 +86,11 @@ local function clampPlayerMovement(currentSpeed)
 	end
 end
 
-function Player:weaponEquipDebug() 
-	self.weapon = Singleshot:new(scene, 25, -200, true) 
-	self.weapon:load(40, sceneGroup, { 0, -100 }, true)
+function Player:weaponEquipDebug(sceneGroup) 
+	self.weapon = Singleshot:new(sceneGroup, true, 25, 200) 
+	self.weapon.targets = AIDirector.haterList
+	--self.weapon:load(40, sceneGroup, { 0, -100 }, true)
+	self.weapon:setMuzzleLocation( {0, -100 } )
 	self.weapon.owner = self
 end
 

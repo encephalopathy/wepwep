@@ -24,6 +24,7 @@ Bullet = MoveableObject:subclass("Bullet")
 		@See inherit doc
 	RETURN: VOID
 ]]--
+
 function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
 	local collisionFilter
 	if isPlayerBullet == true then
@@ -32,6 +33,7 @@ function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotatio
 		collisionFilter = { categoryBits = 8, maskBits = 13}
 	end
 	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height, collisionFilter)
+	self.imgSrc = imgSrc
 	self.alive = false
 	self.damage = 1
 	self.isPlayerBullet = isPlayerBullet
@@ -58,8 +60,8 @@ function Bullet:move(x, y)
 	self.super:move(x, y)
 end
 
-function Bullet:performAction(ride)
-
+function Bullet:__toString()
+	return "Bullet"
 end
 
 --[[
@@ -72,7 +74,7 @@ PARAMETERS:
 RETURN: VOID
 ]]--
 function Bullet:onHit(phase, collitor)
-	if phase == "begin" and self.alive then
+	if phase == "began" and self.alive then
 		if not collitor.type == "player" and self.isPlayerBullet then
 			if self.alive then
 				self.alive = false
@@ -90,6 +92,8 @@ function Bullet:onHit(phase, collitor)
 				self.alive = false
 			end
 		end
+	elseif phase == "ended" and not self.alive then
+		self:recycle()
 	end
 	--self.bulletList[self] = nil
 end
@@ -97,7 +101,8 @@ end
 function Bullet:recycle()
 	self.sprite.x = 5000
     self.sprite.y = 5000
-    self.alive = false
+	local offScreen = { name = "offScreen", bullet = self }
+	Runtime:dispatchEvent(offScreen)
 end
 
 function Bullet:destroy()
