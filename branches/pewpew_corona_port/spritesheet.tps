@@ -53,7 +53,7 @@
         <key>dataFormat</key>
         <string>corona-imagesheet</string>
         <key>textureFileName</key>
-        <filename>spritesheet.png</filename>
+        <filename>spritesheetrgba4444.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -142,7 +142,7 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>spritesheet.lua</filename>
+        <filename>spritesheetrgba4444.lua</filename>
         <key>multiPack</key>
         <false/>
         <key>mainExtension</key>
@@ -150,7 +150,7 @@
         <key>forceIdenticalLayout</key>
         <false/>
         <key>outputFormat</key>
-        <enum type="SettingsBase::OutputFormat">RGBA8888</enum>
+        <enum type="SettingsBase::OutputFormat">RGBA4444</enum>
         <key>contentProtection</key>
         <struct type="ContentProtection">
             <key>key</key>
