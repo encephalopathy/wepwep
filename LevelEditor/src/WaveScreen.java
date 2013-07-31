@@ -23,6 +23,7 @@ import java.net.URL;
 import java.nio.file.Path;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
@@ -31,12 +32,16 @@ import javax.swing.JMenuItem;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JTextPane;
@@ -46,15 +51,18 @@ public class WaveScreen extends JFrame {
 	private JPanel EnemyPlacementGrid;
 	//private
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
-	static Wave currentWave = new Wave(0); //the current wave you are working on 
-	private Level currentLevel = new Level(null, 0); //the current level you are working on
+	static Wave currentWave = new Wave(0, null); //the current wave you are working on 
+	static Level currentLevel = new Level(null, 0); //the current level you are working on
 	private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
 	static List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
 	private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
+	public Enemy workingEnemy = new Enemy();
+	public Enemy highlightedEnemy = new Enemy();
 	JMenu LevelMenu = new JMenu(); //declarations of level menu
 	JFrame levelPopUp = new JFrame(); //JFrame for the level naming popup
+	//WeaponPopUp weaponPopUp = new WeaponPopUp();
 	
 	//border variables
 	public final int enemyGridBorderTop = 200; //
@@ -127,10 +135,12 @@ public class WaveScreen extends JFrame {
 				mouseX = arg0.getX();
 				mouseY = arg0.getY();
 				System.out.println("X:" + mouseX + ", Y:" + mouseY );
-				Enemy newEnemy = new Enemy(mouseX, mouseY);
+				Enemy newEnemy = workingEnemy.cloneSelf();
+				newEnemy.setLocation(mouseX, mouseY);
 				System.out.println("newEnemy object: " + newEnemy);
-				currentEnemyList.add(newEnemy);
-				System.out.println("The currentEnemyList is: " + currentEnemyList.size());
+				System.out.println(newEnemy.weaponList);
+				currentWave.addEnemy(newEnemy);
+				System.out.println(currentWave.printOut());
 			}
 		});
 		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
@@ -208,44 +218,74 @@ public class WaveScreen extends JFrame {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               enemyChoiceMenu.setText("Honkey");
+	               Enemy_1 newDude = new Enemy_1();
+	               newDude.createWeaponList();
+	               workingEnemy = newDude;
 	          }
 	       });
 		
 		//adding in Redneck enemy option
 		JMenuItem RedneckItem = new JMenuItem("Redneck");
 		enemyChoiceMenu.add(RedneckItem);
+		
 		RedneckItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               enemyChoiceMenu.setText("Redneck");
-	          }
+	           }
 	       });
 		
+		//setting up the delete menu
+		JMenu deleteMenu = new JMenu("Delete");
+		menuBar.add(deleteMenu);
+		
+		//setting up the deleteWaveButton
+		JMenuItem deleteWaveButton = new JMenuItem("Wave");
+		deleteMenu.add(deleteWaveButton);
+		deleteWaveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if(currentWave == null){ //if no current wave
+					System.out.println("No currentWave to delete.");
+					return;
+				}
+				System.out.println(currentLevel.waveList.size());
+				currentLevel.levelWavesMenu.remove(currentWave.waveButton);
+				currentLevel.waveList.remove(currentWave);
+				if(currentLevel.waveList.size() == 0){ //if no waves left
+					currentWave = null;
+				}
+				else {
+					currentWave = currentLevel.waveList.get(0);
+				}
+			}
+		});
+		
+		//setting up the deleteLevelButton
+		JMenuItem deleteLevelButton = new JMenuItem("Level");
+		deleteMenu.add(deleteLevelButton);
+		deleteLevelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if(currentLevel == null){ //if no current level
+					System.out.println("No currentLevel to delete.");
+					return;
+				}
+				LevelMenu.remove(currentLevel.levelWavesMenu);
+				levelSet.remove(currentLevel);
+				if(levelSet.size() == 0){ //if no levels left
+					currentLevel = null;
+				}
+				else{
+					currentLevel = levelSet.get(0);
+				}
+			}
+		});
 		
 	
 	//public 
 
 	}
-	
-	/* PENDING REMOVAL
-	public void Search(String s)
-	{
-		System.out.println("IN");
-		System.out.println(waveList.size());
-		int time = Integer.parseInt(s); //this is how you convert a sting to an int! just so you know...
-		System.out.println("YEEEEAAAAAHHHHHH");
-		for(int i = 0; i < waveList.size(); i++)
-		{
-			Wave w = waveList.get(i);
-			//.get(i) does not work
-			System.out.println("IN IN");
-			if (waveList.get(i).time == time)
-			{
-				currentWave = waveList.get(i);
-			}
-		}
-	}
-	*/
 	
 	public void PrintToFile(String filename){
 		//walk through each wave in each level, print out the contents of each enemy and export to a

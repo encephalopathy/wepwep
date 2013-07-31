@@ -24,9 +24,6 @@ public class Level {
 	JPopupMenu wavePopup = null; //popUp menu to add name
 	JFrame waveFrame = new JFrame(); //JFrame to hold the popUp menu
 	
-	JMenuItem upOneButton = new JMenuItem("Up One");   
-	JMenuItem downOneButton = new JMenuItem("Down One"); 
-	
 	//Constructor for a new Level
 	public Level (String name, int level )
 	{
@@ -45,7 +42,7 @@ public class Level {
 	                    JOptionPane.PLAIN_MESSAGE, null,
 	                    null, "");
 				int t = Integer.parseInt(s);
-				Wave newWave = new Wave(t);	 //create a new wave
+				Wave newWave = new Wave(t, getSelf());	 //create a new wave
 				System.out.println("INDEX OF THE NEW WAVE: " + newWave);
 				waveList.add(newWave); //take that wave and add to this levels waveList
 				levelWavesMenu.add(newWave.waveButton); //add the newWave's waveButton to the level's wave menu
@@ -56,42 +53,12 @@ public class Level {
 		
 		levelWavesMenu.add(newWaveButton); //add the newWaveButton to the levelWavesMenu
 		
-		//upOneButton Set up
-		upOneButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {  //this part is only run once it is clicked
-				System.out.println("TEST ON upOneButton");
-				//change the levelNumber and index value on both levels; needs access to WaveScreen levelSet list;
-				System.out.println("The levelSet: " + WaveScreen.levelSet); //verify that you are on the LevelSet
-
-			}
-		});
-		
-		levelWavesMenu.add(upOneButton);
-		
-		//downOneButton Set up
-		downOneButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {  //this part is only run once it is clicked
-				System.out.println("TEST ON downOneButton");
-				//change the levelNumber and index value on both levels; needs access to WaveScreen levelSet list;
-				System.out.println("The levelSet: " + WaveScreen.levelSet);
-				
-			}
-		});
-		
-		levelWavesMenu.add(downOneButton);
 	}
 	
-	//adds a single wave to the Levels waveList field
-	/*    PENDING REMOVAL
-	public void AddWave(Wave newWave)
-	{
-		System.out.println("Adding Wave");
-		waveList.add(newWave);
-		System.out.println("Size of Level: " + waveList.size());
+	private Level getSelf(){
+		return this;
 	}
-	*/
+	
 	
 	
 }
