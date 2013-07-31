@@ -51,4 +51,8 @@ public class Wave {
 	public void addEnemyList(List<Enemy> enemyList){
 		waveEnemyList = enemyList;
 	}
+	
+	public String printOut(){
+		return waveEnemyList.toString();
+	}
 }

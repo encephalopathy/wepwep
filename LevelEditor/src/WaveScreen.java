@@ -32,12 +32,16 @@ import javax.swing.JMenuItem;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JTextPane;
@@ -54,6 +58,8 @@ public class WaveScreen extends JFrame {
 	private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
+	public Enemy workingEnemy = new Enemy();
+	public Enemy highlightedEnemy = new Enemy();
 	JMenu LevelMenu = new JMenu(); //declarations of level menu
 	JFrame levelPopUp = new JFrame(); //JFrame for the level naming popup
 	//WeaponPopUp weaponPopUp = new WeaponPopUp();
@@ -129,9 +135,12 @@ public class WaveScreen extends JFrame {
 				mouseX = arg0.getX();
 				mouseY = arg0.getY();
 				System.out.println("X:" + mouseX + ", Y:" + mouseY );
-				Enemy newEnemy = new Enemy(mouseX, mouseY);
+				Enemy newEnemy = workingEnemy.cloneSelf();
+				newEnemy.setLocation(mouseX, mouseY);
 				System.out.println("newEnemy object: " + newEnemy);
+				System.out.println(newEnemy.weaponList);
 				currentWave.addEnemy(newEnemy);
+				System.out.println(currentWave.printOut());
 			}
 		});
 		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
@@ -209,6 +218,9 @@ public class WaveScreen extends JFrame {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               enemyChoiceMenu.setText("Honkey");
+	               Enemy_1 newDude = new Enemy_1();
+	               newDude.createWeaponList();
+	               workingEnemy = newDude;
 	          }
 	       });
 		
@@ -220,15 +232,6 @@ public class WaveScreen extends JFrame {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               enemyChoiceMenu.setText("Redneck");
-		               try {
-						WeaponPopUp weaponPopUp = new WeaponPopUp(2);
-						weaponPopUp.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						weaponPopUp.setVisible(true);
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	               
 	           }
 	       });
 		
