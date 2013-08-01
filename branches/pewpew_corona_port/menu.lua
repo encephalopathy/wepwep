@@ -2,21 +2,24 @@
 --
 -- menu.lua
 --
+-- The main menu of SeUPP
 -----------------------------------------------------------------------------------------
+
 require("Inventory")
 require("Utility")
 require("BGM")
+local M = require("GameConstants")
+local widget = require("widget")
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
 
+local spriteSheet = M.spriteSheet
+local sheetInfo   = M.sheetInfo
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
-
--- include Corona's "widget" library
-local widget = require "widget"
 
 -- forward declarations and other locals
 local playButton, weaponShopButton, EquipRideButton
@@ -58,30 +61,26 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-
-	-- display a background image
-	-- local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
-	local background = display.newImage( spriteSheet , spriteSheet.frameIndex["splash_main_menu"])
-	background:setReferencePoint( display.TopLeftReferencePoint )
-	background.x, background.y = 0, 0
+	
+	local background = display.newImage( spriteSheet , sheetInfo.frameIndex["splash_main_menu"])
 	
 	local centerOfScreenX = display.contentWidth*0.5
 	
 	-- create a widget button (which will loads level1.lua on release)
 	playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
 		display.contentHeight - 225, onPlayButtonRelease)
+		
 	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
 		display.contentHeight - 225,onWeaponShopButtonRelease)
+		
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
 		display.contentHeight - 75, onEquipButtonRelease)
-    -- slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 
     -- insert images and buttons into the scene group
 	group:insert(background)
 	group:insert(weaponShopButton)
 	group:insert(equipRideButton)
 	group:insert(playButton)
-    -- group:insert(slider)
 end
 
 
