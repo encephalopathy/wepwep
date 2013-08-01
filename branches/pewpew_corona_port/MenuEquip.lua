@@ -5,6 +5,9 @@
 -----------------------------------------------------------------------------------------
 require("Utility")
 require("Inventory")
+local M = require("GameConstants")
+local spriteSheet = M.spriteSheet
+local sheetInfo   = M.sheetInfo
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -78,12 +81,14 @@ function scene:createScene( event )
 	local group = self.view
 
 	-- display a background image
-	local background = display.newImageRect( "sprites/sheet_metal.png", display.contentWidth, display.contentHeight )
-	background:setReferencePoint( display.TopLeftReferencePoint )
+	local background = display.newImageRect(spriteSheet , sheetInfo.frameIndex["sheet_metal"],
+	                                        display.contentWidth, display.contentHeight )
+	background:setReferencePoint(display.TopLeftReferencePoint)
 	background.x, background.y = 0, 0
 	
-	-- create a widget button (which will loads level1.lua on release)
-	local centerOfScreenX = display.contentWidth*0.5
+	local bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
+	bgRect:setFillColor(20, 70, 10, 130)
+	
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
@@ -93,7 +98,9 @@ function scene:createScene( event )
 	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
 
 
-
+    -- create the widget buttons
+	local centerOfScreenX = display.contentWidth*0.5
+	
     regularButton = createBttn(widget, display, "Regular", display.contentWidth * 0.3, 
 		display.contentHeight * 0.3, regular)
     sineButton = createBttn(widget, display, "Sine", display.contentWidth * 0.3, 
@@ -124,8 +131,7 @@ function scene:createScene( event )
 	-- all display objects must be inserted into group
 	
 	--group:insert( titleLogo )
-	bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
-	bgRect:setFillColor(20, 70, 10, 130)
+	
 	--bgRect:setStrokeColor(20, 70, 10, 130)
 
 	highlightWeaponRect = display.newRect(180, 150, 150, 50)

@@ -1,3 +1,11 @@
+-----------------------------------------------------------------------------------------
+--
+-- Utility.lua
+--
+-- Collection of useful utility functions, making development much easier
+--
+-----------------------------------------------------------------------------------------
+
 function createBttn(widget, display, labelName, x, y, onReleaseCallback)
 
 	if onReleaseCallback == nil then
