@@ -15,8 +15,8 @@ local sceneGroup = RNGroup:new()
 --init Scene
 function MainMenu.onCreate()
     --add things to sceneGroup
-local background = RNFactory.createImage("sprites/splash_main_menu.png", { parentGroup = sceneGroup }); background.x = 240; background.y = 380; background.scaleX=1; background.scaleY=1;
-
+	local background = RNFactory.createImage("sprites/splash_main_menu.png", { parentGroup = sceneGroup }); background.x = 240; background.y = 380; background.scaleX=1; background.scaleY=1;
+	--local background = display.newImage()
 		
 	    local continuebutton = RNFactory.createButton("images/button-plain.png",
         {
