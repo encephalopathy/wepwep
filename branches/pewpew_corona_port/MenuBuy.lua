@@ -6,6 +6,9 @@
 require("Utility")
 require("Inventory")
 require("BGM")
+local M = require("GameConstants")
+local spriteSheet = M.spriteSheet
+local sheetInfo   = M.sheetInfo
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -212,11 +215,14 @@ function scene:createScene( event )
 	
 	
 	-- display a background image
-	local background = display.newImageRect( "sprites/sheet_metal.png", display.contentWidth, display.contentHeight )
+	local background = display.newImageRect(spriteSheet, sheetInfo.frameIndex["sheet_metal"],
+	                                        display.contentWidth, display.contentHeight)
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 
-	pauseScreen = display.newImageRect( "sprites/background-green.png", display.contentWidth, display.contentHeight )
+	--pauseScreen = display.newImageRect("sprites/background-green.png", display.contentWidth, display.contentHeight)
+	pauseScreen = display.newImageRect(spriteSheet, sheetInfo.frameIndex["background-green"],
+	                                   display.contentWidth, display.contentHeight)
 	pauseScreen:setReferencePoint( display.TopLeftReferencePoint )
 	pauseScreen.x, pauseScreen.y = 0, 0
 	pauseScreen.alpha = 0.55

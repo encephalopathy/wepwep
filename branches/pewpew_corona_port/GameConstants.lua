@@ -15,8 +15,9 @@ M.spriteSheet = graphics.newImageSheet("spritesheetrgba4444.png", M.sheetInfo:ge
 oldScaleX = 1
 oldScaleY = 1
 
-PLAYER_MAXHEALTH = 10
-PLAYER_MAXPOWAH  = 30
+M.PLAYER_MAXHEALTH = 10
+M.PLAYER_MAXPOWAH  = 30
+M.PLAYER_POWAH_REGENERATION_RATE = 3
 
 PLAYER_HEALTHBAR_MAX = 240
 PLAYER_POWAHBAR_MAX  = 100

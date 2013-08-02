@@ -1,11 +1,18 @@
-require("AIDirector")
-require("LevelManager")
-require("Player")
 -----------------------------------------------------------------------------------------
 --
 -- level1.lua
 --
+-- The first level of the game. Currently, the level that is played as soon as the player
+-- presses the "Play Now" button in the main menu
 -----------------------------------------------------------------------------------------
+
+require("AIDirector")
+require("LevelManager")
+require("Player")
+local M = require("GameConstants")
+
+local spriteSheet = M.spriteSheet
+local sheetInfo   = M.sheetInfo
 
 -- scene managment api, dictates game scene transition
 local storyboard = require( "storyboard" )
@@ -15,9 +22,7 @@ local scene = storyboard.newScene()
 local widget = require "widget"
 
 -- local variables
-local player = nil
-local background = nil
-local backgroundBuffer = nil
+local player, background, backgroundBuffer = nil
 local currentLevelNumber = 0
 step = 0
 
@@ -55,12 +60,9 @@ end
 local function updateBackground()
 	background.y = background.y + 10
 	backgroundBuffer.y = backgroundBuffer.y + 10
-	--background.x = 10
-	--backgroundBuffer.x = 70
 	if background.y >= 3600 then
 		background.y = 0
 		backgroundBuffer.y = -3600
---	background.y = background.y + 10
 	end
 end
 
@@ -68,48 +70,49 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	-- creates backdrop of current game
-	background = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
+	-- the scrolling background that appears during play
+	background = display.newImageRect(spriteSheet, sheetInfo.frameIndex["bg_spacesm"],
+	                                   display.contentWidth, display.contentHeight * 7)
 	background:setReferencePoint( display.CenterReferencePoint )
 	background.x, background.y = 225, 0
-	group:insert( background )
+	group:insert(background)
 	
-	-- creates backdropBuffer of current game
-	backgroundBuffer = display.newImageRect( "sprites/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
+	-- the second part of the background that allows for seamless scrolling
+	backgroundBuffer = display.newImageRect(spriteSheet, sheetInfo.frameIndex["bg_spacesm"],
+	                                        display.contentWidth, display.contentHeight * 7)
 	backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
 	backgroundBuffer.x, backgroundBuffer.y = 225, -3600
-	group:insert(  backgroundBuffer )
-	
+	group:insert(backgroundBuffer)
 	
 	player = Player:new(group, "sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
-local myButton = widget.newButton
-{
-   left = screenW - screenW*0.3,
-   top = screenH - screenH*0.15,
-   width = screenW*0.3,
-   height = screenH*0.2,
-   defaultFile = "sprites/backtomenu_unpressed.png",
-   overFile = "sprites/backtomenu_pressed.png",
-   label = "",
-   labelAlign = "center",
-   font = "Arial",
-   fontSize = 18,
-   labelColor = { default = {0,0,0}, over = {255,255,255} },
-   onRelease = back
-}
-myButton.baseLabel = ""
+    local myButton = widget.newButton
+    {
+        left = screenW - screenW*0.3,
+        top = screenH - screenH*0.15,
+        width = screenW*0.3,
+        height = screenH*0.2,
+        defaultFile = "sprites/backtomenu_unpressed.png",
+        overFile = "sprites/backtomenu_pressed.png",
+        label = "",
+        labelAlign = "center",
+        font = "Arial",
+        fontSize = 18,
+        labelColor = { default = {0,0,0}, over = {255,255,255} },
+        onRelease = back
+    }
+    myButton.baseLabel = ""
 
-group:insert( myButton )
+    group:insert( myButton )
 	
 	mainInventory:equipRig(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
-	
-
 end
 
 
+-- TODO: This function should be above the scene:createScene function, but when it's
+-- moved there, everything blows up
 local function back()
     audio.stop()
 	storyboard.gotoScene("menu", "fade", 500)
@@ -127,6 +130,7 @@ function scene:enterScene( event )
 	step = 0
 end
 
+
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
@@ -135,6 +139,7 @@ function scene:exitScene( event )
 	physics.stop()
 	step = 0
 end
+
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
 function scene:destroyScene( event )
@@ -148,17 +153,17 @@ function scene:destroyScene( event )
 	end
 end
 
+
 function particleCoroutine (a)
     return coroutine.ParticleCoroutine(function ()
     updateParticleEmitters()
     end)
 end
 
+
 local function update(event)
 	
 	coroutine.resume(newCoroutine)
---if not pauseGame then
-   -- print("I am updating")
 	if not player.alive then
 		player.sprite.x = 4000
 		player.sprite.y = 4000

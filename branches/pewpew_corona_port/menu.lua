@@ -62,7 +62,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	local background = display.newImage( spriteSheet , sheetInfo.frameIndex["splash_main_menu"])
+	local background = display.newImage(spriteSheet , sheetInfo.frameIndex["splash_main_menu"])
 	
 	local centerOfScreenX = display.contentWidth*0.5
 	

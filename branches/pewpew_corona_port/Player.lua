@@ -1,14 +1,21 @@
-require("Ride")
-PLAYER_MAXHEALTH = 10
+-----------------------------------------------------------------------------------------
+--
+-- Player.lua
+--
+-- Class for the ship that the player controls when playing the game.
+-----------------------------------------------------------------------------------------
 
-PLAYER_MAXPOWAH = 100
-PLAYER_POWAH_REGENERATION_RATE = 3
---For testing
---require("SingleshotWeapon")
+require("Ride")
 require("DoubleshotWeapon")
 require("SpreadshotWeapon")
 require("SineWaveWeapon")
---require("ParticleEmitter")
+local M = require("GameConstants")
+
+local PLAYER_MAXHEALTH = M.PLAYER_MAXHEALTH
+local PLAYER_MAXPOWAH  = M.PLAYER_MAXPOWAH
+local PLAYER_POWAH_REGENERATION_RATE = M.PLAYER_POWAH_REGENERATION_RATE
+
+
 --[[
 	CLASS NAME: Player
 	
@@ -20,8 +27,8 @@ require("SineWaveWeapon")
 	@onHit: Collision Event Handler function that is evoked when the player has collided with
 	another object.
 ]]--
-
 Player = Ride:subclass("Player")
+
 
 --[[
 	FUNCTION NAME: init
@@ -38,8 +45,6 @@ Player = Ride:subclass("Player")
 	
 	RETURN: VOID
 ]]--
-
-
 function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
 	{"sprites/player_piece_01.png", 
@@ -68,10 +73,12 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	--Player.MAX_MOVEMENT_Y = self.height / 2
 end
 
+
 function Player:setPlayerType()
 	self.type = "player"
 	self.sprite.objRef = self
 end
+
 
 local function clampPlayerMovement(currentSpeed)
 	local MAX_SPEED = 30
@@ -84,11 +91,13 @@ local function clampPlayerMovement(currentSpeed)
 	end
 end
 
+
 function Player:weaponEquipDebug() 
 	self.weapon = Singleshot:new(scene, 25, -200, true) 
 	self.weapon:load(40, sceneGroup, { 0, -100 }, true)
 	self.weapon.owner = self
 end
+
 
 --[[
 	FUNCTION NAME: move
@@ -130,9 +139,9 @@ function Player.touch(event, player)
 			player.isFiring = false
 		end
 	player.prevX = event.x
-	player.prevY = event.y
-	--print('Player pos: ( ' .. playerSprite.x .. ', ' .. playerSprite.y .. ' )') 
+	player.prevY = event.y 
 end
+
 
 function Player:regeneratePowah()
 	if not self.isFiring and self.powah < PLAYER_MAXPOWAH then
@@ -140,14 +149,17 @@ function Player:regeneratePowah()
 	end
 end
 
+
 function Player:cullBulletsOffScreen()
 	 self.weapon:checkBullets()
 	 --self.equippedSecondaryGameWeapon:checkBombs()
 end
 
+
 function Player:enterFrame(event)
 	--self:fire()
 end
+
 
 function Player:fire()
 	if self.alive ~= false then
@@ -155,10 +167,16 @@ function Player:fire()
 	end
 end
 
+
 function Player:fireSecondaryWeapon()
 	if self.alive ~= false then
 		--self.secondaryWeapon:fire()
 	end
+end
+
+
+function Player:__toString()
+	return "Player"
 end
 
 
@@ -176,13 +194,6 @@ end
 	RETURN: VOID
 
 ]]--
-
-function Player:__toString()
-	return "Player"
-end
-
-
---function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)
    if phase == "ended"  then
 		if self.alive == true then
