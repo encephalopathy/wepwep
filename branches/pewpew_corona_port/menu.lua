@@ -32,7 +32,7 @@ local function createMainMenuMVC()
 	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
 end
 
---------------------------------------------
+---------------------------------------------
 
 -- forward declarations and other locals
 local playButton, weaponShopButton, EquipRideButton
