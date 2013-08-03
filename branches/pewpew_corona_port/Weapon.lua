@@ -245,20 +245,15 @@ end
 	DESCRIPTION: Gets the next bullet to be fired from the Bullet Manager if able.
 	
 	PARAMETERS:
-		@muzzleLocX: The location of the x coordinate of the muzzle of the gun.
-		@muzzleLocY: The location of the y coordinate of the muzzle of the gun.
-		@bullet: The bullet that is to be fired by the gun.
-		@owner: The owner of the gun, we need to pass this field in so we know which ship is firing the gun.
-		@rotationAngle: An angle defined in radians that determines the rotation of the gun tip.
 	@RETURN: VOID
 ]]--
 function Weapon:getNextShot(numberOfShots)
 	
 	if self:canFire() then
-		local ammo = bulletManager:getBullet (self.ammoType, self.imgSrc, self.isPlayerOwned, self.bulletWidth, bulletHeight)
+		local ammo = Queue.removeBack(self.ammo)
+		--local ammo = bulletManager:getBullet (self.ammoType, self.imgSrc, self.isPlayerOwned, self.bulletWidth, bulletHeight)
 		--We need to increment the fire attempts when we fire else we will be firing infintely.
 		self.fireAttempts = self.fireAttempts + 1
-		
 		
 		--[[
 			Puts the bullets in fire ammo queue signifying that this bullet has been fired.  Will be deprecated when
