@@ -22,7 +22,7 @@ local mainMenuContext
 
 local function createMainMenuMVC()
 	mainMenuContext = Context:new()
-	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.MainMenuMediator")
+	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
 end
 
 --------------------------------------------
@@ -84,7 +84,9 @@ function scene:createScene( event )
 	
 	-- create a widget button (which will loads level1.lua on release)
 	local centerOfScreenX = display.contentWidth*0.5
-	
+	local x = centerOfScreenX + 120
+	local y = display.contentHeight - 225
+	print('Display content x and y: x: ' .. x .. ', ' .. y .. ' )')
 	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
 	--	display.contentHeight - 225, onPlayButtonRelease)
 	local playButton = PlayButton:new(group)
@@ -93,12 +95,10 @@ function scene:createScene( event )
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
 		display.contentHeight - 75, onEquipButtonRelease)
     slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
-	--playButton:setReferencePoint( display.CenterReferencePoint )
-	--playButton.x = display.contentWidth*0.5
-	--playButton.y = display.contentHeight - 125
 	
-	-- all display objects must be inserted into group
-	
+	-- all display objects must be inserted into group.
+	-- Adding things to the group works like a stack.  Last thing added appears
+	-- on top of everything else.
 	--group:insert( titleLogo )
 	
 	group:insert( weaponShopButton )

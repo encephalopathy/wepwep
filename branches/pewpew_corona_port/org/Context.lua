@@ -2,30 +2,20 @@ require("Object")
 
 Context = Object:subclass("Object")
 
+--Sets up the context variables that will manage all mediators, commands and views.
 function Context:init()
 	 
 	self.commands = {}
 	self.mediators = {}
 	self.mediatorInstances = {}
 	
-	Runtime:addEventListener("onViewCreated", function(event)
-		local view = event.target
-		if view == nil then
-			error('Error: Context recieved a create event without a view instance in the event object')
-		end
-	
-		self:createMediator(view)
-	
-	end)
-	Runtime:addEventListener("onViewDestroyed", self.onViewDestroyed)
-	
-	
-	
-		
+	Runtime:addEventListener("onViewCreated", self)
+	Runtime:addEventListener("onViewDestroyed", self)
 end
 
-function Context:onViewCreated()
-	local view = self.target
+--Gets called when a view is created, this event is dispatced in the file View.lua in the function createView under org.
+function Context:onViewCreated(event)
+	local view = event.target
 	if view == nil then
 		error('Error: Context recieved a create event without a view instance in the event object')
 	end
@@ -33,6 +23,7 @@ function Context:onViewCreated()
 	self:createMediator(view)
 end
 
+--Gets called when a view is destroyed
 function Context:onViewDestroyed(event)
 	local view = event.target
 	if view == nil then
@@ -41,8 +32,9 @@ function Context:onViewDestroyed(event)
 	self:removeMediator(view)
 end
 
+--Handles a command event, executes that command and creates the appropiate command class for it.
 function Context:onHandleEvent(event)
-	local commandClassName = Context.static.commands[event.name]
+	local commandClassName = self.commands[event.name]
 	
 	if commandClassName ~= nil then
 		local command = assert(require(commandClassName):new(), 'Failed to find comand: ', commandClassName)
@@ -51,11 +43,14 @@ function Context:onHandleEvent(event)
 	end
 end
 
+--Maps the appropiate command to a particular event that has occured.  This event can be located
+--in the view.
 function Context:mapCommand(eventName, commandClass)
 	self.commands[eventName] = self:getClassName(commandClass)
 	Runtime:addEventListener(eventName, function(event) context:onHandleEvent(event) end)
 end
 
+--Maps a view to a mediator so that events from the mediator can be created when the view is created later.
 function Context:mapMediator(viewClass, mediatorClass)
 	local viewClassName = self:getClassName(viewClass)
 
@@ -63,27 +58,37 @@ function Context:mapMediator(viewClass, mediatorClass)
 	print('Mapping the view: ' .. viewClassName .. ' to ' .. self.mediators[viewClassName])
 end
 
+--Unmaps the view class to the particular mediator so that when this view is created, the associated mediator
+--that corresponds to that view is NOT created.
 function Context:unmapMediator(viewClass)
-	self.mediators[viewClass.__toString()] = nil
+	self.mediators[tostring(viewClass)] = nil
 end
 
+--Creates a mediator for the particular view that it was mapped to.
 function Context:createMediator(viewInstance)
 	local mediatorClassName = self.mediators[tostring(viewInstance)]
 
 	if mediatorClassName ~= nil then
 		local mediatorClass = require( mediatorClassName ):new()
-		print(mediatorClass)
 		mediatorClass.viewInstance = viewInstance
-		self.mediatorInstances[#self.mediatorInstances + 1] = mediatorClass
+		self.mediatorInstances[viewInstance] = mediatorClass
 		mediatorClass:onRegister()
 	end
 end
 
---function Context:removeMediator(viewInstance)
---	for i = 1, viewInstance
---end
+--Removes the mediator
+function Context:removeMediator(viewInstance)
+	local mediatorToRemove = self.mediatorInstances[viewInstance]
+	assert(mediatorToRemove ~= nil, 'Failed to remove a nil mediator with view: ', viewInstance)
+end
 
-function Context:getClassName(classType)
+
+--[[Gets the appropiate class name by truncating everything before the last period.  We assume that
+	 the variable you pass to this function is a sting and a path name.
+     ex of how to use this. Suppose I pass this to this function: "images.sprites.wtf", 
+     this gets turned into "wtf".
+--]]
+     function Context:getClassName(classType)
 		assert(classType ~= nil, "You cannot pass a null classType")
 		local testStartIndex,testEndIndex = classType:find(".", 1, true)
 		if testStartIndex == nil then
