@@ -33,7 +33,6 @@ local function createMainMenuMVC()
 end
 
 --------------------------------------------
->>>>>>> 39e8f87997e65d3c6040a27e0b84567432c73938
 
 -- forward declarations and other locals
 local playButton, weaponShopButton, EquipRideButton
@@ -76,9 +75,6 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-<<<<<<< HEAD
-	local background = display.newImage( spriteSheet , sheetInfo.frameIndex["splash_main_menu"])
-=======
 	-- display a background image
 	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	background:setReferencePoint( display.TopLeftReferencePoint )
@@ -90,36 +86,22 @@ function scene:createScene( event )
 	--titleLogo:setReferencePoint( display.CenterReferencePoint )
 	--titleLogo.x = display.contentWidth * 0.5
 	--titleLogo.y = 100
->>>>>>> 39e8f87997e65d3c6040a27e0b84567432c73938
 	
 	local centerOfScreenX = display.contentWidth*0.5
-<<<<<<< HEAD
-	
-	-- create a widget button (which will loads level1.lua on release)
-	playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
-		display.contentHeight - 225, onPlayButtonRelease)
-		
-=======
+
 	local x = centerOfScreenX + 120
 	local y = display.contentHeight - 225
 	print('Display content x and y: x: ' .. x .. ', ' .. y .. ' )')
 	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
 	--	display.contentHeight - 225, onPlayButtonRelease)
 	local playButton = PlayButton:new(group)
->>>>>>> 39e8f87997e65d3c6040a27e0b84567432c73938
+
 	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
 		display.contentHeight - 225,onWeaponShopButtonRelease)
 		
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
 		display.contentHeight - 75, onEquipButtonRelease)
-<<<<<<< HEAD
 
-    -- insert images and buttons into the scene group
-	group:insert(background)
-	group:insert(weaponShopButton)
-	group:insert(equipRideButton)
-	group:insert(playButton)
-=======
     slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 	
 	-- all display objects must be inserted into group.
@@ -131,7 +113,7 @@ function scene:createScene( event )
 	group:insert( equipRideButton )
 	--group:insert( playButton )
     group:insert(slider)		
->>>>>>> 39e8f87997e65d3c6040a27e0b84567432c73938
+
 end
 
 
