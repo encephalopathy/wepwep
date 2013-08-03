@@ -1,6 +1,6 @@
 require "org.View"
 
-Button = View:subclass("View")
+Button = View:subclass("Button")
 
 local widget = require 'widget'
 

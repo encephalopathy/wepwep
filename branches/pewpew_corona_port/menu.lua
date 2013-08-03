@@ -12,6 +12,7 @@ local M = require("GameConstants")
 local widget = require("widget")
 require("org.Context")
 require "mainmenu.views.PlayButton"
+require "mainmenu.views.ShopButton"
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
@@ -29,7 +30,7 @@ local mainMenuContext
 
 local function createMainMenuMVC()
 	mainMenuContext = Context:new()
-	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
+	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator", "mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
 end
 
 ---------------------------------------------
@@ -95,9 +96,10 @@ function scene:createScene( event )
 	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
 	--	display.contentHeight - 225, onPlayButtonRelease)
 	local playButton = PlayButton:new(group)
+   local shopButton = ShopButton:new(group)
 
-	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
-		display.contentHeight - 225,onWeaponShopButtonRelease)
+	--weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
+		--display.contentHeight - 225,onWeaponShopButtonRelease)
 		
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
 		display.contentHeight - 75, onEquipButtonRelease)
@@ -109,7 +111,7 @@ function scene:createScene( event )
 	-- on top of everything else.
 	--group:insert( titleLogo )
 	
-	group:insert( weaponShopButton )
+	--group:insert( weaponShopButton )
 	group:insert( equipRideButton )
 	--group:insert( playButton )
     group:insert(slider)		
