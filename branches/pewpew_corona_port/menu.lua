@@ -6,6 +6,8 @@
 require("Inventory")
 require("Utility")
 require("BGM")
+require("org.Context")
+require "mainmenu.views.PlayButton"
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
@@ -15,6 +17,13 @@ local scene = storyboard.newScene()
 
 -- include Corona's "widget" library
 local widget = require "widget"
+
+local mainMenuContext
+
+local function createMainMenuMVC()
+	mainMenuContext = Context:new()
+	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.MainMenuMediator")
+end
 
 --------------------------------------------
 
@@ -60,12 +69,13 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-
+	
 	-- display a background image
 	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-	
+	group:insert( background )
+	createMainMenuMVC()
 	-- create/position logo/title image on upper-half of the screen
 	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
 	--titleLogo:setReferencePoint( display.CenterReferencePoint )
@@ -75,8 +85,9 @@ function scene:createScene( event )
 	-- create a widget button (which will loads level1.lua on release)
 	local centerOfScreenX = display.contentWidth*0.5
 	
-	playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
-		display.contentHeight - 225, onPlayButtonRelease)
+	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
+	--	display.contentHeight - 225, onPlayButtonRelease)
+	local playButton = PlayButton:new(group)
 	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
 		display.contentHeight - 225,onWeaponShopButtonRelease)
 	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
@@ -89,11 +100,11 @@ function scene:createScene( event )
 	-- all display objects must be inserted into group
 	
 	--group:insert( titleLogo )
-	group:insert( background )
+	
 	group:insert( weaponShopButton )
 	group:insert( equipRideButton )
-	group:insert( playButton )
-    group:insert(slider)
+	--group:insert( playButton )
+    group:insert(slider)		
 end
 
 -- Called immediately after scene has moved onscreen:

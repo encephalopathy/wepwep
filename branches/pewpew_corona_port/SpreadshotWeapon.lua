@@ -2,7 +2,7 @@ require("Weapon")
 
 Spreadshot = Weapon:subclass("Spreadshot")
 
-NUM_SHOTS = 5
+NUM_SHOTS = 5 --Default number of shots this gun fires.
 FIRING_ANGLE = 60
 BETWEEN = 3 -- space between bullets
 BULLET_SIZEZ = 5
@@ -14,10 +14,6 @@ function Spreadshot:init (sceneGroup, rateofFire, bulletVelocity, numberOfShots,
 	end
 
    self.super:init(sceneGroup, "sprites/bullet_06.png", rateOfFire)
-   --self.fireCount = fireCount
-   --self.soundPath = 'pew.ogg'
-   --spreadShotSFX = MOAIUntzSound.new()
-   --spreadShotSFX:load('pew.ogg')
    if bulletVelocity ~= nil then
 	  self.bulletVelocity = bulletVelocity
    else
@@ -46,7 +42,7 @@ function Spreadshot:fire (player)
 	   speed = BULLET_VELOCITY
 	   startAngle = (180 - FIRING_ANGLE) / 2
 	   
-	   shots = {}
+	   local shots = {}
 	   if self.owner then
 		  for i = 0, (NUM_SHOTS -1) do
 			 shots[i] = self:getNextShot()
