@@ -31,9 +31,9 @@ local mainMenuContext
 
 local function createMainMenuMVC()
 	mainMenuContext = Context:new()
-	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator", 
-   "mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator", 
-   "mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
+	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
+   mainMenuContext:mapMediator("mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
+   mainMenuContext:mapMediator("mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
 end
 
 ---------------------------------------------

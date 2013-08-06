@@ -9,7 +9,7 @@ function Button:init(sceneGroup, x, y, buttonImg, buttonImgOnOver, clickEventNam
 	
 	local group = self.sceneGroup
 	function group:onPress(event)
-		group:dispatchEvent({name = "PlayGame", target = group})
+		group:dispatchEvent({name = clickEventName, target = group})
 	end
 	
 	buttonImg = buttonImg or "button.png"

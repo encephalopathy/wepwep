@@ -16,7 +16,7 @@ function EquipButtonMediator:onRemove()
 	self.viewInstance.sceneGroup:removeEventListener("GoToEquip", self)
 end
 
-function ShopButtonMediator:GoToEquip(event)
+function EquipButtonMediator:GoToEquip(event)
 	if event.name == "GoToEquip" then
 		self.storyboard.gotoScene("MenuEquip", "fade", 500)
 	end
