@@ -18,7 +18,7 @@ end
 
 function ShopButtonMediator:GoToEquip(event)
 	if event.name == "GoToEquip" then
-		storyboard.gotoScene("MenuEquip", "fade", 500)
+		self.storyboard.gotoScene("MenuEquip", "fade", 500)
 	end
 
 	return true
