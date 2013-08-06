@@ -12,6 +12,8 @@ local M = require("GameConstants")
 local widget = require("widget")
 require("org.Context")
 require "mainmenu.views.PlayButton"
+require "mainmenu.views.ShopButton"
+require "mainmenu.views.EquipButton"
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
@@ -29,7 +31,9 @@ local mainMenuContext
 
 local function createMainMenuMVC()
 	mainMenuContext = Context:new()
-	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
+	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator", 
+   "mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator", 
+   "mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
 end
 
 ---------------------------------------------
@@ -95,12 +99,14 @@ function scene:createScene( event )
 	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
 	--	display.contentHeight - 225, onPlayButtonRelease)
 	local playButton = PlayButton:new(group)
+   local shopButton = ShopButton:new(group)
+   local equipButton = EquipButton:new(group)
 
-	weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
-		display.contentHeight - 225,onWeaponShopButtonRelease)
+	--weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
+		--display.contentHeight - 225,onWeaponShopButtonRelease)
 		
-	equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
-		display.contentHeight - 75, onEquipButtonRelease)
+	--equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
+		--display.contentHeight - 75, onEquipButtonRelease)
 
     slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 	
@@ -109,8 +115,8 @@ function scene:createScene( event )
 	-- on top of everything else.
 	--group:insert( titleLogo )
 	
-	group:insert( weaponShopButton )
-	group:insert( equipRideButton )
+	--group:insert( weaponShopButton )
+	--group:insert( equipRideButton )
 	--group:insert( playButton )
     group:insert(slider)		
 

@@ -108,11 +108,6 @@ function Player.touch(event, player)
 	local player = 	Player.static.player
 	local playerSprite = player.sprite
 	local phase = event.phase
-    if(player.isFiring) then 
-		player:fire()
-	else
-		player:regeneratePowah()
-	end
 	
 	if phase == "began" then
 		player.isFiring = true

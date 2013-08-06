@@ -140,7 +140,8 @@ public class WaveScreen extends JFrame {
 				System.out.println("newEnemy object: " + newEnemy);
 				System.out.println(newEnemy.weaponList);
 				currentWave.addEnemy(newEnemy);
-				System.out.println(currentWave.printOut());
+				System.out.print(currentLevel);
+				//System.out.print(newEnemy);
 			}
 		});
 		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
