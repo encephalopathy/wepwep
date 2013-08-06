@@ -1,5 +1,6 @@
 require("Object");
 require("Queue");
+require("Bullet")
 
 BulletManager = Object:subclass("BulletManager");
 

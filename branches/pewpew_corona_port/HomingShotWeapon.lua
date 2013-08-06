@@ -22,7 +22,7 @@ function HomingShot:fire()
 
    self.super:fire()
    
-   --if self:canFire() then
+   if not self:canFire() then return end
 	local bullet = self:getNextShot()
 		if bullet then
 			local rotationAngle = math.rad(self.owner.sprite.rotation)
@@ -35,21 +35,6 @@ function HomingShot:fire()
 		end
    
    --end
-
-   --bullet.sprite.x = self.owner.x + self.muzzleLocation.x
-   --bullet.sprite.y = self.owner.y + self.muzzleLocation.y
-
-   --bullet.isHoming = true
-
-   --bullet.hater = nil
-   
-   --bullet.hasTarget = false
-
-   --powah stuff
-   --player.powah = player.powah - self.energyCost
-   
-   --SFX stuff
-   --homingShotSFX:play()
 
 end
 

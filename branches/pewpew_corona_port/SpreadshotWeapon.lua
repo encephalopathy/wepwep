@@ -37,6 +37,7 @@ end
 
 
 function Spreadshot:fire (player)
+	 self.super:fire()
 	if self:canFire() then
 	   angleStep = FIRING_ANGLE / (NUM_SHOTS - 1)
 	   speed = BULLET_VELOCITY
@@ -69,7 +70,7 @@ function Spreadshot:fire (player)
 		end
 
    end
-   self.super:fire()
+  
    --powah stuff
    --player.powah = player.powah - self.energyCost
    

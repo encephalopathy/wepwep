@@ -249,25 +249,25 @@ end
 ]]--
 function Weapon:getNextShot(numberOfShots)
 	
-	if self:canFire() then
-		local ammo = Queue.removeBack(self.ammo)
+	--if self:canFire() then
+		local bullet = Queue.removeBack(self.ammo)
 		--local ammo = bulletManager:getBullet (self.ammoType, self.imgSrc, self.isPlayerOwned, self.bulletWidth, bulletHeight)
 		--We need to increment the fire attempts when we fire else we will be firing infintely.
-		self.fireAttempts = self.fireAttempts + 1
-		
+		--self.fireAttempts = self.fireAttempts + 1
+
 		--[[
 			Puts the bullets in fire ammo queue signifying that this bullet has been fired.  Will be deprecated when
 			Bullet Manager is done and tested correctly.
 		]]--
-		if ammo.alive == false then
-			ammo.alive = true
-			Queue.insertFront(self.firedAmmo, ammo)
-			return ammo
+		if bullet.alive == false then
+			bullet.alive = true
+			Queue.insertFront(self.firedAmmo, bullet)
+			return bullet
 		else
 			return nil
 		end
 		
-	end
+	--end
 end
 
 

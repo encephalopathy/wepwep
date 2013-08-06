@@ -133,6 +133,7 @@ end
 function Bullet:recycle()
 	self.sprite.x = 5000
     self.sprite.y = 5000
+	self.alive = false
 	local offScreen = { name = "offScreen", bullet = self }
 	Runtime:dispatchEvent(offScreen)
 end
