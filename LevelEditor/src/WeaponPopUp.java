@@ -14,6 +14,8 @@ import javax.swing.JMenuItem;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -23,6 +25,7 @@ public class WeaponPopUp extends JDialog {
 	public JMenuItem[] availableWeapons; //array of ALL weapons available
 	public String[] weaponNames; //names of all the weapons the enemy has
 	public String[] availableWeaponNames; //name of ALL weapons available
+	WeaponPopUp self = null;
 	
 	private final JPanel contentPanel = new JPanel();
 
@@ -44,7 +47,7 @@ public class WeaponPopUp extends JDialog {
 	 * @throws FileNotFoundException 
 	 */
 	public WeaponPopUp(int weapons) throws FileNotFoundException {
-		
+		self = this;
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
 		Scanner in = new Scanner(new File("Weapons"));
@@ -74,15 +77,26 @@ public class WeaponPopUp extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
+				/*
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
+				okButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						
+						
+					}
+				});
+				*/
 			}
 			{
+				/*
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+				*/
 			}
 		}
 		{
@@ -111,6 +125,14 @@ public class WeaponPopUp extends JDialog {
 				}
 			}
 		}
+	}
+	
+	public List<String> returnWeaponList(){
+		ArrayList<String> weapons = new ArrayList<String>();
+		for (int i = 0; i < weaponNames.length; i++){
+			weapons.add(weaponNames[i]);
+		}
+		return weapons;
 	}
 
 }
