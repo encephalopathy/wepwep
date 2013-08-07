@@ -29,11 +29,13 @@ local widget = require "widget"
 
 local mainMenuContext
 
-local function createMainMenuMVC()
+local function createMainMenuMVC(group)
 	mainMenuContext = Context:new()
 	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
    mainMenuContext:mapMediator("mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
    mainMenuContext:mapMediator("mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
+   
+   mainMenuContext:preprocess(group)
 end
 
 ---------------------------------------------
@@ -84,40 +86,13 @@ function scene:createScene( event )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	group:insert( background )
-	createMainMenuMVC()
-	-- create/position logo/title image on upper-half of the screen
-	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
-	--titleLogo:setReferencePoint( display.CenterReferencePoint )
-	--titleLogo.x = display.contentWidth * 0.5
-	--titleLogo.y = 100
-	
-	local centerOfScreenX = display.contentWidth*0.5
-
-	local x = centerOfScreenX + 120
-	local y = display.contentHeight - 225
-	print('Display content x and y: x: ' .. x .. ', ' .. y .. ' )')
-	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
-	--	display.contentHeight - 225, onPlayButtonRelease)
-	local playButton = PlayButton:new(group)
-   local shopButton = ShopButton:new(group)
-   local equipButton = EquipButton:new(group)
-
-	--weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
-		--display.contentHeight - 225,onWeaponShopButtonRelease)
-		
-	--equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
-		--display.contentHeight - 75, onEquipButtonRelease)
+	createMainMenuMVC(group)
 
     slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 	
 	-- all display objects must be inserted into group.
 	-- Adding things to the group works like a stack.  Last thing added appears
 	-- on top of everything else.
-	--group:insert( titleLogo )
-	
-	--group:insert( weaponShopButton )
-	--group:insert( equipRideButton )
-	--group:insert( playButton )
     group:insert(slider)		
 
 end

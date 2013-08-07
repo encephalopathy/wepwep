@@ -14,3 +14,5 @@ end
 function ShopButton:__tostring()
 	return ShopButton.name()
 end
+
+return ShopButton

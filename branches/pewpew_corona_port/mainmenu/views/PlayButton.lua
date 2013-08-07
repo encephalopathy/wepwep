@@ -14,3 +14,5 @@ end
 function PlayButton:__tostring()
 	return PlayButton.name()
 end
+
+return PlayButton
