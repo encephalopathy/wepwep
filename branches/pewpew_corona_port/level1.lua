@@ -61,7 +61,6 @@ local function updateBackground()
 	if background.y >= 3600 then
 		background.y = 0
 		backgroundBuffer.y = -3600
---	background.y = background.y + 10
 	end
 end
 
@@ -80,8 +79,16 @@ local function createScrollingBackground(scene)
 	scene:insert(  backgroundBuffer )
 end
 
+local function back()
+	print('Back')
+    audio.stop()
+	storyboard.gotoScene("menu", "fade", 500)
+	return true
+end
+
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
+	print('Create Scene')
 	local group = self.view
 
 	-- creates the scrolling background for the current game
@@ -91,24 +98,27 @@ function scene:createScene( event )
 	bulletManager = BulletManager:new(group)
 	
 	
-local myButton = widget.newButton
-{
-   left = screenW - screenW*0.3,
-   top = screenH - screenH*0.15,
-   width = screenW*0.3,
-   height = screenH*0.2,
-   defaultFile = "sprites/backtomenu_unpressed.png",
-   overFile = "sprites/backtomenu_pressed.png",
-   label = "",
-   labelAlign = "center",
-   font = "Arial",
-   fontSize = 18,
-   labelColor = { default = {0,0,0}, over = {255,255,255} },
-   onRelease = back
-}
-myButton.baseLabel = ""
+	local myButton = widget.newButton
+	{
+		left = screenW - screenW*0.3,
+		top = screenH - screenH*0.15,
+		width = screenW*0.3,
+		height = screenH*0.2,
+		defaultFile = "sprites/backtomenu_unpressed.png",
+		overFile = "sprites/backtomenu_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			audio.stop()
+			storyboard.gotoScene("menu", "fade", 500)
+		end
+	}
+	myButton.baseLabel = ""
 
-group:insert( myButton )
+	group:insert( myButton )
 	
 	--mainInventory:equipRig(player, sceneGroup)
 	
@@ -117,16 +127,9 @@ group:insert( myButton )
 
 end
 
-
-local function back()
-    audio.stop()
-	storyboard.gotoScene("menu", "fade", 500)
-	return true
-end
-
-
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+	print('Enter Scene')
 	local group = self.view
 	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	local currentLevel = setLevel(currentLevelNumber)
@@ -134,20 +137,26 @@ function scene:enterScene( event )
 	player:weaponEquipDebug(group)
 	player.weapon.targets = AIDirector.haterList
 	physics.start()
+	physics.setGravity(0, 0)
+	physics.setVelocityIterations(1)
+	physics.setPositionIterations(1)
 	step = 0
 end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
+	print('exiting scene')
 	local group = self.view
-	mainInventory.equippedGameWeapon:unload()
-    mainInventory.equippedSecondaryGameWeapon:unload()
+	AIDirector.uninitialize()
+	destroyParticleManager()
+	bulletManager:clean()
 	physics.stop()
 	step = 0
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
 function scene:destroyScene( event )
+	print('destroying scene')
 	local group = self.view
 	
 	package.loaded[physics] = nil

@@ -12,49 +12,28 @@ AIDirector = {}
 local haterList = {}
 local haterGroup = display.newGroup()
 
-local haterSkimMilkInViewList = nil
-local haterSkimMilkOutofViewList = nil
+local haterSkimMilkInViewList = Queue.new()
+local haterSkimMilkOutofViewList = Queue.new()
 
-local haterCrackaInViewList = nil
-local haterCrackaOutofViewList = nil
+local haterCrackaInViewList = Queue.new()
+local haterCrackaOutofViewList = Queue.new()
 
-local haterHonkeyInViewList = nil
-local haterHonkeyOutofViewList = nil
+local haterHonkeyInViewList = Queue.new()
+local haterHonkeyOutofViewList = Queue.new()
 	
-local haterPigInViewList = nil
-local haterPigOutofViewList = nil
+local haterPigInViewList = Queue.new()
+local haterPigOutofViewList = Queue.new()
 	
-local haterTheFuzzInViewList = nil
-local haterTheFuzzOutofViewList = nil
+local haterTheFuzzInViewList = Queue.new()
+local haterTheFuzzOutofViewList = Queue.new()
 	
-local haterFatBoyInViewList = nil
-local haterFatBoyOutofViewList = nil
+local haterFatBoyInViewList = Queue.new()
+local haterFatBoyOutofViewList = Queue.new()
 	
-local haterRedneckInViewList = nil
-local haterRedneckOutofViewList = nil
+local haterRedneckInViewList = Queue.new()
+local haterRedneckOutofViewList = Queue.new()
 
 local function createHaterList(currentLevel, player)
-
-	haterSkimMilkInViewList = Queue.new()
-	haterSkimMilkOutofViewList = Queue.new()
-
-	haterCrackaInViewList = Queue.new()
-	haterCrackaOutofViewList = Queue.new()
-
-	haterHonkeyInViewList = Queue.new()
-	haterHonkeyOutofViewList = Queue.new()
-	
-	haterPigInViewList = Queue.new()
-	haterPigOutofViewList = Queue.new()
-
-	haterTheFuzzInViewList = Queue.new()
-	haterTheFuzzOutofViewList = Queue.new()
-	
-	haterFatBoyInViewList = Queue.new()
-	haterFatBoyOutofViewList = Queue.new()
-	
-	haterRedneckInViewList = Queue.new()
-	haterRedneckOutofViewList = Queue.new()
 
 	local temp = nil
 	for i = 1, 10, 1 do
@@ -181,6 +160,15 @@ local function moveHaterOffScreen(hater)
 	haterList[hater] = nil
 end
 
+local function emptyHaterList(groupOfHaters)
+	while groupOfHaters.size > 0 do
+		local hater = Queue.removeBack(groupOfHaters)
+		if hater ~= nil then
+			--hater:destroy()
+		end
+	end
+end
+
 local function updateHaters()
 	local enemeiesOnScreen = true
 	for enemy1 in pairs (haterList) do
@@ -201,18 +189,22 @@ function AIDirector.initialize(player, currentLevel)
 	if player ~= nil then
 		AIDirector.player = player
 	else
-		print('Player was not initialized in AIDirector')
+		error('Player was not initialized in AIDirector')
 	end
 	if currentLevel ~= nil then 
 		AIDirector.currentLevel = currentLevel
 	else
-		print('Did not initialize the current level for the AI Director to use')
+		error('Did not initialize the current level for the AI Director to use')
 	end
+	AIDirector.active = true
+	Runtime:addEventListener("enterFrame", AIDirector.update)
 	local haterTimer = timer.performWithDelay(30, spawnHater, 0)
 end
 
 function AIDirector.update()
-	updateHaters()
+	if AIDirector.active then
+		updateHaters()
+	end
 end
 
 function AIDirector.pause()
@@ -227,6 +219,31 @@ function AIDirector.deactivate()
 	Runtime:removeEventListener("enterFrame", AIDirector.update)
 end
 
-Runtime:addEventListener("enterFrame", AIDirector.update)
+function AIDirector.uninitialize()
+	AIDirector.deactivate()
+	for hater in pairs(haterList) do
+		hater:destroy()
+	end
+	emptyHaterList(haterSkimMilkInViewList)
+	emptyHaterList(haterSkimMilkOutofViewList)
+	
+	emptyHaterList(haterCrackaInViewList)
+	emptyHaterList(haterCrackaOutofViewList)
 
-
+	emptyHaterList(haterHonkeyInViewList)
+	emptyHaterList(haterHonkeyOutofViewList)
+	
+	emptyHaterList(haterPigInViewList)
+	emptyHaterList(haterPigOutofViewList)
+	
+	emptyHaterList(haterTheFuzzInViewList)
+	emptyHaterList(haterTheFuzzOutofViewList)
+	
+	emptyHaterList(haterFatBoyInViewList)
+	emptyHaterList(haterFatBoyOutofViewList)
+	
+	emptyHaterList(haterRedneckInViewList)
+	emptyHaterList(haterRedneckOutofViewList)
+	
+	AIDirector.active = false
+end

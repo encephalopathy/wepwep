@@ -125,12 +125,11 @@ function Hater:update()
 	self.bulletsInView = newInViewQueue]]--
 	
 	
-	if self.alive == true then  
-					
-		if (self.sprite.y >=  850 and self.alive ) then
-				self.alive = false
-				return
-			end
+	if self.alive and self.sprite then		
+		if (self.sprite.y >=  850 ) then
+			self.alive = false
+			return
+		end
 	end
 	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 end
@@ -184,6 +183,16 @@ function Hater:destroy()
 	end
 	--self.haterList[self] = nil
 	
+end
+
+function Hater:respawn(group)
+	if group ~= nil then
+		group:insert(self.sprite)
+	end
+	self.time = 0
+	self.health = self.maxHealth
+	self.isFrozen = false
+	self.freezeTimer = 0
 end
 
 Hater:virtual("equipRig")

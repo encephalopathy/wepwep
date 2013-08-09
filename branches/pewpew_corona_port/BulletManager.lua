@@ -60,6 +60,16 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	return bullet
 end
 
-function BulletManager:clean()
+local function emptyQueue(queueToEmpty)
+	while queueToEmpty.size > 0 do
+		local bullet = Queue.removeBack(queueToEmpty)
+		if bullet ~= nil then --will take this if statement out when Thomas refactors how bullets are handled.
+			bullet:destroy()
+		end
+	end
+end
 
+function BulletManager:clean()
+	emptyQueue(BulletManager.static.offScreenBullets)
+	emptyQueue(BulletManager.static.onScreenBullets)
 end

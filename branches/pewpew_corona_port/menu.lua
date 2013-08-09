@@ -32,10 +32,10 @@ local mainMenuContext
 local function createMainMenuMVC(group)
 	mainMenuContext = Context:new()
 	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
-   mainMenuContext:mapMediator("mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
-   mainMenuContext:mapMediator("mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
+    mainMenuContext:mapMediator("mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
+    mainMenuContext:mapMediator("mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
    
-   mainMenuContext:preprocess(group)
+    mainMenuContext:preprocess(group)
 end
 
 ---------------------------------------------
@@ -93,7 +93,7 @@ function scene:createScene( event )
 	-- all display objects must be inserted into group.
 	-- Adding things to the group works like a stack.  Last thing added appears
 	-- on top of everything else.
-    group:insert(slider)		
+    group:insert(slider)
 
 end
 

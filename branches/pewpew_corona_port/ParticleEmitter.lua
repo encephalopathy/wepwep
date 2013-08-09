@@ -93,7 +93,7 @@ function ParticleEmitter:recycleParticles()
 end
 
 --will empty a queue such as the deadlist or the live list
-function emptyQueue(queue)
+local function emptyQueue(queue)
 	while (queue.size > 0) do
 		local value = Queue.removeBack(queue)
 		value:destroy()
