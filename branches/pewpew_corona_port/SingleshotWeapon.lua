@@ -53,13 +53,13 @@ end
 	@RETURN: A Lua table that has the fields "x", the bullet's velocity in the x direction, 
 			 and "y" the bullet's velocity in the y direction.
 ]]--
-function Singleshot:calculateBulletVelocity(bullet)
+function Singleshot:calculateBulletVelocity(bullet, owner)
 	--To calculate a bullet's velocity, we determine the distance first between the bullet and the ship.
-	local firingMagnitude = distance(self.owner.sprite.x, self.owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
+	local firingMagnitude = distance(owner.sprite.x, owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
 	--We normalize the vector that points from the ship to the bullet.  This will give us the firing direction of bullet.
 	--NOTE: We assume that the bullet has already undergone rotation.
-	local firingDirectionX = (bullet.sprite.x - self.owner.sprite.x) / firingMagnitude
-	local firingDirectionY = (bullet.sprite.y - self.owner.sprite.y) / firingMagnitude
+	local firingDirectionX = (bullet.sprite.x - owner.sprite.x) / firingMagnitude
+	local firingDirectionY = (bullet.sprite.y - owner.sprite.y) / firingMagnitude
 	
 	--We then fire the bullet in that direction previously computed by multiplying by bullet speed.
 	--This will move the bullet at speed bulletSpeed, in the direction firingDirection.
@@ -75,13 +75,13 @@ end
 ]]--
 function Singleshot:fire()
 	self.super:fire()
-
+	if not self:canFire() then return end
 	local bullet = self:getNextShot()
 	if bullet then  --you are allowed to shoot
 		local rotationAngle = math.rad(self.owner.sprite.rotation)
 			
 		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-		local bulletVelocity = self:calculateBulletVelocity(bullet)
+		local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 
 		playSoundFX("sounds/soundfx/laser.ogg")

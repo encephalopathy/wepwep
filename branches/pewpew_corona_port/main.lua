@@ -4,6 +4,10 @@
 --
 -----------------------------------------------------------------------------------------
 
+-- sprite sheet containing all images
+-- local sheetInfo = require("spritesheetrgba4444")
+-- spriteSheet = graphics.newImageSheet("spritesheetrgba4444.png", sheetInfo:getSheet())
+
 -- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
 

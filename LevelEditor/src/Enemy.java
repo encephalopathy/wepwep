@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -30,7 +31,7 @@ public class Enemy {
 	public int rotation = 0;
 	public int maxWeapons = 0;
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
-	//generic image to be placed later
+	
 	
 	//object constructor
 	public Enemy()
@@ -90,5 +91,20 @@ public class Enemy {
 		e.rotation = this.rotation;
 		e.type = this.type;
 		return e;
+	}
+	
+	@Override 
+	public String toString(){
+		String printedLine = "";
+		printedLine += ("   Type=" + type);
+		printedLine += (" Location=" + Integer.toString(enemyX) + "," + Integer.toString(enemyY));
+		printedLine += (" Rotation=" + Integer.toString(rotation));
+		printedLine += (" Weapons= ");
+		for(int i = 0; i < weaponList.size(); i++){
+			printedLine += (weaponList.get(i));
+			if(i != (weaponList.size() -1)) printedLine += (",");
+		}
+		printedLine += ("\n");
+		return printedLine;
 	}
 }

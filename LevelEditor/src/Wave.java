@@ -55,4 +55,15 @@ public class Wave {
 	public String printOut(){
 		return waveEnemyList.toString();
 	}
+	
+	@Override
+	public String toString(){
+		String printedLine = "";
+		printedLine += ("Time=" + Integer.toString(time));
+		printedLine += ("\n");
+		for(int i = 0; i < waveEnemyList.size(); i++){
+			printedLine += waveEnemyList.get(i);
+		}
+		return printedLine;
+	}
 }

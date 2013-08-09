@@ -59,6 +59,16 @@ public class Level {
 		return this;
 	}
 	
-	
+	@Override 
+	public String toString(){
+		String printedLine = "";
+		printedLine += ("Name=" + levelName);
+		printedLine += (" Number=" + levelNumber);
+		printedLine += ("\n");
+		for(int i = 0; i < waveList.size(); i++){
+			printedLine += waveList.get(i);
+		}
+		return printedLine;
+	}
 	
 }

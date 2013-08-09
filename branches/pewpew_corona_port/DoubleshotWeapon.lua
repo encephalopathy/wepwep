@@ -3,8 +3,8 @@ Doubleshot = Singleshot:subclass("Doubleshot")
 
 local BULLET_SEPERATION_DIST = 7
 
-function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, isPlayerOwned, bulletWidth, bulletHeight, bulletSeperationDistance)
-   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, isPlayerOwned, bulletWidth, bulletHeight)
+function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight, bulletSeperationDistance)
+   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight)
    
    if bulletSeperationDistance ~= nil then
 	 self.bulletSeperationDistance = bulletSeperationDistance
@@ -20,28 +20,25 @@ end
 
 
 function Doubleshot:fire(player)
-	--if self:canFire() then
-		local bullet = self:getNextShot()
-		local bullet2 = self:getNextShot()
-		if bullet and bullet2 then
-			 local rotationAngle = math.rad(self.owner.sprite.rotation)
+
+	self.super.super:fire()
+	if not self:canFire() then return end
+	local bullet = self:getNextShot()
+	local bullet2 = self:getNextShot()
+
+	if bullet and bullet2 then
+		local rotationAngle = math.rad(self.owner.sprite.rotation)
 			
-			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet2, rotationAngle)
+		self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+		self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet2, rotationAngle)
 			
-			local bulletVelocity = self:calculateBulletVelocity(bullet)
+		local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 			
-			bullet:fire(bulletVelocity.x, bulletVelocity.y)
-			bullet2:fire(bulletVelocity.x, bulletVelocity.y)
+		bullet:fire(bulletVelocity.x, bulletVelocity.y)
+		bullet2:fire(bulletVelocity.x, bulletVelocity.y)
 			
-			--powah stuff
-			--player.powah = player.powah - self.energyCost
-			
-			--SFX stuff
-			--doubleShotSFX:play()
-			return bullet, bullet2
-		end
-	--end
+		return bullet, bullet2
+	end
 	
-	--self.super.super:fire()
+	
 end

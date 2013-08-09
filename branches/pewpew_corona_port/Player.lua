@@ -63,7 +63,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	
-	self:weaponEquipDebug(sceneGroup)
+	--self:weaponEquipDebug(sceneGroup)
 	Player.player = self
 	self:setPlayerType()
 	--Player.MAX_MOVEMENT_X = self.width / 2
@@ -87,10 +87,10 @@ local function clampPlayerMovement(currentSpeed)
 end
 
 function Player:weaponEquipDebug(sceneGroup) 
-	self.weapon = Singleshot:new(sceneGroup, true, 25, 200) 
+	self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
 	self.weapon.targets = AIDirector.haterList
-	--self.weapon:load(40, sceneGroup, { 0, -100 }, true)
-	self.weapon:setMuzzleLocation( {0, -100 } )
+	self.weapon:load(40, sceneGroup, { 0, -100 }, true)
+	--self.weapon:setMuzzleLocation( {0, -100 } )
 	self.weapon.owner = self
 end
 
@@ -108,11 +108,6 @@ function Player.touch(event, player)
 	local player = 	Player.static.player
 	local playerSprite = player.sprite
 	local phase = event.phase
-    if(player.isFiring) then 
-		player:fire()
-	else
-		player:regeneratePowah()
-	end
 	
 	if phase == "began" then
 		player.isFiring = true
@@ -145,7 +140,9 @@ function Player:regeneratePowah()
 end
 
 function Player:cullBulletsOffScreen()
-	 self.weapon:checkBullets()
+	if self.weapon ~= nil then
+		self.weapon:checkBullets()
+	 end
 	 --self.equippedSecondaryGameWeapon:checkBombs()
 end
 
@@ -181,7 +178,7 @@ end
 
 ]]--
 
-function Player:__toString()
+function Player:__tostring()
 	return "Player"
 end
 

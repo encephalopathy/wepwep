@@ -78,7 +78,7 @@ function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
 	local newItem = itemClass:new(sceneGroup, false, 90, 400)
 	collection[#collection + 1] = newItem
 	if amount ~= nil then
-		--newItem:load(amount, sceneGroup, muzzleLocation, false)
+		newItem:load(amount, sceneGroup, muzzleLocation, false)
 		newItem:setMuzzleLocation(muzzleLocation)
 	end
 	newItem.owner = self
