@@ -12,6 +12,9 @@ function insertFront(queue, value)
 end
 
 function removeBack(queue)
+	if (queue.size == 0) then
+		return nil
+	end
 	local last = queue.last
 	if queue.first > last then error("Queue is empty") end
 	local value = queue[last]
@@ -23,6 +26,7 @@ end
 
 function removeIndex (queue, index)
    if (index < queue.first or index > queue.last) then
+	  print ("not a valid Queue location")
       return
    end
    if (index == queue.last) then
@@ -43,8 +47,6 @@ function removeIndex (queue, index)
    end
    queue.first = queue.first + 1
    queue.size = queue.size - 1
-   print('queue.first: ' .. queue.first)
-   print('queue.last: ' .. queue.last)
    return value
 end
 

@@ -1,22 +1,26 @@
 require("Object");
 require("Queue");
+require("Bullet")
+require("SineWaveBullet")
 
 BulletManager = Object:subclass("BulletManager");
 
-BulletManager.onScreenBullets = Queue.new()
-BulletManager.offScreenBullets = Queue.new()
+BulletManager.onScreenBullets = {}
+BulletManager.offScreenBullets = {}
 
-local function bulletListener (event)
+--onScreenBullets[bullet.className][bullet.imgSrc]
+
+function BulletManager:offScreen (event)
 	if (event.name ~= "offScreen") then
 		return
 	end
-	local bullet = Queue.removeObject(BulletManager.static.onScreenBullets, event.bullet);
-	Queue.insertFront(BulletManager.static.offScreenBullets, bullet);
+	local bullet = self:getBulletFromOnScreen(event.bullet);
+	self:addBulletToOffScreen(event.bullet)
 end
 
 function BulletManager:init (scene)
 	self.sceneGroup = scene
-	Runtime:addEventListener("offScreen", bulletListener)
+	Runtime:addEventListener("offScreen", self)
 end
 
 DEFAULT_WIDTH = 50
@@ -24,7 +28,6 @@ DEFAULT_HEIGHT = 50
 DEFAULT_ROTATION = 0
 
 function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, height)
-
 	if (imgSrc == nil) then
 		imgSrc = "sprites/bullet_02.png"
 	end
@@ -39,24 +42,47 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 		isPlayerBullet = false
 	end
 	
-	-- search for correct type of bullet in off screen queue
-	for i = BulletManager.static.offScreenBullets.first, BulletManager.static.offScreenBullets.last, 1 do
-	  	local bullet = BulletManager.static.offScreenBullets[i]
-		--print(BulletManager.static.offScreenBullets.size)
-		--print(bullet)
-		if bullet ~= nil then
-			if bullet.imgSrc == imgSrc then
-				Queue.removeIndex(BulletManager.static.offScreenBullets, i);
-				Queue.insertFront(BulletManager.static.onScreenBullets, bullet)
-				bullet.isPlayerBullet = isPlayerBullet
-				return bullet
-			end
-		end
+	local bullet = nil;
+	bullet = self:getBulletFromOffScreen (bulletClass, imgSrc)
+	if (bullet == nil) then
+		bullet = bulletClass:new(self.sceneGroup, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height);
 	end
-	local bullet = bulletClass:new(self.sceneGroup, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height);
-	
-	Queue.insertFront(BulletManager.static.onScreenBullets, bullet)
+	self:addBulletToOnScreen(bullet)
 	return bullet
+end
+
+function BulletManager:getBulletFromOnScreen (bullet)
+	return Queue.removeObject(BulletManager.static.onScreenBullets[bullet.className][bullet.imgSrc], bullet)
+end
+
+function BulletManager:addBulletToOnScreen (bullet)
+	if (BulletManager.static.onScreenBullets[bullet.className] == nil) then
+		BulletManager.static.onScreenBullets[bullet.className] = {}
+	end
+	if (BulletManager.static.onScreenBullets[bullet.className][bullet.imgSrc] == nil) then
+		BulletManager.static.onScreenBullets[bullet.className][bullet.imgSrc] = Queue.new()
+	end
+	Queue.insertFront(BulletManager.static.onScreenBullets[bullet.className][bullet.imgSrc], bullet)
+end
+
+function BulletManager:getBulletFromOffScreen (bulletClass, imgSrc)
+	if (BulletManager.static.offScreenBullets[bulletClass.static.className] == nil) then
+		return nil
+	end
+	if (BulletManager.static.offScreenBullets[bulletClass.static.className][imgSrc] == nil) then
+		return nil
+	end
+	return Queue.removeBack(BulletManager.static.offScreenBullets[bulletClass.static.className][imgSrc])
+end
+
+function BulletManager:addBulletToOffScreen (bullet)
+	if (BulletManager.static.offScreenBullets[bullet.className] == nil) then
+		BulletManager.static.offScreenBullets[bullet.className] = {}
+	end
+	if (BulletManager.static.offScreenBullets[bullet.className][bullet.imgSrc] == nil) then
+		BulletManager.static.offScreenBullets[bullet.className][bullet.imgSrc] = Queue.new()
+	end
+	Queue.insertFront(BulletManager.static.offScreenBullets[bullet.className][bullet.imgSrc], bullet)
 end
 
 function BulletManager:clean()
