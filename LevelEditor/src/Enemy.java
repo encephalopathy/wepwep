@@ -1,8 +1,11 @@
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +34,10 @@ public class Enemy {
 	public int rotation = 0;
 	public int maxWeapons = 0;
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
-	
+	//public Image enemyImage;
+	public BufferedImage a;
+	public /*static*/ String imageFileName = "../../branches/pewpew_corona_port/sprites/enemy_01.png";
+
 	
 	//object constructor
 	public Enemy()
@@ -67,9 +73,17 @@ public class Enemy {
 		}
 	}
 	
+	//set the x and y coordinates of a placed enemy in WaveScreen.java
 	public void setLocation(int xLoc, int yLoc){
+		System.out.println("INSIDE setLocation");
 		enemyX = xLoc;
 		enemyY = yLoc;
+		
+		a = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = a.getGraphics();
+		g.drawImage(a , enemyX, enemyY, 10, 10, Color.MAGENTA, null);
+		
+		
 	}
 	
 	public void setRotation(int r) { rotation = r; }
