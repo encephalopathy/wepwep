@@ -36,7 +36,7 @@ public class Enemy {
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
 	//public Image enemyImage;
 	public BufferedImage a;
-	public /*static*/ String imageFileName = "../../branches/pewpew_corona_port/sprites/enemy_01.png";
+	public /*static*/ String imageFileName = "src/test.png";
 
 	
 	//object constructor

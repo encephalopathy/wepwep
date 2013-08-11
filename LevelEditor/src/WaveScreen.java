@@ -22,8 +22,10 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
@@ -43,6 +45,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+
+import java.awt.image.BufferedImage; //test
 
 import javax.swing.JTextPane;
 
@@ -71,7 +75,7 @@ public class WaveScreen extends JFrame {
 	public final int enemyGridBorderRight = 200; 
 	
 	//take out
-
+	public BufferedImage img;
 	
 	//public static Image img;
 	/**
@@ -110,7 +114,7 @@ public class WaveScreen extends JFrame {
 	}
 	*/
 	
-
+	
 	
 	/**
 	 * Create the frame.
@@ -143,12 +147,32 @@ public class WaveScreen extends JFrame {
 				//System.out.println("X:" + mouseX + ", Y:" + mouseY );
 				Enemy newEnemy = workingEnemy.cloneSelf();
 				newEnemy.setLocation(mouseX, mouseY);
-				//System.out.println("newEnemy object: " + newEnemy);
-				//System.out.println(newEnemy.weaponList);
-				//currentWave.addEnemy(newEnemy);
+				System.out.println("newEnemy object: " + newEnemy);
+				System.out.println(newEnemy.weaponList);
+				currentWave.addEnemy(newEnemy);
 				System.out.print(currentLevel);
 				
 				//take out
+				/*
+				try{
+					
+					img = ImageIO.read(new File(newEnemy.imageFileName));
+					System.out.println("AFTER IMG" + img);
+					JLabel label = new JLabel(new ImageIcon(img));
+					
+					label.setLocation(newEnemy.enemyX, newEnemy.enemyY);
+					label.setSize(img.getWidth(), img.getHeight());
+					EnemyPlacementGrid.add(label);
+					System.out.println(label.getParent());
+					System.out.println(label);
+					//add(label);
+					EnemyPlacementGrid.setVisible(true);
+					label.setVisible(true);
+				} catch(IOException e){
+					e.printStackTrace();
+				}
+				*/
+				
 				
 				
 			}
