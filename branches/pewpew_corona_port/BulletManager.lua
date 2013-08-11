@@ -52,7 +52,7 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 end
 
 function BulletManager:getBulletFromOnScreen (bullet)
-	return Queue.removeObject(BulletManager.static.onScreenBullets[bullet.className][bullet.imgSrc], bullet)
+	--return Queue.removeObject(BulletManager.static.onScreenBullets[bullet.className][bullet.imgSrc], bullet)
 end
 
 function BulletManager:addBulletToOnScreen (bullet)

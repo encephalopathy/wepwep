@@ -11,7 +11,7 @@ require("Hater_PootiePoo")
 
 AIDirector = {}
 
-local haterList = {}
+ haterList = {}
 local haterGroup = display.newGroup()
 
 local haterSkimMilkInViewList = nil
@@ -197,7 +197,13 @@ local function moveHaterOffScreen(hater)
 		Queue.insertFront(haterRedneckOutofViewList, hater)
 		hater.sprite.x = -4000 + haterRedneckInViewList.size * 300
 		hater.sprite.y = -3000
-	elseif Hater_BIGBOSSU:made(hater) then
+	--elseif Hater_BIGBOSSU:made(hater) then
+		--hater.sprite.x = -10000
+		--hater.sprite.y = -10000
+	elseif Hater_PooSlinger:made(hater) then
+		hater.sprite.x = -10000
+		hater.sprite.y = -10000
+	elseif Hater_PootiePoo:made(hater) then
 		hater.sprite.x = -10000
 		hater.sprite.y = -10000
 	end
