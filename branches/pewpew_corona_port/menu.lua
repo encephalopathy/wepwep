@@ -8,12 +8,13 @@
 require("Inventory")
 require("Utility")
 require("BGM")
+require("org.Context")
+require("mainmenu.views.PlayButton")
+require("mainmenu.views.ShopButton")
+require("mainmenu.views.EquipButton")
+
 local M = require("GameConstants")
 local widget = require("widget")
-require("org.Context")
-require "mainmenu.views.PlayButton"
-require "mainmenu.views.ShopButton"
-require "mainmenu.views.EquipButton"
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
@@ -21,7 +22,7 @@ mainInventory = Inventory:new(group)
 local spriteSheet = M.spriteSheet
 local sheetInfo   = M.sheetInfo
 
-local storyboard = require( "storyboard" )
+local storyboard = require("storyboard")
 local scene = storyboard.newScene()
 
 -- include Corona's "widget" library
@@ -30,10 +31,10 @@ local widget = require "widget"
 local mainMenuContext
 
 local function createMainMenuMVC()
-	mainMenuContext = Context:new()
-	mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
-   mainMenuContext:mapMediator("mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
-   mainMenuContext:mapMediator("mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
+    mainMenuContext = Context:new()
+    mainMenuContext:mapMediator("mainmenu.views.PlayButton", "mainmenu.mediators.PlayButtonMediator")
+    mainMenuContext:mapMediator("mainmenu.views.ShopButton", "mainmenu.mediators.ShopButtonMediator")
+    mainMenuContext:mapMediator("mainmenu.views.EquipButton", "mainmenu.mediators.EquipButtonMediator")
 end
 
 ---------------------------------------------
@@ -81,43 +82,23 @@ function scene:createScene( event )
 	
 	-- display a background image
 	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
+	
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	group:insert( background )
 	createMainMenuMVC()
-	-- create/position logo/title image on upper-half of the screen
-	--local titleLogo = display.newImageRect( "logo.png", 264, 42 )
-	--titleLogo:setReferencePoint( display.CenterReferencePoint )
-	--titleLogo.x = display.contentWidth * 0.5
-	--titleLogo.y = 100
 	
 	local centerOfScreenX = display.contentWidth*0.5
 
 	local x = centerOfScreenX + 120
 	local y = display.contentHeight - 225
 	print('Display content x and y: x: ' .. x .. ', ' .. y .. ' )')
-	--playButton = createBttn(widget, display, "Play Now", centerOfScreenX + 120, 
-	--	display.contentHeight - 225, onPlayButtonRelease)
-	local playButton = PlayButton:new(group)
-   local shopButton = ShopButton:new(group)
-   local equipButton = EquipButton:new(group)
 
-	--weaponShopButton = createBttn(widget, display, "Weapon Shop", display.contentWidth*0.5 - 120,
-		--display.contentHeight - 225,onWeaponShopButtonRelease)
-		
-	--equipRideButton = createBttn(widget, display, "Equip Ride", centerOfScreenX + 120, 
-		--display.contentHeight - 75, onEquipButtonRelease)
+	local playButton = PlayButton:new(group)
+    local shopButton = ShopButton:new(group)
+    local equipButton = EquipButton:new(group)
 
     slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
-	
-	-- all display objects must be inserted into group.
-	-- Adding things to the group works like a stack.  Last thing added appears
-	-- on top of everything else.
-	--group:insert( titleLogo )
-	
-	--group:insert( weaponShopButton )
-	--group:insert( equipRideButton )
-	--group:insert( playButton )
     group:insert(slider)		
 
 end
@@ -126,7 +107,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	playBGM("/sounds/bgmusic/menuBackMusic.ogg")
+	playBGM("sounds/bgmusic/menuBackMusic.ogg")
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 

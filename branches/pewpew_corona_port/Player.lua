@@ -1,16 +1,23 @@
-require("Ride")
+-----------------------------------------------------------------------------------------
+--
+-- Player.lua
+--
+-- Functions to create and control the player character
+-----------------------------------------------------------------------------------------
 PLAYER_MAXHEALTH = 10
-
 PLAYER_MAXPOWAH = 100
 PLAYER_POWAH_REGENERATION_RATE = 3
 --For testing
 --require("SingleshotWeapon")
+require("Ride")
 require("DoubleshotWeapon")
 require("SpreadshotWeapon")
 require("HomingshotWeapon")
 require("SineWaveWeapon")
 require("AIDirector")
 --require("ParticleEmitter")
+
+
 --[[
 	CLASS NAME: Player
 	
@@ -22,8 +29,8 @@ require("AIDirector")
 	@onHit: Collision Event Handler function that is evoked when the player has collided with
 	another object.
 ]]--
-
 Player = Ride:subclass("Player")
+
 
 --[[
 	FUNCTION NAME: init
@@ -40,8 +47,6 @@ Player = Ride:subclass("Player")
 	
 	RETURN: VOID
 ]]--
-
-
 function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
 	{"sprites/player_piece_01.png", 
@@ -71,10 +76,12 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	--Player.MAX_MOVEMENT_Y = self.height / 2
 end
 
+
 function Player:setPlayerType()
 	self.type = "player"
 	self.sprite.objRef = self
 end
+
 
 local function clampPlayerMovement(currentSpeed)
 	local MAX_SPEED = 30
@@ -87,6 +94,7 @@ local function clampPlayerMovement(currentSpeed)
 	end
 end
 
+
 function Player:weaponEquipDebug(sceneGroup) 
 	self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
 	self.weapon.targets = AIDirector.haterList
@@ -94,6 +102,7 @@ function Player:weaponEquipDebug(sceneGroup)
 	--self.weapon:setMuzzleLocation( {0, -100 } )
 	self.weapon.owner = self
 end
+
 
 --[[
 	FUNCTION NAME: move
@@ -134,11 +143,13 @@ function Player.touch(event, player)
 	--print('Player pos: ( ' .. playerSprite.x .. ', ' .. playerSprite.y .. ' )') 
 end
 
+
 function Player:regeneratePowah()
 	if not self.isFiring and self.powah < PLAYER_MAXPOWAH then
 		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE 
 	end
 end
+
 
 function Player:cullBulletsOffScreen()
 	if self.weapon ~= nil then
@@ -147,9 +158,11 @@ function Player:cullBulletsOffScreen()
 	 --self.equippedSecondaryGameWeapon:checkBombs()
 end
 
+
 function Player:enterFrame(event)
 	--self:fire()
 end
+
 
 function Player:fire()
 	if self.alive ~= false then
@@ -157,10 +170,16 @@ function Player:fire()
 	end
 end
 
+
 function Player:fireSecondaryWeapon()
 	if self.alive ~= false then
 		--self.secondaryWeapon:fire()
 	end
+end
+
+
+function Player:__tostring()
+	return "Player"
 end
 
 
@@ -178,13 +197,6 @@ end
 	RETURN: VOID
 
 ]]--
-
-function Player:__tostring()
-	return "Player"
-end
-
-
---function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)
    if phase == "ended"  then
 		if self.alive == true then
