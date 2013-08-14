@@ -182,7 +182,7 @@ local function subclass(baseClass, name)
 	end
   end
   
-  local function tos() return ("class "..name) end
+  local function tos() return (name) end
   setmetatable(theClass, { __newindex = newmethod, __index = class_stuff, 
 	__tostring = tos, __call = newInstance } )
  

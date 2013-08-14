@@ -29,6 +29,8 @@ physics.setGravity(0, 0)
 physics.setVelocityIterations(1)
 physics.setPositionIterations(1)
 
+usingBulletManagerBullets = true
+
 --------------------------------------------
 
 -- forward declarations and other locals
@@ -140,6 +142,7 @@ function scene:enterScene( event )
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
+	bulletManager:start()
 	step = 0
 end
 
@@ -149,7 +152,7 @@ function scene:exitScene( event )
 	local group = self.view
 	AIDirector.uninitialize()
 	destroyParticleManager()
-	bulletManager:clean()
+	bulletManager:stop()
 	physics.stop()
 	step = 0
 end

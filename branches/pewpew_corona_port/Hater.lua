@@ -57,10 +57,6 @@ function Hater:move(x, y)
 	self.sprite.y = self.sprite.y + y
 end
 
-function Hater:test()
-	print('I am a hater')
-end
-
 function Hater:fire()
     --haters shoot 30 units in front of them at a speed of 400
 	for i = 1, #self.primaryWeapons , 1 do
@@ -78,7 +74,9 @@ function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
 	local newItem = itemClass:new(sceneGroup, false, 90, 400)
 	collection[#collection + 1] = newItem
 	if amount ~= nil then
-		newItem:load(amount, sceneGroup, muzzleLocation, false)
+		if not usingBulletManagerBullets then
+			newItem:load(amount, sceneGroup, muzzleLocation, false)
+		end
 		newItem:setMuzzleLocation(muzzleLocation)
 	end
 	newItem.owner = self
@@ -156,10 +154,12 @@ function Hater:onHit(phase, collide)
 		--this is the check to say you are dead; place the sound here to make it work
 		--later when weapons do different damage, you can make a check for a hit or a death
 		--for now, only a death sound will be played.
+		print('Colliding with player bullet')
 	end
    
 	if self.alive and collide.type == "player" then
 		self.health = self.health - 1
+		
 	end
 	self.super:onHit(phase, collide)
 end

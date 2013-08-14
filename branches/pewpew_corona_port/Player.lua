@@ -88,8 +88,13 @@ end
 function Player:weaponEquipDebug(sceneGroup) 
 	self.weapon = Doubleshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
-	self.weapon:load(40, sceneGroup, { 0, -100 }, true)
-	--self.weapon:setMuzzleLocation( {0, -100 } )
+	if usingBulletManagerBullets then
+		self.weapon:setMuzzleLocation( {0, -100 } )
+	else
+		print('loadingBullets')
+		self.weapon:load(40, sceneGroup, { 0, -100 }, true)
+	end
+	
 	self.weapon.owner = self
 end
 
