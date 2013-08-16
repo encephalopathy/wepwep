@@ -134,15 +134,19 @@ function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
 	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
-	local currentLevel = setLevel(currentLevelNumber)
-	AIDirector.initialize(player, currentLevel)
-	player:weaponEquipDebug(group)
-	player.weapon.targets = AIDirector.haterList
+	print('physics value at start of game')
+	print(physics)
 	physics.start()
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
+	
+	local currentLevel = setLevel(currentLevelNumber)
+	AIDirector.initialize(player, currentLevel)
 	bulletManager:start()
+	player:weaponEquipDebug(group)
+	player.weapon.targets = AIDirector.haterList
+	
 	step = 0
 end
 
@@ -154,6 +158,8 @@ function scene:exitScene( event )
 	destroyParticleManager()
 	bulletManager:stop()
 	physics.stop()
+	print('physics value at the end of game')
+	print(physics)
 	step = 0
 end
 

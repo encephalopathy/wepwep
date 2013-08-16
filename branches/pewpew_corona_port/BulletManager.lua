@@ -25,10 +25,10 @@ function BulletManager:start()
 end
 
 function BulletManager:offScreen (event)
-	if (event.name ~= "offScreen" or event.bullet.alive == false) then
+	if (event.name ~= "offScreen") then
 		return
 	end
-	--if not usingBulletManagerBullets then return true end
+
 	local bullet = event.bullet
 	local onScreenBulletList
 	local offScreenBulletList
@@ -71,7 +71,7 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	local bullet = nil;
 	bullet = self:getBulletFromOffScreen (offScreenBulletList, bulletClass, imgSrc)
 	if (bullet == nil) then
-		print('Is a nil bullet')
+		--print('Is a nil bullet AND BULLET SIZE = 0')
 		bullet = bulletClass:new(self.sceneGroup, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height)
 	end
 	
@@ -109,7 +109,7 @@ function BulletManager:addBulletToOnScreen(onScreenList, bullet)
 	if (onScreenList[tostring(bullet)][bullet.imgSrc] == nil) then
 		onScreenList[tostring(bullet)][bullet.imgSrc] = Queue.new()
 	end
-	print(bullet.creationCount)
+	--print(bullet.creationCount)
 	Queue.insertFront(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
@@ -126,7 +126,7 @@ function BulletManager:getBulletFromOffScreen (offScreenList, bulletClass, imgSr
 	if (offScreenList[tostring(bulletClass)][imgSrc] == nil) then
 		return nil
 	end
-	print('OffScreenList size: ' .. offScreenList[tostring(bulletClass)][imgSrc].size)
+	
 	return Queue.removeBack(offScreenList[tostring(bulletClass)][imgSrc])
 end
 
@@ -143,8 +143,9 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 	end
 	--Disable Box2D movement here
 	bullet.alive = false
+	--print('Bullet before removing from queue id: ' .. bullet.creationCount)
 	bullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-	print('OnScreenList size: ' .. onScreenList[tostring(bullet)][bullet.imgSrc].size)
+	--print('Bullet after removing from queue id: ' .. bullet.creationCount)
 	Queue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 

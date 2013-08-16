@@ -56,6 +56,7 @@ function Bullet:onHit(phase, collitor)
 			if self.alive then
 				self.alive = false
 			end
+			print('Collided with player')
 		end
 		
 		if self.isPlayerBullet and collitor.type == "Hater" then
@@ -63,9 +64,9 @@ function Bullet:onHit(phase, collitor)
 				self.alive = false
 			end
 		end
-	elseif phase == "ended" and not self.alive then
-		print('collision ended')
-		self:recycle()
+	--elseif phase == "ended" and not self.alive then
+	--	print('collision ended')
+	--	self:recycle()
 	end
 end
 

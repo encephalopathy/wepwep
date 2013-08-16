@@ -37,7 +37,6 @@ function removeIndex (queue, index)
       return removeBack(queue)
    end
    if (index == 0) then
-	  --print('Removing front')
       local oldFirst = queue.first
       queue.first = queue.first + 1
       local value = queue[oldFirst]
@@ -47,7 +46,6 @@ function removeIndex (queue, index)
 	  --print('returning value: ' .. tostring(value))
       return value
    end
-   --print('removing middle')
    local value = queue[index]
    queue[index] = nil
    for i = index, queue.first, -1 do
