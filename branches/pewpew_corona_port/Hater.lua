@@ -32,6 +32,9 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
     self.isFrozen = false
     self.freezeTimer = 0
 	
+	self.shipSpriteComponents = display.newGroup()
+	self.shipComponenets = Queue.new()
+	
 	self.primaryWeapons = {}
 	self.secondaryWeapons = {}
 	self.defensePassives = {}
