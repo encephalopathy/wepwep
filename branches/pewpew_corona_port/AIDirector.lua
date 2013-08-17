@@ -85,8 +85,6 @@ local function createHaterList(haterGroup, currentLevel, player)
 		--print('Hater Redneck sprite')
 		--print(temp.sprite)
 	end
-	print('Hater groups num children: ' .. haterGroup.numChildren)
-	print('Hater lists created')
 end
 
 local function moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc)
@@ -239,15 +237,10 @@ function AIDirector.uninitialize(sceneGroup)
 	
 	emptyHaterList(haterSkimMilkInViewList)
 	emptyHaterList(haterSkimMilkOutofViewList)
-	
-	--print('haterSkimMilkInViewList size: ' .. haterSkimMilkInViewList.size)
-	--print('haterSkimMilkOutofViewList size: ' .. haterSkimMilkOutofViewList.size)
+
 	
 	emptyHaterList(haterCrackaInViewList)
 	emptyHaterList(haterCrackaOutofViewList)
-	
-	--print('haterSkimMilkInViewList size: ' .. haterCrackaInViewList.size)
-	--print('haterSkimMilkOutofViewList size: ' .. haterCrackaOutofViewList.size)
 
 	emptyHaterList(haterHonkeyInViewList)
 	emptyHaterList(haterHonkeyOutofViewList)

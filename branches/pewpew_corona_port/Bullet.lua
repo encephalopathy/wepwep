@@ -1,5 +1,4 @@
 require("MoveableObject")
-require 'physics'
 Bullet = MoveableObject:subclass("Bullet")
 
 local bullet_creation_count = 0

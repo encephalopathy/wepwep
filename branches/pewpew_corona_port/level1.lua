@@ -155,10 +155,7 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
-	
-	print('Scene id on enter')
-	print(group)
-	
+	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	physics.start()
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
@@ -181,10 +178,7 @@ end
 function scene:exitScene( event )
 	print('Exiting scene')
 	local group = self.view
-	
-	print('Scene id on exit')
-	print(group)
-	
+	stopBGM()
 	AIDirector.uninitialize(group)
 	destroyParticleManager()
 	bulletManager:stop()
