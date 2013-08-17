@@ -2,6 +2,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,11 +20,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.nio.file.Path;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
@@ -42,7 +44,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
+
+
+import java.awt.image.BufferedImage; //test
 
 import javax.swing.JTextPane;
 
@@ -53,9 +57,9 @@ public class WaveScreen extends JFrame {
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
 	static Wave currentWave = new Wave(0, null); //the current wave you are working on 
 	static Level currentLevel = new Level(null, 0); //the current level you are working on
-	private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
+	//private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
 	static List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
-	private String waveNameString = "";
+	//private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
 	public Enemy workingEnemy = new Enemy();
@@ -70,7 +74,10 @@ public class WaveScreen extends JFrame {
 	public final int enemyGridBorderBottom = 200; 
 	public final int enemyGridBorderRight = 200; 
 	
-
+	//take out
+	public BufferedImage img;
+	
+	//public static Image img;
 	/**
 	 * Launch the application.
 	 */
@@ -90,7 +97,8 @@ public class WaveScreen extends JFrame {
 			}
 		});
 	}
-	
+
+	/*
 	public static void LoadImage(String name){
 		BufferedImage img = null;
 		try {
@@ -104,8 +112,10 @@ public class WaveScreen extends JFrame {
 		} catch (IOException e) {
 		}
 	}
+	*/
 	
-
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -134,14 +144,37 @@ public class WaveScreen extends JFrame {
 				System.out.println("Correct Area for placement");
 				mouseX = arg0.getX();
 				mouseY = arg0.getY();
-				System.out.println("X:" + mouseX + ", Y:" + mouseY );
+				//System.out.println("X:" + mouseX + ", Y:" + mouseY );
 				Enemy newEnemy = workingEnemy.cloneSelf();
 				newEnemy.setLocation(mouseX, mouseY);
 				System.out.println("newEnemy object: " + newEnemy);
 				System.out.println(newEnemy.weaponList);
 				currentWave.addEnemy(newEnemy);
 				System.out.print(currentLevel);
-				//System.out.print(newEnemy);
+				
+				//take out
+				/*
+				try{
+					
+					img = ImageIO.read(new File(newEnemy.imageFileName));
+					System.out.println("AFTER IMG" + img);
+					JLabel label = new JLabel(new ImageIcon(img));
+					
+					label.setLocation(newEnemy.enemyX, newEnemy.enemyY);
+					label.setSize(img.getWidth(), img.getHeight());
+					EnemyPlacementGrid.add(label);
+					System.out.println(label.getParent());
+					System.out.println(label);
+					//add(label);
+					EnemyPlacementGrid.setVisible(true);
+					label.setVisible(true);
+				} catch(IOException e){
+					e.printStackTrace();
+				}
+				*/
+				
+				
+				
 			}
 		});
 		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
