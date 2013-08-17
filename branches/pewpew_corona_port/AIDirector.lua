@@ -6,10 +6,12 @@ require("Hater_Pig")
 require("Hater_FatBoy")
 require("Hater_TheFuzz")
 require("Hater_Redneck")
+require("Hater_PooSlinger")
+require("Hater_PootiePoo")
 
 AIDirector = {}
 
-local haterList = {}
+ haterList = {}
 --local haterGroup = display.newGroup()
 
 local haterSkimMilkInViewList = Queue.new()
@@ -33,7 +35,41 @@ local haterFatBoyOutofViewList = Queue.new()
 local haterRedneckInViewList = Queue.new()
 local haterRedneckOutofViewList = Queue.new()
 
+
+local haterPooSlingerInViewList = nil
+local haterPooSlingerOutofViewList = nil
+	
+haterPootiePooInViewList = nil
+haterPootiePooOutofViewList = nil
+
 local function createHaterList(haterGroup, currentLevel, player)
+
+	haterSkimMilkInViewList = Queue.new()
+	haterSkimMilkOutofViewList = Queue.new()
+
+	haterCrackaInViewList = Queue.new()
+	haterCrackaOutofViewList = Queue.new()
+
+	haterHonkeyInViewList = Queue.new()
+	haterHonkeyOutofViewList = Queue.new()
+	
+	haterPigInViewList = Queue.new()
+	haterPigOutofViewList = Queue.new()
+
+	haterTheFuzzInViewList = Queue.new()
+	haterTheFuzzOutofViewList = Queue.new()
+	
+	haterFatBoyInViewList = Queue.new()
+	haterFatBoyOutofViewList = Queue.new()
+	
+	haterRedneckInViewList = Queue.new()
+	haterRedneckOutofViewList = Queue.new()
+	
+	haterPooSlingerInViewList = Queue.new()
+	haterPooSlingerOutofViewList = Queue.new()
+	
+	haterPootiePooInViewList = Queue.new()
+	haterPootiePooOutofViewList = Queue.new()
 
 	local temp = nil
 	for i = 1, 10, 1 do
@@ -85,6 +121,16 @@ local function createHaterList(haterGroup, currentLevel, player)
 		--print('Hater Redneck sprite')
 		--print(temp.sprite)
 	end
+	
+	for i = 1, 10, 1 do
+		temp = Hater_PooSlinger:new(haterGroup,  "sprites/carrier_01.png", -7000 + i * 300, -7000, 0, 100, 100)
+		Queue.insertFront(haterPooSlingerOutofViewList, temp)
+	end
+	
+	for i = 1, 10, 1 do
+		temp = Hater_PootiePoo:new(haterGroup,  "sprites/enemy_06.png", -7000 + i * 300, -7000, 0, 100, 100)
+		Queue.insertFront(haterPootiePooOutofViewList, temp)
+	end
 end
 
 local function moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc)
@@ -127,6 +173,8 @@ local function spawnHater(event)
 					moveHaterToTopOfScreen(haterFatBoyInViewList, haterFatBoyOutofViewList, i)
 				elseif haterId == 8 then
 					moveHaterToTopOfScreen(haterRedneckInViewList, haterRedneckOutofViewList, i)
+				elseif haterId == 9 then
+					moveHaterToTopOfScreen(haterPooSlingerInViewList, haterPooSlingerOutofViewList, i)
 				end
 			end
 		else
@@ -165,7 +213,13 @@ local function moveHaterOffScreen(hater)
 		Queue.insertFront(haterRedneckOutofViewList, hater)
 		hater.sprite.x = -4000 + haterRedneckInViewList.size * 300
 		hater.sprite.y = -3000
-	elseif Hater_BIGBOSSU:made(hater) then
+	--elseif Hater_BIGBOSSU:made(hater) then
+		--hater.sprite.x = -10000
+		--hater.sprite.y = -10000
+	elseif Hater_PooSlinger:made(hater) then
+		hater.sprite.x = -10000
+		hater.sprite.y = -10000
+	elseif Hater_PootiePoo:made(hater) then
 		hater.sprite.x = -10000
 		hater.sprite.y = -10000
 	end

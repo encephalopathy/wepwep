@@ -8,12 +8,13 @@
 require("Inventory")
 require("Utility")
 require("BGM")
+require("org.Context")
+require("mainmenu.views.PlayButton")
+require("mainmenu.views.ShopButton")
+require("mainmenu.views.EquipButton")
+
 local M = require("GameConstants")
 local widget = require("widget")
-require("org.Context")
-require "mainmenu.views.PlayButton"
-require "mainmenu.views.ShopButton"
-require "mainmenu.views.EquipButton"
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
@@ -21,7 +22,7 @@ mainInventory = Inventory:new(group)
 local spriteSheet = M.spriteSheet
 local sheetInfo   = M.sheetInfo
 
-local storyboard = require( "storyboard" )
+local storyboard = require("storyboard")
 local scene = storyboard.newScene()
 
 -- include Corona's "widget" library
@@ -83,6 +84,7 @@ function scene:createScene( event )
 	
 	-- display a background image
 	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
+	
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	group:insert( background )
@@ -101,7 +103,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	playBGM("/sounds/bgmusic/menuBackMusic.ogg")
+	playBGM("sounds/bgmusic/menuBackMusic.ogg")
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 
