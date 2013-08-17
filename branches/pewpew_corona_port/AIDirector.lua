@@ -10,7 +10,7 @@ require("Hater_Redneck")
 AIDirector = {}
 
 local haterList = {}
-local haterGroup = display.newGroup()
+--local haterGroup = display.newGroup()
 
 local haterSkimMilkInViewList = Queue.new()
 local haterSkimMilkOutofViewList = Queue.new()
@@ -33,45 +33,60 @@ local haterFatBoyOutofViewList = Queue.new()
 local haterRedneckInViewList = Queue.new()
 local haterRedneckOutofViewList = Queue.new()
 
-local function createHaterList(currentLevel, player)
+local function createHaterList(haterGroup, currentLevel, player)
 
 	local temp = nil
 	for i = 1, 10, 1 do
 		temp = Hater_Honkey:new(haterGroup, "sprites/enemy_02.png", -1000 + i * 300, -1000, 0, 100, 100)
 		Queue.insertFront(haterHonkeyOutofViewList, temp)
+		--print('Hater Honkey sprite')
+		--print(temp.sprite)
 	end
-	
 	
 	for i = 1, 10, 1 do
 		temp = Hater_Cracka:new(haterGroup, "sprites/enemy_03.png", -2000 + i * 300, -2000, 0, 100, 100)
 		Queue.insertFront(haterCrackaOutofViewList, temp)
+		--print('Hater Cracka sprite')
+		--print(temp.sprite)
 	end
 	
 	for i = 1, 10, 1 do
 		temp = Hater_SkimMilk:new(haterGroup, "sprites/enemy_05.png", -3000 + i * 300, -3000, 0, 100, 100)
 		Queue.insertFront(haterSkimMilkOutofViewList, temp)
+		--print('Hater Skim Milk sprite')
+		--print(temp.sprite)
 	end
 	
 	for i = 1, 10, 1 do
 		temp = Hater_TheFuzz:new(haterGroup, "sprites/enemy_03.png", -4000 + i * 300, -4000, 0, 100, 100, player)
 		Queue.insertFront(haterTheFuzzOutofViewList, temp)
+		--print('Hater The Fuzz sprite')
+		--print(temp.sprite)
 	end
 	
 	for i = 1, 10, 1 do
 		temp = Hater_Pig:new(haterGroup, "sprites/enemy_04.png", -5000 + i * 300, -5000, 0, 100, 100)
 		Queue.insertFront(haterPigOutofViewList, temp)
+		--print('Hater The Pig sprite')
+		--print(temp.sprite)
 	end
 	
 	for i = 1, 10, 1 do
 		temp = Hater_FatBoy:new(haterGroup, "sprites/enemy_01.png", -6000 + i * 300, -6000, 0, 100, 100)
 		Queue.insertFront(haterFatBoyOutofViewList, temp)
+		--print('Hater Fat Boy sprite')
+		--print(temp.sprite)
 	end
 	
 	
 	for i = 1, 10, 1 do
 		temp = Hater_Redneck:new(haterGroup,  "sprites/enemy_08.png", -7000 + i * 300, -7000, 0, 100, 100)
 		Queue.insertFront(haterRedneckOutofViewList, temp)
+		--print('Hater Redneck sprite')
+		--print(temp.sprite)
 	end
+	print('Hater groups num children: ' .. haterGroup.numChildren)
+	print('Hater lists created')
 end
 
 local function moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc)
@@ -163,9 +178,9 @@ end
 local function emptyHaterList(groupOfHaters)
 	while groupOfHaters.size > 0 do
 		local hater = Queue.removeBack(groupOfHaters)
-		if hater ~= nil then
-			--hater:destroy()
-		end
+		--if hater ~= nil then
+			hater:destroy()
+		--end
 	end
 end
 
@@ -183,8 +198,8 @@ local function updateHaters()
 	end
 end
 
-function AIDirector.initialize(player, currentLevel)
-	createHaterList(currentLevel, player)
+function AIDirector.initialize(sceneGroup, player, currentLevel)
+	createHaterList(sceneGroup, currentLevel, player)
 	AIDirector.haterList = haterList
 	if player ~= nil then
 		AIDirector.player = player
@@ -219,16 +234,20 @@ function AIDirector.deactivate()
 	Runtime:removeEventListener("enterFrame", AIDirector.update)
 end
 
-function AIDirector.uninitialize()
+function AIDirector.uninitialize(sceneGroup)
 	AIDirector.deactivate()
-	for hater in pairs(haterList) do
-		hater:destroy()
-	end
+	
 	emptyHaterList(haterSkimMilkInViewList)
 	emptyHaterList(haterSkimMilkOutofViewList)
 	
+	--print('haterSkimMilkInViewList size: ' .. haterSkimMilkInViewList.size)
+	--print('haterSkimMilkOutofViewList size: ' .. haterSkimMilkOutofViewList.size)
+	
 	emptyHaterList(haterCrackaInViewList)
 	emptyHaterList(haterCrackaOutofViewList)
+	
+	--print('haterSkimMilkInViewList size: ' .. haterCrackaInViewList.size)
+	--print('haterSkimMilkOutofViewList size: ' .. haterCrackaOutofViewList.size)
 
 	emptyHaterList(haterHonkeyInViewList)
 	emptyHaterList(haterHonkeyOutofViewList)
@@ -245,5 +264,8 @@ function AIDirector.uninitialize()
 	emptyHaterList(haterRedneckInViewList)
 	emptyHaterList(haterRedneckOutofViewList)
 	
+	--I just create a new hater list for now, for some reason I am unable to empty a table correctly.
+	haterList = {}
+	haterTimer = nil --May not need this if we switch screens
 	AIDirector.active = false
 end

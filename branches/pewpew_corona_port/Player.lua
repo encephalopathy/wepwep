@@ -86,7 +86,7 @@ local function clampPlayerMovement(currentSpeed)
 end
 
 function Player:weaponEquipDebug(sceneGroup) 
-	self.weapon = Doubleshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	if usingBulletManagerBullets then
 		self.weapon:setMuzzleLocation( {0, -100 } )

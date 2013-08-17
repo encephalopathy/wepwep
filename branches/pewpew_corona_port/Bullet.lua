@@ -1,5 +1,5 @@
 require("MoveableObject")
-
+require 'physics'
 Bullet = MoveableObject:subclass("Bullet")
 
 local bullet_creation_count = 0
@@ -56,7 +56,7 @@ function Bullet:onHit(phase, collitor)
 			if self.alive then
 				self.alive = false
 			end
-			print('Collided with player')
+			--print('Collided with player')
 		end
 		
 		if self.isPlayerBullet and collitor.type == "Hater" then

@@ -215,7 +215,11 @@ function Ride:destroy()
 	self.bombs = nil
 	self.heaters = nil
 	self.particleEmitter = nil
-	self.explosion:removeEventListener("sprite", self.afterExplosion)
-	self.explosion = nil
+	--'Temporary fix until I get this figured out'
+	if self.explosion ~= nil then
+		self.explosion:removeEventListener("sprite", self.afterExplosion)
+		self.explosion:removeSelf()
+		self.explosion = nil
+	end
 	self.super:destroy()
 end

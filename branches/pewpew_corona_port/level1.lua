@@ -17,6 +17,7 @@ local widget = require "widget"
 
 -- local variables
 local player = nil
+local playerStartLocation = { x = display.contentWidth / 2, y =  display.contentHeight / 2 }
 local background = nil
 local backgroundBuffer = nil
 local currentLevelNumber = 0
@@ -53,6 +54,25 @@ local newCoroutine = coroutine.create(function()
     end
 end
 )
+
+local function update(event)
+	
+	coroutine.resume(newCoroutine)
+--if not pauseGame then
+   -- print("I am updating")
+	if not player.alive then
+		player.sprite.x = 4000
+		player.sprite.y = 4000
+	end
+	if(player.isFiring) then 
+		player:fire()
+	else
+		player:regeneratePowah()
+	end
+	player:cullBulletsOffScreen()
+--	updateParticleEmitters()
+	step = step + 1
+end
 
 -- scrolls background of gamestate
 local function updateBackground()
@@ -122,6 +142,8 @@ function scene:createScene( event )
 
 	group:insert( myButton )
 	
+	print('level1 scenegroup')
+	print(group)
 	--mainInventory:equipRig(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
@@ -133,34 +155,45 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
-	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
-	print('physics value at start of game')
-	print(physics)
+	
+	print('Scene id on enter')
+	print(group)
+	
 	physics.start()
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
 	
 	local currentLevel = setLevel(currentLevelNumber)
-	AIDirector.initialize(player, currentLevel)
+	AIDirector.initialize(group, player, currentLevel)
 	bulletManager:start()
+	
+	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player:weaponEquipDebug(group)
 	player.weapon.targets = AIDirector.haterList
-	
 	step = 0
+	Runtime:addEventListener("enterFrame", update )
+	Runtime:addEventListener("enterFrame", updateBackground )
+	
 end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
-	print('exiting scene')
+	print('Exiting scene')
 	local group = self.view
-	AIDirector.uninitialize()
+	
+	print('Scene id on exit')
+	print(group)
+	
+	AIDirector.uninitialize(group)
 	destroyParticleManager()
 	bulletManager:stop()
-	physics.stop()
-	print('physics value at the end of game')
-	print(physics)
+	
+
+	Runtime:removeEventListener("enterFrame", update )
+	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
+	physics.pause()
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
@@ -182,27 +215,6 @@ function particleCoroutine ()
     end)
 end
 
-local function update(event)
-	
-	coroutine.resume(newCoroutine)
---if not pauseGame then
-   -- print("I am updating")
-	if not player.alive then
-		player.sprite.x = 4000
-		player.sprite.y = 4000
-	end
-	if(player.isFiring) then 
-		player:fire()
-	else
-		player:regeneratePowah()
-	end
-	AIDirector.update()
-	player:cullBulletsOffScreen()
---	updateParticleEmitters()
-	step = step + 1
-end
-
-
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
 -----------------------------------------------------------------------------------------
@@ -221,9 +233,7 @@ scene:addEventListener( "exitScene", scene )
 -- storyboard.purgeScene() or storyboard.removeScene().
 scene:addEventListener( "destroyScene", scene )
 
-Runtime:addEventListener("enterFrame", update )
 
-Runtime:addEventListener("enterFrame", updateBackground )
 
 -----------------------------------------------------------------------------------------
 

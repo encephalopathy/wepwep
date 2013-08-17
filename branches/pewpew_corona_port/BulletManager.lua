@@ -9,18 +9,23 @@ local DEFAULT_WIDTH = 50
 local DEFAULT_HEIGHT = 50
 local DEFAULT_ROTATION = 0
 
+--local bulletGroupInView = display.newGroup()
+--local bulletGroupOutofView = display.newGroup()
+
 function BulletManager:init (scene)
 	self.sceneGroup = scene
 	self.playerOnScreenBullets = {}
 	self.playerOffScreenBullets = {}
 	self.haterOnScreenBullets = {}
 	self.haterOffScreenBullets = {}
+	self.bulletGroupInView = display.newGroup()
+	--self.bulletGroupOutofView = display.newGroup()
+	--self.sceneGroup:insert(self.bulletGroupInView)
+	--self.bulletGroupOutofView:removeSelf()
 end
 
 function BulletManager:start()
 	print('Starting BulletManager')
-	self:reactivateCachedBullets(self.playerOffScreenBullets)
-	self:reactivateCachedBullets(self.haterOffScreenBullets)
 	Runtime:addEventListener("offScreen", self)
 end
 
@@ -40,6 +45,7 @@ function BulletManager:offScreen (event)
 		onScreenBulletList = self.haterOnScreenBullets
 		offScreenBulletList = self.haterOffScreenBullets
 	end
+	
 	self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
 	return true
 end
@@ -72,31 +78,24 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	bullet = self:getBulletFromOffScreen (offScreenBulletList, bulletClass, imgSrc)
 	if (bullet == nil) then
 		--print('Is a nil bullet AND BULLET SIZE = 0')
-		bullet = bulletClass:new(self.sceneGroup, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height)
+		bullet = bulletClass:new(self.bulletGroupInView, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height)
 	end
 	
 	self:addBulletToOnScreen(onScreenBulletList, bullet)
 	return bullet
 end
 
-function BulletManager:reactivateCachedBullets(offScreenBullets)
-	if #offScreenBullets == 0 then return end
-	for className, typeOfBullets in ipairs(offScreenbullets) do
-		for imgSrc, bullets in ipairs(typeOfBullets[className]) do
-			for i = bullets.first, bullets.last, -1 do
-				self.sceneGroup:insert(bullets[imgSrc], bullets[imgSrc].sprite)
-			end
-		end
-	end
-end
-
 function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
-	for className, typeOfBullets in ipairs(onScreenBullets) do
-		for imgSrc, bullets in ipairs(typeOfBullets) do
+	for className, typeOfBullets in pairs(onScreenBullets) do
+		for imgSrc, bullets in pairs(typeOfBullets) do
 			while bullets.size > 0 do
 				local bullet = Queue.removeBack(bullets)
-				self.sceneGroup:remove(bullet.sprite)
-				Queue.insertFront(offScreenBullets[tostring(className)][imgSrc], bullet)
+				bullet.sprite.isVisible = false
+				bullet.sprite.x = 5000
+				bullet.sprite.y = 5000
+				--self.bulletGroupOutofView:insert(bullet.sprite)
+				--self.bulletGroupInView:remove(bullet.sprite)
+				Queue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 		end
 	end
@@ -109,7 +108,12 @@ function BulletManager:addBulletToOnScreen(onScreenList, bullet)
 	if (onScreenList[tostring(bullet)][bullet.imgSrc] == nil) then
 		onScreenList[tostring(bullet)][bullet.imgSrc] = Queue.new()
 	end
-	--print(bullet.creationCount)
+
+	assert(bullet.sprite ~= nil)
+	bullet.sprite.isVisible = true
+	bullet.sprite.isBodyActive = true
+	--self.bulletGroupInView:insert(bullet.sprite)
+	--self.bulletGroupOutofView:remove(bullet.sprite)
 	Queue.insertFront(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
@@ -143,9 +147,16 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 	end
 	--Disable Box2D movement here
 	bullet.alive = false
-	--print('Bullet before removing from queue id: ' .. bullet.creationCount)
+	bullet.sprite.isVisible = false
+	bullet.sprite.isBodyActive = false
+	bullet.sprite.x = 5000
+    bullet.sprite.y = 5000
+
+	
 	bullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-	--print('Bullet after removing from queue id: ' .. bullet.creationCount)
+
+	--self.bulletGroupOutofView:insert(bullet.sprite)
+	--self.bulletGroupInView:remove(bullet.sprite)
 	Queue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
