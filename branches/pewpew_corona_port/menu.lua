@@ -83,7 +83,7 @@ function scene:createScene( event )
 	local group = self.view
 	
 	-- display a background image
-	local background = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
+	local background  = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
