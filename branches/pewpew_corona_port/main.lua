@@ -3,6 +3,7 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+--require("LevelManager")
 
 -- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )

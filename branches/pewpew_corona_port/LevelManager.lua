@@ -1,99 +1,179 @@
 
-WAVE_LIMIT = 0
-HATER_COLUMN_OFFSET = 325
-current_wave_number = 1
-current_set_number = 1
+local currentLevel
+local waveNumber
+local currentWaveNumber = 1
 
-local function chomp(line)
-   return string.gsub(line, "[\r\n]+$", "")
-end
-
-
-function createLevel(filename)
-	local waves = {}
+--Levels
+	--Theme (Level Name)
+		--Level (Level Number)
+			--Wave (Time interval)
+				--Enemy1
+					--location
+						--x
+						--y
+					--rotation
+					--weapons
+						--weapon 1
+						--weapon 2
+				--Enemy2
+function createGame(filename)
 	local filePath = system.pathForFile( filename, system.ResourceDirectory )
 	local file = io.open(filePath, "r")
-	local wave = nil
-	local lineAmount = 0
-	local waveAmount = 0
-	
+	local enemy
+	local levels = {}
+	local currentLevelName
+	local maximumEnemyTypeAmount
+	--local currentLevelNumber
+	local currentWave
+	local enemyTypeAmountTable
 	for line in file:lines(), 1 do
-      line = chomp(line)
-		if line == "@" then
-			if wave ~= nil then
-				wave.length = lineAmount
-				lineAmount = 0
-				waves[waveAmount] = wave
+		--print('current line: ' .. line)
+		for fieldType, field  in string.gmatch(line, "(%w+[%p*%w*]*)=(%w+%p*[%w+%p*]*)") do
+			--print('fieldType: ' .. fieldType)
+			--print('field: ' .. field)
+			if fieldType == 'Name' then
+				--Name; denotes the theme of the level
+				--if levels[field] == nil then
+					levels[field] = {}
+					currentLevelName = field
+					maximumEnemyTypeAmount = {}
+					levels[field]['enemyFrequency'] = maximumEnemyTypeAmount
+				--end
+			elseif fieldType == 'Number' then
+				--Number; denotes a level of a given theme
+				--levels[currentLevelName][field] = {}
+				--[[
+				if levels[field] == nil then
+					print(levels[currnetLevelName])
+					table.insert(levels[currentLevelName], {})
+					currentLevelNumber = field
+				end
+				]]--
+				levels[field] = levels[currentLevelName]
+			elseif fieldType == 'Time' then
+				--Wave
+				--levels[currentLevelName][field]['enemies'] = {}
+				--levels[currentLevelName][field] = field
+				currentWave = {}
+				enemyTypeAmountTable = {}
+				table.insert(levels[currentLevelName], {Time=tonumber(field), Enemies=currentWave, EnemyTypeAmount = enemyTypeAmountTable})
+			elseif fieldType == 'Type' then
+				--Enemy creation
+				enemy = {}
+				enemy[fieldType] = field
+				table.insert(currentWave, enemy)
+			elseif fieldType == 'Location' then
+				--Location
+				 local i = string.find(field, ",")
+				 x = string.sub(field, 1, (i-1))
+				 y = string.sub(field, (i+1))
+				 enemy.x = tonumber(x)
+				 enemy.y = tonumber(y)
+				 --print(enemy[fieldType].x)
+				 --print(enemy[fieldType].y)
+			elseif fieldType == 'Rotation' then
+				enemy[fieldType] = tonumber(field)
+			elseif fieldType == 'Weapons' then
+				enemy[fieldType] = {}
+				equipWeaponToHater(field, enemy, fieldType)
+			else
+				enemyTypeAmountTable[fieldType] = field
+				if maximumEnemyTypeAmount[fieldType] == nil or maximumEnemyTypeAmount[fieldType] < field then
+					maximumEnemyTypeAmount[fieldType] = field
+				end
 			end
-				wave = {}
-				waveAmount = waveAmount + 1
-		else
-			lineAmount = lineAmount + 1
-			wave[lineAmount] = line
 		end
-	end
-	waves[waveAmount] = wave
-	wave.length = lineAmount
-	waves.length = waveAmount
-	local set = {}
-	for waveNum = 1, waves.length, 1 do
-		--print(waves[waveNum])
-		for setNum = 1, waves[waveNum].length, 1 do
-			local length = string.len(waves[waveNum][setNum])
-			set = {}
-			for columnNum = 1, length, 1 do
-				local haterType = tonumber(string.sub(waves[waveNum][setNum], columnNum, columnNum))
-				set[columnNum] = haterType
-			end
-			set.length = length
-			waves[waveNum][setNum] = set
-			
-		end
+		--waves[enemy]
 	end
 	
-	return waves
+	return levels
 end
 
-function createNewHaterSet(grid)
-	local set = nil
-	local wave = grid[current_wave_number]
-	
-	if wave ~= nil then
-		set = grid[current_wave_number][current_set_number]
-	else
-		wave = set
+function equipWeaponToHater(weaponLine, enemy, fieldType)
+	--print('weaponLine is:'..weaponLine)
+	for weapon in string.gmatch(weaponLine, "%p*(%w+)%p*") do
+		--print('weapon is: ' .. weapon)
+		table.insert(enemy[fieldType], weapon)
 	end
-	
-	if set ~= nil then
-		current_set_number = current_set_number + 1
-	else
-		createNewHaterWave()
-	end
-	return set
 end
 
 function createNewHaterWave()
-	current_set_number = 1
-	current_wave_number = current_wave_number + 1
+	local wave = currentLevel[currentWaveNumber]
+	currentWaveNumber = currentWaveNumber+1
+	return wave
 end
-function setLevel(levelNumber)
-	current_wave_number = 1
-	current_set_number = 1
-	if levelNumber == 0 then
-		return level0
+
+--Will load the level by theme name.  May be able to load the level by the theme name and level number.
+function setLevel(levelName)
+	currentLevel = levels[levelName]
+	currentWaveNumber = 1
+	return currentLevel
+end
+
+levels = createGame('levels/testInput.txt')  
+--[[
+	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
+	
+	...Seriously though, stay the hell away from these.
+]]--
+function printLevel(levels)
+	for name, value in pairs (levels) do
+		print('name is: '..name)
+		printWave(value)
 	end
 end
 
-level0 = createLevel('leveltest.txt')
+function printHaterFrequency(value)
+	for haterType, haterMaxAmount in pairs(value) do
+		print('   '..haterType..':'..haterMaxAmount)
+	end
+end
 
-for i = 1, level0.length, 1 do
-	local wave = level0[i]
-	--print('wave ' .. i)
-	for j = 1, wave.length, 1 do
-		local set = level0[i][j]
-		--print ('set ' .. j) 
-		for k = 1, set.length, 1 do
-			--print(level0[i][j][k])
+function printWave(waves)
+	for waveTime, waveValue in pairs (waves) do
+		if waveTime == 'enemyFrequency' then
+			printHaterFrequency(waveValue)
+		else
+			printTime(waveValue)
 		end
 	end
 end
+
+function printTime(times)
+	for timeKey, waveTime in pairs (times) do
+		if timeKey == 'Time' then
+			print('   '..timeKey..':'..waveTime)
+		elseif timeKey == 'Enemies' then
+			printTableOfEnemies(waveTime)
+		else
+			printEnemyType(waveTime)
+		end
+	end
+end
+
+function printTableOfEnemies(enemies)
+	for enemyName, enemy in pairs (enemies) do
+		for property, propValue in pairs (enemy) do
+			if property == 'Weapons' then
+				printWeapons(propValue)
+			else
+				print('     '..property..':'..propValue)
+			end
+		end
+	end
+end
+
+function printEnemyType(enemyType)
+	for enemyName, amount in pairs (enemyType) do
+		print('   '..enemyName..':'..amount)
+	end
+end
+
+function printWeapons(enemy)
+	for weaponKey, weaponValue in pairs (enemy) do
+		print('         '..weaponKey..':'..weaponValue)
+	end
+end
+
+print('!!!DEBUG LOOP!!!') 
+printLevel(levels)
