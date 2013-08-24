@@ -17,9 +17,10 @@ local widget = require "widget"
 
 -- local variables
 local player = nil
+local playerStartLocation = { x = display.contentWidth / 2, y =  display.contentHeight / 2 }
 local background = nil
 local backgroundBuffer = nil
-local currentLevelNumber = 0
+local currentLevelNumber = 1
 step = 0
 
 -- include Corona's "physics" library
@@ -28,6 +29,8 @@ physics.start(); physics.pause()
 physics.setGravity(0, 0)
 physics.setVelocityIterations(1)
 physics.setPositionIterations(1)
+
+usingBulletManagerBullets = true
 
 --------------------------------------------
 
@@ -52,6 +55,25 @@ local newCoroutine = coroutine.create(function()
 end
 )
 
+local function update(event)
+	
+	coroutine.resume(newCoroutine)
+--if not pauseGame then
+   -- print("I am updating")
+	if not player.alive then
+		player.sprite.x = 4000
+		player.sprite.y = 4000
+	end
+	if(player.isFiring) then 
+		player:fire()
+	else
+		player:regeneratePowah()
+	end
+	player:cullBulletsOffScreen()
+--	updateParticleEmitters()
+	step = step + 1
+end
+
 -- scrolls background of gamestate
 local function updateBackground()
 	background.y = background.y + 10
@@ -61,7 +83,6 @@ local function updateBackground()
 	if background.y >= 3600 then
 		background.y = 0
 		backgroundBuffer.y = -3600
---	background.y = background.y + 10
 	end
 end
 
@@ -80,8 +101,16 @@ local function createScrollingBackground(scene)
 	scene:insert(  backgroundBuffer )
 end
 
+local function back()
+	print('Back')
+    audio.stop()
+	storyboard.gotoScene("menu", "fade", 500)
+	return true
+end
+
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
+	print('Create Scene')
 	local group = self.view
 
 	-- creates the scrolling background for the current game
@@ -91,25 +120,30 @@ function scene:createScene( event )
 	bulletManager = BulletManager:new(group)
 	
 	
-local myButton = widget.newButton
-{
-   left = screenW - screenW*0.3,
-   top = screenH - screenH*0.15,
-   width = screenW*0.3,
-   height = screenH*0.2,
-   defaultFile = "sprites/backtomenu_unpressed.png",
-   overFile = "sprites/backtomenu_pressed.png",
-   label = "",
-   labelAlign = "center",
-   font = "Arial",
-   fontSize = 18,
-   labelColor = { default = {0,0,0}, over = {255,255,255} },
-   onRelease = back
-}
-myButton.baseLabel = ""
+	local myButton = widget.newButton
+	{
+		left = screenW - screenW*0.3,
+		top = screenH - screenH*0.15,
+		width = screenW*0.3,
+		height = screenH*0.2,
+		defaultFile = "sprites/backtomenu_unpressed.png",
+		overFile = "sprites/backtomenu_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			audio.stop()
+			storyboard.gotoScene("menu", "fade", 500)
+		end
+	}
+	myButton.baseLabel = ""
 
-group:insert( myButton )
+	group:insert( myButton )
 	
+	print('level1 scenegroup')
+	print(group)
 	--mainInventory:equipRig(player, sceneGroup)
 	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
@@ -117,37 +151,48 @@ group:insert( myButton )
 
 end
 
-
-local function back()
-    audio.stop()
-	storyboard.gotoScene("menu", "fade", 500)
-	return true
-end
-
-
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+	print('Enter Scene')
 	local group = self.view
 	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
-	local currentLevel = setLevel(currentLevelNumber)
-	AIDirector.initialize(player, currentLevel)
+	physics.start()
+	physics.setGravity(0, 0)
+	physics.setVelocityIterations(1)
+	physics.setPositionIterations(1)
+	
+	local currentLevel = setLevel('ap')
+	AIDirector.initialize(group, player, currentLevel)
+	bulletManager:start()
+	
+	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player:weaponEquipDebug(group)
 	player.weapon.targets = AIDirector.haterList
-	physics.start()
 	step = 0
+	Runtime:addEventListener("enterFrame", update )
+	Runtime:addEventListener("enterFrame", updateBackground )
+	
 end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
+	print('Exiting scene')
 	local group = self.view
-	mainInventory.equippedGameWeapon:unload()
-    mainInventory.equippedSecondaryGameWeapon:unload()
-	physics.stop()
+	stopBGM()
+	AIDirector.uninitialize(group)
+	destroyParticleManager()
+	bulletManager:stop()
+	
+
+	Runtime:removeEventListener("enterFrame", update )
+	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
+	physics.pause()
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
 function scene:destroyScene( event )
+	print('destroying scene')
 	local group = self.view
 	
 	package.loaded[physics] = nil
@@ -163,27 +208,6 @@ function particleCoroutine ()
     updateParticleEmitters()
     end)
 end
-
-local function update(event)
-	
-	coroutine.resume(newCoroutine)
---if not pauseGame then
-   -- print("I am updating")
-	if not player.alive then
-		player.sprite.x = 4000
-		player.sprite.y = 4000
-	end
-	if(player.isFiring) then 
-		player:fire()
-	else
-		player:regeneratePowah()
-	end
-	AIDirector.update()
-	player:cullBulletsOffScreen()
---	updateParticleEmitters()
-	step = step + 1
-end
-
 
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
@@ -203,9 +227,7 @@ scene:addEventListener( "exitScene", scene )
 -- storyboard.purgeScene() or storyboard.removeScene().
 scene:addEventListener( "destroyScene", scene )
 
-Runtime:addEventListener("enterFrame", update )
 
-Runtime:addEventListener("enterFrame", updateBackground )
 
 -----------------------------------------------------------------------------------------
 

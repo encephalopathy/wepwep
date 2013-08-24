@@ -3,10 +3,7 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
-
--- sprite sheet containing all images
--- local sheetInfo = require("spritesheetrgba4444")
--- spriteSheet = graphics.newImageSheet("spritesheetrgba4444.png", sheetInfo:getSheet())
+--require("LevelManager")
 
 -- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
@@ -26,7 +23,7 @@ local monitorMem = function()
     --print( "MemUsage: " .. sysMem )
 
     local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
-    --print( "TexMem:   " .. textMem )
+    --sprint( "TexMem:   " .. textMem )
 end
 
 Runtime:addEventListener( "enterFrame", monitorMem )

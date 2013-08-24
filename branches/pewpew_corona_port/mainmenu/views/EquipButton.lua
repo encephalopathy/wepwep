@@ -14,3 +14,5 @@ end
 function EquipButton:__tostring()
 	return EquipButton.name()
 end
+
+return EquipButton

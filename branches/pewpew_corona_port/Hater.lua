@@ -32,6 +32,9 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
     self.isFrozen = false
     self.freezeTimer = 0
 	
+	self.shipSpriteComponents = display.newGroup()
+	self.shipComponenets = Queue.new()
+	
 	self.primaryWeapons = {}
 	self.secondaryWeapons = {}
 	self.defensePassives = {}
@@ -57,10 +60,6 @@ function Hater:move(x, y)
 	self.sprite.y = self.sprite.y + y
 end
 
-function Hater:test()
-	print('I am a hater')
-end
-
 function Hater:fire()
     --haters shoot 30 units in front of them at a speed of 400
 	for i = 1, #self.primaryWeapons , 1 do
@@ -78,7 +77,9 @@ function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
 	local newItem = itemClass:new(sceneGroup, false, 90, 400)
 	collection[#collection + 1] = newItem
 	if amount ~= nil then
-		newItem:load(amount, sceneGroup, muzzleLocation, false)
+		if not usingBulletManagerBullets then
+			newItem:load(amount, sceneGroup, muzzleLocation, false)
+		end
 		newItem:setMuzzleLocation(muzzleLocation)
 	end
 	newItem.owner = self
@@ -125,12 +126,11 @@ function Hater:update()
 	self.bulletsInView = newInViewQueue]]--
 	
 	
-	if self.alive == true then  
-					
-		if (self.sprite.y >=  850 and self.alive ) then
-				self.alive = false
-				return
-			end
+	if self.alive and self.sprite then		
+		if (self.sprite.y >=  850 ) then
+			self.alive = false
+			return
+		end
 	end
 	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 end
@@ -157,10 +157,12 @@ function Hater:onHit(phase, collide)
 		--this is the check to say you are dead; place the sound here to make it work
 		--later when weapons do different damage, you can make a check for a hit or a death
 		--for now, only a death sound will be played.
+		--print('Colliding with player bullet')
 	end
    
 	if self.alive and collide.type == "player" then
 		self.health = self.health - 1
+		
 	end
 	self.super:onHit(phase, collide)
 end
@@ -184,6 +186,16 @@ function Hater:destroy()
 	end
 	--self.haterList[self] = nil
 	
+end
+
+function Hater:respawn(group)
+	if group ~= nil then
+		group:insert(self.sprite)
+	end
+	self.time = 0
+	self.health = self.maxHealth
+	self.isFrozen = false
+	self.freezeTimer = 0
 end
 
 Hater:virtual("equipRig")

@@ -1,8 +1,7 @@
 require("MoveableObject")
-
 Bullet = MoveableObject:subclass("Bullet")
 
-
+local bullet_creation_count = 0
 
 function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
 	local collisionFilter
@@ -16,9 +15,6 @@ function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotatio
 	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height, collisionFilter)
 	self.imgSrc = imgSrc
 	
-	-- default class name
-	self.className = "bullet"
-	
 	--A flag that determines if the bullet is on the screen and moving.
 	self.alive = false
 	
@@ -27,6 +23,9 @@ function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotatio
 	
 	--Does the player own this bullet.
 	self.isPlayerBullet = isPlayerBullet
+	
+	self.creationCount = bullet_creation_count + 1
+	bullet_creation_count = bullet_creation_count + 1
 	
 	--This an object reference to this object from a Corona sprite.  This is need for collision detection to work.
 	self.sprite.objRef = self
@@ -41,10 +40,6 @@ function Bullet:move(x, y)
 	self.super:move(x, y)
 end
 
-function Bullet:__toString()
-	return "Bullet"
-end
-
 function Bullet:onHit(phase, collitor)
 	if phase == "began" and self.alive then
 		if not collitor.type == "player" and self.isPlayerBullet then
@@ -57,6 +52,7 @@ function Bullet:onHit(phase, collitor)
 			if self.alive then
 				self.alive = false
 			end
+			--print('Collided with player')
 		end
 		
 		if self.isPlayerBullet and collitor.type == "Hater" then
@@ -64,16 +60,16 @@ function Bullet:onHit(phase, collitor)
 				self.alive = false
 			end
 		end
-	elseif phase == "ended" and not self.alive then
-		self:recycle()
+	--elseif phase == "ended" and not self.alive then
+	--	print('collision ended')
+	--	self:recycle()
 	end
 end
 
 function Bullet:recycle()
 	self.sprite.x = 5000
     self.sprite.y = 5000
-	self.alive = false
-	local offScreen = { name = "offScreen", bullet = self }
+	local offScreen = { name = "offScreen", target = self }
 	Runtime:dispatchEvent(offScreen)
 end
 

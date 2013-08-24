@@ -54,9 +54,15 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	]]--
 	if width == nil or height == nil then
 		sprite = display.newImage(imgSrc)
+		if sprite == nil then
+			error('Out of memory')
+		end
 		sprite.x, sprite.y = startX, startY
 	else
 		sprite = display.newImageRect(imgSrc, width, height)
+		if sprite == nil then
+			error('Out of memory')
+		end
 		sprite.width, sprite.height = width, height
 		sprite.x, sprite.y = startX, startY
 	end
@@ -150,7 +156,7 @@ end
 	@RETURN: VOID
 ]]--
 function MoveableObject:destroy()
-	if (self) then
+	if (self.sprite) then
 		self.sprite:removeEventListener("collision", self.sprite)
 		self.sprite.collision = nil
 		self.sprite:removeSelf()

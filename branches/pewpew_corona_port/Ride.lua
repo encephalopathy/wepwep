@@ -194,7 +194,6 @@ end
 ]]--
 function Ride:explode()
 	if not self.explosion.isPlaying then
-	
 		--Makes the explosion appear on screen by translating it to the location of the exploded ship.
 		self.explosion.x = self.sprite.x; self.explosion.y = self.sprite.y;
 		self.explosion:play()
@@ -216,10 +215,12 @@ end
 function Ride:destroy()
 	self.bombs = nil
 	self.heaters = nil
-	removeParticleEmitter(self.particleEmitter)
-	self.particleEmitter:destroy()
 	self.particleEmitter = nil
-	self.explosion:removeEventListener("sprite", self.afterExplosion)
-	self.explosion = nil
+	--'Temporary fix until I get this figured out'
+	if self.explosion ~= nil then
+		self.explosion:removeEventListener("sprite", self.afterExplosion)
+		self.explosion:removeSelf()
+		self.explosion = nil
+	end
 	self.super:destroy()
 end

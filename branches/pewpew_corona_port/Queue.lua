@@ -5,6 +5,7 @@ function new()
 end
 
 function insertFront(queue, value)
+	assert(value ~= nil)
 	local first = queue.first - 1
 	queue.first = first
 	queue[first] = value
@@ -21,15 +22,18 @@ function removeBack(queue)
 	queue[last] = nil
 	queue.last = last - 1
 	queue.size = queue.size - 1
+	assert(value ~= nil)
+	--print('returning value: ' .. tostring(value))
 	return value
 end
 
 function removeIndex (queue, index)
    if (index < queue.first or index > queue.last) then
-	  print ("not a valid Queue location")
+	  --print ("not a valid Queue location")
       return
    end
    if (index == queue.last) then
+	  --print('removing back')
       return removeBack(queue)
    end
    if (index == 0) then
@@ -38,6 +42,8 @@ function removeIndex (queue, index)
       local value = queue[oldFirst]
       queue[oldFirst] = nil
       queue.size = queue.size - 1
+	  assert(value ~= nil)
+	  --print('returning value: ' .. tostring(value))
       return value
    end
    local value = queue[index]
@@ -46,15 +52,28 @@ function removeIndex (queue, index)
       queue[i] = queue[i-1]
    end
    queue.first = queue.first + 1
+   
    queue.size = queue.size - 1
+   
+   assert(value ~= nil)
+   --print('returning value: ' .. tostring(value))
    return value
 end
 
 function removeObject(queue, object)
+	--print('Object creation count to check: ' .. object.creationCount)
 	for i = queue.first, queue.last, 1 do
+		--print(queue[i].creationCount)
 		if (queue[i] == object) then
+			--print('queue.first: ' .. queue.first)
+			--print('queue.last: ' .. queue.last)
+			--print('queue.size: ' .. queue.size)
 			return removeIndex(queue, i)
 		end
+		
 	end
+	--print('queue.first: ' .. queue.first)
+	--print('queue.last: ' .. queue.last)
+	--print('queue.size: ' .. queue.size)
 	return nil
 end

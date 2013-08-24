@@ -7,6 +7,9 @@ function Context:init()
 	 
 	self.commands = {}
 	self.mediators = {}
+	
+	self.viewInstantiation = {}
+	self.commandInstantion = {}
 	self.mediatorInstances = {}
 	
 	Runtime:addEventListener("onViewCreated", self)
@@ -53,8 +56,9 @@ end
 --Maps a view to a mediator so that events from the mediator can be created when the view is created later.
 function Context:mapMediator(viewClass, mediatorClass)
 	local viewClassName = self:getClassName(viewClass)
-
 	self.mediators[viewClassName] = mediatorClass
+	
+	self.viewInstantiation[viewClass] = viewClass
 	print('Mapping the view: ' .. viewClassName .. ' to ' .. self.mediators[viewClassName])
 end
 
@@ -109,4 +113,10 @@ end
 		end
 		local className = classType:sub(lastStartIndex + 1)
 		return className
+end
+
+function Context:preprocess(group)
+	for view in pairs(self.viewInstantiation) do
+		require(view):new(group)
+	end
 end

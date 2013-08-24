@@ -8,38 +8,7 @@
         <key>verbose</key>
         <false/>
         <key>autoSDSettings</key>
-        <array>
-            <struct type="AutoSDSettings">
-                <key>scale</key>
-                <double>0.5</double>
-                <key>extension</key>
-                <string>@2x.</string>
-                <key>acceptFractionalValues</key>
-                <false/>
-                <key>maxTextureSize</key>
-                <QSize>
-                    <key>width</key>
-                    <int>2048</int>
-                    <key>height</key>
-                    <int>2048</int>
-                </QSize>
-            </struct>
-            <struct type="AutoSDSettings">
-                <key>scale</key>
-                <double>0.25</double>
-                <key>extension</key>
-                <string>.</string>
-                <key>acceptFractionalValues</key>
-                <false/>
-                <key>maxTextureSize</key>
-                <QSize>
-                    <key>width</key>
-                    <int>2048</int>
-                    <key>height</key>
-                    <int>2048</int>
-                </QSize>
-            </struct>
-        </array>
+        <array/>
         <key>allowRotation</key>
         <false/>
         <key>quiet</key>
@@ -130,7 +99,7 @@
             <key>packageName</key>
             <string>Texture</string>
             <key>javaFileName</key>
-            <filename>../../../../../../../../../Applications/s.java</filename>
+            <filename>../../../../../../../../Applications/s.java</filename>
             <key>wrap</key>
             <struct type="AndEngineWrap">
                 <key>s</key>
@@ -179,7 +148,105 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>../sprites</filename>
+            <filename>sprites/turret_base.png</filename>
+            <filename>sprites/turret.png</filename>
+            <filename>sprites/splash_main_menu.png</filename>
+            <filename>sprites/sheet_metal.png</filename>
+            <filename>sprites/rocket_01.png</filename>
+            <filename>sprites/rocket_02.png</filename>
+            <filename>sprites/rocket_03.png</filename>
+            <filename>sprites/rocket_04.png</filename>
+            <filename>sprites/rocket_05.png</filename>
+            <filename>sprites/powah_bottom.png</filename>
+            <filename>sprites/powah_middle.png</filename>
+            <filename>sprites/powah_top.png</filename>
+            <filename>sprites/player_piece_01.png</filename>
+            <filename>sprites/player_piece_02.png</filename>
+            <filename>sprites/player_piece_03.png</filename>
+            <filename>sprites/player_piece_04.png</filename>
+            <filename>sprites/player_piece_05.png</filename>
+            <filename>sprites/player_01.png</filename>
+            <filename>sprites/player_01edges.png</filename>
+            <filename>sprites/menubutton_pressed.png</filename>
+            <filename>sprites/menubutton_unpressed.png</filename>
+            <filename>sprites/pause_pressed.png</filename>
+            <filename>sprites/pause_unpressed.png</filename>
+            <filename>sprites/play_pressed.png</filename>
+            <filename>sprites/play_unpressed.png</filename>
+            <filename>sprites/fire_off_pressed.png</filename>
+            <filename>sprites/fire_off_unpressed.png</filename>
+            <filename>sprites/fire_on_pressed.png</filename>
+            <filename>sprites/fire_on_unpressed.png</filename>
+            <filename>sprites/carrier_01.png</filename>
+            <filename>sprites/enemy_01_piece_01.png</filename>
+            <filename>sprites/enemy_01_piece_02.png</filename>
+            <filename>sprites/enemy_01_piece_03.png</filename>
+            <filename>sprites/enemy_01_piece_04.png</filename>
+            <filename>sprites/enemy_01_piece_05.png</filename>
+            <filename>sprites/enemy_01.png</filename>
+            <filename>sprites/enemy_02_piece_01.png</filename>
+            <filename>sprites/enemy_02_piece_02.png</filename>
+            <filename>sprites/enemy_02_piece_03.png</filename>
+            <filename>sprites/enemy_02_piece_04.png</filename>
+            <filename>sprites/enemy_02_piece_05.png</filename>
+            <filename>sprites/enemy_02.png</filename>
+            <filename>sprites/enemy_03_piece_01.png</filename>
+            <filename>sprites/enemy_03_piece_02.png</filename>
+            <filename>sprites/enemy_03_piece_03.png</filename>
+            <filename>sprites/enemy_03_piece_04.png</filename>
+            <filename>sprites/enemy_03_piece_05.png</filename>
+            <filename>sprites/enemy_03.png</filename>
+            <filename>sprites/enemy_04_piece_01.png</filename>
+            <filename>sprites/enemy_04_piece_02.png</filename>
+            <filename>sprites/enemy_04_piece_03.png</filename>
+            <filename>sprites/enemy_04_piece_04.png</filename>
+            <filename>sprites/enemy_04_piece_05.png</filename>
+            <filename>sprites/enemy_04.png</filename>
+            <filename>sprites/enemy_05_piece_01.png</filename>
+            <filename>sprites/enemy_05_piece_02.png</filename>
+            <filename>sprites/enemy_05_piece_03.png</filename>
+            <filename>sprites/enemy_05_piece_04.png</filename>
+            <filename>sprites/enemy_05_piece_05.png</filename>
+            <filename>sprites/enemy_05.png</filename>
+            <filename>sprites/enemy_06_piece_01.png</filename>
+            <filename>sprites/enemy_06_piece_02.png</filename>
+            <filename>sprites/enemy_06_piece_03.png</filename>
+            <filename>sprites/enemy_06_piece_04.png</filename>
+            <filename>sprites/enemy_06_piece_05.png</filename>
+            <filename>sprites/enemy_06.png</filename>
+            <filename>sprites/enemy_07_piece_01.png</filename>
+            <filename>sprites/enemy_07_piece_02.png</filename>
+            <filename>sprites/enemy_07_piece_03.png</filename>
+            <filename>sprites/enemy_07_piece_04.png</filename>
+            <filename>sprites/enemy_07_piece_05.png</filename>
+            <filename>sprites/enemy_07.png</filename>
+            <filename>sprites/enemy_08_piece_01.png</filename>
+            <filename>sprites/enemy_08_piece_02.png</filename>
+            <filename>sprites/enemy_08_piece_03.png</filename>
+            <filename>sprites/enemy_08_piece_04.png</filename>
+            <filename>sprites/enemy_08_piece_05.png</filename>
+            <filename>sprites/enemy_08.png</filename>
+            <filename>sprites/button_pressed.png</filename>
+            <filename>sprites/button_unpressed.png</filename>
+            <filename>sprites/bullet_01.png</filename>
+            <filename>sprites/bullet_02.png</filename>
+            <filename>sprites/bullet_03.png</filename>
+            <filename>sprites/bullet_04.png</filename>
+            <filename>sprites/bullet_05.png</filename>
+            <filename>sprites/bullet_06.png</filename>
+            <filename>sprites/bomb_01.png</filename>
+            <filename>sprites/bomb_02.png</filename>
+            <filename>sprites/bomb_03.png</filename>
+            <filename>sprites/bomb_04.png</filename>
+            <filename>sprites/bomb_05.png</filename>
+            <filename>sprites/boss_01.png</filename>
+            <filename>sprites/boss_02.png</filename>
+            <filename>sprites/boss_03.png</filename>
+            <filename>sprites/background-green.png</filename>
+            <filename>sprites/backtomenu_pressed.png</filename>
+            <filename>sprites/backtomenu_unpressed.png</filename>
+            <filename>sprites/bg_spacesm.png</filename>
+            <filename>img/exp2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
