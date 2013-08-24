@@ -3,27 +3,30 @@ require("ParticleManager")
 require("ParticleEmitter")
 require("Particle")
 
+
 --[[
---	CLASS NAME: Ride
---
---	DESCRIPTION:  The base class for all ships in Shoot em' up PEW PEW.  All ships have a designated health and power amount.  Also,
---	ships also have the ability to carry bombs and additional heaters ("Weapons").
+	CLASS NAME: Ride
+
+	DESCRIPTION:  The base class for all ships in Shoot em' up PEW PEW.  All ships have a designated health and power amount.  Also,
+	ships also have the ability to carry bombs and additional heaters ("Weapons").
 	
---	FUNCTIONS:
---	@init: Gives the ride no bombs, heaters, health and power.
---	@move: See inherit doc.
---	@shoot Makes the ride shoot
---	@destroy: Destroys the ship
+	FUNCTIONS:
+	@init: Gives the ride no bombs, heaters, health and power.
+	@move: See inherit doc.
+	@shoot Makes the ride shoot
+	@destroy: Destroys the ship
 ]]--
 Ride = MoveableObject:subclass("Ride")
+
+
 --[[
---	FUNCTION NAME: init
---	
---	DESCRIPTION: Initializes the Ride's parent class as well as gives the Ride the specified health and powah
---	
---	PARAMETERS:
---		@see inherit doc.
---	RETURN: VOID
+	FUNCTION NAME: init
+	
+	DESCRIPTION: Initializes the Ride's parent class as well as gives the Ride the specified health and powah
+	
+	PARAMETERS:
+		@see inherit doc.
+	RETURN: VOID
 ]]--
 function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, shipPieces, collisionFilter)
 	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
@@ -52,6 +55,7 @@ function Ride:takeDamage(bullet)
 	self.health = self.health - finalDamage
 
 end
+
 
 --[[
 --	FUNCTION NAME: createParticleAssets
@@ -84,6 +88,7 @@ function Ride:createExplosionSpriteSheet(spriteSheetOptions)
 	self.explosion = explosion
 	
 end
+
 
 --[[
 --	FUNCTION NAME: createParticleEmitter
@@ -123,6 +128,7 @@ function Ride:createShipPieceParticleEmitter(sceneGroup, shipPieces)
 	return particleEmitter
 end
 
+
 --[[
 	FUNCTION NAME: onHit
 	
@@ -141,6 +147,7 @@ function Ride:onHit(phase, collide)
 	
 end
 
+
 --[[
 	FUNCTION NAME: die
 	
@@ -154,6 +161,7 @@ function Ride:die()
 	self.alive = false
 	self:explode()
 end
+
 
 --[[
 	FUNCTION NAME: afterExplosion
@@ -172,6 +180,8 @@ function Ride:afterExplosion()
 	end
 	
 end
+
+
 --[[
 	FUNCTION NAME: move
 	
@@ -185,12 +195,14 @@ function Ride:move(x, y)
 	self.super:move(x, y)
 end
 
---[[ FUNCTION NAME: explode
---
---	 DESCRIPTION: Creates an array of particles when ships are
---	 destroyed.
---	 
---	 RETURN: VOID
+
+--[[ 
+    FUNCTION NAME: explode
+
+    DESCRIPTION: Creates an array of particles when ships are
+    destroyed.
+	 
+    RETURN: VOID
 ]]--
 function Ride:explode()
 	if not self.explosion.isPlaying then
@@ -204,13 +216,14 @@ function Ride:explode()
 	end
 end
 
+
 --[[
---	FUNCTION NAME: destroy
---	
---	DESCRIPTION: Destroys the Ride and garbage collects
---				 all bombs and heaters.  This also removes the particle emitters and
---  			 explosion animation from the game.
---	RETURN: VOID
+	FUNCTION NAME: destroy
+	
+	DESCRIPTION: Destroys the Ride and garbage collects
+				 all bombs and heaters.  This also removes the particle emitters and
+  			 explosion animation from the game.
+	RETURN: VOID
 ]]--
 function Ride:destroy()
 	self.bombs = nil
