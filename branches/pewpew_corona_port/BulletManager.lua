@@ -34,7 +34,7 @@ function BulletManager:offScreen (event)
 		return
 	end
 
-	local bullet = event.bullet
+	local bullet = event.target
 	local onScreenBulletList
 	local offScreenBulletList
 	

@@ -15,9 +15,6 @@ function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotatio
 	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height, collisionFilter)
 	self.imgSrc = imgSrc
 	
-	-- default class name
-	self.className = "bullet"
-	
 	--A flag that determines if the bullet is on the screen and moving.
 	self.alive = false
 	
@@ -72,7 +69,7 @@ end
 function Bullet:recycle()
 	self.sprite.x = 5000
     self.sprite.y = 5000
-	local offScreen = { name = "offScreen", bullet = self }
+	local offScreen = { name = "offScreen", target = self }
 	Runtime:dispatchEvent(offScreen)
 end
 

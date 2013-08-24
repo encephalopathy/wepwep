@@ -20,7 +20,7 @@ local player = nil
 local playerStartLocation = { x = display.contentWidth / 2, y =  display.contentHeight / 2 }
 local background = nil
 local backgroundBuffer = nil
-local currentLevelNumber = 0
+local currentLevelNumber = 1
 step = 0
 
 -- include Corona's "physics" library
@@ -161,7 +161,7 @@ function scene:enterScene( event )
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
 	
-	local currentLevel = setLevel(currentLevelNumber)
+	local currentLevel = setLevel('ap')
 	AIDirector.initialize(group, player, currentLevel)
 	bulletManager:start()
 	
