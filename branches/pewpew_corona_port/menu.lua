@@ -103,7 +103,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	playBGM("sounds/bgmusic/menuBackMusic.ogg")
+	--playBGM("sounds/bgmusic/menuBackMusic.ogg")
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 
@@ -111,7 +111,7 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
-	stopBGM()
+	--stopBGM()
 	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
 	
 end

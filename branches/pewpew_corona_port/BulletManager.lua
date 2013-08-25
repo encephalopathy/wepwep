@@ -38,15 +38,26 @@ function BulletManager:offScreen (event)
 	local onScreenBulletList
 	local offScreenBulletList
 	
+	local shipType
 	if bullet.isPlayerBullet then
 		onScreenBulletList = self.playerOnScreenBullets
 		offScreenBulletList = self.playerOffScreenBullets
+		shipType = 'player '
 	else
 		onScreenBulletList = self.haterOnScreenBullets
 		offScreenBulletList = self.haterOffScreenBullets
+		shipType = 'hater '
+	end
+	if offScreenBulletList[tostring(bullet)] ~= nil then
+		if offScreenBulletList[tostring(bullet)][bullet.imgSrc] ~= nil then
+			print(shipType .. 'onScreenList.size ' .. onScreenBulletList[tostring(bullet)][bullet.imgSrc].size)
+			print(shipType .. 'offScreenBulletList.size ' .. offScreenBulletList[tostring(bullet)][bullet.imgSrc].size)
+		end
 	end
 	
 	self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
+	
+	--print(shipType .. 'offScreenBulletList.size ' .. offScreenBulletList[tostring(bullet)][bullet.imgSrc].size)
 	return true
 end
 
@@ -76,8 +87,9 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	
 	local bullet = nil;
 	bullet = self:getBulletFromOffScreen (offScreenBulletList, bulletClass, imgSrc)
+	print('create bullet')
 	if (bullet == nil) then
-		--print('Is a nil bullet AND BULLET SIZE = 0')
+		print('Is a nil bullet AND BULLET SIZE = 0')
 		bullet = bulletClass:new(self.bulletGroupInView, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height)
 	end
 	
@@ -154,13 +166,20 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 
 	
 	bullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-
-	--self.bulletGroupOutofView:insert(bullet.sprite)
-	--self.bulletGroupInView:remove(bullet.sprite)
+	print('onScreenBulletSize: ' .. onScreenList['Bullet']['sprites/bullet_02.png'].size)
+	print('offScreenBulletSize: ' .. offScreenList['Bullet']['sprites/bullet_02.png'].size)
 	Queue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
 function BulletManager:stop()
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.sceneGroup)
+	--if self.playerOnScreenBullets['Bullet']['sprites/bullet_02.png'] ~= nil then
+		print('player onScreenBulletSize: ' .. self.playerOnScreenBullets['Bullet']['sprites/bullet_02.png'].size)
+		print('player offScreenBulletSize: ' .. self.playerOffScreenBullets['Bullet']['sprites/bullet_02.png'].size)
+	--end
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.sceneGroup)
+	--if self.playerOnScreenBullets['Bullet']['sprites/bullet_02.png'] ~= nil then
+		print('hater onScreenBulletSize: ' .. self.haterOnScreenBullets['Bullet']['sprites/bullet_02.png'].size)
+		print('hater offScreenBulletSize: ' .. self.haterOffScreenBullets['Bullet']['sprites/bullet_02.png'].size)
+	--end
 end

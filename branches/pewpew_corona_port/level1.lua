@@ -102,7 +102,6 @@ local function createScrollingBackground(scene)
 end
 
 local function back()
-	print('Back')
     audio.stop()
 	storyboard.gotoScene("menu", "fade", 500)
 	return true
@@ -155,7 +154,7 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
-	playBGM("/sounds/bgmusic/gameBackMusic.ogg")
+	--playBGM("/sounds/bgmusic/gameBackMusic.ogg")
 	physics.start()
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
@@ -171,14 +170,13 @@ function scene:enterScene( event )
 	step = 0
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )
-	
 end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	print('Exiting scene')
 	local group = self.view
-	stopBGM()
+	--stopBGM()
 	AIDirector.uninitialize(group)
 	destroyParticleManager()
 	bulletManager:stop()

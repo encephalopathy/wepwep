@@ -33,7 +33,7 @@ function removeIndex (queue, index)
       return
    end
    if (index == queue.last) then
-	  --print('removing back')
+	  print('removing back')
       return removeBack(queue)
    end
    if (index == 0) then
@@ -65,15 +65,16 @@ function removeObject(queue, object)
 	for i = queue.first, queue.last, 1 do
 		--print(queue[i].creationCount)
 		if (queue[i] == object) then
-			--print('queue.first: ' .. queue.first)
-			--print('queue.last: ' .. queue.last)
-			--print('queue.size: ' .. queue.size)
+			print('Removing an element in the queue')
+			print('queue.first: ' .. queue.first)
+			print('queue.last: ' .. queue.last)
+			print('queue.size: ' .. queue.size)
 			return removeIndex(queue, i)
 		end
 		
 	end
-	--print('queue.first: ' .. queue.first)
-	--print('queue.last: ' .. queue.last)
-	--print('queue.size: ' .. queue.size)
+	print('queue.first: ' .. queue.first)
+	print('queue.last: ' .. queue.last)
+	print('queue.size: ' .. queue.size)
 	return nil
 end
