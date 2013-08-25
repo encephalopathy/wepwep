@@ -1,17 +1,15 @@
 require("Hater")
 
 --[[
-	This is a speific type of enemy, it moves at regular speed with a regular shot.
-	It is intended to move in a curve from the top of the screen to one of the sides
-	It always shoots directly at the player at a fixed interval.
+	A lean, mean, green machine. His power is ultimate!
 ]]--
 
 Hater_BIGBOSSU = Hater:subclass("Hater_BIGBOSSU")
 
 switched = false
 
-function Hater_BIGBOSSU:init(sceneGroup, imgSrc, x, y, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height)
+function Hater_BIGBOSSU:init(sceneGroup)
+	self.super:init(sceneGroup, "sprites/boss_01.png", 0, 0, 0, 100, 100)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -23,8 +21,8 @@ function Hater_BIGBOSSU:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.maxHealth = 50
 end
 
-function Hater_BIGGBOSSU:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_BIGBOSSU:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
 function Hater_BIGBOSSU:move(x, y)
@@ -64,3 +62,4 @@ function Hater_BIGBOSSU:update()
 	self:move(3,2)
 end
 
+return Hater_BIGBOSSU

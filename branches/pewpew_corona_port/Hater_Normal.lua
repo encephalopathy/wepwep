@@ -10,7 +10,12 @@ Hater_Normal = Hater:subclass("Hater_Normal")
 switched = false
 
 function Hater_Normal:init(sceneGroup)
-	self.super:init(sceneGroup, "sprites/enemy_02.png", 0, 0, 0, 100, 100)
+	self.super:init(sceneGroup, "sprites/enemy_01.png", 0, 0, 0, 100, 100,
+	{"sprites/enemy_01_piece_01.png",
+	"sprites/enemy_01_piece_02.png",
+	"sprites/enemy_01_piece_03.png",
+	"sprites/enemy_01_piece_04.png",
+	"sprites/enemy_01_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -19,8 +24,8 @@ function Hater_Normal:init(sceneGroup)
 	self.maxHealth = 1
 end
 
-function Hater_Normal:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_Normal:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
 function Hater_Normal:move(x, y)

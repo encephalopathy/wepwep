@@ -1,12 +1,15 @@
 require("Queue")
-require("Hater_Cracka")
-require("Hater_SkimMilk")
-require("Hater_Pig")
-require("Hater_FatBoy")
-require("Hater_TheFuzz")
-require("Hater_Redneck")
-require("Hater_PooSlinger")
-require("Hater_PootiePoo")
+require("Hater")
+--[[
+require("Hater_SineWave")
+require("Hater_SpeedUp")
+require("Hater_UpDown")
+require("Hater_MidScreen")
+require("Hater_Homing")
+require("Hater_HalfStrafe")
+require("Hater_Carrier")
+require("Hater_CarrierDrone")
+]]--
 
 AIDirector = {}
 
@@ -35,11 +38,11 @@ local haterFatBoyOutofViewList = Queue.new()
 	
 local haterRedneckInViewList = Queue.new()
 local haterRedneckOutofViewList = Queue.new()
-]]--
 
 local haterPooSlingerInViewList = nil
 local haterPooSlingerOutofViewList = nil
-	
+]]--
+
 haterPootiePooInViewList = nil
 haterPootiePooOutofViewList = nil
 
@@ -56,9 +59,10 @@ local function createHaterList(haterGroup, currentLevel, player)
 			haterList[haterType].outOfView = Queue.new()
 			haterList[haterType].inView = Queue.new()
 		end
-		print(haterList[haterType].inView)
 		for i = 1, haterAmount, 1 do
-			Queue.insertFront(haterList[haterType].outOfView, require(haterType):new(haterGroup))
+			Queue.insertFront(haterList[haterType].outOfView, require(haterType):new(haterGroup, player, 
+										haterList[haterType].inView, haterList[haterType].outOfView,
+										haterList))
 		end
 	end
 end
@@ -74,12 +78,19 @@ local function spawnHater(enemies)
 		
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
-			print('enemyContext: '..tostring(enemyContext))
+			for key, value in pairs (enemyContext) do
+				print('key is: ')
+				print(key)
+				print('value is: ')
+				print(value)
+			end
+			--print('enemyContext: '..tostring(enemyContext))
 			local enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
 			enemyInView.sprite.x = enemyContext.x
 			enemyInView.sprite.y = enemyContext.y
 			enemyInView.sprite.rotation = enemyContext.Rotation
+			enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
 			--Still need to equip weapons to the enemyInView
 			--Still need to scale x and y based on resolution of the screen
 		end

@@ -1,14 +1,12 @@
 require("Hater")
 --[[
-	This is a speific type of enemy, it moves at regular speed with a regular shot.
-	It is intended to move in a curve from the top of the screen to one of the sides
-	It always shoots directly at the player at a fixed interval.
+	Enemies spawned from Hater_Carrier. Fly out in different directions.
 ]]--
 
-Hater_PootiePoo = Hater:subclass("Hater_PootiePoo")
+Hater_CarrierDrone = Hater:subclass("Hater_CarrierDrone")
 
-function Hater_PootiePoo:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
+function Hater_CarrierDrone:init(sceneGroup)
+	self.super:init(sceneGroup, "sprites/enemy_06.png", 0, 0, 0, 100, 100, 
 	{"sprites/enemy_06_piece_01.png",
 	 "sprites/enemy_06_piece_02.png",
 	 "sprites/enemy_06_piece_03.png",
@@ -26,11 +24,11 @@ function Hater_PootiePoo:init(sceneGroup, imgSrc, x, y, rotation, width, height,
 	self.step = 0
 end
 
-function Hater_PootiePoo:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_CarrierDrone:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
-function Hater_PootiePoo:move(x, y)
+function Hater_CarrierDrone:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
 		then about halfway down to switch 
@@ -48,7 +46,7 @@ function Hater_PootiePoo:move(x, y)
 	
 end
 
-function Hater_PootiePoo:update()
+function Hater_CarrierDrone:update()
 	self.super:update()
    if (self.isFrozen) then
       return

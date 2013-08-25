@@ -1,17 +1,21 @@
 require("Hater")
 
 --[[
-	This is a speific type of enemy, it moves at regular speed with a regular shot.
-	It is intended to move in a curve from the top of the screen to one of the sides
-	It always shoots directly at the player at a fixed interval.
+	Moves vertically down the screen until it reaches the mid point then begins moving from left/right
+	horizontally, back and forth until it is destroyed.
 ]]--
 
-Hater_Redneck = Hater:subclass("Hater_Redneck")
+Hater_HalfStrafe = Hater:subclass("Hater_HalfStrafe")
 
 switched = false
 
-function Hater_Redneck:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height)
+function Hater_HalfStrafe:init(sceneGroup)
+	self.super:init(sceneGroup, "sprites/enemy_02.png", 0, 0, 0, 100, 100,
+	{"sprites/enemy_02_piece_01.png",
+	"sprites/enemy_02_piece_02.png"
+	"sprites/enemy_02_piece_03.png"
+	"sprites/enemy_02_piece_04.png"
+	"sprites/enemy_02_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -22,11 +26,11 @@ function Hater_Redneck:init(sceneGroup, imgSrc, x, y, rotation, width, height, s
 	self.maxHealth = 1
 end
 
-function Hater_Redneck:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_HalfStrafe:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
-function Hater_Redneck:move(x, y)
+function Hater_HalfStrafe:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
 		then about halfway down to switch 
@@ -41,7 +45,7 @@ function Hater_Redneck:move(x, y)
 	
 end
 
-function Hater_Redneck:update()
+function Hater_HalfStrafe:update()
 	self.super:update()
 	if self.sprite.x > 400 then 
 		self.moveRight = false
@@ -72,7 +76,7 @@ function Hater_Redneck:update()
 	
 end
 
-
+return Hater_HalfStrafe
 
 
 

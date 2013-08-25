@@ -38,7 +38,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.primaryWeapons = {}
 	self.secondaryWeapons = {}
 	self.defensePassives = {}
-	self:equipRig(sceneGroup)
+	self.muzzleLocations = {}
+	self:initMuzzleLocations()
 	--haterDeathSFX = MOAIUntzSound.new()
 	--haterDeathSFX:load('enemyDeath.ogg')
 end
@@ -84,6 +85,22 @@ function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
 	end
 	newItem.owner = self
 end
+
+
+function Hater:equipRig(sceneGroup, weapons, passives)
+	print('weapons is: '..tostring(weapons))
+	if weapons ~= nil then
+		for i = 1, #weapons, 1 do
+			self:equip(self.primaryWeapons,require(weapons[i]), 30, self.muzzleLocations[i])
+		end
+	end
+	if passives ~= nil then
+		for i = 1, #passives, 1 do
+			table.insert(self.defensePassives, require(passives[i])())
+		end
+	end
+end
+
 
 --Temporary function, will go away when bullets can update themselves.
 function Hater:cullBulletsOffScreen()
@@ -198,4 +215,4 @@ function Hater:respawn(group)
 	self.freezeTimer = 0
 end
 
-Hater:virtual("equipRig")
+Hater:virtual("initMuzzleLocations")

@@ -38,4 +38,4 @@ function HomingShot:fire()
 
 end
 
-
+return HomingShot

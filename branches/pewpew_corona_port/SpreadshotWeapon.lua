@@ -119,3 +119,5 @@ function Spreadshot:fire (player)
    --spreadShotSFX:play()
 
 end 
+
+return Spreadshot

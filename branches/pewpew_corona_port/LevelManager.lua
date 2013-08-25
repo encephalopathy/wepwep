@@ -29,8 +29,8 @@ function createGame(filename)
 	for line in file:lines(), 1 do
 		--print('current line: ' .. line)
 		for fieldType, field  in string.gmatch(line, "(%w+[%p*%w*]*)=(%w+%p*[%w+%p*]*)") do
-			--print('fieldType: ' .. fieldType)
-			--print('field: ' .. field)
+			print('fieldType: ' .. fieldType)
+			print('field: ' .. field)
 			if fieldType == 'Name' then
 				--Name; denotes the theme of the level
 				--if levels[field] == nil then
@@ -41,15 +41,7 @@ function createGame(filename)
 				--end
 			elseif fieldType == 'Number' then
 				--Number; denotes a level of a given theme
-				--levels[currentLevelName][field] = {}
-				--[[
-				if levels[field] == nil then
-					print(levels[currnetLevelName])
-					table.insert(levels[currentLevelName], {})
-					currentLevelNumber = field
-				end
-				]]--
-				levels[field] = levels[currentLevelName]
+				levels[tonumber(field)] = levels[currentLevelName]
 			elseif fieldType == 'Time' then
 				--Wave
 				--levels[currentLevelName][field]['enemies'] = {}
@@ -69,13 +61,17 @@ function createGame(filename)
 				 y = string.sub(field, (i+1))
 				 enemy.x = tonumber(x)
 				 enemy.y = tonumber(y)
+				 fitToResolution(enemy)
 				 --print(enemy[fieldType].x)
 				 --print(enemy[fieldType].y)
 			elseif fieldType == 'Rotation' then
 				enemy[fieldType] = tonumber(field)
 			elseif fieldType == 'Weapons' then
 				enemy[fieldType] = {}
-				equipWeaponToHater(field, enemy, fieldType)
+				equipToHater(field, enemy, fieldType)
+			elseif fieldType == 'Passives' then
+				enemy[fieldType] = {}
+				equipToHater(field, enemy, fieldType)
 			else
 				enemyTypeAmountTable[fieldType] = field
 				if maximumEnemyTypeAmount[fieldType] == nil or maximumEnemyTypeAmount[fieldType] < field then
@@ -89,11 +85,24 @@ function createGame(filename)
 	return levels
 end
 
-function equipWeaponToHater(weaponLine, enemy, fieldType)
-	--print('weaponLine is:'..weaponLine)
-	for weapon in string.gmatch(weaponLine, "%p*(%w+)%p*") do
+--[[
+	Sets enemy x and y coordinates to fit with the resolution of the device
+]]--
+function fitToResolution(enemy)
+	local blackBox = {}
+	blackBox.x = 400
+	blackBox.y = 470
+	enemy.x = (enemy.x/blackBox.x)*display.contentWidth
+	enemy.y = (enemy.y/blackBox.y)*display.contentHeight
+
+end
+
+function equipToHater(line, enemy, fieldType)
+	--print('line is:'..line)
+	print(enemy[fieldType])
+	for equipment in string.gmatch(line, "%p*(%w+)%p*") do
 		--print('weapon is: ' .. weapon)
-		table.insert(enemy[fieldType], weapon)
+		table.insert(enemy[fieldType], equipment)
 	end
 end
 
@@ -154,7 +163,13 @@ end
 function printTableOfEnemies(enemies)
 	for enemyName, enemy in pairs (enemies) do
 		for property, propValue in pairs (enemy) do
+			for key, value in pairs(propValue) do
+				print(key)
+				print(value)
+			end
 			if property == 'Weapons' then
+				printWeapons(propValue)
+			elseif property == 'Passives' then
 				printWeapons(propValue)
 			else
 				print('     '..property..':'..propValue)
@@ -176,4 +191,4 @@ function printWeapons(enemy)
 end
 
 print('!!!DEBUG LOOP!!!') 
-printLevel(levels)
+--printLevel(levels)

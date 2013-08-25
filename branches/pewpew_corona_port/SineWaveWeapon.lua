@@ -56,3 +56,5 @@ function SineWave:fire(player)
    --sineWaveShotSFX:play()
    
 end
+
+return SineWave
