@@ -1,17 +1,17 @@
 Name=ga Number=1
 Time=0 Hater_Normal=2
-   Type=Hater_Normal Location=208,98 Rotation=0 Weapons=theInstigator,theInstigator,theInstigator
-   Type=Hater_Normal Location=100,321 Rotation=0 Weapons=theInstigator
+   Type=Hater_Normal Location=208,98 Rotation=0 Weapons=SingleshotWeapon,DoubleshotWeapon,SineWaveWeapon Passives=shield,superShield
+   Type=Hater_Normal Location=100,321 Rotation=0 Weapons=Singleshot Passives=holyShitShield
 Name=ga Number=2
 Time=0 Hater_Normal=3
-	Type=Hater_Normal Location=208,98 Rotation=0 Weapons=theInstigator,theInstigator,theInstigator
-	Type=Hater_Normal Location=208,98 Rotation=0 Weapons=theInstigator,theInstigator,theInstigator
-	Type=Hater_Normal Location=208,98 Rotation=0 Weapons=theInstigator,theInstigator,theInstigator
+	Type=Hater_Normal Location=208,98 Rotation=0 Weapons=SingleshotWeapon,SingleshotWeapon,SingleshotWeapon
+	Type=Hater_Normal Location=208,98 Rotation=0 Weapons=SingleshotWeapon,SingleshotWeapon,SingleshotWeapon
+	Type=Hater_Normal Location=208,98 Rotation=0 Weapons=SingleshotWeapon,SingleshotWeapon,SingleshotWeapon
 Name=hb Number=3
 Time=0 Hater_Normal=2
-   Type=Hater_Normal Location=208,98 Rotation=0 Weapons=theInstigator
-   Type=Hater_Normal Location=100,321 Rotation=0 Weapons=theInstigator
+   Type=Hater_Normal Location=208,98 Rotation=0 Weapons=SingleshotWeapon
+   Type=Hater_Normal Location=100,321 Rotation=0 Weapons=SingleshotWeapon
 Name=ap Number=4
 Time=0 Hater_Normal=2
-   Type=Hater_Normal Location=208,98 Rotation=0 Weapons=theInstigator
-   Type=Hater_Normal Location=100,321 Rotation=0 Weapons=theInstigator
+   Type=Hater_Normal Location=208,98 Rotation=0 Weapons=SingleshotWeapon
+   Type=Hater_Normal Location=100,321 Rotation=0 Weapons=SingleshotWeapon

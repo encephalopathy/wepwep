@@ -1,19 +1,21 @@
 require("Hater")
 
 --[[
-	This is a speific type of enemy, it moves at regular speed with a regular shot.
-	It is intended to move in a curve from the top of the screen to one of the sides
-	It always shoots directly at the player at a fixed interval.
+	Enemy will lock on to the players location and move towards it. Once it gets there, it will stay on 
+	top of the player and then destroys itself once the player moves out of its position.
 ]]--
 
-Hater_TheFuzz = Hater:subclass("Hater_TheFuzz")
+Hater_Homing = Hater:subclass("Hater_Homing")
 
 switched = false
 
-function Hater_TheFuzz:init(sceneGroup, imgSrc, x, y, rotation, width, height, player)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height,
-	{"sprites/enemy_06_piece_01.png", "sprites/enemy_06_piece_02.png", "sprites/enemy_06_piece_03.png", 
-	"sprites/enemy_06_piece_04.png", "sprites/enemy_06_piece_05.png"})
+function Hater_Homing:init(sceneGroup, player)
+	self.super:init(sceneGroup, "sprites/enemy_03.png", 0, 0, 0, 100, 100,
+	{"sprites/enemy_03_piece_01.png", 
+	"sprites/enemy_03_piece_02.png", 
+	"sprites/enemy_03_piece_03.png", 
+	"sprites/enemy_03_piece_04.png", 
+	"sprites/enemy_03_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -24,11 +26,11 @@ function Hater_TheFuzz:init(sceneGroup, imgSrc, x, y, rotation, width, height, p
 	self.moveYDirection = 1
 end
 
-function Hater_TheFuzz:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_Homing:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
-function Hater_TheFuzz:move(x, y)
+function Hater_Homing:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
 		then about halfway down to switch 
@@ -43,7 +45,7 @@ function Hater_TheFuzz:move(x, y)
 	
 end
 
-function Hater_TheFuzz:update()
+function Hater_Homing:update()
 	self.super:update()
 	local player = self.playerRef
 	local speed = 3
@@ -68,7 +70,7 @@ function Hater_TheFuzz:update()
    end
 end
 
-function Hater_TheFuzz:fire()
+function Hater_Homing:fire()
 	if self.alive == true then
 		self.super:fire()
 		--if player.sprite.y >= self.sprite.y then
@@ -102,7 +104,7 @@ function Hater_TheFuzz:fire()
 
 end
 
-
+return Hater_Homing
 
 
 

@@ -6,14 +6,17 @@ require("Hater")
 	It always shoots directly at the player at a fixed interval.
 ]]--
 
-Hater_SkimMilk = Hater:subclass("Hater_SkimMilk")
+Hater_SpeedUp = Hater:subclass("Hater_SpeedUp")
 
 switched = false
 
-function Hater_SkimMilk:init(sceneGroup, imgSrc, x, y, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
-	{"sprites/enemy_05_piece_01.png", "sprites/enemy_05_piece_02.png", "sprites/enemy_05_piece_03.png", 
-	"sprites/enemy_05_piece_04.png", "sprites/enemy_05_piece_05.png"})
+function Hater_SpeedUp:init(sceneGroup)
+	self.super:init(sceneGroup, "sprites/enemy_07.png", 0, 0, 0, 100, 100, 
+	{"sprites/enemy_07_piece_01.png", 
+	"sprites/enemy_07_piece_02.png", 
+	"sprites/enemy_07_piece_03.png", 
+	"sprites/enemy_07_piece_04.png", 
+	"sprites/enemy_07_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -22,11 +25,11 @@ function Hater_SkimMilk:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.maxHealth = 2
 end
 
-function Hater_SkimMilk:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_SpeedUp:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
-function Hater_SkimMilk:move(x, y)
+function Hater_SpeedUp:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
 		then about halfway down to switch 
@@ -40,7 +43,7 @@ function Hater_SkimMilk:move(x, y)
 	
 end
 
-function Hater_SkimMilk:update()
+function Hater_SpeedUp:update()
 	self.super:update()
    if (self.isFrozen) then
       return
@@ -57,3 +60,5 @@ function Hater_SkimMilk:update()
 		end					
 	end
 end
+
+return Hater_SpeedUp

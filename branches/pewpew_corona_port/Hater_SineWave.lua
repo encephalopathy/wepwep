@@ -1,21 +1,18 @@
 require("Hater")
 --[[
-	This is a speific type of enemy, it moves at regular speed with a regular shot.
-	It is intended to move in a curve from the top of the screen to one of the sides
-	It always shoots directly at the player at a fixed interval.
+	This enemy moves down the screen in a sine wave path. It moves off the screen once it reachs 
+	the bottom.
 ]]--
 
-Hater_Cracka = Hater:subclass("Hater_Cracka")
+Hater_SineWave = Hater:subclass("Hater_SineWave")
 
-function Hater_Cracka:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
-	{"sprites/enemy_03_piece_01.png",
-	 "sprites/enemy_03_piece_02.png",
-	 "sprites/enemy_03_piece_03.png",
-	 "sprites/enemy_03_piece_04.png",
-	 "sprites/enemy_03_piece_05.png"
-	 }
-	)
+function Hater_SineWave:init(sceneGroup)
+	self.super:init(sceneGroup, "sprites/enemy_04.png", 0, 0, 0, 100, 100, 
+	{"sprites/enemy_04_piece_01.png",
+	 "sprites/enemy_04_piece_02.png",
+	 "sprites/enemy_04_piece_03.png",
+	 "sprites/enemy_04_piece_04.png",
+	 "sprites/enemy_04_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -24,11 +21,11 @@ function Hater_Cracka:init(sceneGroup, imgSrc, x, y, rotation, width, height, sh
 	self.maxHealth = 1
 end
 
-function Hater_Cracka:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_SineWave:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
-function Hater_Cracka:move(x, y)
+function Hater_SineWave:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
 		then about halfway down to switch 
@@ -46,7 +43,7 @@ function Hater_Cracka:move(x, y)
 	
 end
 
-function Hater_Cracka:update()
+function Hater_SineWave:update()
 	self.super:update()
    if (self.isFrozen) then
       return
@@ -59,3 +56,4 @@ function Hater_Cracka:update()
    end
 end
 
+return Hater_SineWave

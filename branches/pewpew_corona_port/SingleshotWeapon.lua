@@ -88,3 +88,5 @@ function Singleshot:fire()
 
 	end	
 end
+
+return Singleshot

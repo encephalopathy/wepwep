@@ -1,19 +1,20 @@
 require("Hater")
 
 --[[
-	This is a speific type of enemy, it moves at regular speed with a regular shot.
-	It is intended to move in a curve from the top of the screen to one of the sides
-	It always shoots directly at the player at a fixed interval.
+	Moves down to the bottom of the screen and then moves back up to the top.
 ]]--
 
-Hater_Pig = Hater:subclass("Hater_Pig")
+Hater_UpDown = Hater:subclass("Hater_UpDown")
 
 switched = false
 
-function Hater_Pig:init(sceneGroup, imgSrc, x, y, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
-	{"sprites/enemy_04_piece_01.png", "sprites/enemy_04_piece_02.png", "sprites/enemy_04_piece_03.png", 
-	"sprites/enemy_04_piece_04.png", "sprites/enemy_04_piece_05.png"})
+function Hater_UpDown:init(sceneGroup)
+	self.super:init(sceneGroup, "sprites/enemy_06.png", 0, 0, 0, 100, 100, 
+	{"sprites/enemy_06_piece_01.png", 
+	"sprites/enemy_06_piece_02.png", 
+	"sprites/enemy_06_piece_03.png", 
+	"sprites/enemy_06_piece_04.png", 
+	"sprites/enemy_06_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -23,11 +24,11 @@ function Hater_Pig:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.movedown = true
 end
 
-function Hater_Pig:equipRig(sceneGroup)
-	self:equip(self.primaryWeapons, Singleshot, sceneGroup, 15, {0, 30})
+function Hater_UpDown:initMuzzleLocations()
+	self.muzzleLocations = {{x = 0, y = 100}}
 end
 
-function Hater_Pig:move(x, y)
+function Hater_UpDown:move(x, y)
 	--[[
 		I want this enemy to fly in one direction
 		then about halfway down to switch 
@@ -42,7 +43,7 @@ function Hater_Pig:move(x, y)
 	
 end
 
-function Hater_Pig:update(player)
+function Hater_UpDown:update(player)
 	self.super:update()
    if (self.isFrozen) then
       return
@@ -65,7 +66,7 @@ function Hater_Pig:update(player)
    end
 end
 
-
+return Hater_UpDown
 
 
 

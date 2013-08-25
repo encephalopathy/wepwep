@@ -42,3 +42,5 @@ function Doubleshot:fire(player)
 	
 	
 end
+
+return Doubleshot
