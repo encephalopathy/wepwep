@@ -34,6 +34,8 @@ public class Enemy {
 	public int rotation = 0;
 	public int maxWeapons = 0;
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
+	public int maxPassives = 0;
+	public List<String> passiveList = new ArrayList<String>(); //list of all the weapons
 	//public Image enemyImage;
 	public BufferedImage a;
 	public /*static*/ String imageFileName = "src/test.png";
@@ -52,8 +54,7 @@ public class Enemy {
 			final WeaponPopUp weaponPopUp = new WeaponPopUp(maxWeapons);
 			weaponPopUp.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			weaponPopUp.setVisible(true);
-			// DEBUG TEST
-			//String testString = weaponPopUp.returnWeaponList();
+			
 			//System.out.println(testString);
 			weaponPopUp.addWindowListener(new WindowListener() {
 				@Override public void windowActivated(WindowEvent e) {}
@@ -67,10 +68,31 @@ public class Enemy {
 				@Override public void windowIconified(WindowEvent e) {}
 				@Override public void windowOpened(WindowEvent e) {}
 			});
+			
+			final PassivePopUp passivePopUp = new PassivePopUp(maxPassives);
+			passivePopUp.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			passivePopUp.setVisible(true);
+			
+			passivePopUp.addWindowListener(new WindowListener(){
+				@Override public void windowActivated(WindowEvent e) {}
+				@Override public void windowClosed(WindowEvent e) {}
+				@Override public void windowClosing(WindowEvent e) {
+					passiveList = passivePopUp.returnWeaponList();
+					System.out.println(passiveList.toString());
+				}
+				@Override public void windowDeactivated(WindowEvent e) {}
+				@Override public void windowDeiconified(WindowEvent e) {}
+				@Override public void windowIconified(WindowEvent e) {}
+				@Override public void windowOpened(WindowEvent e) {}
+			});
+			// DEBUG TEST
+			//String testString = weaponPopUp.returnWeaponList();
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(passiveList.toString());
 	}
 	
 	//set the x and y coordinates of a placed enemy in WaveScreen.java
@@ -99,6 +121,7 @@ public class Enemy {
 	public Enemy cloneSelf(){
 		Enemy e = new Enemy();
 		e.weaponList = this.weaponList;
+		e.passiveList = this.passiveList;
 		e.enemyX = this.enemyX;
 		e.enemyY = this.enemyY;
 		e.maxWeapons = this.maxWeapons;
@@ -113,10 +136,16 @@ public class Enemy {
 		printedLine += ("   Type=" + type);
 		printedLine += (" Location=" + Integer.toString(enemyX) + "," + Integer.toString(enemyY));
 		printedLine += (" Rotation=" + Integer.toString(rotation));
-		printedLine += (" Weapons= ");
+		printedLine += (" Weapons=");
 		for(int i = 0; i < weaponList.size(); i++){
 			printedLine += (weaponList.get(i));
 			if(i != (weaponList.size() -1)) printedLine += (",");
+		}
+		System.out.println(passiveList.size());
+		printedLine += (" Passives=");
+		for(int i = 0; i < passiveList.size(); i++){
+			printedLine += (passiveList.get(i));
+			if(i != (passiveList.size() -1)) printedLine += (",");
 		}
 		printedLine += ("\n");
 		return printedLine;
