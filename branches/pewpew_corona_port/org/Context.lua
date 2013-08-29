@@ -1,4 +1,4 @@
-require("Object")
+require "org.Object"
 
 Context = Object:subclass("Object")
 

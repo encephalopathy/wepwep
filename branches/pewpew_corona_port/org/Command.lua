@@ -1,4 +1,4 @@
-require("Mediator")
+require "org.Mediator"
 
 Command = Object:subclass("Command")
 
