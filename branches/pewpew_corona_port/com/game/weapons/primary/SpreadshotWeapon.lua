@@ -31,13 +31,19 @@ function Spreadshot:calculateBulletVelocity(bullet)
 end
 
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, bulletWidth, bulletHeight, numberOfShots, firingAngle)
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, bulletWidth, bulletHeight, numberOfShots, firingAngle, soundFX)
 
 	if rateOfFire == nil then
 		rateOfFire = 35
 	end
 
-   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_06.png", rateOfFire, bulletWidth, bulletHeight)
+	if soundFX == nil then
+		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		print("soundFX:"..soundFX)
+   end
+	
+   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_06.png", rateOfFire,Bullet,bulletWidth, bulletHeight, soundFX)
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else
@@ -104,7 +110,7 @@ function Spreadshot:fire (player)
 		  --print("velocity calculated")
 		  bullet:fire(bulletVelocity.x, bulletVelocity.y)
           --print("bullet fired")
-		  
+		  self:playFiringSound(self.soundFX)
           --return bullet
           
 		end 

@@ -101,7 +101,10 @@ end
 
 
 function Player:weaponEquipDebug(sceneGroup) 
-	self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
+	--self.weapon = HomingShot:new(sceneGroup, true, 25, 200)
+	--self.weapon = SineWave:new(sceneGroup, true, 25, 200)
+	--self.weapon = Spreadshot:new(sceeneGroup, true, 25, 200)
+	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
 	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:load(40, sceneGroup, { x = 0, y = -100 }, true)
