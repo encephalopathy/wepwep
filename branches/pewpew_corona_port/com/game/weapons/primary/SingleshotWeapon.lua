@@ -27,12 +27,20 @@ local DEFAULT_RATE_OF_FIRE = 25
 	@bulletWidth: See inherit doc.
 	@bulletHeight: See inherit doc.
 ]]--
-function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight)
+function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletType, imgSrc, bulletWidth, bulletHeight)
    if rateOfFire == nil then
      rateOfFire = DEFAULT_RATE_OF_FIRE
    end
    
-   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_02.png", rateOfFire, bulletWidth, bulletHeight)
+   if imgSrc == nil then
+	 imgSrc = "com/resources/art/sprites/bullet_02.png"
+   end
+   
+   if bulletType == nil then
+     bulletType = Bullet
+   end
+   
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType, bulletWidth, bulletHeight)
    
    if bulletSpeed == nil then
 		self.bulletSpeed = DEFUALT_BULLET_VELOCITY 

@@ -3,7 +3,7 @@ Bullet = MoveableObject:subclass("Bullet")
 
 local bullet_creation_count = 0
 
-function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
+function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, width, height)
 	local collisionFilter
 	
 	--Bitmasks the appropiate flags so that collision detection is checked against certain Box2D bodies.
@@ -12,7 +12,7 @@ function Bullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotatio
 	else
 		collisionFilter = { categoryBits = 8, maskBits = 13}
 	end
-	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height, collisionFilter)
+	self.super:init(sceneGroup, imgSrc, "kinematic", 5000, 5000, 0, width, height, collisionFilter)
 	self.imgSrc = imgSrc
 	
 	--A flag that determines if the bullet is on the screen and moving.
@@ -44,20 +44,20 @@ function Bullet:onHit(phase, collitor)
 	if phase == "began" and self.alive then
 		if not collitor.type == "player" and self.isPlayerBullet then
 			if self.alive then
-				self.alive = false
+				self:onCollision()
 			end
 		end
 
 		if collitor.type == "player" and not self.isPlayerBullet then
 			if self.alive then
-				self.alive = false
+				self:onCollision()
 			end
 			--print('Collided with player')
 		end
 		
 		if self.isPlayerBullet and collitor.type == "Hater" then
 			if self.alive then
-				self.alive = false
+				self:onCollision()
 			end
 		end
 	--elseif phase == "ended" and not self.alive then
@@ -66,10 +66,19 @@ function Bullet:onHit(phase, collitor)
 	end
 end
 
-function Bullet:recycle()
+function Bullet:onCollision()
+	self.alive = false
+end
+
+function Bullet:recycle(bullet)
 	self.sprite.x = 5000
     self.sprite.y = 5000
-	local offScreen = { name = "offScreen", target = self }
+	local offScreen
+	if bullet == nil then
+		offScreen = { name = "offScreen", target = self }
+	else
+		offScreen = { name = "offScreen", target = bullet }
+	end
 	Runtime:dispatchEvent(offScreen)
 end
 

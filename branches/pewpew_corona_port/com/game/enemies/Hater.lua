@@ -1,5 +1,6 @@
 require "com.Ride"
 require "org.Queue"
+require "com.game.weapons.secondary.FreezeMissile"
 --[[
 	CLASS NAME: Hater
 	
@@ -91,7 +92,7 @@ function Hater:equipRig(sceneGroup, weapons, passives)
 	
 	if weapons ~= nil then
 		for i = 1, #weapons, 1 do
-			print('weapons is: '..tostring(weapons[i]))
+			print('weapons muzzle location: x: '..tostring(self.muzzleLocations[i].x) .. 'y: ' .. tostring(self.muzzleLocations[i].y))
 			self:equip(self.primaryWeapons,require(weapons[i]), 30, self.muzzleLocations[i])
 		end
 	end
@@ -169,7 +170,12 @@ end
 --function Hater:onHit(you, collide)
 function Hater:onHit(phase, collide)
 	if self.alive and collide.isPlayerBullet then
-		self.health = self.health - 1
+		self.health = self.health - collide.damage
+		
+		if FreezeMissile:made(collide) then
+			self.isFrozen = true
+			self.freezeTimer = collide.freezeDuration
+		end
 		--sound:load(self.soundPath)
 		--haterDeathSFX:play()
 		--this is the check to say you are dead; place the sound here to make it work
@@ -179,7 +185,7 @@ function Hater:onHit(phase, collide)
 	end
    
 	if self.alive and collide.type == "player" then
-		self.health = self.health - 1
+		self.health = 0
 		
 	end
 	self.super:onHit(phase, collide)

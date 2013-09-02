@@ -2,10 +2,8 @@ require "com.game.weapons.Bullet"
 require "com.Utility"
 SineWaveBullet = Bullet:subclass("SineWaveBullet")
 
-function SineWaveBullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, "kinematic", startX, startY, rotation, width, height)
-	self.rotation = rotation or 0
-	self.className = "SineWaveBullet"
+function SineWaveBullet:init(sceneGroup, imgSrc, isPlayerBullet, width, height)
+	self.super:init(sceneGroup, imgSrc, isPlayerBullet, width, height)
 end
 
 function SineWaveBullet:fire()
@@ -36,12 +34,10 @@ function SineWaveBullet:__tostring()
 	return "SineWaveBullet"
 end
 
-function SineWaveBullet:recycle(bullet)
-	--self.super:recycle()
-	self.sprite.x = 5000
-    self.sprite.y = 5000
-    self.alive = false
+function SineWaveBullet:recycle()
 	Runtime:removeEventListener("enterFrame", self.update)
+	self.super:recycle(self)
+	
 end
 
 function SineWaveBullet:destroy()

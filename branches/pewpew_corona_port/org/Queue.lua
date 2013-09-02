@@ -23,7 +23,6 @@ function removeBack(queue)
 	queue.last = last - 1
 	queue.size = queue.size - 1
 	assert(value ~= nil)
-	--print('returning value: ' .. tostring(value))
 	return value
 end
 
@@ -33,7 +32,6 @@ function removeIndex (queue, index)
       return
    end
    if (index == queue.last) then
-	  --print('removing back')
       return removeBack(queue)
    end
    if (index == 0) then
@@ -43,7 +41,6 @@ function removeIndex (queue, index)
       queue[oldFirst] = nil
       queue.size = queue.size - 1
 	  assert(value ~= nil)
-	  --print('returning value: ' .. tostring(value))
       return value
    end
    local value = queue[index]
@@ -56,24 +53,16 @@ function removeIndex (queue, index)
    queue.size = queue.size - 1
    
    assert(value ~= nil)
-   --print('returning value: ' .. tostring(value))
    return value
 end
 
+--TODO: Need to create a better way to remove objects from
+--a queue without a linear search
 function removeObject(queue, object)
-	--print('Object creation count to check: ' .. object.creationCount)
 	for i = queue.first, queue.last, 1 do
 		if (queue[i] == object) then
-			-- print('Removing an element in the queue')
-			-- print('queue.first: ' .. queue.first)
-			-- print('queue.last: ' .. queue.last)
-			-- print('queue.size: ' .. queue.size)
 			return removeIndex(queue, i)
 		end
-		
 	end
-	--print('queue.first: ' .. queue.first)
-	--print('queue.last: ' .. queue.last)
-	--print('queue.size: ' .. queue.size)
 	return nil
 end

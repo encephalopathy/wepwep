@@ -1,10 +1,5 @@
 require "com.Ride"
 
-
-
-
-
-
 PLAYER_MAXHEALTH = 10
 
 PLAYER_MAXPOWAH = 100
@@ -16,6 +11,7 @@ require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.HomingshotWeapon"
 require "com.game.weapons.primary.SineWaveWeapon"
+require "com.game.weapons.secondary.StandardMissile"
 require "com.managers.AIDirector"
 --require("ParticleEmitter")
 
@@ -67,6 +63,8 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	
 	self.isFiring = false
 	
+	self.secondaryWeapons = {}
+	
 	Runtime:addEventListener("touch", self.touch)
 	self.x0 = 0
 	self.y0 = 0
@@ -101,19 +99,27 @@ end
 
 
 function Player:weaponEquipDebug(sceneGroup) 
-	self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
-	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
+	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200, StandardMissile, "com/resources/art/sprites/missile.png")
+	self.weapon = Singleshot(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
-	self.weapon:load(40, sceneGroup, { x = 0, y = -100 }, true)
-	--self.weapon:setMuzzleLocation( {0, -100 } )
-	if usingBulletManagerBullets then
-		self.weapon:setMuzzleLocation( {x = 0, y = -100 } )
-	else
-		print('loadingBullets')
-		self.weapon:load(40, sceneGroup, { x = 0, y = -100 }, true)
-	end
-	
+	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
+end
+
+--Loads secondary amunition for sub weapons
+function Weapon:load(ammoType, sceneGroup, amount, spawnVector, width, height)
+   width = 50 or width
+   height = 50 or height
+   
+   --The lines below are for testing, the subweapons will be created in inventory and cloned in player.
+   if not self.secondaryWeapons[tostring(ammoType)] then
+     self.secondaryWeapons[tostring(ammoType)] = Queue.new()
+   end
+   
+   for i = 1, amount, 1 do
+	   Queue.insertFront(self.secondaryWeapons[tostring(ammoType)], ammoType:new(sceneGroup, self.imgSrc, true, 5000, i*5000, 0, width, height))
+   end
 end
 
 

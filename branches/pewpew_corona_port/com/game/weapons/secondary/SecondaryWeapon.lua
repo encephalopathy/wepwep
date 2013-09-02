@@ -2,8 +2,8 @@ require "com.game.weapons.Weapon"
 
 SecondaryWeapon = Weapon:subclass("SecondaryWeapon")
 
-function SecondaryWeapon:init(sceneGroup, imgSrc, bulletType, ownerIsPlayer)
-   self.super:init(sceneGroup, imgSrc, nil, bulletType, ownerIsPlayer)
+function SecondaryWeapon:init(sceneGroup, imgSrc, bulletType, ownerIsPlayer, amount)
+   self.super:init(sceneGroup, imgSrc, nil, bulletType, ownerIsPlayer, amount)
    self.bombList = Queue.new()
    self.bulletType = bulletType
    self.imgSrc = imgSrc

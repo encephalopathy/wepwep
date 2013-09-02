@@ -5,6 +5,9 @@ require "com.game.enemies.Hater"
 AIDirector = {}
 
 local haterList = {}
+
+local allHatersInView = {}
+
 local spawnClock 
 --local haterGroup = display.newGroup()
 
@@ -25,15 +28,16 @@ local function createHaterList(haterGroup, currentLevel, player)
 			haterList[haterType].inView = Queue.new()
 		end
 		for i = 1, haterAmount, 1 do
-			Queue.insertFront(haterList[haterType].outOfView, require(haterType):new(haterGroup, player, 
+			local newHater = require(haterType):new(haterGroup, player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
-										haterList))
+										haterList)
+			Queue.insertFront(haterList[haterType].outOfView, newHater)
 		end
 	end
 end
 
 local function spawnHater(enemies)
-	print('DO I GET HERE? PLEASE?')
+	--print('DO I GET HERE? PLEASE?')
 	--[[
 	for key, value in pairs(event) do
 		print('key is: '..key)
@@ -43,12 +47,6 @@ local function spawnHater(enemies)
 		
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
-			for key, value in pairs (enemyContext) do
-				print('key is: ')
-				print(key)
-				print('value is: ')
-				print(value)
-			end
 			--print('enemyContext: '..tostring(enemyContext))
 			local enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
@@ -58,6 +56,7 @@ local function spawnHater(enemies)
 			enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
 			--Still need to equip weapons to the enemyInView
 			--Still need to scale x and y based on resolution of the screen
+			allHatersInView[enemyInView] = enemyInView
 		end
 	else
 		playerWon = true
@@ -83,6 +82,7 @@ local function moveHaterOffScreen(hater)
 	hater.sprite.x = 5000
 	hater.sprite.y = 5000
 	hater.sprite.isVisible = false
+	allHatersInView[hater] = nil
 	Queue.insertFront(haterList[tostring(hater)].outOfView, hater) --placed in to outOfView
 end
 
@@ -91,6 +91,7 @@ local function emptyHaterList(groupOfHaters)
 		local hater = Queue.removeBack(groupOfHaters)
 		--if hater ~= nil then
 			hater:destroy()
+			hater = nil
 		--end
 	end
 end
@@ -98,12 +99,8 @@ end
 local function updateHaters()
 	local enemeiesOnScreen = true
 	for haterType,haterGroupOfSameType in pairs (haterList) do
-		--print(haterGroupOfSameType.inView.first)
-		--print(haterGroupOfSameType.inView.last)
 		for i = haterGroupOfSameType.inView.first, haterGroupOfSameType.inView.last, 1 do
 			local enemy = haterGroupOfSameType.inView[i]
-			--print('enemy x is: '..enemy.sprite.x)
-			--print('enemy y is: '..enemy.sprite.y)
 			enemiesOnScreen = false
 			enemy:update(AIDirector.player)
 			if not enemy.alive then
@@ -118,7 +115,7 @@ end
 
 function AIDirector.initialize(sceneGroup, player, currentLevel)
 	createHaterList(sceneGroup, currentLevel, player)
-	AIDirector.haterList = haterList
+	AIDirector.haterList = allHatersInView
 	if player ~= nil then
 		AIDirector.player = player
 	else
@@ -157,6 +154,10 @@ function AIDirector.uninitialize(sceneGroup)
 	for haterType, queues in pairs (haterList) do
 		emptyHaterList(queues.inView)
 		emptyHaterList(queues.outOfView)
+	end
+	
+	for haterKey, hater in pairs(allHatersInView) do
+		haterKey = nil
 	end
 	spawnClock = nil
 	AIDirector.active = false

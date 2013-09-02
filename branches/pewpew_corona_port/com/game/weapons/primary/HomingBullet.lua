@@ -6,8 +6,8 @@ HomingBullet = Bullet:subclass("HomingBullet")
 --[[TODO: Would be nice if the homing bullet arched after fired.  For the person reading this and needs to implement this, this
 	would require the use of an acceleration vector that changes the velocity vector.
 ]]--
-function HomingBullet:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, rotation, width, height)
-	self.super:init(sceneGroup, imgSrc, isPlayerBullet, startX, startY, 0, width, height)
+function HomingBullet:init(sceneGroup, imgSrc, isPlayerBullet, width, height)
+	self.super:init(sceneGroup, imgSrc, isPlayerBullet, width, height)
 	self.hasTarget = false
 end
 
@@ -68,12 +68,9 @@ function HomingBullet:__tostring()
 	return "HomingBullet"
 end
 
-function HomingBullet:recycle(bullet)
-	--self.super:recycle()
-	self.sprite.x = 5000
-    self.sprite.y = 5000
-    self.alive = false
+function HomingBullet:recycle()
 	Runtime:removeEventListener("enterFrame", self.update)
+	self.super:recycle(self)
 end
 
 function HomingBullet:destroy()

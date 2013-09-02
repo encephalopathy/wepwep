@@ -5,7 +5,38 @@ Spreadshot = Weapon:subclass("Spreadshot")
 NUM_SHOTS = 5
 FIRING_ANGLE = 60 -- total spread so the bullets will range from 0 degrees to 60 degrees
 BETWEEN = 3 -- space between bullets
-BULLET_SIZEZ = 5
+
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, bulletType, bulletWidth, bulletHeight, numberOfShots, firingAngle)
+
+	if rateOfFire == nil then
+		rateOfFire = 35
+	end
+	
+	if imgSrc == nil then
+		imgSrc = "com/resources/art/sprites/bullet_06.png"
+	end
+
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType, bulletWidth, bulletHeight)
+   if bulletSpeed ~= nil then
+	  self.bulletSpeed = bulletSpeed
+   else
+	  self.bulletSpeed = -200
+   end
+   
+   if numberOfShots ~= nil then
+	  self.numberOfShots = NUM_SHOTS
+   else
+	  self.numberOfShots = NUM_SHOTS
+   end
+   
+   if firingAngle ~= nil then
+     self.firingAngle = firingAngle
+   else
+     self.firingAngle = FIRING_ANGLE
+   end
+   
+   self.energyCost = 20
+end
 
 --[[+
 	FUNCTION NAME: calculateBulletVelocity
@@ -28,35 +59,6 @@ function Spreadshot:calculateBulletVelocity(bullet)
 	--We then fire the bullet in that direction previously computed by multiplying by bullet speed.
 	--This will move the bullet at speed bulletSpeed, in the direction firingDirection.
 	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
-end
-
-
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, bulletWidth, bulletHeight, numberOfShots, firingAngle)
-
-	if rateOfFire == nil then
-		rateOfFire = 35
-	end
-
-   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_06.png", rateOfFire, bulletWidth, bulletHeight)
-   if bulletSpeed ~= nil then
-	  self.bulletSpeed = bulletSpeed
-   else
-	  self.bulletSpeed = -200
-   end
-   
-   if numberOfShots ~= nil then
-	  self.numberOfShots = NUM_SHOTS
-   else
-	  self.numberOfShots = NUM_SHOTS
-   end
-   
-   if firingAngle ~= nil then
-     self.firingAngle = firingAngle
-   else
-     self.firingAngle = FIRING_ANGLE
-   end
-   
-   self.energyCost = 20
 end
 
 function Spreadshot:fire (player)

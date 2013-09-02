@@ -1,3 +1,4 @@
+require "org.Context"
 require "com.managers.AIDirector"
 require "com.managers.LevelManager"
 require "com.managers.BulletManager"
@@ -22,6 +23,10 @@ local background = nil
 local backgroundBuffer = nil
 local currentLevelNumber = 1
 step = 0
+
+
+local gameContext
+
 
 -- include Corona's "physics" library
 local physics = require "physics"
@@ -53,6 +58,20 @@ local newCoroutine = coroutine.create(function()
 end
 )
 
+
+local function createGameUIMVC(group)
+	gameContext = Context:new()
+	gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
+    gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
+    gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
+   
+    gameContext:preprocess(group)
+end
+
+local function calibrateInventory()
+	mainInventory:equipSecondaryWeaponsInGame(player)
+end
+
 local function update(event)
 	
 	coroutine.resume(newCoroutine)
@@ -62,6 +81,7 @@ local function update(event)
 		player.sprite.x = 4000
 		player.sprite.y = 4000
 	end
+	
 	if(player.isFiring) then 
 		player:fire()
 	else
@@ -76,8 +96,6 @@ end
 local function updateBackground()
 	background.y = background.y + 10
 	backgroundBuffer.y = backgroundBuffer.y + 10
-	--background.x = 10
-	--backgroundBuffer.x = 70
 	if background.y >= 3600 then
 		background.y = 0
 		backgroundBuffer.y = -3600
@@ -116,7 +134,6 @@ function scene:createScene( event )
 	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	bulletManager = BulletManager:new(group)
 	
-	
 	local myButton = widget.newButton
 	{
 		left = screenW - screenW*0.3,
@@ -139,13 +156,7 @@ function scene:createScene( event )
 
 	group:insert( myButton )
 	
-	print('level1 scenegroup')
-	print(group)
-	--mainInventory:equipRig(player, sceneGroup)
-	
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
-	
-
 end
 
 -- Called immediately after scene has moved onscreen:
@@ -165,6 +176,7 @@ function scene:enterScene( event )
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player:weaponEquipDebug(group)
 	player.weapon.targets = AIDirector.haterList
+	
 	step = 0
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )

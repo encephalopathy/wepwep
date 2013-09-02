@@ -5,7 +5,6 @@ require "com.managers.BulletManager"
 require "com.game.weapons.primary.SineWaveBullet"
 require "com.game.weapons.primary.HomingBullet"
 
-print(Object)
 Weapon = Object:subclass("Weapon")
 
 --[[
@@ -84,20 +83,6 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	--Needs to be set before weapon can be used, this field is commented out because
 	--we can create it dynamically in Lua later.  One of the magic tricks in Lua.
 	--self.owner = nil 
-end
-
---Should eventually load from a static list of bullets, the type of Bullet SHOULD be specified by the weapon.
---IS DEPRECATED AND WILL BE REMOVED ONCE BULLETMANAGER WORKS.
-function Weapon:load(amount, sceneGroup, spawnVector, isPlayerBullet, width, height)
-   width = 50 or width
-   height = 50 or height
-   if (not self.isLoaded) then
-   	for i = 1, amount, 1 do
-	   	Queue.insertFront(self.ammo, self.ammoType:new(sceneGroup, self.imgSrc, isPlayerBullet, 5000, i*5000, 0, width, height))
-   	end
-   end
-   self:setMuzzleLocation(spawnVector)
-   self.isLoaded = true
 end
 
 --[[
@@ -261,13 +246,13 @@ end
 function Weapon:getNextShot(numberOfShots)
 	
 	--if self:canFire() then
-		local bullet
-		if usingBulletManagerBullets then
-			bullet = bulletManager:getBullet (self.ammoType, self.imgSrc, self.isPlayerOwned, self.bulletWidth, bulletHeight)
-			
-		else
-			bullet = Queue.removeBack(self.ammo)
+	local bullet
+	if self.ammoAmount == nil or self.ammoAmount > 0 then
+		bullet = bulletManager:getBullet (self.ammoType, self.imgSrc, self.isPlayerOwned, self.bulletWidth, self.bulletHeight)
+		if self.ammoAmount ~= nil then
+			self.ammoAmount = self.ammoAmount - 1
 		end
+	end	
 		--We need to increment the fire attempts when we fire else we will be firing infintely.
 		--self.fireAttempts = self.fireAttempts + 1
 		--[[
