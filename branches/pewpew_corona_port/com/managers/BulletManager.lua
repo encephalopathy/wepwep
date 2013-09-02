@@ -2,15 +2,13 @@ require "org.Object"
 require "org.Queue"
 require "com.game.weapons.Bullet"
 require "com.game.weapons.primary.SineWaveBullet"
+require "com.game.weapons.secondary.StandardMissile"
 
 BulletManager = Object:subclass("BulletManager");
 
 local DEFAULT_WIDTH = 50
 local DEFAULT_HEIGHT = 50
 local DEFAULT_ROTATION = 0
-
---local bulletGroupInView = display.newGroup()
---local bulletGroupOutofView = display.newGroup()
 
 function BulletManager:init (scene)
 	self.sceneGroup = scene
@@ -19,13 +17,9 @@ function BulletManager:init (scene)
 	self.haterOnScreenBullets = {}
 	self.haterOffScreenBullets = {}
 	self.bulletGroupInView = display.newGroup()
-	--self.bulletGroupOutofView = display.newGroup()
-	--self.sceneGroup:insert(self.bulletGroupInView)
-	--self.bulletGroupOutofView:removeSelf()
 end
 
 function BulletManager:start()
-	--print('Starting BulletManager')
 	Runtime:addEventListener("offScreen", self)
 end
 
@@ -48,16 +42,9 @@ function BulletManager:offScreen (event)
 		offScreenBulletList = self.haterOffScreenBullets
 		shipType = 'hater '
 	end
-	if offScreenBulletList[tostring(bullet)] ~= nil then
-		if offScreenBulletList[tostring(bullet)][bullet.imgSrc] ~= nil then
-			--print(shipType .. 'onScreenList.size ' .. onScreenBulletList[tostring(bullet)][bullet.imgSrc].size)
-			--print(shipType .. 'offScreenBulletList.size ' .. offScreenBulletList[tostring(bullet)][bullet.imgSrc].size)
-		end
-	end
-	
+
 	self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
 	
-	--print(shipType .. 'offScreenBulletList.size ' .. offScreenBulletList[tostring(bullet)][bullet.imgSrc].size)
 	return true
 end
 
@@ -68,6 +55,7 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	if (imgSrc == nil) then
 		imgSrc = "com/resources/art/sprites/bullet_02.png"
 	end
+
 	if (width == nil) then
 		width = DEFAULT_WIDTH
 	end
@@ -87,10 +75,8 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 	
 	local bullet = nil;
 	bullet = self:getBulletFromOffScreen (offScreenBulletList, bulletClass, imgSrc)
-	--print('create bullet')
 	if (bullet == nil) then
-		--print('Is a nil bullet AND BULLET SIZE = 0')
-		bullet = bulletClass:new(self.bulletGroupInView, imgSrc, isPlayerBullet, -5000, -5000, DEFAULT_ROTATION, width, height)
+		bullet = bulletClass:new(self.bulletGroupInView, imgSrc, isPlayerBullet, width, height)
 	end
 	
 	self:addBulletToOnScreen(onScreenBulletList, bullet)
@@ -105,8 +91,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				bullet.sprite.isVisible = false
 				bullet.sprite.x = 5000
 				bullet.sprite.y = 5000
-				--self.bulletGroupOutofView:insert(bullet.sprite)
-				--self.bulletGroupInView:remove(bullet.sprite)
+
 				Queue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 		end
@@ -124,15 +109,8 @@ function BulletManager:addBulletToOnScreen(onScreenList, bullet)
 	assert(bullet.sprite ~= nil)
 	bullet.sprite.isVisible = true
 	bullet.sprite.isBodyActive = true
-	--self.bulletGroupInView:insert(bullet.sprite)
-	--self.bulletGroupOutofView:remove(bullet.sprite)
-	Queue.insertFront(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-end
 
-function BulletManager:getBulletFromOnScreen(onScreenList, bullet)
-	assert(bullet ~= nil)
-	local newBullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-	return newBullet
+	Queue.insertFront(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
 function BulletManager:getBulletFromOffScreen (offScreenList, bulletClass, imgSrc)
@@ -164,22 +142,14 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 	bullet.sprite.x = 5000
     bullet.sprite.y = 5000
 
-	
+
 	bullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-	--print('onScreenBulletSize: ' .. onScreenList['Bullet']['com/resources/art/sprites/bullet_02.png'].size)
-	--print('offScreenBulletSize: ' .. offScreenList['Bullet']['com/resources/art/sprites/bullet_02.png'].size)
+
 	Queue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
 function BulletManager:stop()
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.sceneGroup)
-	--if self.playerOnScreenBullets['Bullet']['sprites/bullet_02.png'] ~= nil then
-		--print('player onScreenBulletSize: ' .. self.playerOnScreenBullets['Bullet']['com/resources/art/sprites/bullet_02.png'].size)
-		--print('player offScreenBulletSize: ' .. self.playerOffScreenBullets['Bullet']['com/resources/art/sprites/bullet_02.png'].size)
-	--end
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.sceneGroup)
-	--if self.playerOnScreenBullets['Bullet']['sprites/bullet_02.png'] ~= nil then
-		--print('hater onScreenBulletSize: ' .. self.haterOnScreenBullets['Bullet']['com/resources/art/sprites/bullet_02.png'].size)
-		--print('hater offScreenBulletSize: ' .. self.haterOffScreenBullets['Bullet']['com/resources/art/sprites/bullet_02.png'].size)
-	--end
+	Runtime:removeEventListener("offScreen", self)
 end
