@@ -24,6 +24,7 @@ function Hater_Normal:init(sceneGroup)
 end
 
 function Hater_Normal:initMuzzleLocations()
+	print('Initializing muzzle location')
 	self.muzzleLocations = {{x = 0, y = 100}}
 end
 

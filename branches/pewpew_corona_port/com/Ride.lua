@@ -57,7 +57,8 @@ end
 --	FUNCTION NAME: createParticleAssets
 --
 --	DESCRIPTION: Creates the explosion animation that the play will see when a ship explodes.
---  
+--  NOTE: The explosion and frame count is hardcoded, will need to abstract it out if we decide to do
+		  other explosios.
 --	PARAMETERS:
 --		@spriteSheetOptions: Used to create an image sheet in Corona that creates a Sprite sheet in Corona.
 --	RETURN: VOID

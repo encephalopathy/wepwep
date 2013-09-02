@@ -37,10 +37,6 @@ function Button:init(sceneGroup, x, y, buttonImg, buttonImgOnOver, clickEventNam
 	self.sceneGroup:insert(newGameButton)
 end
 
-function Button:__tostring()
-	return Button.name()
-end
-
 function Button:destroy()
 	self.newGameButton:removeSelf()
 	self.super:destroy()

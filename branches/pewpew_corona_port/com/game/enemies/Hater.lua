@@ -92,8 +92,7 @@ function Hater:equipRig(sceneGroup, weapons, passives)
 	
 	if weapons ~= nil then
 		for i = 1, #weapons, 1 do
-			print('weapons muzzle location: x: '..tostring(self.muzzleLocations[i].x) .. 'y: ' .. tostring(self.muzzleLocations[i].y))
-			self:equip(self.primaryWeapons,require(weapons[i]), 30, self.muzzleLocations[i])
+			self:equip(self.primaryWeapons,require(weapons[i]), sceneGroup, 30, self.muzzleLocations[i])
 		end
 	end
 	if passives ~= nil then

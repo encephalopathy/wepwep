@@ -110,14 +110,10 @@ end
 	@RETURN: VOID
 ]]--
 function Weapon:setMuzzleLocation(spawnVector)
-	print('spawn vector: ')
-	print(spawnVector)
 	-- for key, value in pairs(spawnVector) do
 		-- print('key: ' .. tostring(key) .. ' value: ' .. tostring(value))
 	-- end
 	if spawnVector ~= nil then
-		print(spawnVector.x)
-		print(spawnVector.y)
 		--self.muzzleLocation = { x = spawnVector[1], y = spawnVector[2], magnitude = math.sqrt(spawnVector[1]*spawnVector[1] + spawnVector[2]*spawnVector[2]) }
 		self.muzzleLocation = spawnVector
 		self.muzzleLocation.magnitude = math.sqrt((spawnVector.x * spawnVector.x) + (spawnVector.y * spawnVector.y))
