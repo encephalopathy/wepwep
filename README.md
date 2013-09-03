@@ -1,4 +1,4 @@
 wepwep
 ======
 
-Adam's Amazing Playground!  Nothing to see here!
+A Shoot em' up game rouge-like for the Android and IOS.
