@@ -10,6 +10,7 @@ PLAYER_POWAH_REGENERATION_RATE = 3
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.HomingshotWeapon"
+require "com.game.weapons.secondary.GrenadeLauncher"
 require "com.game.weapons.primary.SineWaveWeapon"
 require "com.game.weapons.secondary.StandardMissile"
 require "com.managers.AIDirector"
@@ -101,7 +102,7 @@ end
 function Player:weaponEquipDebug(sceneGroup) 
 	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
 	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200, StandardMissile, "com/resources/art/sprites/missile.png")
-	self.weapon = Singleshot(sceneGroup, true, 25, 200)
+	self.weapon = GrenadeLauncher(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self

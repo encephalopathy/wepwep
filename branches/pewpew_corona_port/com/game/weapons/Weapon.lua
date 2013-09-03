@@ -45,7 +45,7 @@ Weapon = Object:subclass("Weapon")
 	@bulletWidth: Width of the bullet fired by this weapon in DPI.
 	@bulletHeight: Height of the bullet fired by this weapon in DPI.
 ]]--
-function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight)
+function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight, soundFX)
 
 	-- These 3 variables will be deprecated after the Bullet Manager is done.
     self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
@@ -70,6 +70,9 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	--The bullet's width and height when fired by this gun.
 	self.bulletWidth = bulletWidth
 	self.bulletHeight = bulletHeight
+	
+	local loadedAudioFile = audio.loadSound(soundFX)
+	self.soundFX = loadedAudioFile
 	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
 		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
@@ -299,6 +302,10 @@ end
 
 	@RETURN: VOID
 ]]--
-function Weapon:playFiringSound()
 
+--takes in file path
+--audio.play the sound
+function Weapon:playFiringSound(audioObject)
+	--print("audioObject: "..tostring(audioObject))
+	audio.play(audioObject) 
 end

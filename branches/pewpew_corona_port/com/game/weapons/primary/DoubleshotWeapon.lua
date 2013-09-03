@@ -3,8 +3,15 @@ Doubleshot = Singleshot:subclass("Doubleshot")
 
 local BULLET_SEPERATION_DIST = 7
 
-function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance)
-   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletType, bulletWidth, bulletHeight)
+function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance,soundFX)
+   
+   if soundFX == nil then --if no pre-defined sound, set as the default
+		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		soundFX = "com/resources/music/soundfx/doubleshot.ogg"
+		print("soundFX:"..soundFX)
+   end
+   
+   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight,soundFX)
    
    if bulletSeperationDistance ~= nil then
 	 self.bulletSeperationDistance = bulletSeperationDistance
@@ -36,6 +43,8 @@ function Doubleshot:fire(player)
 			
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 		bullet2:fire(bulletVelocity.x, bulletVelocity.y)
+		
+		self:playFiringSound(self.soundFX) --call to play sound for weapons
 			
 		return bullet, bullet2
 	end

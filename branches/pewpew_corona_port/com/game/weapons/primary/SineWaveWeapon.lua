@@ -2,10 +2,15 @@ require "com.game.weapons.Weapon"
 
 SineWave = Weapon:subclass("SineWave")
 
-function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight)
-
-	
-   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_05.png", 20, SineWaveBullet, bulletWidth, bulletHeight)
+function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight,soundFX)
+   
+   if soundFX == nil then
+		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		soundFX = "com/resources/music/soundfx/sineWave.ogg"
+		print("soundFX:"..soundFX)
+   end
+   
+   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_05.png", 50, SineWaveBullet, bulletWidth, bulletHeight,soundFX)
 
    self.energyCost = 15
 end
@@ -42,6 +47,8 @@ function SineWave:fire(player)
 	   bullet1:fire()
 	   print('Bullet 2')
 	   bullet2:fire()
+	   
+	   self:playFiringSound(self.soundFX)
 	   
 	   bullet1.amp = -50
 	   bullet2.amp = 50	   

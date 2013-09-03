@@ -6,7 +6,7 @@ NUM_SHOTS = 5
 FIRING_ANGLE = 60 -- total spread so the bullets will range from 0 degrees to 60 degrees
 BETWEEN = 3 -- space between bullets
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, bulletType, bulletWidth, bulletHeight, numberOfShots, firingAngle)
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, firingAngle, soundFX)
 
 	if rateOfFire == nil then
 		rateOfFire = 35
@@ -16,7 +16,13 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, bu
 		imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType, bulletWidth, bulletHeight)
+	if soundFX == nil then
+		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		print("soundFX:"..soundFX)
+   end
+	
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else
@@ -106,7 +112,7 @@ function Spreadshot:fire (player)
 		  --print("velocity calculated")
 		  bullet:fire(bulletVelocity.x, bulletVelocity.y)
           --print("bullet fired")
-		  
+		  self:playFiringSound(self.soundFX)
           --return bullet
           
 		end 
