@@ -20,10 +20,10 @@ local monitorMem = function()
 
     collectgarbage()
     local sysMem = collectgarbage("count")
-    print( "MemUsage: " .. sysMem )
+    --print( "MemUsage: " .. sysMem )
 
     local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
-    print( "TexMem:   " .. textMem )
+    --print( "TexMem:   " .. textMem )
 end
 
 Runtime:addEventListener( "enterFrame", monitorMem )
