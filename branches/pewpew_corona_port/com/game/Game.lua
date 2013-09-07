@@ -163,7 +163,6 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
-	playBGM("sounds/bgmusic/gameBackMusic.ogg")
 	playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
 	physics.start()
 	physics.setGravity(0, 0)
