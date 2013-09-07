@@ -1,4 +1,4 @@
-require("Object")
+require "org.Object"
 
 View = Object:subclass("View")
 

@@ -1,4 +1,4 @@
-require("Object")
+require "org.Object"
 
 Mediator = Object:subclass("Mediator")
 

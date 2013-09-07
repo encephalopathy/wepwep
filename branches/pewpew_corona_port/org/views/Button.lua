@@ -12,8 +12,8 @@ function Button:init(sceneGroup, x, y, buttonImg, buttonImgOnOver, clickEventNam
 		group:dispatchEvent({name = clickEventName, target = group})
 	end
 	
-	buttonImg = buttonImg or "button.png"
-	buttonImgOnOver = buttonImgOnOver or "button-over.png"
+	buttonImg = buttonImg or "com/resources/art/sprites/button.png"
+	buttonImgOnOver = buttonImgOnOver or "com/resources/art/sprites/button-over.png"
 	textColor = textColor or { default = {255}, over = {128} }
 	width = width or 128
 	height = height or 128
@@ -35,10 +35,6 @@ function Button:init(sceneGroup, x, y, buttonImg, buttonImgOnOver, clickEventNam
 	--We need to keep a reference to the widget to destroy it later
 	self.newGameButton = newGameButton
 	self.sceneGroup:insert(newGameButton)
-end
-
-function Button:__tostring()
-	return Button.name()
 end
 
 function Button:destroy()

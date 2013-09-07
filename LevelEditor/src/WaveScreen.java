@@ -15,8 +15,10 @@ import javax.swing.JMenuBar;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -69,9 +71,9 @@ public class WaveScreen extends JFrame {
 	//WeaponPopUp weaponPopUp = new WeaponPopUp();
 	
 	//border variables
-	public final int enemyGridBorderTop = 200; //
+	public final int enemyGridBorderTop = 100; 
 	public final int enemyGridBorderLeft = 200; //
-	public final int enemyGridBorderBottom = 200; 
+	public final int enemyGridBorderBottom = 150; //
 	public final int enemyGridBorderRight = 200; 
 	
 	//take out
@@ -124,7 +126,7 @@ public class WaveScreen extends JFrame {
 		//File enemyFile = new File(enemyFile, );
 		setTitle("Wave Editor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderTop))); //size of the entire frame
+		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderBottom))); //size of the entire frame
 		setResizable(false);
 		
 		
@@ -147,10 +149,10 @@ public class WaveScreen extends JFrame {
 				//System.out.println("X:" + mouseX + ", Y:" + mouseY );
 				Enemy newEnemy = workingEnemy.cloneSelf();
 				newEnemy.setLocation(mouseX, mouseY);
-				System.out.println("newEnemy object: " + newEnemy);
-				System.out.println(newEnemy.weaponList);
+				//System.out.println("newEnemy object: " + newEnemy);
+				//System.out.println(newEnemy.weaponList);
 				currentWave.addEnemy(newEnemy);
-				System.out.print(currentLevel);
+				System.out.print(newEnemy);
 				
 				//take out
 				/*
@@ -208,6 +210,22 @@ public class WaveScreen extends JFrame {
 		menuBar.add(FileMenu);
 		
 		JMenuItem SaveButton = new JMenuItem("Save");
+		SaveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+				    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("game.pew", true)));
+				    for (int i = 0; i < levelSet.size(); i++){
+				    	out.print(levelSet.get(i));
+				    }
+				    out.close();
+				} catch (IOException e) {
+				    //oh noes!
+				}
+			}
+			
+		});
 		FileMenu.add(SaveButton);
 		
 		JMenuItem SaveAsButton = new JMenuItem("Save As...");

@@ -14,6 +14,7 @@ public class Wave {
 	private List<Enemy> waveEnemyList = new ArrayList<Enemy>();
 	public JMenuItem waveButton = null;
 	private Level parentLevel;
+	private ArrayList<Pair<String, Integer>> enemyCountList;
 	
 	//constructor for wave
 	public Wave(int t, Level l){
@@ -56,10 +57,39 @@ public class Wave {
 		return waveEnemyList.toString();
 	}
 	
+	private Boolean typeExists(int i){
+		for (int j = 0; j < enemyCountList.size(); j++){
+			if (waveEnemyList.get(i).type == enemyCountList.get(j).key){
+				enemyCountList.get(j).value += 1;
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public String toString(){
+		enemyCountList = new ArrayList<Pair<String, Integer>>();
+		Pair<String, Integer> tempPair = new Pair<String, Integer>();
+		for (int i = 0; i < waveEnemyList.size(); i++){
+			if (i == 0){
+				tempPair.key = waveEnemyList.get(i).type;
+				tempPair.value = 1;
+				enemyCountList.add(tempPair.clone());
+			}
+			if (!typeExists(i)){
+				tempPair.key = waveEnemyList.get(i).type;
+				tempPair.value = 1;
+				enemyCountList.add(tempPair.clone());
+			}
+			
+		}
 		String printedLine = "";
 		printedLine += ("Time=" + Integer.toString(time));
+		printedLine += " ";
+		for (int i = 0; i < enemyCountList.size(); i++){
+			printedLine += (enemyCountList.get(i) + " ");
+		}
 		printedLine += ("\n");
 		for(int i = 0; i < waveEnemyList.size(); i++){
 			printedLine += waveEnemyList.get(i);
