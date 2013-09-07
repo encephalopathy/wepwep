@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -24,7 +26,7 @@ import javax.swing.JPopupMenu;
  * will create basic enemies
  * 
  */
-public class Enemy {
+public class Enemy{
 	
 	//public variables
 	public Enemy self = this;
@@ -36,14 +38,13 @@ public class Enemy {
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
 	public int maxPassives = 0;
 	public List<String> passiveList = new ArrayList<String>(); //list of all the weapons
-	//public Image enemyImage;
-	public BufferedImage a;
-	public /*static*/ String imageFileName = "src/test.png";
-
+	public String imageFileName = "src/test.png"; //default image for an enemy
+	public EnemyPlacementGrid Grid;
 	
 	//object constructor
-	public Enemy()
+	public Enemy(EnemyPlacementGrid epgRef)
 	{
+		Grid = epgRef;
 		System.out.println("Creating a new Enemy Object");
 		//DEBUGPRINT();
 
@@ -60,6 +61,7 @@ public class Enemy {
 				@Override public void windowActivated(WindowEvent e) {}
 				@Override public void windowClosed(WindowEvent e) {}
 				@Override public void windowClosing(WindowEvent e) {
+					System.out.println("EXITING THE WEAPON POP UP");
 					weaponList = weaponPopUp.returnWeaponList();
 					System.out.println(weaponList.toString());
 				}
@@ -95,16 +97,17 @@ public class Enemy {
 		System.out.println(passiveList.toString());
 	}
 	
+	//Added code
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getSource());
+		Grid.enemyToDraw = this;
+	}
+	
 	//set the x and y coordinates of a placed enemy in WaveScreen.java
 	public void setLocation(int xLoc, int yLoc){
 		System.out.println("INSIDE setLocation");
 		enemyX = xLoc;
 		enemyY = yLoc;
-		
-		a = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = a.getGraphics();
-		g.drawImage(a , enemyX, enemyY, 10, 10, Color.MAGENTA, null);
-		
 		
 	}
 	
@@ -119,7 +122,7 @@ public class Enemy {
 	}
 
 	public Enemy cloneSelf(){
-		Enemy e = new Enemy();
+		Enemy e = new Enemy(this.Grid);
 		e.weaponList = this.weaponList;
 		e.passiveList = this.passiveList;
 		e.enemyX = this.enemyX;
@@ -127,6 +130,7 @@ public class Enemy {
 		e.maxWeapons = this.maxWeapons;
 		e.rotation = this.rotation;
 		e.type = this.type;
+		e.imageFileName = this.imageFileName;
 		return e;
 	}
 	
