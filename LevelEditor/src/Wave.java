@@ -15,11 +15,13 @@ public class Wave {
 	public JMenuItem waveButton = null;
 	private Level parentLevel;
 	private ArrayList<Pair<String, Integer>> enemyCountList;
+	public EnemyPlacementGrid Grid;
 	
 	//constructor for wave
-	public Wave(int t, Level l){
+	public Wave(int t, Level l, EnemyPlacementGrid epgRef){
 		time = t;
 		parentLevel = l;
+		Grid = epgRef;
 		//menu set up
 		waveButton = new JMenuItem(Integer.toString(t));  //button for a given wave
 		waveButton.addActionListener(new ActionListener(){ //by clicking on it, you change the current wave
@@ -36,7 +38,16 @@ public class Wave {
 	public void loadWave()
 	{
 		//need to set the currentWave to this newly created wave
-		WaveScreen.currentWave = this;	
+		//when switching waves, remove all listeners corresponding to the placement grid
+		Grid.clear();
+		//add event listeners to new enemies
+		WaveScreen.currentWave = this;
+		
+		//need to redraw
+		for(int i = 0; i < waveEnemyList.size(); i++){
+			Grid.paintSprite(waveEnemyList.get(i));
+		}
+		
 		WaveScreen.currentLevel = parentLevel;
 	}
 	

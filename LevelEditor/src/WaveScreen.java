@@ -55,20 +55,20 @@ import javax.swing.JTextPane;
 public class WaveScreen extends JFrame {
 
 	private JPanel EnemyPlacementGrid;
-	//private
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
-	static Wave currentWave = new Wave(0, null); //the current wave you are working on 
-	static Level currentLevel = new Level(null, 0); //the current level you are working on
+	static Wave currentWave;// = new Wave(0, null); //the current wave you are working on 
+	static Level currentLevel;// = new Level(null, 0); //the current level you are working on
 	//private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
 	static List<Level> levelSet = new ArrayList<Level>(); //this contains ALL of the levels created; in a sense, the game.
 	//private String waveNameString = "";
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
-	public Enemy workingEnemy = new Enemy();
-	public Enemy highlightedEnemy = new Enemy();
+	public Enemy workingEnemy;
+	public Enemy highlightedEnemy;
 	JMenu LevelMenu = new JMenu(); //declarations of level menu
 	JFrame levelPopUp = new JFrame(); //JFrame for the level naming popup
 	//WeaponPopUp weaponPopUp = new WeaponPopUp();
+	public EnemyPlacementGrid Grid;
 	
 	//border variables
 	public final int enemyGridBorderTop = 100; 
@@ -128,8 +128,12 @@ public class WaveScreen extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderBottom))); //size of the entire frame
 		setResizable(false);
-		
-		
+		Grid = new EnemyPlacementGrid();
+		currentLevel = new Level(null, 0, Grid);
+		currentWave = new Wave(0, null, Grid);
+		workingEnemy = new Enemy(Grid);
+		highlightedEnemy = new Enemy(Grid);
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -137,12 +141,13 @@ public class WaveScreen extends JFrame {
 		/*
 		 * This is the Grid where enemies will be placed. When clicked an enemy will be placed down on the location of the mouse.
 		 */
-		EnemyPlacementGrid = new JPanel();
-		EnemyPlacementGrid.addMouseListener(new MouseAdapter() {
+		//EnemyPlacementGrid = new JPanel();
+		//EnemyPlacementGrid.addMouseListener(new MouseAdapter() {
+		Grid.addMouseListener(new MouseAdapter() {
 			//@Override
 			public int mouseX;
 			public int mouseY;
-			public void mouseClicked(MouseEvent arg0) { //what happens when you click in the EnemyPlacementGrid
+			public void mousePressed(MouseEvent arg0) { //what happens when you click in the EnemyPlacementGrid
 				System.out.println("Correct Area for placement");
 				mouseX = arg0.getX();
 				mouseY = arg0.getY();
@@ -153,58 +158,26 @@ public class WaveScreen extends JFrame {
 				//System.out.println(newEnemy.weaponList);
 				currentWave.addEnemy(newEnemy);
 				System.out.print(newEnemy);
-				
-				//take out
-				/*
-				try{
-					
-					img = ImageIO.read(new File(newEnemy.imageFileName));
-					System.out.println("AFTER IMG" + img);
-					JLabel label = new JLabel(new ImageIcon(img));
-					
-					label.setLocation(newEnemy.enemyX, newEnemy.enemyY);
-					label.setSize(img.getWidth(), img.getHeight());
-					EnemyPlacementGrid.add(label);
-					System.out.println(label.getParent());
-					System.out.println(label);
-					//add(label);
-					EnemyPlacementGrid.setVisible(true);
-					label.setVisible(true);
-				} catch(IOException e){
-					e.printStackTrace();
-				}
-				*/
-				
-				
-				
+				Grid.enemyToDraw = newEnemy;
+								
 			}
 		});
-		EnemyPlacementGrid.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-			}
-		});
-		EnemyPlacementGrid.addInputMethodListener(new InputMethodListener() {
-			public void caretPositionChanged(InputMethodEvent arg0) {
-			}
-			public void inputMethodTextChanged(InputMethodEvent arg0) {
-			}
-		});
-		EnemyPlacementGrid.setToolTipText("Put shit in here");
-		EnemyPlacementGrid.setBackground(new Color(152, 251, 152)); //creates the green part
-		EnemyPlacementGrid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
-		EnemyPlacementGrid.setLayout(new BorderLayout(0, 0));
-		setContentPane(EnemyPlacementGrid);
 		
-		//creating a new panel called GameScreen
+		Grid.setToolTipText("Place Enemies Here!!!");
+		Grid.setBackground(new Color(152, 251, 152)); //creates the green part
+		Grid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
+		Grid.setLayout(new BorderLayout(0, 0));
+		add(Grid);
+		
+		//creating a new panel called GameScreen, the Black colored zone
 		JPanel GameScreen = new JPanel();
 		GameScreen.setBounds(new Rectangle(0, 0, 400, 600));
 		GameScreen.setMaximumSize(new Dimension(400, 600));
 		GameScreen.setToolTipText("Don't put shit in here");
 		GameScreen.setBorder(null);
 		GameScreen.setBackground(Color.BLACK);
-		EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); //places it on top of EnemyPlacementGrid
-		
+		//EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); //places it on top of EnemyPlacementGrid
+		Grid.add(GameScreen, BorderLayout.CENTER);
 		
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
@@ -250,7 +223,7 @@ public class WaveScreen extends JFrame {
 	                    JOptionPane.PLAIN_MESSAGE, null,
 	                    null, "");
 				System.out.println(s);
-				Level l = new Level(s, (levelSet.size()+1));  //build a new level
+				Level l = new Level(s, (levelSet.size()+1), Grid);  //build a new level
 				levelSet.add(l); //adds a new level to the levelSet
 				LevelMenu.add(l.levelWavesMenu); 
 				System.out.println("Level: " + l);
@@ -269,8 +242,9 @@ public class WaveScreen extends JFrame {
 		HonkeyItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
+	        	   System.out.println("CREATING A NEW Enemy_1");
 	               enemyChoiceMenu.setText("Honkey");
-	               Enemy_1 newDude = new Enemy_1();
+	               Enemy_1 newDude = new Enemy_1(Grid);
 	               newDude.createWeaponList();
 	               workingEnemy = newDude;
 	          }
