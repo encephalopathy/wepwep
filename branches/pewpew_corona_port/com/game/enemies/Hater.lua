@@ -1,7 +1,3 @@
-require("Ride")
-require("Queue")
-
-
 require "com.Ride"
 require "org.Queue"
 require "com.game.weapons.secondary.FreezeMissile"
