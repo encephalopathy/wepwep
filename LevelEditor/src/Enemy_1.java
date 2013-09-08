@@ -1,12 +1,12 @@
 
 public final class Enemy_1 extends Enemy {
 
-	public Enemy_1() {
-		super();
+	public Enemy_1(EnemyPlacementGrid Grid) {
+		super(Grid);
 		type = "Honkey";
 		maxWeapons = 2;
 		maxPassives = 3;
-		//set Enemy_1 image
+		imageFileName = "src/test2.png";
 	}
 
 }

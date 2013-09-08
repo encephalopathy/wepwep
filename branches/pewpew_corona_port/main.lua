@@ -23,7 +23,7 @@ local monitorMem = function()
     --print( "MemUsage: " .. sysMem )
 
     local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
-    --sprint( "TexMem:   " .. textMem )
+    --print( "TexMem:   " .. textMem )
 end
 
 Runtime:addEventListener( "enterFrame", monitorMem )
