@@ -2,9 +2,9 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Spreadshot = Weapon:subclass("Spreadshot")
 
-NUM_SHOTS = 5
-FIRING_ANGLE = 60 -- total spread so the bullets will range from 0 degrees to 60 degrees
-BETWEEN = 3 -- space between bullets
+--NUM_SHOTS = 5
+--FIRING_ANGLE = 60 -- total spread so the bullets will range from 0 degrees to 60 degrees
+--BETWEEN = 3 -- space between bullets
 
 function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, firingAngle, soundFX)
 
@@ -17,9 +17,9 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, im
 	end
 
 	if soundFX == nil then
-		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundFX = "com/resources/music/soundfx/shotgun.ogg"
-		print("soundFX:"..soundFX)
+		--print("soundFX:"..soundFX)
    end
 	
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
@@ -30,15 +30,18 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, im
    end
    
    if numberOfShots ~= nil then
-	  self.numberOfShots = NUM_SHOTS
+	  self.numberOfShots = numberOfShots
    else
-	  self.numberOfShots = NUM_SHOTS
+	  self.numberOfShots = 5--NUM_SHOTS
+	  --print("NUM_SHOTS is", NUM_SHOTS)
    end
+   
+   --print("number of shots is initially ", self.numberOfShots)
    
    if firingAngle ~= nil then
      self.firingAngle = firingAngle
    else
-     self.firingAngle = FIRING_ANGLE
+     self.firingAngle = 60--FIRING_ANGLE
    end
    
    self.energyCost = 20
