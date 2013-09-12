@@ -27,6 +27,6 @@ M.c_txt_fs = 20			-- fs: font size
 M.c_p_x  = 75
 M.c_p_y  = h - 175
 M.c_p_w  = 125
-M.c_p_sw = 3
+M.c_p_sw = 3			-- sw: stroke width
 
 return M
