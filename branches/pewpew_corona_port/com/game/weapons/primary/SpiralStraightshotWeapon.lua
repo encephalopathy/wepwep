@@ -75,14 +75,14 @@ function SpiralStraightshot:fire (player)
 		  end
 	   end
        
-	   --for i = 0, (self.numberOfShots - 1), 1 do
 	   if (self.shotIterator > self.numberOfShots - 1) then 
 	      self.shotIterator = 0
 	   end
+	   
 	   local bullet = shots[self.shotIterator]
-	   --if (bullet == nil) then
-	      --break
-	   --end
+	   if (bullet == nil) then
+	      return
+	   end
 		 
        local rotationAngle = math.rad((-self.shotIterator * angleStep))
 	   self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
