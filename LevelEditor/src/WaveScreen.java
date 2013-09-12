@@ -253,11 +253,14 @@ public class WaveScreen extends JFrame {
 		//adding in Redneck enemy option
 		JMenuItem RedneckItem = new JMenuItem("Redneck");
 		enemyChoiceMenu.add(RedneckItem);
-		
 		RedneckItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               enemyChoiceMenu.setText("Redneck");
+	               System.out.println("CREATING A NEW Enemy_2");
+	        	   enemyChoiceMenu.setText("Redneck");
+	        	   Enemy_2 newDude = new Enemy_2(Grid);
+	        	   newDude.createWeaponList();
+	        	   workingEnemy = newDude;
 	           }
 	       });
 		
