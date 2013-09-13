@@ -67,19 +67,12 @@ function SpiralStraightshot:fire (player)
     self.super:fire()
 	if not self:canFire() then return end
 	   angleStep = 360 / (self.numberOfShots)
-
-       local shots = {}
-	   if self.owner then
-		  for i = 0, (self.numberOfShots - 1), 1 do
-			 shots[i] = self:getNextShot()
-		  end
-	   end
        
 	   if (self.shotIterator > self.numberOfShots - 1) then 
 	      self.shotIterator = 0
 	   end
 	   
-	   local bullet = shots[self.shotIterator]
+	   local bullet = self:getNextShot()
 	   if (bullet == nil) then
 	      return
 	   end
@@ -91,7 +84,6 @@ function SpiralStraightshot:fire (player)
 	   bullet:fire(bulletVelocity.x, bulletVelocity.y)
 	   self:playFiringSound(self.soundFX)
        self.shotIterator = self.shotIterator + 1
-		--end 
 end 
 
 return SpiralStraightshot
