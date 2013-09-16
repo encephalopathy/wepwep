@@ -32,8 +32,10 @@ c:insert(c_txtb)
 
 
 -- c_txt: codec text
+local msg_c = 1 			-- msg_c: message counter
 local c_txt = display.newText(
-	"Let me tell you a story about my father...",
+	M.c_txt_msgs[msg_c],	-- text
+	--"Let me tell you a story about my father...",
 	M.c_txt_x, M.c_txt_y,	-- x, y,
 	M.c_txt_w, M.c_txt_h,	-- width, height,
 	native.systemFont,  	-- font,
@@ -64,9 +66,61 @@ end
 transition.from(
 	c, 
 	{
-		time=900,
-		y=200,
-		transition=easing.outExpo,
-		onComplete=makeCodecTextAppear
+		time = 900,
+		y = 200,
+		transition = easing.outExpo,
+		onComplete = makeCodecTextAppear
 	}
 )
+
+
+-- codec disposal
+local function disposeCodec()
+	print("Made it to disposeCodec")
+end
+
+
+-- disappearing codec effect
+local function deactivateCodec()
+	c_txt.alpha = 0
+	transition.to(
+		c, 
+		{
+			time = 900,
+			y = 200,
+			transition = easing.outExpo,
+			onComplete = disposeCodec
+		}
+	)
+end
+
+
+-- codec touch event listener
+function c:touch(event)
+
+	-- if the codec is touched
+	if event.phase == "began" then
+		c.alpha = 0.5
+	
+	-- if the codec is released
+	elseif event.phase == "ended" or event.phase == "cancelled" then
+		c.alpha = 1.0
+		
+		-- if there are any more messages
+		if msg_c < M.c_txt_msgs_l then
+		
+			-- change the message and/or portrait in codec
+			msg_c = msg_c + 1
+			c_txt.text = M.c_txt_msgs[msg_c]
+			
+		else
+		
+			-- send the codec away
+			deactivateCodec()
+		end
+	end
+	
+	return true
+end
+
+c:addEventListener("touch", c)
