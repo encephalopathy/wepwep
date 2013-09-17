@@ -1,11 +1,8 @@
-10
-the instigator
-fuck you zack
-fuck you ian
-fuck you brent
-fuck you nick
-fuck you matt
-fuck you drew
-fuck you thomas
-fuck you adam
-fuck everyone
+7
+com.game.weapons.primary.SingleShotWeapon
+com.game.weapons.primary.DoubleShotWeapon
+com.game.weapons.primary.SineWaveWeapon
+com.game.weapons.primary.SpreadshotWeapon
+com.game.weapons.primary.HomingShotWeapon
+com.game.weapons.primary.BackshotWeapon
+com.game.weapons.secondary.GrenadeLauncher

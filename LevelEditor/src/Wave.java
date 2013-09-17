@@ -47,7 +47,6 @@ public class Wave {
 		for(int i = 0; i < waveEnemyList.size(); i++){
 			Grid.paintSprite(waveEnemyList.get(i));
 		}
-		
 		WaveScreen.currentLevel = parentLevel;
 	}
 	
@@ -97,9 +96,9 @@ public class Wave {
 		}
 		String printedLine = "";
 		printedLine += ("Time=" + Integer.toString(time));
-		printedLine += " ";
+		//printedLine += " ";
 		for (int i = 0; i < enemyCountList.size(); i++){
-			printedLine += (enemyCountList.get(i) + " ");
+			printedLine += (" " + enemyCountList.get(i));
 		}
 		printedLine += ("\n");
 		for(int i = 0; i < waveEnemyList.size(); i++){

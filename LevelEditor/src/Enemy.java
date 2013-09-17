@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent; //testing
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -40,6 +41,7 @@ public class Enemy{
 	public List<String> passiveList = new ArrayList<String>(); //list of all the weapons
 	public String imageFileName = "src/test.png"; //default image for an enemy
 	public EnemyPlacementGrid Grid;
+	JFrame rotationPopUp = new JFrame(); //FFrame for the Rotation pop up
 	
 	//object constructor
 	public Enemy(EnemyPlacementGrid epgRef)
@@ -79,6 +81,7 @@ public class Enemy{
 				@Override public void windowActivated(WindowEvent e) {}
 				@Override public void windowClosed(WindowEvent e) {}
 				@Override public void windowClosing(WindowEvent e) {
+					System.out.println("EXITING THE PASSIVE POP UP");
 					passiveList = passivePopUp.returnWeaponList();
 					System.out.println(passiveList.toString());
 				}
@@ -94,14 +97,15 @@ public class Enemy{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(passiveList.toString());
+		//System.out.println(passiveList.toString());
 	}
 	
-	//Added code
+	/*
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getSource());
 		Grid.enemyToDraw = this;
 	}
+	*/
 	
 	//set the x and y coordinates of a placed enemy in WaveScreen.java
 	public void setLocation(int xLoc, int yLoc){
@@ -111,7 +115,32 @@ public class Enemy{
 		
 	}
 	
-	public void setRotation(int r) { rotation = r; }
+	public void setRotation() {
+		System.out.println("THE ROTATION BEFORE CLOSING IS: " + rotation);
+		String s = (String)JOptionPane.showInputDialog(  //set up for the popup menu
+                rotationPopUp,
+                "Select a rotation for this enemy. Leave empty for 0 rotation.",
+                "Set Rotation",
+                JOptionPane.PLAIN_MESSAGE, null,
+                null, "");
+	   if(s.length() == 0) {
+		   rotation = 0;
+		   System.out.println("s.length() WAS 0! NOTHING TYPED. rotation is: " + rotation);
+		   return;
+	   }
+       int r = Integer.parseInt(s);
+       rotation = r;
+       System.out.println("THE ROTATION AFTER CLOSING IS: " + rotation);
+	}
+	
+	public String setTextTip(){
+		String s = "";
+		//type, x, y, rotation
+		s += ("Type: " + type + "\n");
+		s += ("X: "+ enemyX + "\n");
+		s += ("Y: "+ enemyX + "\n");
+		return s;
+	}
 	
 	public void DEBUGPRINT(){
 		System.out.println("I AM A DEBUG FOR ENEMY AT:(" + enemyX + "," + enemyY + ")");
@@ -145,7 +174,7 @@ public class Enemy{
 			printedLine += (weaponList.get(i));
 			if(i != (weaponList.size() -1)) printedLine += (",");
 		}
-		System.out.println(passiveList.size());
+		//System.out.println(passiveList.size());
 		printedLine += (" Passives=");
 		for(int i = 0; i < passiveList.size(); i++){
 			printedLine += (passiveList.get(i));

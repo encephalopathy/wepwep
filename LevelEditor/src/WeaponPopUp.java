@@ -3,17 +3,17 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+//import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JCheckBox;
+//import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import java.io.*;
-import java.net.URL;
+//import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -67,6 +67,8 @@ public class WeaponPopUp extends JDialog {
 		}
 		for(int i = 0; i < weaponNames.length; i++){ weaponNames[i] = "none"; }
 		
+		in.close();
+		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -76,8 +78,9 @@ public class WeaponPopUp extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			/*
 			{
-				/*
+				
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -89,15 +92,18 @@ public class WeaponPopUp extends JDialog {
 						
 					}
 				});
-				*/
+				
 			}
+			*/
+			/*
 			{
-				/*
+				
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
-				*/
+				
 			}
+			*/
 		}
 		{
 
@@ -111,12 +117,17 @@ public class WeaponPopUp extends JDialog {
 					{
 						for(int j = 0; j < availableWeapons.length; j++){
 							final int selectedWeapon = j;
-							availableWeapons[j] = new JMenuItem(availableWeaponNames[j]);
+							String s = availableWeaponNames[j];
+							String name = s.substring(s.lastIndexOf(".")+1);
+							//availableWeapons[j] = new JMenuItem(availableWeaponNames[j]);
+							availableWeapons[j] = new JMenuItem(name);
 							availableWeapons[j].addActionListener(new ActionListener(){
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									weaponNames[menuWeapon] = availableWeaponNames[selectedWeapon];
-									weaponCapacity[menuWeapon].setText(availableWeaponNames[selectedWeapon]);
+									String s = availableWeaponNames[selectedWeapon];
+									String displayName = s.substring(s.lastIndexOf(".")+1);
+									weaponCapacity[menuWeapon].setText(displayName);
 								}
 							});
 							weaponCapacity[i].add(availableWeapons[j]);

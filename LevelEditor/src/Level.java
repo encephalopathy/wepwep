@@ -29,6 +29,7 @@ public class Level {
 	//Constructor for a new Level
 	public Level (String name, int level, EnemyPlacementGrid epgRef )
 	{
+		System.out.println("CREATING new Level");
 		levelNumber = level;
 		levelName = name;
 		levelWavesMenu = new JMenu(name);

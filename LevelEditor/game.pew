@@ -1,4 +1,4 @@
-Name=DREW LETS DO THIS Number=1
+Name=DREW_LETS_DO_THIS Number=1
 Time=1 Honkey=12 
    Type=Honkey Location=91,63 Rotation=0 Weapons=the instigator,fuck you zack Passives=SuperShield,Shield,AblativePlating
    Type=Honkey Location=96,383 Rotation=0 Weapons=the instigator,fuck you zack Passives=SuperShield,Shield,AblativePlating
@@ -14,7 +14,7 @@ Time=1 Honkey=12
 Time=5 Honkey=3 
    Type=Honkey Location=81,131 Rotation=0 Weapons=the instigator,fuck you zack Passives=SuperShield,Shield,AblativePlating
    Type=Honkey Location=147,384 Rotation=0 Weapons=the instigator,fuck you zack Passives=SuperShield,Shield,AblativePlating
-Name=WERE MAKING THIS HAPPEN Number=2
+Name=WERE_MAKING_THIS_HAPPEN Number=2
 Time=12 Honkey=12 
    Type=Honkey Location=119,101 Rotation=0 Weapons=the instigator,the instigator Passives=HolyShitShield,GiantAssets,SuperShield
    Type=Honkey Location=130,301 Rotation=0 Weapons=the instigator,the instigator Passives=HolyShitShield,GiantAssets,SuperShield
