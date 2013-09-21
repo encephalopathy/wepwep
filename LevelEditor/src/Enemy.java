@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JComponent; //testing
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -24,7 +27,7 @@ import javax.swing.JPopupMenu;
  * will create basic enemies
  * 
  */
-public class Enemy {
+public class Enemy{
 	
 	//public variables
 	public Enemy self = this;
@@ -36,14 +39,14 @@ public class Enemy {
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
 	public int maxPassives = 0;
 	public List<String> passiveList = new ArrayList<String>(); //list of all the weapons
-	//public Image enemyImage;
-	public BufferedImage a;
-	public /*static*/ String imageFileName = "src/test.png";
-
+	public String imageFileName = "src/test.png"; //default image for an enemy
+	public EnemyPlacementGrid Grid;
+	JFrame rotationPopUp = new JFrame(); //FFrame for the Rotation pop up
 	
 	//object constructor
-	public Enemy()
+	public Enemy(EnemyPlacementGrid epgRef)
 	{
+		Grid = epgRef;
 		System.out.println("Creating a new Enemy Object");
 		//DEBUGPRINT();
 
@@ -60,6 +63,7 @@ public class Enemy {
 				@Override public void windowActivated(WindowEvent e) {}
 				@Override public void windowClosed(WindowEvent e) {}
 				@Override public void windowClosing(WindowEvent e) {
+					System.out.println("EXITING THE WEAPON POP UP");
 					weaponList = weaponPopUp.returnWeaponList();
 					System.out.println(weaponList.toString());
 				}
@@ -77,6 +81,7 @@ public class Enemy {
 				@Override public void windowActivated(WindowEvent e) {}
 				@Override public void windowClosed(WindowEvent e) {}
 				@Override public void windowClosing(WindowEvent e) {
+					System.out.println("EXITING THE PASSIVE POP UP");
 					passiveList = passivePopUp.returnWeaponList();
 					System.out.println(passiveList.toString());
 				}
@@ -92,8 +97,15 @@ public class Enemy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(passiveList.toString());
+		//System.out.println(passiveList.toString());
 	}
+	
+	/*
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getSource());
+		Grid.enemyToDraw = this;
+	}
+	*/
 	
 	//set the x and y coordinates of a placed enemy in WaveScreen.java
 	public void setLocation(int xLoc, int yLoc){
@@ -101,14 +113,34 @@ public class Enemy {
 		enemyX = xLoc;
 		enemyY = yLoc;
 		
-		a = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = a.getGraphics();
-		g.drawImage(a , enemyX, enemyY, 10, 10, Color.MAGENTA, null);
-		
-		
 	}
 	
-	public void setRotation(int r) { rotation = r; }
+	public void setRotation() {
+		System.out.println("THE ROTATION BEFORE CLOSING IS: " + rotation);
+		String s = (String)JOptionPane.showInputDialog(  //set up for the popup menu
+                rotationPopUp,
+                "Select a rotation for this enemy. Leave empty for 0 rotation.",
+                "Set Rotation",
+                JOptionPane.PLAIN_MESSAGE, null,
+                null, "");
+	   if(s.length() == 0) {
+		   rotation = 0;
+		   System.out.println("s.length() WAS 0! NOTHING TYPED. rotation is: " + rotation);
+		   return;
+	   }
+       int r = Integer.parseInt(s);
+       rotation = r;
+       System.out.println("THE ROTATION AFTER CLOSING IS: " + rotation);
+	}
+	
+	public String setTextTip(){
+		String s = "";
+		//type, x, y, rotation
+		s += ("Type: " + type + "\n");
+		s += ("X: "+ enemyX + "\n");
+		s += ("Y: "+ enemyX + "\n");
+		return s;
+	}
 	
 	public void DEBUGPRINT(){
 		System.out.println("I AM A DEBUG FOR ENEMY AT:(" + enemyX + "," + enemyY + ")");
@@ -119,7 +151,7 @@ public class Enemy {
 	}
 
 	public Enemy cloneSelf(){
-		Enemy e = new Enemy();
+		Enemy e = new Enemy(this.Grid);
 		e.weaponList = this.weaponList;
 		e.passiveList = this.passiveList;
 		e.enemyX = this.enemyX;
@@ -127,6 +159,7 @@ public class Enemy {
 		e.maxWeapons = this.maxWeapons;
 		e.rotation = this.rotation;
 		e.type = this.type;
+		e.imageFileName = this.imageFileName;
 		return e;
 	}
 	
@@ -141,7 +174,7 @@ public class Enemy {
 			printedLine += (weaponList.get(i));
 			if(i != (weaponList.size() -1)) printedLine += (",");
 		}
-		System.out.println(passiveList.size());
+		//System.out.println(passiveList.size());
 		printedLine += (" Passives=");
 		for(int i = 0; i < passiveList.size(); i++){
 			printedLine += (passiveList.get(i));

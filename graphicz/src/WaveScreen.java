@@ -2,6 +2,9 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.ImageObserver;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,8 +17,9 @@ public class WaveScreen extends JFrame {
 	/**
 	 * 
 	 */
+	static final PadDraw drawPad = new PadDraw();
 	private static final long serialVersionUID = 1L;
-	private JPanel EnemyPlacementGrid;
+	
 	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); // holds the enemyObject that are created
 	static Wave currentWave = new Wave(0, null); // the current wave you are working on
 	static Level currentLevel = new Level(null, 0); // the current level you are working on
@@ -39,7 +43,6 @@ public class WaveScreen extends JFrame {
 	public int mouseX;
 	public int mouseY;
 
-
 	public static void main(String[] args) {
 		
 		Icon iconBlue= new ImageIcon("blue.gif");
@@ -49,14 +52,11 @@ public class WaveScreen extends JFrame {
 		JFrame EditorScreen = new JFrame("Welcome to Pew Pew Developers cut");
 		Container content = EditorScreen.getContentPane();
 		content.setLayout(new BorderLayout());
-		final PadDraw drawPad = new PadDraw();
-		//content.add(drawPad);
 		
+		JPanel EnemyPlacementGrid = null;
 		JPanel panel = new JPanel();
 		//creates a JPanel
-		panel.setPreferredSize(new Dimension(50, 400));
-		panel.setMinimumSize(new Dimension(50, 400));
-		panel.setMaximumSize(new Dimension(50, 400));
+		panel.setPreferredSize(new Dimension(75, 400));
 		//This sets the size of the panel
 		
 		JButton clearButton = new JButton("Clear");
@@ -72,7 +72,6 @@ public class WaveScreen extends JFrame {
 			}
 		});
 		clearButton.setPreferredSize(new Dimension(100,50));
-		
 		JButton shipButton = new JButton(iconShip);
 		//blue button
 		shipButton.addActionListener(new ActionListener(){
@@ -82,7 +81,6 @@ public class WaveScreen extends JFrame {
 		});
 		
 		shipButton.setPreferredSize(new Dimension(16, 16));
-		
 		JButton blueButton = new JButton(iconBlue);
 		blueButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,7 +105,7 @@ public class WaveScreen extends JFrame {
 		EditorScreen.setSize(200, 200); 
 		EditorScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		EditorScreen.setVisible(false);
-		WaveScreen frame = new WaveScreen();
+		WaveScreen frame = new WaveScreen( EnemyPlacementGrid);
 		frame.add(content);				
 		frame.add(drawPad);
 		frame.setVisible(true);
@@ -117,7 +115,7 @@ public class WaveScreen extends JFrame {
 		currentEnemyList = newList;
 	}
 	
-	public WaveScreen()  {
+	public WaveScreen(JPanel EnemyPlacementGrid)  {
 		setTitle("Wave Editor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)),
@@ -145,22 +143,18 @@ public class WaveScreen extends JFrame {
 		enemyGridBorderLeft, enemyGridBorderBottom,
 		enemyGridBorderRight));
 		EnemyPlacementGrid.setLayout(new BorderLayout(0, 0));
+		//Add DrawPanel to the GRID 
+		EnemyPlacementGrid.add(drawPad);
 		setContentPane(EnemyPlacementGrid);
 
 		JPanel GameScreen = new JPanel();
-		//GameScreen.setBounds(new Rectangle(0, 0, 400, 600));
-		//GameScreen.setMaximumSize(new Dimension(400, 600));
-	//	GameScreen.setToolTipText("Don't put shit in here");
-	//	GameScreen.setBorder(null);
-		//GameScreen.setBackground(Color.BLACK);
-		EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); // places it on top of EnemyPlacementGrid
+		EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); 
 
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
 
 		JMenuItem SaveButton = new JMenuItem("Save");
 		FileMenu.add(SaveButton);
-
 		JMenuItem SaveAsButton = new JMenuItem("Save As...");
 		FileMenu.add(SaveAsButton);
 
@@ -177,7 +171,6 @@ public class WaveScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) { // this part is only run once it is clicked
 				String s = (String) JOptionPane.showInputDialog(
-						// set up for the popup menu
 						levelPopUp, "Enter a name for this level.",
 						"Time Selection", JOptionPane.PLAIN_MESSAGE, null,
 						null, "");
@@ -267,89 +260,126 @@ public class WaveScreen extends JFrame {
 	}
 
 	public void PrintToFile(String filename) {
-		// walk through each wave in each level, print out the contents of each
-		// enemy and export to a
-		// .pew file.
+
 	}
 
 }
 
 
 class PadDraw extends JComponent{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	Image image;
 	Graphics2D graphics2D;
 	int currentX, currentY, oldX, oldY;
 	String item = "test.png";
-	int stage[][] = new int[22][16]; // create 64 integers
+	int stage[][] = new int[22][16];
 	public PadDraw(){
-		
+
 		setDoubleBuffered(false);
+		mouseDetection();
+	}
+	
+	public void mouseDetection()
+	{
 		addMouseListener(new MouseAdapter(){
 			public void mouseReleased (MouseEvent e){
-				currentX = e.getX();
-				currentY = e.getY();
-				for(;;)
+				//setPosition to grid
+				currentX = setPositionGrid( e.getX() );
+				currentY = setPositionGrid( e.getY() );
+				//Draw box showing no edits
+				defineDeadZone();
+				if(determineEditable())
 				{
-					if(currentX % 25 == 0)
-					{
-					break;
-					}
-					currentX--;
+					stage[currentY/25][currentX/25] = populateGrid(item);
+					paintPosition();
+					repaint();
 				}
-				
-				for(;;)
-				{
-					if(currentY % 25 == 0)
-					{
-					break;
-					}
-					currentY--;
-				}
-				
-				if(item.equals("test.png"))
-				{
-					stage[currentY/25][currentX/25] = 1;
-				}
-				else if (item.equals("blue.gif"))
-				{
-					stage[currentY/25][currentX/25] = 2;
-				}
-				else if (item.equals("white.gif"))
-				{
-					stage[currentY/25][currentX/25] = 0;
-				}
-				Image whiteOut = new ImageIcon("white.gif").getImage();
-				Image imageTest = new ImageIcon( item).getImage();
-				graphics2D.drawImage(whiteOut, currentX, currentY, 25, 25, null);
-				graphics2D.drawImage(imageTest, currentX, currentY, 25, 25, null);
-				System.out.println(currentX);
-				System.out.println(currentY);
-				repaint();
-				for(int i = 0; i < 22;i++)
-				{
-					for(int j = 0; j < 16; j++)
-					{
-						System.out.print(stage[i][j]);
-					}
-					System.out.println();
-				}
+				//debug
+				printGrid( 22, 16);
 			}
 		});
 	}
 	
+	public int setPositionGrid(int num)
+	{
+		for(;;)
+		{
+			if(num % 25 == 0)
+			{
+			break;
+			}
+			num--;
+		}
+		return num;
+	}
+	public void defineDeadZone()
+	{
+		for(int i = 5; i < 9; i++)
+		{
+			for(int j = 11 ; j < 15; j++)
+			{
+				Image deadZone = new ImageIcon("red.gif").getImage();
+				graphics2D.drawImage(deadZone, i*25, j*25, 25, 25, null);
+			}
+		}
+	}
 	
-
+	public boolean determineEditable()
+	{
+		boolean flag = true;
+		if(currentX/25 < 9 && currentX/25 > 4 && currentY/25 < 15 && currentY/25 > 10)
+		{
+			System.out.println("DeadZone");
+			System.out.println(currentX);
+			System.out.println(currentY);
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	public int populateGrid(String item)
+	{
+		int num = 0;
+		
+		if(item.equals("test.png"))
+		{
+			num = 1;
+			
+		}
+		else if (item.equals("blue.gif"))
+		{
+			num = 2;
+		}
+		
+		return num;
+	}
+	
+	public void paintPosition()
+	{
+		Image whiteOut = new ImageIcon("white.gif").getImage();
+		Image imageTest = new ImageIcon( item).getImage();
+		graphics2D.drawImage(whiteOut, currentX, currentY, 25, 25, null);
+		graphics2D.drawImage(imageTest, currentX, currentY, 25, 25, null);
+	}
+	
+	public void printGrid(int x , int y)
+	{
+		for(int i = 0; i < x ;i++)
+		{
+			for(int j = 0; j < y ; j++)
+			{
+				System.out.print(stage[i][j]);
+			}
+				System.out.println();
+		}
+	}
 	public void paintComponent(Graphics g){
 		if(image == null){
 			image = createImage(getSize().width, getSize().height);
 			graphics2D = (Graphics2D)image.getGraphics();
 			graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			clear();
-			System.out.println("image is null");
 		}
 		g.drawImage(image, 0, 0, null);
 	}
@@ -370,15 +400,5 @@ class PadDraw extends JComponent{
 			repaint();
 		}
 }
-
-
-
-
-
-
-
-
-
-
 
 	

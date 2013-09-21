@@ -24,12 +24,17 @@ public class Level {
 	JPopupMenu wavePopup = null; //popUp menu to add name
 	JFrame waveFrame = new JFrame(); //JFrame to hold the popUp menu
 	
+	public EnemyPlacementGrid Grid;
+	
 	//Constructor for a new Level
-	public Level (String name, int level )
+	public Level (String name, int level, EnemyPlacementGrid epgRef )
 	{
+		System.out.println("CREATING new Level");
 		levelNumber = level;
 		levelName = name;
 		levelWavesMenu = new JMenu(name);
+		
+		Grid = epgRef;
 		
 		//menu set up
 		newWaveButton.addActionListener(new ActionListener(){
@@ -42,10 +47,14 @@ public class Level {
 	                    JOptionPane.PLAIN_MESSAGE, null,
 	                    null, "");
 				int t = Integer.parseInt(s);
-				Wave newWave = new Wave(t, getSelf());	 //create a new wave
+				Wave newWave = new Wave(t, getSelf(), Grid);	 //create a new wave
 				System.out.println("INDEX OF THE NEW WAVE: " + newWave);
 				waveList.add(newWave); //take that wave and add to this levels waveList
 				levelWavesMenu.add(newWave.waveButton); //add the newWave's waveButton to the level's wave menu
+				
+				//only needs to clear because it is setting you to the new wave which starts off empty
+				Grid.clear();
+				
 				WaveScreen.currentWave = newWave; //sets the newly created wave to be the currentWave
 				System.out.println("ADDRESS OF THE CURRENT WAVE: " + WaveScreen.currentWave);
 			}

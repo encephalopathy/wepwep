@@ -1,6 +1,8 @@
 require "com.Ride"
 require "org.Queue"
 require "com.game.weapons.secondary.FreezeMissile"
+
+
 --[[
 	CLASS NAME: Hater
 	
@@ -14,6 +16,7 @@ require "com.game.weapons.secondary.FreezeMissile"
 	@destroy: Destroys the Hater.
 ]]--
 Hater = Ride:subclass("Hater")
+
 
 function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)  --put the initial sound and load it here
 	if shipPieces == nil then
@@ -61,6 +64,7 @@ function Hater:move(x, y)
 	self.sprite.y = self.sprite.y + y
 end
 
+
 function Hater:fire()
     --haters shoot 30 units in front of them at a speed of 400
 	for i = 1, #self.primaryWeapons , 1 do
@@ -73,6 +77,7 @@ function Hater:fire()
 		self.secondaryWeapons[i]:fire()
 	end]]--
 end
+
 
 function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
 	local newItem = itemClass:new(sceneGroup, false, 90, 400)
@@ -108,6 +113,7 @@ function Hater:cullBulletsOffScreen()
 		self.primaryWeapons[i].checkBullets()
 	end
 end
+
 
 function Hater:update()
 	self.time = self.time + 1
@@ -152,6 +158,7 @@ function Hater:update()
 	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 end
 
+
 --[[
 	FUNCTION NAME: onHit
 	
@@ -164,7 +171,6 @@ end
 	
 	RETURN: VOID
 ]]--
-
 --function Hater:onHit(you, collide)
 function Hater:onHit(phase, collide)
 	if phase == 'began' then
@@ -197,10 +203,12 @@ function Hater:onHit(phase, collide)
 	self.super:onHit(phase, collide)
 end
 
+
 function Hater:die()
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
 	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
 end
+
 
 --[[
 	FUNCTION NAME: destroy
@@ -218,6 +226,7 @@ function Hater:destroy()
 	
 end
 
+
 function Hater:respawn(group)
 	if group ~= nil then
 		group:insert(self.sprite)
@@ -228,4 +237,6 @@ function Hater:respawn(group)
 	self.freezeTimer = 0
 end
 
+
+Hater:virtual("equipRig")
 Hater:virtual("initMuzzleLocations")
