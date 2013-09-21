@@ -127,7 +127,6 @@ function AIDirector.initialize(sceneGroup, player, currentLevel)
 		error('Did not initialize the current level for the AI Director to use')
 	end
 	AIDirector.active = true
-	Runtime:addEventListener("enterFrame", AIDirector.update)
 	setSpawnClock()
 end
 
@@ -150,7 +149,6 @@ function AIDirector.deactivate()
 end
 
 function AIDirector.uninitialize(sceneGroup)
-	AIDirector.deactivate()
 	for haterType, queues in pairs (haterList) do
 		emptyHaterList(queues.inView)
 		emptyHaterList(queues.outOfView)

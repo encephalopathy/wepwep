@@ -2,6 +2,7 @@ require "org.Context"
 require "com.managers.AIDirector"
 require "com.managers.LevelManager"
 require "com.managers.BulletManager"
+--require "com.managers.CollectableHeap"
 require "com.game.Player"
 -----------------------------------------------------------------------------------------
 --
@@ -82,6 +83,8 @@ local function update(event)
 		player.sprite.y = 4000
 	end
 	
+	collectibles:update()
+	AIDirector.update()
 	if(player.isFiring) then 
 		player:fire()
 	else
@@ -134,6 +137,7 @@ function scene:createScene( event )
 	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	bulletManager = BulletManager:new(group)
 	
+	
 	local myButton = widget.newButton
 	{
 		left = screenW - screenW*0.3,
@@ -153,9 +157,9 @@ function scene:createScene( event )
 		end
 	}
 	myButton.baseLabel = ""
-
-	group:insert( myButton )
 	
+	group:insert( myButton )
+	--collectibles = CollectableHeap:new(group)
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
 
@@ -172,12 +176,13 @@ function scene:enterScene( event )
 	local currentLevel = setLevel('ap')
 	AIDirector.initialize(group, player, currentLevel)
 	bulletManager:start()
-	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player:weaponEquipDebug(group)
 	player.weapon.targets = AIDirector.haterList
 	
 	step = 0
+	
+	--collectibles:start()
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )
 end
@@ -190,7 +195,7 @@ function scene:exitScene( event )
 	AIDirector.uninitialize(group)
 	destroyParticleManager()
 	bulletManager:stop()
-	
+	--collectibles:stop()
 
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
