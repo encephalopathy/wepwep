@@ -135,7 +135,7 @@ function scene:createScene( event )
 	createScrollingBackground(group)
 	
 	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
-	bulletManager = BulletManager:new(group)
+	bulletManager = BulletManager:new()
 	
 	
 	local myButton = widget.newButton
@@ -159,7 +159,7 @@ function scene:createScene( event )
 	myButton.baseLabel = ""
 	
 	group:insert( myButton )
-	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
+	collectibles = CollectibleHeap:new({'HealthPickUp'})
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
 
@@ -173,16 +173,18 @@ function scene:enterScene( event )
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
 	
+	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	local currentLevel = setLevel('ap')
 	AIDirector.initialize(group, player, currentLevel)
-	bulletManager:start()
+	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player:weaponEquipDebug(group)
 	player.weapon.targets = AIDirector.haterList
 	
 	step = 0
 	
-	collectibles:start()
+	collectibles:start(group)
+	bulletManager:start(group)
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )
 end
@@ -194,9 +196,9 @@ function scene:exitScene( event )
 	--stopBGM()
 	AIDirector.uninitialize(group)
 	destroyParticleManager()
-	bulletManager:stop()
-	collectibles:stop()
-
+	
+	collectibles:stop(group)
+	bulletManager:stop(group)
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0

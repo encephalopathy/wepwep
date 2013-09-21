@@ -114,7 +114,14 @@ local function updateHaters()
 end
 
 function AIDirector.initialize(sceneGroup, player, currentLevel)
-	createHaterList(sceneGroup, currentLevel, player)
+	
+	if AIDirector.haterGroup == nil then
+		AIDirector.haterGroup = display.newGroup()
+	end
+	
+	sceneGroup:insert(AIDirector.haterGroup)
+
+	createHaterList(haterGroup, currentLevel, player)
 	AIDirector.haterList = allHatersInView
 	if player ~= nil then
 		AIDirector.player = player
@@ -159,4 +166,5 @@ function AIDirector.uninitialize(sceneGroup)
 	end
 	spawnClock = nil
 	AIDirector.active = false
+	sceneGroup:remove(AIDirector.haterGroup)
 end

@@ -6,9 +6,10 @@ CollectibleHeap = Object:subclass("CollectibleHeap")
 
 local PREALLOCATED_AMOUNT = 5
 --I assume that Collectibles move at the same speed
-function CollectibleHeap:init(sceneGroup, collectibleTypes)
+function CollectibleHeap:init(collectibleTypes)
 	self.inViewCollectibles = {}
 	self.outOfViewCollectibles = {}
+	self.collectibleGroup = display.newGroup()
 	for i = 1, #collectibleTypes, 1 do
 		self:preallocate(collectibleTypes[i], sceneGroup)
 	end
@@ -25,7 +26,8 @@ function CollectibleHeap:preallocate(collectibleType, sceneGroup)
 	end
 end
 
-function CollectibleHeap:start()
+function CollectibleHeap:start(sceneGroup)
+	sceneGroup:insert(self.collectibleGroup)
 	Runtime:addEventListener('spawnCollectible', self)
 end
 
@@ -73,7 +75,7 @@ end
 				 respective outOfView queues.
 	@RETURN: VOID
 ]]--
-function CollectibleHeap:stop()
+function CollectibleHeap:stop(sceneGroup)
 	for typeOfCollectible, collectibleTypeQueue in pairs(self.inViewCollectibles) do
 		while collectibleTypeQueue.size > 0 do
 			local collectibleOnScreen = Queue.removeBack(collectibleTypeQueue)
@@ -81,6 +83,7 @@ function CollectibleHeap:stop()
 			Queue.insertFront(self.outOfViewCollectibles[typeOfCollectible], collectibleOnScreen)
 		end
 	end
+	sceneGroup:remove(self.collectibleGroup)
 	Runtime:removeEventListener('spawnCollectible', self)
 end
 
