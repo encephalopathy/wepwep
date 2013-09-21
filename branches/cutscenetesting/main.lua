@@ -32,20 +32,16 @@ c:insert(c_txtb)
 
 
 -- c_txt: codec text
-local msg_c = 1 			-- msg_c: message counter
+local msg_c = 1 					-- msg_c: message counter
+
 local c_txt = display.newText(
-	M.c_txt_msgs[msg_c],	-- text
-	--"Let me tell you a story about my father...",
-	M.c_txt_x, M.c_txt_y,	-- x, y,
-	M.c_txt_w, M.c_txt_h,	-- width, height,
-	native.systemFont,  	-- font,
-	M.c_txt_fs				-- font size
+	M.c_txt_msgs[msg_c].content,	-- text
+	M.c_txt_x, M.c_txt_y,			-- x, y,
+	M.c_txt_w, M.c_txt_h,			-- width, height,
+	native.systemFont,  			-- font,
+	M.c_txt_fs						-- font size
 )
 c_txt.alpha = 0
--- NOTE: no need to put text into the display group,
--- since it is not visible until the codec appears
---
--- c:insert(c_txt)
 
 
 -- c_p: codec portrait
@@ -56,9 +52,22 @@ c_p:setStrokeColor(200, 200, 200)
 c:insert(c_p)
 
 
+-- c_p_txt: codec portrait text
+local c_p_txt = display.newText(
+	M.c_txt_msgs[msg_c].name,		-- text
+	M.c_p_t_x, M.c_p_t_y,			-- x, y
+	M.c_p_w, 28,					-- width, height
+	native.systemFont,				-- font,
+	M.c_txt_fs						-- font size
+)
+c_p_txt.align = "center"
+c_p_txt.alpha = 0
+
+
 -- transition event listener
 local function makeCodecTextAppear(obj)
-	c_txt.alpha = 1
+	c_txt.alpha   = 1
+	c_p_txt.alpha = 1
 end
 
 
@@ -82,7 +91,8 @@ end
 
 -- disappearing codec effect
 local function deactivateCodec()
-	c_txt.alpha = 0
+	c_txt.alpha   = 0
+	c_p_txt.alpha = 0
 	transition.to(
 		c, 
 		{
@@ -111,7 +121,8 @@ function c:touch(event)
 		
 			-- change the message and/or portrait in codec
 			msg_c = msg_c + 1
-			c_txt.text = M.c_txt_msgs[msg_c]
+			c_txt.text   = M.c_txt_msgs[msg_c].content
+			c_p_txt.text = M.c_txt_msgs[msg_c].name
 			
 		else
 		
