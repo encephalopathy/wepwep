@@ -145,7 +145,6 @@ end
 	@RETURN: void
 ]]--
 function MoveableObject:onHit(phase, collide)
-	
 end
 
 --[[

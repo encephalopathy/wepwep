@@ -2,7 +2,7 @@ require "org.Context"
 require "com.managers.AIDirector"
 require "com.managers.LevelManager"
 require "com.managers.BulletManager"
---require "com.managers.CollectableHeap"
+require "com.managers.CollectibleHeap"
 require "com.game.Player"
 -----------------------------------------------------------------------------------------
 --
@@ -159,7 +159,7 @@ function scene:createScene( event )
 	myButton.baseLabel = ""
 	
 	group:insert( myButton )
-	--collectibles = CollectableHeap:new(group)
+	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
 
@@ -182,7 +182,7 @@ function scene:enterScene( event )
 	
 	step = 0
 	
-	--collectibles:start()
+	collectibles:start()
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )
 end
@@ -195,7 +195,7 @@ function scene:exitScene( event )
 	AIDirector.uninitialize(group)
 	destroyParticleManager()
 	bulletManager:stop()
-	--collectibles:stop()
+	collectibles:stop()
 
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )

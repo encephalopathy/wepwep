@@ -27,7 +27,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
 	self.type = "Hater"
-	self.sprite.objRef = self
+	
 	self.time = 0
 	self.weapon = nil
     self.isFrozen = false
@@ -41,8 +41,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.defensePassives = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
-	--haterDeathSFX = MOAIUntzSound.new()
-	--haterDeathSFX:load('enemyDeath.ogg')
+	self.sprite.objRef = self
 end
 
 
@@ -168,30 +167,38 @@ end
 
 --function Hater:onHit(you, collide)
 function Hater:onHit(phase, collide)
-	if self.alive and collide.isPlayerBullet then
-		self.health = self.health - collide.damage
-		
-		if FreezeMissile:made(collide) then
-			self.isFrozen = true
-			self.freezeTimer = collide.freezeDuration
+	if phase == 'began' then
+		if self.alive and collide.isPlayerBullet then
+			self.health = self.health - collide.damage
+			
+			print('collidie damage: ' .. collide.damage)
+			
+			
+			if FreezeMissile:made(collide) then
+				self.isFrozen = true
+				self.freezeTimer = collide.freezeDuration
+			end
+			
+			if self.health <= 0 then
+				self:die()
+			end
+			--sound:load(self.soundPath)
+			--haterDeathSFX:play()
+			--this is the check to say you are dead; place the sound here to make it work
+			--later when weapons do different damage, you can make a check for a hit or a death
+			--for now, only a death sound will be played.
+			--print('Colliding with player bullet')
 		end
-		--sound:load(self.soundPath)
-		--haterDeathSFX:play()
-		--this is the check to say you are dead; place the sound here to make it work
-		--later when weapons do different damage, you can make a check for a hit or a death
-		--for now, only a death sound will be played.
-		--print('Colliding with player bullet')
-	end
    
-	if self.alive and collide.type == "player" then
-		self.health = 0
-		
+		if self.alive and collide.type == "player" then
+			self.health = 0
+		end
 	end
 	self.super:onHit(phase, collide)
 end
 
 function Hater:die()
-	self.super:die()
+	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
 	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
 end
 

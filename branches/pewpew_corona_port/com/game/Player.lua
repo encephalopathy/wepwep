@@ -56,7 +56,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	"com/resources/art/sprites/player_piece_03.png", 
 	"com/resources/art/sprites/player_piece_04.png",
 	"com/resources/art/sprites/player_piece_05.png"},
-	{ categoryBits = 1, maskBits = 11} ) 
+	{ categoryBits = 1, maskBits = 27} ) 
 
 	self.health = 10
 
@@ -101,8 +101,8 @@ end
 
 function Player:weaponEquipDebug(sceneGroup) 
 	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
-	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200, StandardMissile, "com/resources/art/sprites/missile.png")
-	self.weapon = GrenadeLauncher(sceneGroup, true, 25, 200)
+	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	--self.weapon = GrenadeLauncher(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
@@ -196,12 +196,6 @@ function Player:fireSecondaryWeapon()
 		--self.secondaryWeapon:fire()
 	end
 end
-
-
-
-
-
-
 
 --[[
 	FUNCTION NAME: onHit

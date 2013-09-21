@@ -24,7 +24,7 @@ function BulletManager:start()
 end
 
 function BulletManager:offScreen (event)
-	if (event.name ~= "offScreen") then
+	if (event.name ~= "offScreen" or not Bullet:made(event.target)) then
 		return
 	end
 
@@ -51,7 +51,6 @@ end
 function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, height)
 	local onScreenBulletList
 	local offScreenBulletList
-
 	if (imgSrc == nil) then
 		imgSrc = "com/resources/art/sprites/bullet_02.png"
 	end
