@@ -5,6 +5,8 @@
 -----------------------------------------------------------------------------------------
 require "com.Utility"
 require "com.Inventory"
+require "org.Object"
+require "org.Queue"
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -16,7 +18,14 @@ local widget = require "widget"
 
 -- forward declarations and other locals
 local regularButton, sineButton, doubleButton, homingButton, spreadButton,
-		bombsButton, rocketsButton, freezeButton, backButton
+		bombsButton, rocketsButton, freezeButton, backButton, nextWeapon, 
+		prevWeapon
+		
+local weaponIndex = 0
+		
+local carousel1, carousel2, carousel3, carousel4, carousel5
+
+local weaponCarousel = {}
 
 -- 'onRelease' event listener for newGameButton
 local function back()	
@@ -65,6 +74,45 @@ local function freeze(event)
 		setThingsUp()
 end
 
+local function nextWep(event)
+	if(weaponIndex == weaponCarousel.last) then weaponIndex = weaponCarousel.first 
+	else weaponIndex = weaponIndex + 1
+	end
+	setupWepCarousel()
+end
+
+local function prevWep(event)
+	if(weaponIndex == weaponCarousel.first) then weaponIndex = weaponCarousel.last 
+	else weaponIndex = weaponIndex - 1
+	end
+	setupWepCarousel()
+end
+
+function setupWepCarousel()
+	--send away the old
+	carousel1.x, carousel1.y = 200, 5000
+	carousel2.x, carousel2.y = 200, 5000
+	carousel3.x, carousel3.y = 200, 5000
+	carousel4.x, carousel4.y = 200, 5000
+	carousel5.x, carousel5.y = 200, 5000	
+	
+	--set-up the new
+	weaponCarousel[weaponIndex].x, weaponCarousel[weaponIndex].y  = display.contentWidth * 0.5, display.contentHeight * 0.8
+	
+	if(weaponIndex == weaponCarousel.first) then 
+	weaponCarousel[weaponCarousel.last].x, weaponCarousel[weaponCarousel.last].y = display.contentWidth * 0.3, display.contentHeight * 0.8
+	weaponCarousel[weaponIndex + 1].x, weaponCarousel[weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
+	
+	elseif (weaponIndex == weaponCarousel.last) then 
+	weaponCarousel[weaponIndex - 1].x, weaponCarousel[weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
+	weaponCarousel[weaponCarousel.first].x, weaponCarousel[weaponCarousel.first].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
+	
+	else  
+	weaponCarousel[weaponIndex - 1].x, weaponCarousel[weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
+	weaponCarousel[weaponIndex + 1].x, weaponCarousel[weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
+	end
+end
+
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 -- 
@@ -76,16 +124,43 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
+	
+	weaponCarousel = Queue.new()
 
 	-- display a background image
 	local background = display.newImageRect("com/resources/art/background/sheet_metal.png",
 	                                        display.contentWidth, display.contentHeight )
+
 	background:setReferencePoint(display.TopLeftReferencePoint)
 	background.x, background.y = 0, 0
 	
 	local bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
 	bgRect:setFillColor(20, 70, 10, 130)
 	
+	carousel1 = display.newImageRect("com/resources/art/sprites/bomb_01.png",
+	                                        display.contentWidth/10, display.contentHeight/10 )
+	carousel2 = display.newImageRect("com/resources/art/sprites/bomb_02.png",
+	                                        display.contentWidth/10, display.contentHeight/10 )
+	carousel3 = display.newImageRect("com/resources/art/sprites/bomb_03.png",
+	                                        display.contentWidth/10, display.contentHeight/10 )
+	carousel4 = display.newImageRect("com/resources/art/sprites/bomb_04.png",
+	                                        display.contentWidth/10, display.contentHeight/10 )
+	carousel5 = display.newImageRect("com/resources/art/sprites/bomb_05.png",
+	                                        display.contentWidth/10, display.contentHeight/10 )
+	
+	carousel1.x, carousel1.y = 200, 5000
+	carousel2.x, carousel2.y = 200, 5000
+	carousel3.x, carousel3.y = 200, 5000
+	carousel4.x, carousel4.y = 200, 5000
+	carousel5.x, carousel5.y = 200, 5000	
+	
+	Queue.insertFront(weaponCarousel, carousel5)
+	Queue.insertFront(weaponCarousel, carousel4)
+	Queue.insertFront(weaponCarousel, carousel3)
+	Queue.insertFront(weaponCarousel, carousel2)
+	Queue.insertFront(weaponCarousel, carousel1)
+	
+	weaponIndex = weaponCarousel.first
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
@@ -120,6 +195,11 @@ function scene:createScene( event )
 	backButton = createBttn(widget, display, "Back", display.contentWidth * 0.5, 
 		display.contentHeight * 0.9, back)
 
+	prevWeapon = createBttn(widget, display, "<", display.contentWidth * 0.1, 
+		display.contentHeight * 0.8, prevWep)
+		
+	nextWeapon = createBttn(widget, display, ">", display.contentWidth * 0.9, 
+		display.contentHeight * 0.8, nextWep)
 	
 	--playButton:setReferencePoint( display.CenterReferencePoint )
 	--playButton.x = display.contentWidth*0.5
@@ -162,7 +242,17 @@ function scene:createScene( event )
 
 	group:insert( highlightWeaponRect )
 	group:insert( highlightSubWeaponRect )
-
+	
+	group:insert( carousel1 )
+	group:insert( carousel2 )
+	group:insert( carousel3 )
+	group:insert( carousel4 )
+	group:insert( carousel5 )
+	
+	group:insert( nextWeapon )
+	group:insert( prevWeapon )
+		
+	setupWepCarousel()
 	setThingsUp()
 end
 
