@@ -12,9 +12,9 @@ switched = false
 function Hater_HalfStrafe:init(sceneGroup)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_02.png", 0, 0, 0, 100, 100,
 	{"com/resources/art/sprites/enemy_02_piece_01.png",
-	"com/resources/art/sprites/enemy_02_piece_02.png"
-	"com/resources/art/sprites/enemy_02_piece_03.png"
-	"com/resources/art/sprites/enemy_02_piece_04.png"
+	"com/resources/art/sprites/enemy_02_piece_02.png",
+	"com/resources/art/sprites/enemy_02_piece_03.png",
+	"com/resources/art/sprites/enemy_02_piece_04.png",
 	"com/resources/art/sprites/enemy_02_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
