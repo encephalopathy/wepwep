@@ -114,7 +114,14 @@ local function updateHaters()
 end
 
 function AIDirector.initialize(sceneGroup, player, currentLevel)
-	createHaterList(sceneGroup, currentLevel, player)
+	
+	if AIDirector.haterGroup == nil then
+		AIDirector.haterGroup = display.newGroup()
+	end
+	
+	sceneGroup:insert(AIDirector.haterGroup)
+
+	createHaterList(haterGroup, currentLevel, player)
 	AIDirector.haterList = allHatersInView
 	if player ~= nil then
 		AIDirector.player = player
@@ -127,7 +134,6 @@ function AIDirector.initialize(sceneGroup, player, currentLevel)
 		error('Did not initialize the current level for the AI Director to use')
 	end
 	AIDirector.active = true
-	Runtime:addEventListener("enterFrame", AIDirector.update)
 	setSpawnClock()
 end
 
@@ -150,7 +156,6 @@ function AIDirector.deactivate()
 end
 
 function AIDirector.uninitialize(sceneGroup)
-	AIDirector.deactivate()
 	for haterType, queues in pairs (haterList) do
 		emptyHaterList(queues.inView)
 		emptyHaterList(queues.outOfView)
@@ -161,4 +166,5 @@ function AIDirector.uninitialize(sceneGroup)
 	end
 	spawnClock = nil
 	AIDirector.active = false
+	sceneGroup:remove(AIDirector.haterGroup)
 end

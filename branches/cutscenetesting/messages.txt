@@ -1,0 +1,3 @@
+# Messages
+# This is a series of messages that will appear in the codec
+# Each message is separated by a newline, the name and content separated by a '+'

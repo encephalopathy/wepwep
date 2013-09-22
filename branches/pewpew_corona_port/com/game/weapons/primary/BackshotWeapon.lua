@@ -2,23 +2,25 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Backshot = Weapon:subclass("Backshot")
 
---NUM_SHOTS = 5
---FIRING_ANGLE = 60 -- total spread so the bullets will range from 0 degrees to 60 degrees
---BETWEEN = 3 -- space between bullets
+function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, firingAngle, soundFX)
 
-function Backshot:init (sceneGroup, isPlayerOwned, rateofFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, firingAngle, soundFX)
-
-	if rateOfFire == nil then
-		rateOfFire = 35
+	if rateOfFire ~= nil then
+		self.rateOfFire = rateOfFire
+	else
+		self.rateOfFire = 35
 	end
 	
-	if imgSrc == nil then
-		imgSrc = "com/resources/art/sprites/bullet_06.png"
+	if imgSrc ~= nil then
+		self.imgSrc = imgSrc
+	else
+		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-	if soundFX == nil then
+	if soundFX ~= nil then
+		self.soundFX = soundFX
+	else
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		self.soundFX = "com/resources/music/soundfx/shotgun.ogg"
 		--print("soundFX:"..soundFX)
    end
 	
