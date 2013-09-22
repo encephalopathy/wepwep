@@ -1,15 +1,15 @@
 require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
-Spreadshot = Weapon:subclass("Spreadshot")
+SpiralCurveshot = Weapon:subclass("SpiralCurveshot")
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
+function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, startAngle)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
 	else
-		self.rateOfFire = 35
+		self.rateOfFire = 15
 	end
-	
+
 	if imgSrc ~= nil then
 		self.imgSrc = imgSrc
 	else
@@ -23,38 +23,26 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.soundFX = "com/resources/music/soundfx/shotgun.ogg"
 		--print("soundFX:"..soundFX)
    end
-	
+
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
    if bulletSpeed ~= nil then
-	  self.bulletSpeed = bulletSpeed
+		self.bulletSpeed = bulletSpeed
    else
-	  self.bulletSpeed = -200
+		self.bulletSpeed = -200
    end
-   
+
    if numberOfShots ~= nil then
-	  self.numberOfShots = numberOfShots
+		self.numberOfShots = numberOfShots
    else
-	  self.numberOfShots = 12
+		self.numberOfShots = 15--NUM_SHOTS
    end
    
-   if firingAngle ~= nil then
-     self.firingAngle = firingAngle
+   if startAngle ~= nil then
+      self.startAngle = startAngle
    else
-     self.firingAngle = 10
+      self.startAngle = 0
    end
-   
-   if numberOfArcs ~= nil then
-     self.numberOfArcs = numberOfArcs
-   else
-     self.numberOfArcs = 4
-   end
-   
-   if angleBetweenArcs ~= nil then
-     self.angleBetweenArcs = angleBetweenArcs
-   else
-     self.angleBetweenArcs = 15
-   end
-   
+
    self.energyCost = 20
 end
 
@@ -68,47 +56,49 @@ end
 	@RETURN: A Lua table that has the fields "x", the bullet's velocity in the x direction, 
 			 and "y" the bullet's velocity in the y direction.
 ]]--
-function Spreadshot:calculateBulletVelocity(bullet)
+function SpiralCurveshot:calculateBulletVelocity(bullet)
 	--To calculate a bullet's velocity, we determine the distance first between the bullet and the ship.
 	local firingMagnitude = distance(self.owner.sprite.x, self.owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
 	--We normalize the vector that points from the ship to the bullet.  This will give us the firing direction of bullet.
 	--NOTE: We assume that the bullet has already undergone rotation.
 	local firingDirectionX = (bullet.sprite.x - self.owner.sprite.x) / firingMagnitude
 	local firingDirectionY = (bullet.sprite.y - self.owner.sprite.y) / firingMagnitude
-	
+
 	--We then fire the bullet in that direction previously computed by multiplying by bullet speed.
 	--This will move the bullet at speed bulletSpeed, in the direction firingDirection.
 	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
 end
 
-function Spreadshot:fire (player)
+function SpiralCurveshot:fire (player)
    self.super:fire()
 	if not self:canFire() then return end
-	local angleStep = self.firingAngle / ((self.numberOfShots) / self.numberOfArcs)
-	local shotsPerArc = math.ceil((self.numberOfShots) / self.numberOfArcs)
-	local startAngle = ((self.firingAngle * self.numberOfArcs) + (self.angleBetweenArcs * (self.numberOfArcs - 1)) + angleStep) /2 + self.owner.sprite.rotation
+	local angleStep = 360 / (self.numberOfShots - 1)
+	local rotationAngle
 
+   --[[if self.startAngle == 360 then
+      self.startAngle = 0
+   end]]--
+   
    local shots = {}
 	if self.owner then
-	   for i = 1, (self.numberOfShots), 1 do
-	      shots[i] = self:getNextShot()
+		for i = 0, (self.numberOfShots - 1), 1 do
+		   shots[i] = self:getNextShot()
 		end
 	end
-       
-	for i = 1, (self.numberOfShots), 1 do
+
+   for i = 0, (self.numberOfShots - 2), 1 do
 		local bullet = shots[i]
-		  
 		if (bullet == nil) then
 			break
 		end
 		
-		local rotationAngle = math.rad(startAngle - (i * angleStep) - ((math.ceil(i / shotsPerArc) - 1) * self.angleBetweenArcs))
+      rotationAngle = math.rad((-i * angleStep) - self.startAngle)
 		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-         
       local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 		self:playFiringSound(self.soundFX)
-   end 
+	end
+	self.startAngle = self.startAngle + 7
 end 
 
-return Spreadshot
+return SpiralCurveshot

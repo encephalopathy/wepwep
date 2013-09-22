@@ -15,7 +15,8 @@ require "com.game.weapons.primary.SineWaveWeapon"
 require "com.game.weapons.secondary.StandardMissile"
 require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.weapons.primary.CircleshotWeapon"
-require "com.game.weapons.primary.SpiralStraightShotWeapon"
+require "com.game.weapons.primary.SpiralStraightshotWeapon"
+require "com.game.weapons.primary.SpiralCurveshotWeapon"
 require "com.managers.AIDirector"
 --require("ParticleEmitter")
 
@@ -105,7 +106,7 @@ end
 function Player:weaponEquipDebug(sceneGroup) 
 	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
 	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200, StandardMissile, "com/resources/art/sprites/missile.png")
-	self.weapon = Circleshot:new(sceneGroup, true, 10, 200)
+	self.weapon = Backshot:new(sceneGroup, true, 10, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
