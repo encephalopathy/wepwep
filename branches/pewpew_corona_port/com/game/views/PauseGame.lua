@@ -12,8 +12,8 @@ function PauseButton(group)
 
 	local screenWidth, screenHeight = display.contentWidth, display.contentHeight
 	local newGameButton = widget.newButton {
-		left = screenWidth - screenWidth*0.3
-		top = screenHeight - screenHeight*0.15
+		left = screenWidth - screenWidth*0.3,
+		top = screenHeight - screenHeight*0.15,
 		label = "",
 		labelAlign = "center",
 		defaultFile = "sprites/backtomenu_unpressed.png",
