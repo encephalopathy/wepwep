@@ -15,16 +15,15 @@ function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 	else
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
-
-	if soundFX ~= nil then
-		self.soundFX = soundFX
-	else
-		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		self.soundFX = "com/resources/music/soundfx/shotgun.ogg"
-		--print("soundFX:"..soundFX)
+	
+	if soundFX == nil then
+		print("IN CIRCLE SHOT THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		print("soundFX:"..soundFX)
    end
 	
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
+   
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else
@@ -64,31 +63,30 @@ function Circleshot:calculateBulletVelocity(bullet)
 end
 
 function Circleshot:fire (player)
-    self.super:fire()
+   self.super:fire()
 	if not self:canFire() then return end
-	   angleStep = 360 / (self.numberOfShots)
+   angleStep = 360 / (self.numberOfShots)
 
-       local shots = {}
-	   if self.owner then
-		  for i = 0, (self.numberOfShots - 1), 1 do
-			 shots[i] = self:getNextShot()
-		  end
+   local shots = {}
+   if self.owner then
+		for i = 0, (self.numberOfShots - 1), 1 do
+			shots[i] = self:getNextShot()
 	   end
+   end
        
-	   for i = 0, (self.numberOfShots - 1), 1 do
-		  local bullet = shots[i]
-		  if (bullet == nil) then
-			 break
-		  end
+   for i = 0, (self.numberOfShots - 1), 1 do
+	   local bullet = shots[i]
+	   if (bullet == nil) then
+		   break
+	   end
 		 
-          local rotationAngle = math.rad((-i * angleStep))
-		  self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+      local rotationAngle = math.rad((-i * angleStep))
+	   self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
           
-          local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
-		  bullet:fire(bulletVelocity.x, bulletVelocity.y)
-		  self:playFiringSound(self.soundFX)
-          
-		end 
+      local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+	   bullet:fire(bulletVelocity.x, bulletVelocity.y) 
+		self:playFiringSound(self.soundFX)    
+	end
 end 
 
 return Circleshot
