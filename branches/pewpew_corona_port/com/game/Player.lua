@@ -220,6 +220,12 @@ function Player:__tostring()
 	return "Player"
 end
 
+function Player:updatePassives()
+	for i = 1, #self.defensePassives, 1 do
+		self.defensePassives[i]:update()
+	end
+end
+
 
 --function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)

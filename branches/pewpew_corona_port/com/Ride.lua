@@ -33,7 +33,7 @@ function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, 
 	self.health = 0 --this variable represents the ride's current hp
 	self.maxhealth = 0 --this variable represents its maximum possible (and starting) hp
 	self.powah = powah
-	
+	self.defensePassives = {}
 	--defense parameters
 	self.armor = 0       --this reduces damage by exactly this amount
 	self.shields = 1     --this divides total damage, before hitting the armor, by this amount
@@ -226,9 +226,12 @@ end
   			 explosion animation from the game.
 	RETURN: VOID
 ]]--
+
+function Ride:clean()
+	self.particleEmitter:clean()
+end
+
 function Ride:destroy()
-	self.bombs = nil
-	self.heaters = nil
 	self.particleEmitter = nil
 	--'Temporary fix until I get this figured out'
 	if self.explosion ~= nil then
