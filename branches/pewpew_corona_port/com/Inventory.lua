@@ -4,11 +4,11 @@ could be expanded to keep track of other items
 --]]
 require "org.Object"
 require "com.game.weapons.Weapon"
-require "com.game.weapons.secondary.SecondaryWeapon"
+--require "com.game.weapons.secondary.SecondaryWeapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
 require "com.game.weapons.primary.SineWaveWeapon"
-require "com.game.weapons.primary.HomingShotWeapon"
+require "com.game.weapons.primary.HomingshotWeapon"
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.secondary.Bomb"
 require "com.game.weapons.secondary.FreezeMissile"

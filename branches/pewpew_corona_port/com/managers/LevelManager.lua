@@ -80,6 +80,9 @@ function createGame(filename)
 	end
 	io.close()
 	file = nil
+	io.close()
+	file = nil
+	
 	return levels
 end
 
