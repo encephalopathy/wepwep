@@ -1,6 +1,5 @@
 require "org.Context"
 require "com.managers.AIDirector"
-require "com.managers.LevelManager"
 require "com.managers.BulletManager"
 require "com.managers.CollectibleHeap"
 require "com.game.Player"
@@ -51,31 +50,28 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 -- 
 -----------------------------------------------------------------------------------------
 
-local newCoroutine = coroutine.create(function()
+--[[local newCoroutine = coroutine.create(function()
 	while true do
 		updateParticleEmitters()
     	coroutine.yield()
     end
 end
-)
+)]]--
 
 
-local function createGameUIMVC(group)
+--[[local function createGameUIMVC(group)
 	gameContext = Context:new()
 	gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
     gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
     gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
    
     gameContext:preprocess(group)
-end
+end]]--
 
-local function calibrateInventory()
-	mainInventory:equipSecondaryWeaponsInGame(player)
-end
 
 local function update(event)
 	
-	coroutine.resume(newCoroutine)
+	updateParticleEmitters()
 --if not pauseGame then
    -- print("I am updating")
 	if not player.alive then
@@ -90,6 +86,8 @@ local function update(event)
 	else
 		player:regeneratePowah()
 	end
+	
+	player:updatePassives()
 	player:cullBulletsOffScreen()
 --	updateParticleEmitters()
 	step = step + 1
@@ -193,12 +191,13 @@ end
 function scene:exitScene( event )
 	print('Exiting scene')
 	local group = self.view
-	--stopBGM()
-	AIDirector.uninitialize(group)
-	destroyParticleManager()
+	stopBGM()
 	
+	AIDirector.uninitialize(group)
 	collectibles:stop(group)
 	bulletManager:stop(group)
+	
+	
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
@@ -210,6 +209,7 @@ function scene:destroyScene( event )
 	print('destroying scene')
 	local group = self.view
 	
+	destroyParticleManager()
 	package.loaded[physics] = nil
 	physics = nil
 	if myButton then
@@ -218,11 +218,11 @@ function scene:destroyScene( event )
 	end
 end
 
-function particleCoroutine ()
+--[[function particleCoroutine ()
     return coroutine.ParticleCoroutine(function ()
     updateParticleEmitters()
     end)
-end
+end]]--
 
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
@@ -241,8 +241,6 @@ scene:addEventListener( "exitScene", scene )
 -- automatically unloaded in low memory situations, or explicitly via a call to
 -- storyboard.purgeScene() or storyboard.removeScene().
 scene:addEventListener( "destroyScene", scene )
-
-
 
 -----------------------------------------------------------------------------------------
 
