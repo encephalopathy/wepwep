@@ -82,6 +82,9 @@ function createGame(filename)
 		--waves[enemy]
 	end
 	
+	io.close()
+	file = nil
+	
 	return levels
 end
 
