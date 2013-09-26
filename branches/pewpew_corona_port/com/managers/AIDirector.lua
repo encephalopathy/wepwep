@@ -1,7 +1,7 @@
 require "org.Queue"
 require "com.game.enemies.Hater"
 
-
+--TODO: Add sceneGroups for ground enemies
 AIDirector = {}
 
 local haterList = {}
@@ -18,8 +18,10 @@ haterPootiePooOutofViewList = nil
 local function setSpawnClock()
 end
 
-local function createHaterList(haterGroup, currentLevel, player)
+local function createHaterList(currentLevel, player)
 	haterCreationInfo = currentLevel.enemyFrequency
+	
+	local haterGroup = AIDirector.haterGroup
 	
 	for haterType, haterAmount in pairs(haterCreationInfo) do
 		if haterList[haterType] == nil then
@@ -37,14 +39,6 @@ local function createHaterList(haterGroup, currentLevel, player)
 end
 
 local function spawnHater(enemies)
-	--print('DO I GET HERE? PLEASE?')
-	--[[
-	for key, value in pairs(event) do
-		print('key is: '..key)
-		print('value is: '..tostring(value))
-	end
-	]]--
-		
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
 			--print('enemyContext: '..tostring(enemyContext))
@@ -115,13 +109,11 @@ end
 
 function AIDirector.initialize(sceneGroup, player, currentLevel)
 	
-	if AIDirector.haterGroup == nil then
-		AIDirector.haterGroup = display.newGroup()
-	end
+	AIDirector.haterGroup = display.newGroup()
 	
 	sceneGroup:insert(AIDirector.haterGroup)
 
-	createHaterList(haterGroup, currentLevel, player)
+	createHaterList(currentLevel, player)
 	AIDirector.haterList = allHatersInView
 	if player ~= nil then
 		AIDirector.player = player
@@ -166,5 +158,7 @@ function AIDirector.uninitialize(sceneGroup)
 	end
 	spawnClock = nil
 	AIDirector.active = false
+	
 	sceneGroup:remove(AIDirector.haterGroup)
+	AIDirector.haterGroup = nil
 end

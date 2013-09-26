@@ -41,7 +41,6 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	
 	self.primaryWeapons = {}
 	self.secondaryWeapons = {}
-	self.defensePassives = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
 	self.sprite.objRef = self
@@ -176,9 +175,6 @@ function Hater:onHit(phase, collide)
 	if phase == 'began' then
 		if self.alive and collide.isPlayerBullet then
 			self.health = self.health - collide.damage
-			
-			print('collidie damage: ' .. collide.damage)
-			
 			
 			if FreezeMissile:made(collide) then
 				self.isFrozen = true
