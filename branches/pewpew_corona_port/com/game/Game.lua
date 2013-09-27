@@ -15,7 +15,7 @@ local scene = storyboard.newScene("game")
 
 -- include Corona's "widget" library
 local widget = require "widget"
-
+local debugFlag = false
 -- local variables
 local player = nil
 local playerStartLocation = { x = display.contentWidth / 2, y =  display.contentHeight / 2 }
@@ -89,7 +89,7 @@ local function update(event)
 	
 	player:updatePassives()
 	player:cullBulletsOffScreen()
---	updateParticleEmitters()
+	
 	step = step + 1
 end
 
@@ -133,7 +133,7 @@ function scene:createScene( event )
 	createScrollingBackground(group)
 	
 	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
-	bulletManager = BulletManager:new()
+	
 	
 	
 	local myButton = widget.newButton
@@ -156,8 +156,11 @@ function scene:createScene( event )
 	}
 	myButton.baseLabel = ""
 	
+	
+	AIDirector.create(group)
+	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
+	bulletManager = BulletManager:new(group)
 	group:insert( myButton )
-	collectibles = CollectibleHeap:new({'HealthPickUp'})
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
 
@@ -165,6 +168,7 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
+	
 	playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
 	physics.start()
 	physics.setGravity(0, 0)
@@ -172,8 +176,10 @@ function scene:enterScene( event )
 	physics.setPositionIterations(1)
 	
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
+	
+	debugFlag = event.params.debug
 	local currentLevel = setLevel('ap')
-	AIDirector.initialize(group, player, currentLevel)
+	AIDirector.initialize(player, currentLevel)
 	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player:weaponEquipDebug(group)
@@ -181,8 +187,8 @@ function scene:enterScene( event )
 	
 	step = 0
 	
-	collectibles:start(group)
-	bulletManager:start(group)
+	collectibles:start()
+	bulletManager:start()
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )
 end
@@ -191,13 +197,13 @@ end
 function scene:exitScene( event )
 	print('Exiting scene')
 	local group = self.view
+	
 	stopBGM()
 	
 	AIDirector.uninitialize(group)
 	collectibles:stop(group)
 	bulletManager:stop(group)
-	
-	
+	destroyParticleManager()
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
@@ -209,7 +215,13 @@ function scene:destroyScene( event )
 	print('destroying scene')
 	local group = self.view
 	
-	destroyParticleManager()
+	group:remove(AIDirector.haterGroup)
+	AIDirector.haterGroup = nil
+	group:remove(bulletManager.bulletGroupInView)
+	bulletManager.bulletGroupInView = nil
+	collectibles:destroy()
+	
+	
 	package.loaded[physics] = nil
 	physics = nil
 	if myButton then
