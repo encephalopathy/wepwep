@@ -19,6 +19,7 @@ require "com.game.weapons.primary.SpiralStraightshotWeapon"
 require "com.game.weapons.primary.SpiralCurveshotWeapon"
 require "com.managers.AIDirector"
 require "com.game.passives.Passive"
+require "com.game.passives.player.ExtraStartingHealth"
 --require("ParticleEmitter")
 
 
@@ -112,7 +113,7 @@ function Player:equipDebug(sceneGroup)
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
 	self.defensePassives = {}
-	self.defensePassives[1] = Passive:new(self, "health")
+	self.defensePassives[1] = ExtraStartingHealth:new(self, "health", 5)
 end
 
 --Loads secondary amunition for sub weapons
@@ -227,6 +228,7 @@ function Player:updatePassives()
 	for i = 1, #self.defensePassives, 1 do
 		self.defensePassives[i]:update()
 	end
+	print("player health is", self.health)
 end
 
 
