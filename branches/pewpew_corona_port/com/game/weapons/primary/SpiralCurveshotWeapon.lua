@@ -16,11 +16,9 @@ function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-	if soundFX ~= nil then
-		self.soundFX = soundFX
-	else
+	if soundFX == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		self.soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		soundFX = "com/resources/music/soundfx/shotgun.ogg"
 		--print("soundFX:"..soundFX)
    end
 
