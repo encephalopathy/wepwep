@@ -7,8 +7,7 @@ function ExtraStartingHealth: init(objectRef, fieldName, increaseAmount)
 		return
 	else
 		self.objectRef = objectRef
-		self.fieldName = fieldName
+		self.fieldName = fieldName	
+		self.objectRef[self.fieldName] = self.objectRef[self.fieldName] + increaseAmount 
 	end
-	
-	self.objectRef[self.fieldName] = self.objectRef[self.fieldName] + increaseAmount
 end
