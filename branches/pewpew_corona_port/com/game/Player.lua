@@ -18,6 +18,7 @@ require "com.game.weapons.primary.CircleshotWeapon"
 require "com.game.weapons.primary.SpiralStraightshotWeapon"
 require "com.game.weapons.primary.SpiralCurveshotWeapon"
 require "com.managers.AIDirector"
+require "com.game.passives.Passive"
 --require("ParticleEmitter")
 
 
@@ -77,7 +78,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	
-	--self:weaponEquipDebug(sceneGroup)
+	--self:equipDebug(sceneGroup)
 	Player.player = self
 	self:setPlayerType()
 	--Player.MAX_MOVEMENT_X = self.width / 2
@@ -103,13 +104,15 @@ local function clampPlayerMovement(currentSpeed)
 end
 
 
-function Player:weaponEquipDebug(sceneGroup)
-	self.weapon = Circleshot:new(sceneGroup, true, 25, 200)
+function Player:equipDebug(sceneGroup) 
+
 	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
-	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Backshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
+	self.defensePassives = {}
+	self.defensePassives[1] = Passive:new(self, "health")
 end
 
 --Loads secondary amunition for sub weapons
