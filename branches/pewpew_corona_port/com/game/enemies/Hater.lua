@@ -100,7 +100,7 @@ function Hater:equipRig(sceneGroup, weapons, passives)
 	end
 	if passives ~= nil then
 		for i = 1, #passives, 1 do
-			table.insert(self.defensePassives, require(passives[i])())
+			table.insert(self.defensePassives, require(passives[i])(self))
 		end
 	end
 end
