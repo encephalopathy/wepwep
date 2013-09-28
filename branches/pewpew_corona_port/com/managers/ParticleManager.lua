@@ -24,6 +24,10 @@ function destroyParticleManager()
 	end
 end
 
+function cullAllParticles()
+
+end
+
 
 --generic update function for particles
 function updateParticleEmitters()

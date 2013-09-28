@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 
 
+
 //import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,6 +32,7 @@ import java.io.PrintWriter;
 
 
 
+
 //import javax.swing.ImageIcon;
 //import javax.swing.JButton;
 //import javax.swing.JDialog;
@@ -40,6 +42,7 @@ import javax.swing.JOptionPane;
 //import javax.swing.JEditorPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -142,18 +145,35 @@ public class WaveScreen extends JFrame {
 			public int mouseX;
 			public int mouseY;
 			public void mousePressed(MouseEvent arg0) { //what happens when you click in the EnemyPlacementGrid
-				System.out.println("Correct Area for placement");
-				mouseX = arg0.getX();
-				mouseY = arg0.getY();
-				//System.out.println("X:" + mouseX + ", Y:" + mouseY );
-				Enemy newEnemy = workingEnemy.cloneSelf();
-				newEnemy.setLocation(mouseX, mouseY);
-				//System.out.println("newEnemy object: " + newEnemy);
-				//System.out.println(newEnemy.weaponList);				
-				currentWave.addEnemy(newEnemy);
-				System.out.print(newEnemy);
-				Grid.enemyToDraw = newEnemy;
-								
+				System.out.println("THE LEFT BUTTON WAS PRESSED: " + SwingUtilities.isLeftMouseButton(arg0));
+				System.out.println("THE RIGHT BUTTON WAS PRESSED: " + SwingUtilities.isRightMouseButton(arg0));
+				if(SwingUtilities.isLeftMouseButton(arg0) && workingEnemy.type != null){
+					System.out.println("Correct Area for placement");
+					mouseX = arg0.getX();
+					mouseY = arg0.getY();
+					//System.out.println("X:" + mouseX + ", Y:" + mouseY );
+					Enemy newEnemy = workingEnemy.cloneSelf();
+					newEnemy.setLocation(mouseX, mouseY);
+					//System.out.println("newEnemy object: " + newEnemy);
+					//System.out.println(newEnemy.weaponList);
+					currentWave.addEnemy(newEnemy);
+					System.out.print(newEnemy);
+					Grid.enemyToDraw = newEnemy;
+				}else if(SwingUtilities.isRightMouseButton(arg0) && workingEnemy.type == null){
+					System.out.println("Use Left Click and build an Enemy.");
+				}else if(SwingUtilities.isRightMouseButton(arg0)){
+					mouseX = arg0.getX();
+					mouseY = arg0.getY();
+					BoundingBox box = BoundingBoxManager.removeBoundingBox(mouseX, mouseY);
+					if(box != null){
+						currentWave.removeEnemy((Enemy)box);
+					System.out.println("WaveScreen> Updated CurrentWave: " + currentWave);
+					currentWave.repaint();
+					}
+					else{
+						System.out.println("No Enemy At This Location. Click On An Enemy.");
+					}
+				}
 			}
 		});
 		

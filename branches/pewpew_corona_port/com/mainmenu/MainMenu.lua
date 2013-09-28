@@ -33,6 +33,7 @@ local function createMainMenuMVC(group)
 	mainMenuContext:mapMediator("com.mainmenu.views.PlayButton", "com.mainmenu.mediators.PlayButtonMediator")
     mainMenuContext:mapMediator("com.mainmenu.views.ShopButton", "com.mainmenu.mediators.ShopButtonMediator")
     mainMenuContext:mapMediator("com.mainmenu.views.EquipButton", "com.mainmenu.mediators.EquipButtonMediator")
+	mainMenuContext:mapMediator("com.mainmenu.views.TestPlayGameButton", "com.mainmenu.mediators.TestGameMediator")
    
     mainMenuContext:preprocess(group)
 end

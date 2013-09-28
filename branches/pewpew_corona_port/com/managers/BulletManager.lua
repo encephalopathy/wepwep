@@ -10,17 +10,17 @@ local DEFAULT_WIDTH = 50
 local DEFAULT_HEIGHT = 50
 local DEFAULT_ROTATION = 0
 
-function BulletManager:init ()
+function BulletManager:init (sceneGroup)
 	self.playerOnScreenBullets = {}
 	self.playerOffScreenBullets = {}
 	self.haterOnScreenBullets = {}
 	self.haterOffScreenBullets = {}
 	self.bulletGroupInView = display.newGroup()
+	sceneGroup:insert(self.bulletGroupInView)
 end
 
-function BulletManager:start(sceneGroup)
+function BulletManager:start()
 	Runtime:addEventListener("offScreen", self)
-	sceneGroup:insert(self.bulletGroupInView)
 end
 
 function BulletManager:offScreen (event)
@@ -150,6 +150,5 @@ end
 function BulletManager:stop(sceneGroup)
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.bulletGroupInView)
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.bulletGroupInView)
-	sceneGroup:remove(self.bulletGroupInView)
 	Runtime:removeEventListener("offScreen", self)
 end

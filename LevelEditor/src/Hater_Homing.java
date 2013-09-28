@@ -7,6 +7,7 @@ public final class Hater_Homing extends Enemy {
 		maxWeapons = 0;
 		maxPassives = 1;
 		imageFileName = "src/test2.png";
+		setImageObject();
 	}
 
 }

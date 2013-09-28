@@ -138,7 +138,8 @@ public class WeaponPopUp extends JDialog {
 		}
 	}
 	
-	public List<String> returnWeaponList(){
+	//return the list from PopUp
+	public List<String> returnList(){
 		ArrayList<String> weapons = new ArrayList<String>();
 		for (int i = 0; i < weaponNames.length; i++){
 			weapons.add(weaponNames[i]);
