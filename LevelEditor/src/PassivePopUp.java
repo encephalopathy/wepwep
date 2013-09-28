@@ -120,13 +120,20 @@ public class PassivePopUp extends JDialog {
 					menuBar.add(passiveCapacity[i]);
 					{
 						for(int j = 0; j < availablePassives.length; j++){
-							final int selectedWeapon = j;
-							availablePassives[j] = new JMenuItem(availablePassiveNames[j]);
+							final int selectedPassive = j;
+							
+							String s = availablePassiveNames[j];
+							String name = s.substring(s.lastIndexOf(".")+1);
+							
+							//availablePassives[j] = new JMenuItem(availablePassiveNames[j]);
+							availablePassives[j] = new JMenuItem(name);
 							availablePassives[j].addActionListener(new ActionListener(){
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									passiveNames[menuWeapon] = availablePassiveNames[selectedWeapon];
-									passiveCapacity[menuWeapon].setText(availablePassiveNames[selectedWeapon]);
+									passiveNames[menuWeapon] = availablePassiveNames[selectedPassive];
+									String s = availablePassiveNames[selectedPassive];
+									String displayName = s.substring(s.lastIndexOf(".")+1);
+									passiveCapacity[menuWeapon].setText(displayName);
 								}
 							});
 							passiveCapacity[i].add(availablePassives[j]);
@@ -137,7 +144,8 @@ public class PassivePopUp extends JDialog {
 		}
 	}
 	
-	public List<String> returnWeaponList(){
+	//return the list from PopUp
+	public List<String> returnList(){
 		ArrayList<String> weapons = new ArrayList<String>();
 		for (int i = 0; i < passiveNames.length; i++){
 			weapons.add(passiveNames[i]);
