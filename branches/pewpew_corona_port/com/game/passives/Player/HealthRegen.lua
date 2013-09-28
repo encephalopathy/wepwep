@@ -1,13 +1,9 @@
 require "com.game.passives.Passive"
 HealthRegen = Passive:subclass("HealthRegen")
 
-function HealthRegen: init(objectRef, fieldName)
-	if fieldName ~= "health" then
-		print("field specified for modification by Health Regen Passive is not health but instead", fieldName)
-		return
-	else
-		self.objectRef = objectRef
-		self.fieldName = fieldName
+function HealthRegen: init(objectRef)
+	if objectRef ~= nil then
+		self.super:init(objectRef, "health")
 		self.initialHealth = self.objectRef[self.fieldName]
 	end
 end
