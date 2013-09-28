@@ -19,3 +19,5 @@ function HealthRegen: update()
 		end
 	end
 end
+
+return HealthRegen

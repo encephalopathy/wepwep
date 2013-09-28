@@ -11,3 +11,5 @@ function ExtraStartingHealth: init(objectRef, fieldName, increaseAmount)
 		self.objectRef[self.fieldName] = self.objectRef[self.fieldName] + increaseAmount 
 	end
 end
+
+return ExtraStartingHealth

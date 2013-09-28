@@ -31,3 +31,5 @@ end
 ]]--
 function Passive:update()
 end
+
+return Passive
