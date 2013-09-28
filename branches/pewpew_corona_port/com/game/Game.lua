@@ -182,7 +182,7 @@ function scene:enterScene( event )
 	AIDirector.initialize(player, currentLevel)
 	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
-	player:weaponEquipDebug(group)
+	player:equipDebug(group)
 	player.weapon.targets = AIDirector.haterList
 	
 	step = 0

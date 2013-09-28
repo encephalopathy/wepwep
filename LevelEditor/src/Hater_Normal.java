@@ -7,6 +7,7 @@ public final class Hater_Normal extends Enemy {
 		maxWeapons = 2;
 		maxPassives = 3;
 		imageFileName = "src/test2.png";
+		setImageObject();
 	}
 
 }

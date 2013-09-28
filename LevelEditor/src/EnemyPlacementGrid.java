@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 
 public class EnemyPlacementGrid extends JComponent{
@@ -30,28 +31,17 @@ public class EnemyPlacementGrid extends JComponent{
 		setDoubleBuffered(false);
 		addMouseListener(new MouseAdapter(){
 			public void mouseReleased (MouseEvent e){
-				//System.out.println("Inside mouseReleased event");
-				//System.out.println("What the hell is this thing? "+ enemyToDraw.getClass().getSimpleName());
-				
-				//System.out.println(e.getSource());
-				currentX = e.getX();
-				currentY = e.getY();
-				//System.out.println(currentX);
-				//System.out.println(currentY);
-				
-				enemyToDraw.setLocation(currentX, currentY);
-				
-				
-				/*
-				Image imageObject = new ImageIcon( enemyToDraw.imageFileName).getImage();
-				graphics2D.drawImage(imageObject, currentX, currentY, 25, 25, null);
-				repaint();
-				*/
-				paintSprite(enemyToDraw);
+				if(SwingUtilities.isLeftMouseButton(e) && enemyToDraw != null){
+					//System.out.println(e.getSource());
+					currentX = e.getX();
+					currentY = e.getY();
+					enemyToDraw.setLocation(currentX, currentY);
+					System.out.println("Drawing an enemy of type in MOUSE RELEASED: " + enemyToDraw);
+					paintSprite(enemyToDraw);
+				}
 			}
 		});
 	}
-	
 	
 	//functions
 	public void paintComponent(Graphics g){
@@ -61,7 +51,6 @@ public class EnemyPlacementGrid extends JComponent{
 			graphics2D = (Graphics2D)image.getGraphics();
 			graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			clear();
-			//System.out.println("image is null");
 		}
 		g.drawImage(image, 0, 0, null);
 	}
@@ -74,10 +63,22 @@ public class EnemyPlacementGrid extends JComponent{
 	}
 	
 	public void paintSprite(Enemy e){
-		Image imageObject = new ImageIcon(enemyToDraw.imageFileName).getImage();
-		double d = (double)enemyToDraw.rotation; //graphics2D needs a double for rotation
-		graphics2D.drawImage(imageObject, e.enemyX, e.enemyY, 25, 25, null);
+		//Image imageObject = new ImageIcon(enemyToDraw.imageFileName).getImage();
+		double d = e.rotation * (Math.PI/180); //graphics2D needs a double for rotation
+		//FUCK THIS NONSENSE!
+		AffineTransform transform = new AffineTransform();
+		transform.translate((double)e.enemyX, (double)e.enemyY);
+		transform.rotate(d);
+		transform.scale(e.scaleX, e.scaleY);
+		System.out.println("and I swear: " + e.scaleX +  " by the moon and stars in the sky: " + e.scaleY);
+		transform.translate( -((e.imageWidth/2) - (e.width/2)), -((e.imageHeight/2) - (e.width/2)) );
+		graphics2D.drawImage(e.imageObject, transform, null);
+		
+		BoundingBoxManager.addBoundingBox(e);
+		
+		//graphics2D.drawImage(e.imageObject, e.enemyX, e.enemyY, 25, 25, null);
 		System.out.println("PAST THE DRAW");
 		repaint();
 	}
+
 }
