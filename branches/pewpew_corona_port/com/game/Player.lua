@@ -230,7 +230,7 @@ function Player:updatePassives()
 	for i = 1, #self.defensePassives, 1 do
 		self.defensePassives[i]:update()
 	end
-	print("player's health is currently", self.health)
+	--print("player's health is currently", self.health)
 end
 
 
