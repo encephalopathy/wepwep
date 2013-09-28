@@ -1,7 +1,7 @@
 require "org.Object"
 require "org.Queue"
 require "com.game.collectibles.Collectible"
---Ian: Take a look at BulletManager for a similar implementation.
+--TODO: Add sceneGroup for ground collectibles
 CollectibleHeap = Object:subclass("CollectibleHeap")
 
 local PREALLOCATED_AMOUNT = 5
@@ -11,7 +11,7 @@ function CollectibleHeap:init(collectibleTypes)
 	self.outOfViewCollectibles = {}
 	self.collectibleGroup = display.newGroup()
 	for i = 1, #collectibleTypes, 1 do
-		self:preallocate(collectibleTypes[i], sceneGroup)
+		self:preallocate(collectibleTypes[i], self.collectibleGroup)
 	end
 end
 
@@ -27,6 +27,8 @@ function CollectibleHeap:preallocate(collectibleType, sceneGroup)
 end
 
 function CollectibleHeap:start(sceneGroup)
+	print(self.collectibleGroup.numChildren)
+	
 	sceneGroup:insert(self.collectibleGroup)
 	Runtime:addEventListener('spawnCollectible', self)
 end

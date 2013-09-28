@@ -39,15 +39,23 @@ public class Wave {
 	{
 		//need to set the currentWave to this newly created wave
 		//when switching waves, remove all listeners corresponding to the placement grid
-		Grid.clear();
+		//Grid.clear();
 		//add event listeners to new enemies
 		WaveScreen.currentWave = this;
 		
 		//need to redraw
+		//for(int i = 0; i < waveEnemyList.size(); i++){
+			//Grid.paintSprite(waveEnemyList.get(i));
+		//}
+		repaint();
+		WaveScreen.currentLevel = parentLevel;
+	}
+	
+	public void repaint(){
+		Grid.clear();
 		for(int i = 0; i < waveEnemyList.size(); i++){
 			Grid.paintSprite(waveEnemyList.get(i));
 		}
-		WaveScreen.currentLevel = parentLevel;
 	}
 	
 	public List<Enemy> getWave(){
@@ -57,6 +65,11 @@ public class Wave {
 	public void addEnemy(Enemy e){
 		System.out.println("WAVE: " + time + " " + e.DEBUGPRINTSTRING());
 		waveEnemyList.add(e);
+	}
+	
+	public void removeEnemy(Enemy e){
+		System.out.println("Removing Enemy: " + e);
+		waveEnemyList.remove(e);
 	}
 	
 	public void addEnemyList(List<Enemy> enemyList){

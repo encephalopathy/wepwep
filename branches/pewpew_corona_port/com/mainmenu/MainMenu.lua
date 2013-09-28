@@ -9,6 +9,7 @@ require "com.Inventory"
 require "com.Utility"
 require "com.managers.BGM"
 require "org.Context"
+require "com.managers.LevelManager"
 require "com.mainmenu.views.PlayButton"
 require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
@@ -80,7 +81,6 @@ function scene:createScene( event )
 	local group = self.view
 	
 	-- display a background image
-	local background  = display.newImageRect( "sprites/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	local background = display.newImageRect( "com/resources/art/background/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	
 	background:setReferencePoint( display.TopLeftReferencePoint )

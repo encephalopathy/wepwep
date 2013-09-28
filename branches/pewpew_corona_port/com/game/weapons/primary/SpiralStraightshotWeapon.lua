@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 SpiralStraightshot = Weapon:subclass("SpiralStraightshot")
 
-function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, soundFX)
+function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -16,11 +16,9 @@ function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletS
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-	if soundFX ~= nil then
-		self.soundFX = soundFX
-	else
+	if soundFX == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		self.soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		soundFX = "com/resources/music/soundfx/laser.ogg"
 		--print("soundFX:"..soundFX)
    end
 	
@@ -66,9 +64,9 @@ function SpiralStraightshot:calculateBulletVelocity(bullet)
 end
 
 function SpiralStraightshot:fire (player)
-    self.super:fire()
+   self.super:fire()
 	if not self:canFire() then return end
-	   angleStep = 360 / (self.numberOfShots)
+	   local angleStep = 360 / (self.numberOfShots)
        
 	   if (self.shotIterator > self.numberOfShots - 1) then 
 	      self.shotIterator = 0
@@ -79,13 +77,13 @@ function SpiralStraightshot:fire (player)
 	      return
 	   end
 		 
-       local rotationAngle = math.rad((-self.shotIterator * angleStep))
+      local rotationAngle = math.rad(-self.shotIterator * angleStep)
 	   self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
           
-       local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+      local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 	   bullet:fire(bulletVelocity.x, bulletVelocity.y)
 	   self:playFiringSound(self.soundFX)
-       self.shotIterator = self.shotIterator + 1
+      self.shotIterator = self.shotIterator + 1
 end 
 
 return SpiralStraightshot

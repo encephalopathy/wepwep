@@ -62,8 +62,6 @@ function createGame(filename)
 				 enemy.x = tonumber(x)
 				 enemy.y = tonumber(y)
 				 fitToResolution(enemy)
-				 --print(enemy[fieldType].x)
-				 --print(enemy[fieldType].y)
 			elseif fieldType == 'Rotation' then
 				enemy[fieldType] = tonumber(field)
 			elseif fieldType == 'Weapons' then
@@ -79,8 +77,11 @@ function createGame(filename)
 				end
 			end
 		end
-		--waves[enemy]
 	end
+	io.close()
+	file = nil
+	io.close()
+	file = nil
 	
 	return levels
 end

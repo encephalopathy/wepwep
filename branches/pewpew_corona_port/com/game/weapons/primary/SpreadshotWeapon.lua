@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Spreadshot = Weapon:subclass("Spreadshot")
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, soundFX, firingAngle, numberOfArcs, angleBetweenArcs)
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -16,11 +16,9 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-	if soundFX ~= nil then
-		self.soundFX = soundFX
-	else
+	if soundFX == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		self.soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		soundFX = "com/resources/music/soundfx/shotgun.ogg"
 		--print("soundFX:"..soundFX)
    end
 	
@@ -34,25 +32,25 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    if numberOfShots ~= nil then
 	  self.numberOfShots = numberOfShots
    else
-	  self.numberOfShots = 10--NUM_SHOTS
+	  self.numberOfShots = 12
    end
    
    if firingAngle ~= nil then
      self.firingAngle = firingAngle
    else
-     self.firingAngle = 90--FIRING_ANGLE
+     self.firingAngle = 10
    end
    
    if numberOfArcs ~= nil then
      self.numberOfArcs = numberOfArcs
    else
-     self.numberOfArcs = 2
+     self.numberOfArcs = 4
    end
    
    if angleBetweenArcs ~= nil then
      self.angleBetweenArcs = angleBetweenArcs
    else
-     self.angleBetweenArcs = 60
+     self.angleBetweenArcs = 15
    end
    
    self.energyCost = 20
@@ -81,50 +79,28 @@ function Spreadshot:calculateBulletVelocity(bullet)
 	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
 end
 
---[[
-	FUNCTION NAME: canFire
-	
-	DESCRIPTION: Determines if this weapon can fire or not based on how many fire attempts this weapon has performed
-		         against its rate of fire.
-	
-	@RETURN: A boolean that determines if this gun can fire or not
-]]--
---[[function Spreadshot:canFire()
-	if self.rateOfFire - self.fireAttempts == 0 then
-		self.fireAttempts = 0
-		return true
-	else
-		return false
-	end
-end
-]]--
-
 function Spreadshot:fire (player)
    self.super:fire()
 	if not self:canFire() then return end
-	angleStep = self.firingAngle / ((self.numberOfShots - 1) / self.numberOfArcs)
-	startAngle = (((self.firingAngle * self.numberOfArcs) + self.angleBetweenArcs) /2 + self.owner.sprite.rotation)
+	local angleStep = self.firingAngle / ((self.numberOfShots) / self.numberOfArcs)
+	local shotsPerArc = math.ceil((self.numberOfShots) / self.numberOfArcs)
+	local startAngle = ((self.firingAngle * self.numberOfArcs) + (self.angleBetweenArcs * (self.numberOfArcs - 1)) + angleStep) /2 + self.owner.sprite.rotation
 
    local shots = {}
 	if self.owner then
-	   for i = 0, (self.numberOfShots - 1), 1 do
+	   for i = 1, (self.numberOfShots), 1 do
 	      shots[i] = self:getNextShot()
 		end
 	end
        
-	for i = 0, (self.numberOfShots - 1), 1 do
+	for i = 1, (self.numberOfShots), 1 do
 		local bullet = shots[i]
 		  
 		if (bullet == nil) then
 			break
 		end
-		 
-		local rotationAngle
-		if (i < math.ceil((self.numberOfShots - 1) / self.numberOfArcs)) then
-		   rotationAngle = math.rad(startAngle + (-i * angleStep))
-      else
-         rotationAngle = math.rad(startAngle + (-i * angleStep) - self.angleBetweenArcs)
-      end
+		
+		local rotationAngle = math.rad(startAngle - (i * angleStep) - ((math.ceil(i / shotsPerArc) - 1) * self.angleBetweenArcs))
 		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
          
       local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)

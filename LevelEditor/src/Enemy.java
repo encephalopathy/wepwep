@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter; //mouse stuff
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -21,20 +23,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 
-
-
 /**
  * will create basic enemies
  * 
  */
-public class Enemy{
+public class Enemy extends BoundingBox{
 	
 	//public variables
 	public Enemy self = this;
-	public int enemyX;
-	public int enemyY;
+	//public int enemyX;
+	//public int enemyY;
+	public double scaleX, scaleY = 1;
+	//public int height = 25; 
+	//public int width = 25;
+	public int imageHeight, imageWidth = 0; //fuck that shit
 	public String type = null;
-	public int rotation = 0;
+	//public double rotation = 0;
 	public int maxWeapons = 0;
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
 	public int maxPassives = 0;
@@ -42,6 +46,7 @@ public class Enemy{
 	public String imageFileName = "src/test.png"; //default image for an enemy
 	public EnemyPlacementGrid Grid;
 	JFrame rotationPopUp = new JFrame(); //FFrame for the Rotation pop up
+	Image imageObject = null;
 	
 	//object constructor
 	public Enemy(EnemyPlacementGrid epgRef)
@@ -64,7 +69,7 @@ public class Enemy{
 				@Override public void windowClosed(WindowEvent e) {}
 				@Override public void windowClosing(WindowEvent e) {
 					System.out.println("EXITING THE WEAPON POP UP");
-					weaponList = weaponPopUp.returnWeaponList();
+					weaponList = weaponPopUp.returnList();
 					System.out.println(weaponList.toString());
 				}
 				@Override public void windowDeactivated(WindowEvent e) {}
@@ -82,7 +87,7 @@ public class Enemy{
 				@Override public void windowClosed(WindowEvent e) {}
 				@Override public void windowClosing(WindowEvent e) {
 					System.out.println("EXITING THE PASSIVE POP UP");
-					passiveList = passivePopUp.returnWeaponList();
+					passiveList = passivePopUp.returnList();
 					System.out.println(passiveList.toString());
 				}
 				@Override public void windowDeactivated(WindowEvent e) {}
@@ -94,18 +99,12 @@ public class Enemy{
 			//String testString = weaponPopUp.returnWeaponList();
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//System.out.println(passiveList.toString());
 	}
 	
-	/*
-	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getSource());
-		Grid.enemyToDraw = this;
-	}
-	*/
+	
 	
 	//set the x and y coordinates of a placed enemy in WaveScreen.java
 	public void setLocation(int xLoc, int yLoc){
@@ -133,7 +132,32 @@ public class Enemy{
        System.out.println("THE ROTATION AFTER CLOSING IS: " + rotation);
 	}
 	
-	public String setTextTip(){
+	
+	public void setImageObject(){
+		System.out.println("Creating Image Object for enemy!!");
+		ImageIcon temp = new ImageIcon(imageFileName);
+		imageHeight = temp.getIconHeight();
+		imageWidth = temp.getIconWidth();
+		//scaleY = (height/temp.getIconHeight());
+		//scaleX = (width/temp.getIconWidth());
+		this.imageObject = temp.getImage();
+		//this.imageHeight = this.imageObject.getHeight(null);
+		//this.imageWidth = this.imageObject.getWidth(null);
+		System.out.println("YOOOOOOO!!!");
+		System.out.println("Enemy.java: width: " + width + " height: " + height + " imageWidth:" + imageWidth + " imageHeight:" + imageHeight);
+		scaleX = ((double) width)/imageWidth;
+		scaleY = ((double) height)/imageHeight;
+		
+	}
+	
+	/*
+	public String getToolTipText(MouseEvent e){
+		String s = new String();
+		return s;
+	}
+	*/
+	
+	public String setText(){
 		String s = "";
 		//type, x, y, rotation
 		s += ("Type: " + type + "\n");
@@ -160,6 +184,13 @@ public class Enemy{
 		e.rotation = this.rotation;
 		e.type = this.type;
 		e.imageFileName = this.imageFileName;
+		e.imageObject = this.imageObject;
+		e.imageWidth = this.imageWidth;
+		e.imageHeight = this.imageHeight;
+		e.scaleX = this.scaleX;
+		e.scaleY = this.scaleY;
+		e.width = this.width;
+		e.height = this.height;
 		return e;
 	}
 	
@@ -168,7 +199,7 @@ public class Enemy{
 		String printedLine = "";
 		printedLine += ("   Type=" + type);
 		printedLine += (" Location=" + Integer.toString(enemyX) + "," + Integer.toString(enemyY));
-		printedLine += (" Rotation=" + Integer.toString(rotation));
+		printedLine += (" Rotation=" + Double.toString(rotation));
 		printedLine += (" Weapons=");
 		for(int i = 0; i < weaponList.size(); i++){
 			printedLine += (weaponList.get(i));
@@ -182,5 +213,11 @@ public class Enemy{
 		}
 		printedLine += ("\n");
 		return printedLine;
+	}
+
+	@Override
+	public void onBoundingBoxClick(Object sender, int eventType) {
+		//this is where we will be deleting enemies!!! OMG!
+		
 	}
 }
