@@ -60,7 +60,6 @@ local c_p_txt = display.newText(
 	native.systemFont,				-- font,
 	M.c_txt_fs						-- font size
 )
-c_p_txt.align = "center"
 c_p_txt.alpha = 0
 
 
