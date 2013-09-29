@@ -19,6 +19,8 @@ local function setSpawnClock()
 end
 
 local function createHaterList(currentLevel, player)
+	assert(currentLevel ~= nil, 'current level is nil, make sure the correct level is being loaded from LevelManager.')
+	assert(player ~= nil, 'player is nil, player was not passed in from AIDirector')
 	haterCreationInfo = currentLevel.enemyFrequency
 	
 	local haterGroup = AIDirector.haterGroup

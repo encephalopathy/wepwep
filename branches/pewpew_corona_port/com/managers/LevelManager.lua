@@ -80,8 +80,6 @@ function createGame(filename)
 	end
 	io.close()
 	file = nil
-	io.close()
-	file = nil
 	
 	return levels
 end
@@ -103,7 +101,7 @@ function equipToHater(line, enemy, fieldType)
 	--print(enemy[fieldType])
 	--print(line)
 	--for equipment in string.gmatch(line, "%p*(%w+)%p*") do
-	for equipment in string.gmatch(line, "[%w+.?]+,?") do
+	for equipment in string.gmatch(line, "[(%w)+.?]+") do
 		--print('weapon is: ' .. equipment)
 		table.insert(enemy[fieldType], equipment)
 	end
@@ -122,7 +120,7 @@ function setLevel(levelName)
 	return currentLevel
 end
 
-levels = createGame('com/game/levels/testInput.txt')  
+levels = createGame('com/game/levels/testLevel01.pew')  
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	
