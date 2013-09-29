@@ -1,3 +1,10 @@
 # Messages
 # This is a series of messages that will appear in the codec
 # Each message is separated by a newline, the name and content separated by a '+'
+Reggie+Tyce, are you even listening to me?!
+Reggie+Do you understand what is at stake here, because I don't think you do!
+Reggie+The old Tyce I knew would've done something by now...
+Tyce+...
+Reggie+Well?!!
+Tyce+Oh, sorry. Did you say something about steaks?
+Reggie+OH, FOR THE LOVE OF-!!

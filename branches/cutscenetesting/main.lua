@@ -1,7 +1,8 @@
 --[[
 main.lua
 
-Where the test program begins.
+The codec appears, cycles through messages when the codec is touched,
+and then disappears.
 --]]
 
 
@@ -17,6 +18,10 @@ timer.performWithDelay( 1000, checkMemory, 0 )
 
 -- M: global variables module
 local M = require("globals")
+
+
+-- MSGS: messages module
+local MSGS = require("messagesreader")
 
 
 -- w: display width, h: display height
@@ -45,7 +50,7 @@ c:insert(c_txtb)
 local msg_c = 1 					-- msg_c: message counter
 
 local c_txt = display.newText(
-	M.c_txt_msgs[msg_c].content,	-- text
+	MSGS[msg_c].content,			-- text
 	M.c_txt_x, M.c_txt_y,			-- x, y,
 	M.c_txt_w, M.c_txt_h,			-- width, height,
 	native.systemFont,  			-- font,
@@ -64,7 +69,7 @@ c:insert(c_p)
 
 -- c_p_txt: codec portrait text
 local c_p_txt = display.newText(
-	M.c_txt_msgs[msg_c].name,		-- text
+	MSGS[msg_c].name,				-- text
 	M.c_p_t_x, M.c_p_t_y,			-- x, y
 	M.c_p_w, 28,					-- width, height
 	native.systemFont,				-- font,
@@ -78,7 +83,7 @@ local function makeCodecAssetsAppear(obj)
 	c_txt.alpha   = 1
 	c_p_txt.alpha = 1
 	
-	local speaker = M.c_txt_msgs[msg_c].name
+	local speaker = MSGS[msg_c].name
 	local c_p_rgb = M.c_p_img[speaker]
 	c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
 end
@@ -148,12 +153,12 @@ function c:touch(event)
 		c.alpha = 1.0
 		
 		-- if there are any more messages
-		if msg_c < M.c_txt_msgs_l then
+		if msg_c < MSGS[0] then
 		
 			-- change the message and/or portrait in codec
 			msg_c = msg_c + 1
-			local speaker = M.c_txt_msgs[msg_c].name
-			local message = M.c_txt_msgs[msg_c].content
+			local speaker = MSGS[msg_c].name
+			local message = MSGS[msg_c].content
 			local c_p_rgb = M.c_p_img[speaker]
 			
 			c_txt.text    = message
