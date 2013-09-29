@@ -18,7 +18,8 @@ end
 
 function PlayButtonMediator:PlayGame(event)
 	if event.name == "PlayGame" then
-		self.storyboard.gotoScene( "com.game.Game", "fade", 500 )
+	    local options = { effect = "fade", time = 500, params = { debug = false } }
+		self.storyboard.gotoScene( "com.game.Game", options )
 	end
 
 	return true
