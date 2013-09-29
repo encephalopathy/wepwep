@@ -5,6 +5,16 @@ Where the test program begins.
 --]]
 
 
+-- memory checking function
+local function checkMemory()
+   collectgarbage( "collect" )
+   local memUsage_str = string.format( "MEMORY = %.3f KB", collectgarbage( "count" ) )
+   print( memUsage_str, "TEXTURE = "..(system.getInfo("textureMemoryUsed") / (1024 * 1024) ) )
+end
+
+timer.performWithDelay( 1000, checkMemory, 0 )
+
+
 -- M: global variables module
 local M = require("globals")
 
@@ -63,28 +73,50 @@ local c_p_txt = display.newText(
 c_p_txt.alpha = 0
 
 
--- transition event listener
-local function makeCodecTextAppear(obj)
+-- codec assets populating listener
+local function makeCodecAssetsAppear(obj)
 	c_txt.alpha   = 1
 	c_p_txt.alpha = 1
+	
+	local speaker = M.c_txt_msgs[msg_c].name
+	local c_p_rgb = M.c_p_img[speaker]
+	c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
 end
 
 
--- transition effect
-transition.from(
-	c, 
-	{
-		time = 900,
-		y = 200,
-		transition = easing.outExpo,
-		onComplete = makeCodecTextAppear
-	}
-)
+-- appearing codec effect
+local function activateCodec()
+	transition.from(
+		c, 
+		{
+			time = 900,
+			y = 200,
+			transition = easing.outExpo,
+			onComplete = makeCodecAssetsAppear
+		}
+	)
+end
 
 
 -- codec disposal
 local function disposeCodec()
-	print("Made it to disposeCodec")
+
+	-- dispose codec textbox
+	c_txtb:removeSelf()
+	c_txtb = nil
+	
+	-- dispose codec portrait
+	c_p:removeSelf()
+	c_p = nil
+	
+	-- dispose codec text
+	c_txt:removeSelf()
+	c_txt = nil
+	
+	-- dispose codec portrait text
+	c_p_txt:removeSelf()
+	c_p_txt = nil
+	
 end
 
 
@@ -120,8 +152,13 @@ function c:touch(event)
 		
 			-- change the message and/or portrait in codec
 			msg_c = msg_c + 1
-			c_txt.text   = M.c_txt_msgs[msg_c].content
-			c_p_txt.text = M.c_txt_msgs[msg_c].name
+			local speaker = M.c_txt_msgs[msg_c].name
+			local message = M.c_txt_msgs[msg_c].content
+			local c_p_rgb = M.c_p_img[speaker]
+			
+			c_txt.text    = message
+			c_p_txt.text  = speaker
+			c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
 			
 		else
 		
@@ -134,3 +171,7 @@ function c:touch(event)
 end
 
 c:addEventListener("touch", c)
+
+
+-- function call to activate the codec
+activateCodec()
