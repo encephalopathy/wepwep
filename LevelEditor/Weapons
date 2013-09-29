@@ -1,8 +1,11 @@
-7
-com.game.weapons.primary.SingleShotWeapon
-com.game.weapons.primary.DoubleShotWeapon
+10
+com.game.weapons.primary.SingleshotWeapon
+com.game.weapons.primary.DoubleshotWeapon
 com.game.weapons.primary.SineWaveWeapon
 com.game.weapons.primary.SpreadshotWeapon
-com.game.weapons.primary.HomingShotWeapon
+com.game.weapons.primary.HomingshotWeapon
 com.game.weapons.primary.BackshotWeapon
+com.game.weapons.primary.SpiralCurveshotWeapon
+com.game.weapons.primary.SpiralStraightshotWeapon
+com.game.weapons.primary.CircleshotWeapon
 com.game.weapons.secondary.GrenadeLauncher

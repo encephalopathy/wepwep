@@ -199,7 +199,8 @@ public class Enemy extends BoundingBox{
 		String printedLine = "";
 		printedLine += ("   Type=" + type);
 		printedLine += (" Location=" + Integer.toString(enemyX) + "," + Integer.toString(enemyY));
-		printedLine += (" Rotation=" + Double.toString(rotation));
+		int rot = (int)rotation; //temp to hold an integer version of the rotation
+		printedLine += (" Rotation=" + Integer.toString(rot));
 		printedLine += (" Weapons=");
 		for(int i = 0; i < weaponList.size(); i++){
 			printedLine += (weaponList.get(i));

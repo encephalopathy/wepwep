@@ -95,12 +95,14 @@ function Hater:equipRig(sceneGroup, weapons, passives)
 	
 	if weapons ~= nil then
 		for i = 1, #weapons, 1 do
+			print("weapon[i]: "..weapons[i])
 			assert(require(weapons[i]), 'Cannot find the weapon to create: ' .. weapons[i] .. 'in AIDirector')
 			self:equip(self.primaryWeapons,require(weapons[i]), sceneGroup, 30, self.muzzleLocations[i])
 		end
 	end
 	if passives ~= nil then
 		for i = 1, #passives, 1 do
+			print("passives[i]: "..passives[i])
 			assert(require(passives[i]), 'Cannot find the passive to create: ' .. passives[i] .. 'in AIDirector')
 			table.insert(self.defensePassives, require(passives[i])(self))
 		end
