@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,6 +23,8 @@ public class EnemyPlacementGrid extends JComponent{
 	int currentX, currentY;
 	String item = "test.png";
 	
+	public Point topLeftCorner;
+	
 	//assume this is a field that sets the enemies sprite location in the "green zone"
 	public Enemy enemyToDraw;	
 	
@@ -33,10 +36,12 @@ public class EnemyPlacementGrid extends JComponent{
 			public void mouseReleased (MouseEvent e){
 				if(SwingUtilities.isLeftMouseButton(e) && enemyToDraw != null){
 					//System.out.println(e.getSource());
+					/*
 					currentX = e.getX();
 					currentY = e.getY();
 					enemyToDraw.setLocation(currentX, currentY);
-					System.out.println("Drawing an enemy of type in MOUSE RELEASED: " + enemyToDraw);
+					*/
+					System.out.println("enemyToDraw.x: " + enemyToDraw.enemyX + " enemyToDraw.y: " + enemyToDraw.enemyY);
 					paintSprite(enemyToDraw);
 				}
 			}

@@ -15,8 +15,7 @@ haterPootiePooInViewList = nil
 haterPootiePooOutofViewList = nil
 
 --forward declaration
-local function setSpawnClock()
-end
+local setSpawnClock = nil
 
 local function createHaterList(currentLevel, player)
 	assert(currentLevel ~= nil, 'current level is nil, make sure the correct level is being loaded from LevelManager.')
@@ -41,6 +40,7 @@ local function createHaterList(currentLevel, player)
 end
 
 local function spawnHater(enemies)
+	print("CALLED spawnHater!!!")
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
 			--print('enemyContext: '..tostring(enemyContext))
@@ -50,19 +50,20 @@ local function spawnHater(enemies)
 			enemyInView.sprite.y = enemyContext.y
 			enemyInView.sprite.rotation = enemyContext.Rotation
 			enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
-			--Still need to equip weapons to the enemyInView
-			--Still need to scale x and y based on resolution of the screen
 			allHatersInView[enemyInView] = enemyInView
 		end
 	else
 		playerWon = true
 		enemyTimer = nil
 	end
+
 	setSpawnClock()
+	
 	return true
 end
 
-local function setSpawnClock()
+setSpawnClock = function()
+	print("INSIDE setSpawnClock")
 	local wave = createNewHaterWave()
 	if wave == nil then
 		return 
@@ -70,7 +71,8 @@ local function setSpawnClock()
 	-- print('wave.Enemies is: '..tostring(wave.Enemies))
 	-- print('wave.Time is: '..tostring(wave.Time))
 	-- print('wave.Time type: '..type(wave.Time))
-	spawnClock = timer.performWithDelay(wave.Time, spawnHater(wave.Enemies), 1)
+	print("setSpawnClock>wave.Time: "..wave.Time)
+	spawnClock = timer.performWithDelay((wave.Time*1000), spawnHater(wave.Enemies), 1)
 end
 
 local function moveHaterOffScreen(hater)

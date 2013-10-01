@@ -1,0 +1,17 @@
+Name=level1 Number=1
+Time=2 com.game.enemies.Hater_Normal=2
+   Type=com.game.enemies.Hater_Normal Location=230,-41 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+Time=10 com.game.enemies.Hater_Normal=3
+   Type=com.game.enemies.Hater_Normal Location=85,-26 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_Normal Location=376,-25 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+Time=18 com.game.enemies.Hater_HalfStrafe=4
+   Type=com.game.enemies.Hater_HalfStrafe Location=80,-15 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.DoubleshotWeapon,com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.HealthRegen
+   Type=com.game.enemies.Hater_HalfStrafe Location=241,-18 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.DoubleshotWeapon,com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.HealthRegen
+   Type=com.game.enemies.Hater_HalfStrafe Location=391,-17 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.DoubleshotWeapon,com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.HealthRegen
+Time=26 com.game.enemies.Hater_Homing=5
+   Type=com.game.enemies.Hater_Homing Location=52,-17 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_Homing Location=431,-18 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_Homing Location=137,-16 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_Homing Location=357,-17 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth
+Time=34 com.game.enemies.Hater_HalfStrafe=2
+   Type=com.game.enemies.Hater_HalfStrafe Location=226,-20 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon,com.game.weapons.primary.BackshotWeapon,com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.HealthRegen

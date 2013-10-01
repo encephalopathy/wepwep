@@ -33,10 +33,10 @@ public class Enemy extends BoundingBox{
 	public Enemy self = this;
 	//public int enemyX;
 	//public int enemyY;
-	public double scaleX, scaleY = 1;
+	//public double scaleX, scaleY = 1;
 	//public int height = 25; 
 	//public int width = 25;
-	public int imageHeight, imageWidth = 0; //fuck that shit
+	//public int imageHeight, imageWidth = 0; //fuck that shit
 	public String type = null;
 	//public double rotation = 0;
 	public int maxWeapons = 0;
@@ -198,7 +198,7 @@ public class Enemy extends BoundingBox{
 	public String toString(){
 		String printedLine = "";
 		printedLine += ("   Type=" + type);
-		printedLine += (" Location=" + Integer.toString(enemyX) + "," + Integer.toString(enemyY));
+		printedLine += (" Location=" + Integer.toString(enemyX - Grid.topLeftCorner.x) + "," + Integer.toString(enemyY- Grid.topLeftCorner.y));
 		int rot = (int)rotation; //temp to hold an integer version of the rotation
 		printedLine += (" Rotation=" + Integer.toString(rot));
 		printedLine += (" Weapons=");

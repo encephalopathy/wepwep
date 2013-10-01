@@ -6,9 +6,9 @@ local BULLET_SEPERATION_DIST = 7
 function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance,soundFX)
    
    if soundFX == nil then --if no pre-defined sound, set as the default
-		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundFX = "com/resources/music/soundfx/doubleshot.ogg"
-		print("soundFX:"..soundFX)
+		--print("soundFX:"..soundFX)
    end
    
    self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight,soundFX)

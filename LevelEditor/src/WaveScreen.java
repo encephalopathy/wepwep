@@ -2,10 +2,12 @@
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Point;
 //import java.awt.Image;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 
 
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 //import java.io.UnsupportedEncodingException;
 //import java.nio.file.Path;
+
 
 
 
@@ -87,7 +90,7 @@ public class WaveScreen extends JFrame {
 	//border variables
 	public final int enemyGridBorderTop = 100; 
 	public final int enemyGridBorderLeft = 200; //
-	public final int enemyGridBorderBottom = 150; //
+	public final int enemyGridBorderBottom = 200; //
 	public final int enemyGridBorderRight = 200; 
 	
 	//take out
@@ -123,7 +126,9 @@ public class WaveScreen extends JFrame {
 		//File enemyFile = new File(enemyFile, );
 		setTitle("Wave Editor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderBottom))); //size of the entire frame
+		System.out.println("Gray Area Width: " + (400 + (2 * enemyGridBorderLeft)));
+		System.out.println("Gray Area Height: " + (600 + (2 * enemyGridBorderBottom)));
+		setBounds(0, 0, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderBottom))); //size of the entire frame
 		setResizable(false);
 		Grid = new EnemyPlacementGrid();
 		currentLevel = new Level(null, 0, Grid);
@@ -151,7 +156,7 @@ public class WaveScreen extends JFrame {
 					System.out.println("Correct Area for placement");
 					mouseX = arg0.getX();
 					mouseY = arg0.getY();
-					//System.out.println("X:" + mouseX + ", Y:" + mouseY );
+					System.out.println("X:" + mouseX + ", Y:" + mouseY );
 					Enemy newEnemy = workingEnemy.cloneSelf();
 					newEnemy.setLocation(mouseX, mouseY);
 					//System.out.println("newEnemy object: " + newEnemy);
@@ -178,20 +183,35 @@ public class WaveScreen extends JFrame {
 		});
 		
 		Grid.setToolTipText("Place Enemies Here!!!");
+		System.out.println("Grid height: " + Grid.getBounds().height);
+		System.out.println("Grid width: " + Grid.getBounds().width);
+		System.out.println("Grid x: " + Grid.getBounds().x);
+		System.out.println("Grid y: " + Grid.getBounds().y);
 		Grid.setBackground(new Color(152, 251, 152)); //creates the green part
-		Grid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
+		//Grid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
 		Grid.setLayout(new BorderLayout(0, 0));
-		add(Grid);
+		//add(Grid);
 		
 		//creating a new panel called GameScreen, the Black colored zone
 		JPanel GameScreen = new JPanel();
-		GameScreen.setBounds(new Rectangle(0, 0, 400, 600));
-		GameScreen.setMaximumSize(new Dimension(400, 600));
-		GameScreen.setToolTipText("Don't put shit in here");
-		GameScreen.setBorder(null);
+		System.out.println("GameScreen height: " + GameScreen.getBounds().height);
+		System.out.println("GameScreen width: " + GameScreen.getBounds().width);
+		System.out.println("GameScreen x: " + GameScreen.getX());
+		System.out.println("GameScreen y: " + GameScreen.getY());
+		GameScreen.setBounds(new Rectangle(0, 0, 480, 800));
+		//GameScreen.setMaximumSize(new Dimension(480, 800));
+		GameScreen.setLocation(160, 100);
+		Grid.topLeftCorner = new Point(GameScreen.getX(), GameScreen.getY());
+		System.out.println("topLeftCorner: " + Grid.topLeftCorner);
+		GameScreen.setToolTipText("Don't Place Enemies Here!!!");
+		//GameScreen.setBorder(null);
 		GameScreen.setBackground(Color.BLACK);
 		//EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); //places it on top of EnemyPlacementGrid
-		Grid.add(GameScreen, BorderLayout.CENTER);
+		//Grid.add(GameScreen, BorderLayout.CENTER);
+		
+		//adding components
+		add(GameScreen);
+		add(Grid);
 		
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
