@@ -115,7 +115,7 @@ function Player:equipDebug(sceneGroup)
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
 	self.defensePassives = {}
-	self.defensePassives[1] = ExtraStartingHealth:new(self, 5)
+	self.defensePassives[1] = ExtraStartingHealth:new(self)
 	self.defensePassives[2] = HealthRegen:new(self)
 end
 
