@@ -1,4 +1,5 @@
 require "org.Context"
+require "com.managers.LevelManager"
 require "com.managers.AIDirector"
 require "com.managers.BulletManager"
 require "com.managers.CollectibleHeap"

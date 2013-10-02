@@ -2,6 +2,7 @@ require "com.Ride"
 require "org.Queue"
 require "com.game.weapons.secondary.FreezeMissile"
 
+local DEFAULT_HATER_POOL_LOCATION = 11133377
 
 --[[
 	CLASS NAME: Hater
@@ -23,9 +24,18 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 		shipPieces = {"com/resources/art/sprites/enemy_02_piece_01.png", "com/resources/art/sprites/enemy_02_piece_02.png", "com/resources/art/sprites/enemy_02_piece_03.png", 
 	"com/resources/art/sprites/enemy_02_piece_04.png", "com/resources/art/sprites/enemy_02_piece_01.png"}
 	end
-
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
 	
+	
+	if x == nil or x == 0 then
+		x = DEFAULT_HATER_POOL_LOCATION
+	end
+	
+	if y == nil or y == 0 then
+		y = DEFAULT_HATER_POOL_LOCATION
+	end
+	
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
+
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
