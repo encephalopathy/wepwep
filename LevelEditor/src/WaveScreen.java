@@ -445,7 +445,7 @@ public class WaveScreen extends JFrame {
 		Hater_NoramlItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	        	   System.out.println("CREATING A NEW Enemy_1");
+	        	   System.out.println("CREATING A NEW Hater_Normal");
 	               enemyChoiceMenu.setText("Hater_Normal");
 	               Hater_Normal newDude = new Hater_Normal(Grid);
 	               newDude.setRotation();
@@ -460,7 +460,7 @@ public class WaveScreen extends JFrame {
 		Hater_HalfStrafeItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               System.out.println("CREATING A NEW Enemy_2");
+	               System.out.println("CREATING A NEW Hater_HalfStrafe");
 	        	   enemyChoiceMenu.setText("Hater_HalfStrafe");
 	        	   Hater_HalfStrafe newDude = new Hater_HalfStrafe(Grid);
 	        	   newDude.setRotation();
@@ -475,7 +475,7 @@ public class WaveScreen extends JFrame {
 		Hater_HomingItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               System.out.println("CREATING A NEW Enemy_3");
+	               System.out.println("CREATING A NEW Hater_Homing");
 	        	   enemyChoiceMenu.setText("Hater_HomingItem");
 	        	   Hater_Homing newDude = new Hater_Homing(Grid);
 	        	   newDude.setRotation();
@@ -483,6 +483,82 @@ public class WaveScreen extends JFrame {
 	        	   workingEnemy = newDude;
 	           }
 	       });
+		
+		//adding in Hater_SineWave enemy option
+		JMenuItem Hater_SineWaveItem = new JMenuItem("Hater_SineWave");
+		enemyChoiceMenu.add(Hater_SineWaveItem);
+		Hater_SineWaveItem.addActionListener(new ActionListener() {
+			   @Override
+			   public void actionPerformed(ActionEvent event) {
+				   System.out.println("CREATING A NEW Hater_SineWave");
+			       enemyChoiceMenu.setText("Hater_HomingItem");
+			       Hater_SineWave newDude = new Hater_SineWave(Grid);
+			       newDude.setRotation();
+			       newDude.createWeaponList(); //generates the weapons and passive pop ups
+			       workingEnemy = newDude;
+			   }
+		   });
+		
+		
+		//adding in Hater_MidScreen enemy option
+		JMenuItem Hater_MidScreenItem = new JMenuItem("Hater_MidScreen");
+		enemyChoiceMenu.add(Hater_MidScreenItem);
+		Hater_MidScreenItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+			   System.out.println("CREATING A NEW Hater_MidScreen");
+			   enemyChoiceMenu.setText("Hater_HomingItem");
+			   Hater_MidScreen newDude = new Hater_MidScreen(Grid);
+			   newDude.setRotation();
+			   newDude.createWeaponList(); //generates the weapons and passive pop ups
+			   workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_UpDown enemy option
+		JMenuItem Hater_UpDownItem = new JMenuItem("Hater_UpDown");
+		enemyChoiceMenu.add(Hater_UpDownItem);
+		Hater_UpDownItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_UpDown");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_UpDown newDude = new Hater_UpDown(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive  pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_SpeedUp enemy option
+		JMenuItem Hater_SpeedUpItem = new JMenuItem("Hater_SpeedUp");
+		enemyChoiceMenu.add(Hater_SpeedUpItem);
+		Hater_SpeedUpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_SpeedUp");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_SpeedUp newDude = new Hater_SpeedUp(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_Carrier enemy option
+		JMenuItem Hater_CarrierItem = new JMenuItem("Hater_Carrier");
+		enemyChoiceMenu.add(Hater_CarrierItem);
+		Hater_CarrierItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_Carrier");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_Carrier newDude = new Hater_Carrier(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
 		
 		//setting up the delete menu
 		JMenu deleteMenu = new JMenu("Delete");
