@@ -8,6 +8,10 @@ local haterList = {}
 
 local allHatersInView = {}
 
+--The enemies that spawn when a wave is generated based on its spawn time.
+local enemiesToSpawn
+
+--A Corona timer used to determine when the next wave should appear on screen.
 local spawnClock 
 --local haterGroup = display.newGroup()
 
@@ -34,17 +38,19 @@ local function createHaterList(currentLevel, player)
 			local newHater = require(haterType):new(haterGroup, player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
 										haterList)
+			newHater.sprite.isBodyActive = false
+			newHater.sprite.isVisible = false
 			Queue.insertFront(haterList[haterType].outOfView, newHater)
 		end
 	end
 end
 
 local function spawnHater(enemies)
-	print("CALLED spawnHater!!!")
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
-			--print('enemyContext: '..tostring(enemyContext))
 			local enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+			enemyInView.sprite.isBodyActive = true
+			enemyInView.sprite.isVisible = true
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
 			enemyInView.sprite.x = enemyContext.x
 			enemyInView.sprite.y = enemyContext.y
@@ -58,21 +64,23 @@ local function spawnHater(enemies)
 	end
 
 	setSpawnClock()
-	
 	return true
 end
 
+--A closure used to spawn the haters on screen.  Needed to have Corona's
+--peformWithDelay be reset whenever we get to a new wave.
+local function spawnWave()
+	spawnHater(enemiesToSpawn)
+end
+
 setSpawnClock = function()
-	print("INSIDE setSpawnClock")
 	local wave = createNewHaterWave()
 	if wave == nil then
 		return 
 	end
-	-- print('wave.Enemies is: '..tostring(wave.Enemies))
-	-- print('wave.Time is: '..tostring(wave.Time))
-	-- print('wave.Time type: '..type(wave.Time))
-	print("setSpawnClock>wave.Time: "..wave.Time)
-	spawnClock = timer.performWithDelay((wave.Time*1000), spawnHater(wave.Enemies), 1)
+	enemiesToSpawn = wave.Enemies
+	spawnClock = timer.performWithDelay(wave.Time * 1000, spawnWave, 1)
+	return true
 end
 
 local function moveHaterOffScreen(hater)

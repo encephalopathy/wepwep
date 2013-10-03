@@ -91,7 +91,7 @@ function fitToResolution(enemy)
 	local blackBox = {width = 480, height = 800}
 	enemy.x = (enemy.x*(display.contentWidth/blackBox.width))
 	enemy.y = (enemy.y*(display.contentHeight/blackBox.height))
-	print("enemy.x: "..enemy.x.." enemy.y: "..enemy.y)
+	--print("enemy.x: "..enemy.x.." enemy.y: "..enemy.y)
 end
 
 function equipToHater(line, enemy, fieldType)
