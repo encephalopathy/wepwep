@@ -66,6 +66,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	{ categoryBits = 1, maskBits = 27} ) 
 
 	self.health = 10
+	self.maxhealth = 10
 
 	self.powah = PLAYER_MAXPOWAH
 	
