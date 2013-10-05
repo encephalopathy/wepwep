@@ -17,9 +17,9 @@ function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 	end
 	
 	if soundFX == nil then
-		print("IN CIRCLE SHOT THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		--print("IN CIRCLE SHOT THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundFX = "com/resources/music/soundfx/shotgun.ogg"
-		print("soundFX:"..soundFX)
+		--print("soundFX:"..soundFX)
    end
 	
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)

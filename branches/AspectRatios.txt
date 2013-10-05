@@ -1,0 +1,4 @@
+1024x600 : 6 tablet           aspect ratio: 128x75
+1280x800 : 11 tablet          aspect ratio: 8x5
+480x800 : 5 smartphone        aspect ratio: 3x5
+800x480 : 5 smartphone        aspect ratio: 5x3

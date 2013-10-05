@@ -80,8 +80,6 @@ function createGame(filename)
 	end
 	io.close()
 	file = nil
-	io.close()
-	file = nil
 	
 	return levels
 end
@@ -90,12 +88,10 @@ end
 	Sets enemy x and y coordinates to fit with the resolution of the device
 ]]--
 function fitToResolution(enemy)
-	local blackBox = {}
-	blackBox.x = 400
-	blackBox.y = 470
-	enemy.x = (enemy.x/blackBox.x)*display.contentWidth
-	enemy.y = (enemy.y/blackBox.y)*display.contentHeight
-
+	local blackBox = {width = 480, height = 800}
+	enemy.x = (enemy.x*(display.contentWidth/blackBox.width))
+	enemy.y = (enemy.y*(display.contentHeight/blackBox.height))
+	--print("enemy.x: "..enemy.x.." enemy.y: "..enemy.y)
 end
 
 function equipToHater(line, enemy, fieldType)
@@ -103,7 +99,7 @@ function equipToHater(line, enemy, fieldType)
 	--print(enemy[fieldType])
 	--print(line)
 	--for equipment in string.gmatch(line, "%p*(%w+)%p*") do
-	for equipment in string.gmatch(line, "[%w+.?]+,?") do
+	for equipment in string.gmatch(line, "[(%w)+.?]+") do
 		--print('weapon is: ' .. equipment)
 		table.insert(enemy[fieldType], equipment)
 	end
@@ -122,7 +118,7 @@ function setLevel(levelName)
 	return currentLevel
 end
 
-levels = createGame('com/game/levels/testInput.txt')  
+levels = createGame('com/game/levels/resolutionTest.pew')  
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	
@@ -193,5 +189,5 @@ function printWeapons(enemy)
 	end
 end
 
-print('!!!DEBUG LOOP!!!') 
+--print('!!!DEBUG LOOP!!!') 
 --printLevel(levels)

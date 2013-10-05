@@ -5,9 +5,9 @@ SineWave = Weapon:subclass("SineWave")
 function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight,soundFX)
    
    if soundFX == nil then
-		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundFX = "com/resources/music/soundfx/sineWave.ogg"
-		print("soundFX:"..soundFX)
+		--print("soundFX:"..soundFX)
    end
    
    self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_05.png", 50, SineWaveBullet, bulletWidth, bulletHeight,soundFX)

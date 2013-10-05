@@ -12,6 +12,8 @@ import java.util.LinkedList;
 
 public class BoundingBoxManager {
 
+	private static AffineTransform rotationMatrix = new AffineTransform();
+	
 	private static LinkedList<BoundingBox> boundingBoxes = new LinkedList<BoundingBox>();
 	
 	
@@ -48,7 +50,7 @@ public class BoundingBoxManager {
 					return temp;
 				}
 			}
-			else if (isPointInRotatedBoundingBox(x, y, temp, topLeft, topRight, bottomRight, bottomLeft)){
+			else if (isPointInRotatedBoundingBox(x, y, temp)){
 				boundingBoxes.remove(temp);
 				return temp;
 				
@@ -59,29 +61,45 @@ public class BoundingBoxManager {
 	
 	/*
 	 *  Checks to see if a point is in a bounding box.  If the math looks too confusing, don't worry about it. IT WORKS!
+	 *  
+	 *  ...No seriously, DO NOT TOUCH THIS!!!
+	 *  
+	 *  TO DO: Optimize this shit if we find waves have, like, over 200 enemies... but that would be dumb so don't do that.
 	 */
-	public static boolean isPointInRotatedBoundingBox(int mouseX, int mouseY, BoundingBox bbToCheck, Point topLeft, Point topRight, Point bottomRight, Point bottomLeft) {
+	public static boolean isPointInRotatedBoundingBox(int mouseX, int mouseY, BoundingBox bbToCheck) {
 			if(bbToCheck.rotation != 0){
-				AffineTransform rotationMatrix = AffineTransform.getRotateInstance(bbToCheck.rotation, bbToCheck.enemyX, bbToCheck.enemyY);
+				//rotationMatrix = AffineTransform.getRotateInstance(bbToCheck.rotation, bbToCheck.enemyX, bbToCheck.enemyY);
+				Point topLeft = new Point(0,0);
+				Point topRight = new Point(bbToCheck.imageWidth, 0);
+				Point bottomLeft = new Point(0, bbToCheck.imageHeight);
+				Point bottomRight = new Point(bbToCheck.imageWidth, bbToCheck.imageHeight);
+				
+				rotationMatrix.setToIdentity();
+				rotationMatrix.translate(bbToCheck.enemyX, bbToCheck.enemyY);
+				double rot = Math.toRadians(bbToCheck.rotation);
+				rotationMatrix.rotate(rot);
+				rotationMatrix.scale(bbToCheck.scaleX, bbToCheck.scaleY);
+				rotationMatrix.translate( -(bbToCheck.imageWidth/2), -(bbToCheck.imageHeight/2));
+				
 				rotationMatrix.transform(topLeft, topLeft);
 				rotationMatrix.transform(topRight, topRight);
 				rotationMatrix.transform(bottomRight, bottomRight);
 				rotationMatrix.transform(bottomLeft, bottomLeft);
 				
-				Point leftSide = new Point(topLeft.x - bottomLeft.x, topLeft.y - bottomLeft.y);
-				Point topSide = new Point(topRight.x - topLeft.x, topRight.y - topLeft.y);
-				Point rightSide = new Point(bottomRight.x - topRight.x, bottomRight.y - topRight.y);
-				Point bottomSide = new Point(bottomLeft.x - bottomRight.x, bottomLeft.y - bottomRight.y);
-				
-				Point mouseClickPos = new Point(mouseX, mouseY);
-				
 				//CROSS PRODUCTS!!
-				float leftBoundaryCheck = crossProduct(leftSide, mouseClickPos);
-				float rightBoudaryCheck = crossProduct(rightSide, mouseClickPos);
-				float topBoundaryCheck = crossProduct(topSide, mouseClickPos);
-				float bottomBoundaryCheck = crossProduct(bottomSide, mouseClickPos);
+				boolean leftBoundaryCheck = isPointRightOf(topLeft, topRight, mouseX, mouseY);
+				boolean rightBoundaryCheck = isPointRightOf(topRight, bottomRight, mouseX, mouseY);
+				boolean topBoundaryCheck = isPointRightOf(bottomRight, bottomLeft, mouseX, mouseY);
+				boolean bottomBoundaryCheck = isPointRightOf(bottomLeft, topLeft, mouseX, mouseY);
 				
-				if (leftBoundaryCheck > 0 && rightBoudaryCheck > 0  && topBoundaryCheck > 0 && bottomBoundaryCheck > 0) {
+				/*
+				System.out.println("leftBoundaryCheck: " + leftBoundaryCheck);
+				System.out.println("rightBoundaryCheck: " + rightBoundaryCheck);
+				System.out.println("topBoundaryCheck: " + topBoundaryCheck);
+				System.out.println("bottomBoundaryCheck: " + bottomBoundaryCheck);
+				*/
+				
+				if (leftBoundaryCheck && rightBoundaryCheck  && topBoundaryCheck && bottomBoundaryCheck) {
 					System.out.println("BoundingBoxManager: Clicked A Bounding Box");
 					return true;
 				}
@@ -89,8 +107,8 @@ public class BoundingBoxManager {
 			return false;
 	}
 	
-	public static float crossProduct(Point p1, Point p2) {
-		return p1.x * p2.y -  p2.x * p1.y;
+	public static boolean isPointRightOf(Point p1, Point p2, int mouseX, int mouseY) {
+		return ((p2.x - p1.x)*(mouseY - p1.y) - (p2.y - p1.y)*(mouseX - p1.x)) > 0;
 	}
 
 	

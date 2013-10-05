@@ -2,11 +2,21 @@ require "com.MoveableObject"
 
 Collectible = MoveableObject:subclass("Collectible")
 
+local DEFAULT_COLLECTIBLE_POOL_LOCATION = -10000
+
 function Collectible:init(sceneGroup, imgSrc, startX, startY, rotation, width, height)
     local collisionFilter
 
     --Bitmasks the appropiate flags so that collision detection is checked against certain Box2D bodies.
 	collisionFilter = { categoryBits = 16, maskBits = 1}
+	
+	if startX == nil then
+		startX = DEFAULT_COLLECTIBLE_POOL_LOCATION
+	end
+	
+	if startY == nil then
+		startY = DEFAULT_COLLECTIBLE_POOL_LOCATION
+	end
 	
 	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
 	
@@ -29,7 +39,6 @@ function Collectible:init(sceneGroup, imgSrc, startX, startY, rotation, width, h
 	
 	self.sprite.x, self.sprite.y = -10000, -10000
 	--Does the player own this collectible.
-	self.isPlayerCollectible = isPlayerCollectible
 	
 	--This an object reference to this object from a Corona sprite.  This is need for collision detection to work.
 	self.sprite.objRef = self

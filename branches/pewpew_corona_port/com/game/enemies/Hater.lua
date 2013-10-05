@@ -2,6 +2,7 @@ require "com.Ride"
 require "org.Queue"
 require "com.game.weapons.secondary.FreezeMissile"
 
+local DEFAULT_HATER_POOL_LOCATION = 11133377
 
 --[[
 	CLASS NAME: Hater
@@ -23,9 +24,18 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 		shipPieces = {"com/resources/art/sprites/enemy_02_piece_01.png", "com/resources/art/sprites/enemy_02_piece_02.png", "com/resources/art/sprites/enemy_02_piece_03.png", 
 	"com/resources/art/sprites/enemy_02_piece_04.png", "com/resources/art/sprites/enemy_02_piece_01.png"}
 	end
-
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
 	
+	
+	if x == nil or x == 0 then
+		x = DEFAULT_HATER_POOL_LOCATION
+	end
+	
+	if y == nil or y == 0 then
+		y = DEFAULT_HATER_POOL_LOCATION
+	end
+	
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
+
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
@@ -95,11 +105,15 @@ function Hater:equipRig(sceneGroup, weapons, passives)
 	
 	if weapons ~= nil then
 		for i = 1, #weapons, 1 do
+			--print("weapon[i]: "..weapons[i])
+			assert(require(weapons[i]), 'Cannot find the weapon to create: ' .. weapons[i] .. 'in AIDirector')
 			self:equip(self.primaryWeapons,require(weapons[i]), sceneGroup, 30, self.muzzleLocations[i])
 		end
 	end
 	if passives ~= nil then
 		for i = 1, #passives, 1 do
+			--print("passives[i]: "..passives[i])
+			assert(require(passives[i]), 'Cannot find the passive to create: ' .. passives[i] .. 'in AIDirector')
 			table.insert(self.defensePassives, require(passives[i])(self))
 		end
 	end

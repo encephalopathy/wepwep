@@ -8,6 +8,10 @@ local haterList = {}
 
 local allHatersInView = {}
 
+--The enemies that spawn when a wave is generated based on its spawn time.
+local enemiesToSpawn
+
+--A Corona timer used to determine when the next wave should appear on screen.
 local spawnClock 
 --local haterGroup = display.newGroup()
 
@@ -15,10 +19,11 @@ haterPootiePooInViewList = nil
 haterPootiePooOutofViewList = nil
 
 --forward declaration
-local function setSpawnClock()
-end
+local setSpawnClock = nil
 
 local function createHaterList(currentLevel, player)
+	assert(currentLevel ~= nil, 'current level is nil, make sure the correct level is being loaded from LevelManager.')
+	assert(player ~= nil, 'player is nil, player was not passed in from AIDirector')
 	haterCreationInfo = currentLevel.enemyFrequency
 	
 	local haterGroup = AIDirector.haterGroup
@@ -33,6 +38,8 @@ local function createHaterList(currentLevel, player)
 			local newHater = require(haterType):new(haterGroup, player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
 										haterList)
+			newHater.sprite.isBodyActive = false
+			newHater.sprite.isVisible = false
 			Queue.insertFront(haterList[haterType].outOfView, newHater)
 		end
 	end
@@ -41,34 +48,39 @@ end
 local function spawnHater(enemies)
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
-			--print('enemyContext: '..tostring(enemyContext))
 			local enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+			enemyInView.sprite.isBodyActive = true
+			enemyInView.sprite.isVisible = true
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
 			enemyInView.sprite.x = enemyContext.x
 			enemyInView.sprite.y = enemyContext.y
 			enemyInView.sprite.rotation = enemyContext.Rotation
 			enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
-			--Still need to equip weapons to the enemyInView
-			--Still need to scale x and y based on resolution of the screen
 			allHatersInView[enemyInView] = enemyInView
 		end
 	else
 		playerWon = true
 		enemyTimer = nil
 	end
+
 	setSpawnClock()
 	return true
 end
 
-local function setSpawnClock()
+--A closure used to spawn the haters on screen.  Needed to have Corona's
+--peformWithDelay be reset whenever we get to a new wave.
+local function spawnWave()
+	spawnHater(enemiesToSpawn)
+end
+
+setSpawnClock = function()
 	local wave = createNewHaterWave()
 	if wave == nil then
 		return 
 	end
-	-- print('wave.Enemies is: '..tostring(wave.Enemies))
-	-- print('wave.Time is: '..tostring(wave.Time))
-	-- print('wave.Time type: '..type(wave.Time))
-	spawnClock = timer.performWithDelay(wave.Time, spawnHater(wave.Enemies), 1)
+	enemiesToSpawn = wave.Enemies
+	spawnClock = timer.performWithDelay(wave.Time * 1000, spawnWave, 1)
+	return true
 end
 
 local function moveHaterOffScreen(hater)

@@ -6,7 +6,7 @@ public final class Hater_Homing extends Enemy {
 		type = "com.game.enemies.Hater_Homing";
 		maxWeapons = 0;
 		maxPassives = 1;
-		imageFileName = "src/test2.png";
+		imageFileName = "src/sprites/enemy_03.png";
 		setImageObject();
 	}
 

@@ -33,17 +33,17 @@ public class Enemy extends BoundingBox{
 	public Enemy self = this;
 	//public int enemyX;
 	//public int enemyY;
-	public double scaleX, scaleY = 1;
+	//public double scaleX, scaleY = 1;
 	//public int height = 25; 
 	//public int width = 25;
-	public int imageHeight, imageWidth = 0; //fuck that shit
+	//public int imageHeight, imageWidth = 0; //fuck that shit
 	public String type = null;
 	//public double rotation = 0;
 	public int maxWeapons = 0;
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
 	public int maxPassives = 0;
 	public List<String> passiveList = new ArrayList<String>(); //list of all the weapons
-	public String imageFileName = "src/test.png"; //default image for an enemy
+	public String imageFileName = "src/sprites/enemy_01.png"; //default image for an enemy
 	public EnemyPlacementGrid Grid;
 	JFrame rotationPopUp = new JFrame(); //FFrame for the Rotation pop up
 	Image imageObject = null;
@@ -198,8 +198,9 @@ public class Enemy extends BoundingBox{
 	public String toString(){
 		String printedLine = "";
 		printedLine += ("   Type=" + type);
-		printedLine += (" Location=" + Integer.toString(enemyX) + "," + Integer.toString(enemyY));
-		printedLine += (" Rotation=" + Double.toString(rotation));
+		printedLine += (" Location=" + Integer.toString(enemyX - Grid.topLeftCorner.x) + "," + Integer.toString(enemyY- Grid.topLeftCorner.y));
+		int rot = (int)rotation; //temp to hold an integer version of the rotation
+		printedLine += (" Rotation=" + Integer.toString(rot));
 		printedLine += (" Weapons=");
 		for(int i = 0; i < weaponList.size(); i++){
 			printedLine += (weaponList.get(i));

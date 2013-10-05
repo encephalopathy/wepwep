@@ -2,10 +2,12 @@
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Point;
 //import java.awt.Image;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 
 
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 //import java.io.UnsupportedEncodingException;
 //import java.nio.file.Path;
+
 
 
 
@@ -87,7 +90,7 @@ public class WaveScreen extends JFrame {
 	//border variables
 	public final int enemyGridBorderTop = 100; 
 	public final int enemyGridBorderLeft = 200; //
-	public final int enemyGridBorderBottom = 150; //
+	public final int enemyGridBorderBottom = 200; //
 	public final int enemyGridBorderRight = 200; 
 	
 	//take out
@@ -123,7 +126,9 @@ public class WaveScreen extends JFrame {
 		//File enemyFile = new File(enemyFile, );
 		setTitle("Wave Editor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderBottom))); //size of the entire frame
+		System.out.println("Gray Area Width: " + (400 + (2 * enemyGridBorderLeft)));
+		System.out.println("Gray Area Height: " + (600 + (2 * enemyGridBorderBottom)));
+		setBounds(0, 0, (400 + (2 * enemyGridBorderLeft)), (600 + (2 * enemyGridBorderBottom))); //size of the entire frame
 		setResizable(false);
 		Grid = new EnemyPlacementGrid();
 		currentLevel = new Level(null, 0, Grid);
@@ -151,7 +156,7 @@ public class WaveScreen extends JFrame {
 					System.out.println("Correct Area for placement");
 					mouseX = arg0.getX();
 					mouseY = arg0.getY();
-					//System.out.println("X:" + mouseX + ", Y:" + mouseY );
+					System.out.println("X:" + mouseX + ", Y:" + mouseY );
 					Enemy newEnemy = workingEnemy.cloneSelf();
 					newEnemy.setLocation(mouseX, mouseY);
 					//System.out.println("newEnemy object: " + newEnemy);
@@ -178,20 +183,35 @@ public class WaveScreen extends JFrame {
 		});
 		
 		Grid.setToolTipText("Place Enemies Here!!!");
+		System.out.println("Grid height: " + Grid.getBounds().height);
+		System.out.println("Grid width: " + Grid.getBounds().width);
+		System.out.println("Grid x: " + Grid.getBounds().x);
+		System.out.println("Grid y: " + Grid.getBounds().y);
 		Grid.setBackground(new Color(152, 251, 152)); //creates the green part
-		Grid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
+		//Grid.setBorder(new EmptyBorder(enemyGridBorderTop, enemyGridBorderLeft, enemyGridBorderBottom, enemyGridBorderRight));
 		Grid.setLayout(new BorderLayout(0, 0));
-		add(Grid);
+		//add(Grid);
 		
 		//creating a new panel called GameScreen, the Black colored zone
 		JPanel GameScreen = new JPanel();
-		GameScreen.setBounds(new Rectangle(0, 0, 400, 600));
-		GameScreen.setMaximumSize(new Dimension(400, 600));
-		GameScreen.setToolTipText("Don't put shit in here");
-		GameScreen.setBorder(null);
+		System.out.println("GameScreen height: " + GameScreen.getBounds().height);
+		System.out.println("GameScreen width: " + GameScreen.getBounds().width);
+		System.out.println("GameScreen x: " + GameScreen.getX());
+		System.out.println("GameScreen y: " + GameScreen.getY());
+		GameScreen.setBounds(new Rectangle(0, 0, 480, 800));
+		//GameScreen.setMaximumSize(new Dimension(480, 800));
+		GameScreen.setLocation(160, 100);
+		Grid.topLeftCorner = new Point(GameScreen.getX(), GameScreen.getY());
+		System.out.println("topLeftCorner: " + Grid.topLeftCorner);
+		GameScreen.setToolTipText("Don't Place Enemies Here!!!");
+		//GameScreen.setBorder(null);
 		GameScreen.setBackground(Color.BLACK);
 		//EnemyPlacementGrid.add(GameScreen, BorderLayout.CENTER); //places it on top of EnemyPlacementGrid
-		Grid.add(GameScreen, BorderLayout.CENTER);
+		//Grid.add(GameScreen, BorderLayout.CENTER);
+		
+		//adding components
+		add(GameScreen);
+		add(Grid);
 		
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
@@ -425,7 +445,7 @@ public class WaveScreen extends JFrame {
 		Hater_NoramlItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	        	   System.out.println("CREATING A NEW Enemy_1");
+	        	   System.out.println("CREATING A NEW Hater_Normal");
 	               enemyChoiceMenu.setText("Hater_Normal");
 	               Hater_Normal newDude = new Hater_Normal(Grid);
 	               newDude.setRotation();
@@ -440,7 +460,7 @@ public class WaveScreen extends JFrame {
 		Hater_HalfStrafeItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               System.out.println("CREATING A NEW Enemy_2");
+	               System.out.println("CREATING A NEW Hater_HalfStrafe");
 	        	   enemyChoiceMenu.setText("Hater_HalfStrafe");
 	        	   Hater_HalfStrafe newDude = new Hater_HalfStrafe(Grid);
 	        	   newDude.setRotation();
@@ -455,7 +475,7 @@ public class WaveScreen extends JFrame {
 		Hater_HomingItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               System.out.println("CREATING A NEW Enemy_3");
+	               System.out.println("CREATING A NEW Hater_Homing");
 	        	   enemyChoiceMenu.setText("Hater_HomingItem");
 	        	   Hater_Homing newDude = new Hater_Homing(Grid);
 	        	   newDude.setRotation();
@@ -463,6 +483,82 @@ public class WaveScreen extends JFrame {
 	        	   workingEnemy = newDude;
 	           }
 	       });
+		
+		//adding in Hater_SineWave enemy option
+		JMenuItem Hater_SineWaveItem = new JMenuItem("Hater_SineWave");
+		enemyChoiceMenu.add(Hater_SineWaveItem);
+		Hater_SineWaveItem.addActionListener(new ActionListener() {
+			   @Override
+			   public void actionPerformed(ActionEvent event) {
+				   System.out.println("CREATING A NEW Hater_SineWave");
+			       enemyChoiceMenu.setText("Hater_HomingItem");
+			       Hater_SineWave newDude = new Hater_SineWave(Grid);
+			       newDude.setRotation();
+			       newDude.createWeaponList(); //generates the weapons and passive pop ups
+			       workingEnemy = newDude;
+			   }
+		   });
+		
+		
+		//adding in Hater_MidScreen enemy option
+		JMenuItem Hater_MidScreenItem = new JMenuItem("Hater_MidScreen");
+		enemyChoiceMenu.add(Hater_MidScreenItem);
+		Hater_MidScreenItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+			   System.out.println("CREATING A NEW Hater_MidScreen");
+			   enemyChoiceMenu.setText("Hater_HomingItem");
+			   Hater_MidScreen newDude = new Hater_MidScreen(Grid);
+			   newDude.setRotation();
+			   newDude.createWeaponList(); //generates the weapons and passive pop ups
+			   workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_UpDown enemy option
+		JMenuItem Hater_UpDownItem = new JMenuItem("Hater_UpDown");
+		enemyChoiceMenu.add(Hater_UpDownItem);
+		Hater_UpDownItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_UpDown");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_UpDown newDude = new Hater_UpDown(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive  pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_SpeedUp enemy option
+		JMenuItem Hater_SpeedUpItem = new JMenuItem("Hater_SpeedUp");
+		enemyChoiceMenu.add(Hater_SpeedUpItem);
+		Hater_SpeedUpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_SpeedUp");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_SpeedUp newDude = new Hater_SpeedUp(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_Carrier enemy option
+		JMenuItem Hater_CarrierItem = new JMenuItem("Hater_Carrier");
+		enemyChoiceMenu.add(Hater_CarrierItem);
+		Hater_CarrierItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_Carrier");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_Carrier newDude = new Hater_Carrier(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
 		
 		//setting up the delete menu
 		JMenu deleteMenu = new JMenu("Delete");
