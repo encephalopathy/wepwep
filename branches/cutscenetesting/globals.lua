@@ -11,7 +11,7 @@ local M = {}
 
 -- c_txtb: codec textbox
 M.c_txtb_x  = 200
-M.c_txtb_y  = h - 175
+M.c_txtb_y  = h - 175 + 200
 M.c_txtb_w  = 250
 M.c_txtb_h  = 125
 M.c_txtb_sw = 3			-- sw: stroke width
@@ -30,7 +30,7 @@ M.c_p_img = {			-- c_p_img: portrait image (this will be replaced with strings f
 	Tyce   = {r = 100, g = 225, b = 100}
 }
 M.c_p_x  = 75
-M.c_p_y  = h - 175
+M.c_p_y  = h - 175 + 200
 M.c_p_w  = 125
 M.c_p_sw = 3			-- sw: stroke width
 
