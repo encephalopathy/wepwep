@@ -221,4 +221,17 @@ public class Enemy extends BoundingBox{
 		//this is where we will be deleting enemies!!! OMG!
 		
 	}
+	
+	public void clearObject(){
+		this.Grid = null;
+		if(this.weaponList != null){
+			this.weaponList.clear();
+			this.weaponList = null;
+		}
+		if(this.passiveList != null){
+			this.passiveList.clear();
+			this.passiveList = null;
+		}
+		this.imageObject = null;
+	}
 }

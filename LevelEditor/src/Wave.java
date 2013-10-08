@@ -119,4 +119,16 @@ public class Wave {
 		}
 		return printedLine;
 	}
+	
+	public void clearObject(){
+		for(int i = 0; i < waveEnemyList.size(); i++){
+			waveEnemyList.get(i).clearObject();
+		}
+		if(waveEnemyList != null){
+			waveEnemyList = null;
+		}
+		this.Grid = null;
+		this.waveButton = null;
+	}
+	
 }

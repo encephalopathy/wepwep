@@ -48,6 +48,7 @@ public class WeaponPopUp extends JDialog {
 	 */
 	public WeaponPopUp(int weapons) throws FileNotFoundException {
 		self = this;
+		this.setTitle("Select Weapon(s) for Enemy To Be Placed");
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
 		Scanner in = new Scanner(new File("Weapons"));
