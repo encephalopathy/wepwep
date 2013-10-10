@@ -96,10 +96,9 @@ function Singleshot:fire()
 		local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 
-		--playSoundFX("sounds/soundfx/laser.ogg")
-		--print("self.soundFX is: "..tostring(self.soundFX))
-		self:playFiringSound(self.soundFX) --call to play sound for weapons
 
+		self:playFiringSound(self.soundFX) --call to play sound for weapons
+		--self:adjustPowah()
 	end	
 end
 

@@ -16,7 +16,7 @@ local scene = storyboard.newScene("game")
 
 -- include Corona's "widget" library
 local widget = require "widget"
-local debugFlag = false
+local debugFlag = true
 -- local variables
 local player = nil
 local playerStartLocation = { x = display.contentWidth / 2, y =  display.contentHeight / 2 }
@@ -25,19 +25,8 @@ local backgroundBuffer = nil
 local currentLevelNumber = 1
 step = 0
 
-
-
-local healthRectBG = display.newRect(display.contentWidth/20, display.contentHeight/50, display.contentWidth/2, display.contentHeight/23)
-healthRectBG:setFillColor(150, 150, 150, 120)
-
-local powahRectBG = display.newRect(display.contentWidth/20, display.contentHeight/12, display.contentWidth/17, display.contentHeight/2)
-powahRectBG:setFillColor(150, 150, 150, 120)
-
-local powahRect = display.newRect(display.contentWidth/18 , display.contentHeight/11, display.contentWidth/20, display.contentHeight/2.05)
-powahRect:setFillColor(50, 80, 200, 140)
-
-local healthRect = display.newRect(display.contentWidth/18, display.contentHeight/40 , display.contentWidth/2.05, display.contentHeight/30)
-healthRect:setFillColor(50, 220, 80, 140)
+--[[  DEBUG ]]--
+local healthRectBG, powahRectBG, powahRect, healthRect
 
 local gameContext
 
@@ -64,13 +53,6 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 -- 
 -----------------------------------------------------------------------------------------
 
---[[local newCoroutine = coroutine.create(function()
-	while true do
-		updateParticleEmitters()
-    	coroutine.yield()
-    end
-end
-)]]--
 
 
 --[[local function createGameUIMVC(group)
@@ -82,6 +64,42 @@ end
     gameContext:preprocess(group)
 end]]--
 
+local function debugUpdate()
+	if not debugFlag then
+		healthRect.width = (display.contentWidth/2.05)*(player.health/player.maxhealth)
+		powahRect.height = (display.contentHeight/2.05)*(player.powah/PLAYER_MAXPOWAH)
+	end
+end
+
+local function debugAdd(group)
+	if not debugFlag then
+		healthRectBG = display.newRect(display.contentWidth/20, display.contentHeight/50, display.contentWidth/2, display.contentHeight/23)
+		healthRectBG:setFillColor(150, 150, 150, 120)
+
+		powahRectBG = display.newRect(display.contentWidth/20, display.contentHeight/12, display.contentWidth/17, display.contentHeight/2)
+		powahRectBG:setFillColor(150, 150, 150, 120)
+
+		powahRect = display.newRect(display.contentWidth/18 , display.contentHeight/11, display.contentWidth/20, display.contentHeight/2.05)
+		powahRect:setFillColor(50, 80, 200, 140)
+
+		healthRect = display.newRect(display.contentWidth/18, display.contentHeight/40 , display.contentWidth/2.05, display.contentHeight/30)
+		healthRect:setFillColor(50, 220, 80, 140)
+		
+		group:insert(healthRectBG)
+		group:insert(powahRectBG)
+		group:insert(powahRect)
+		group:insert(healthRect)
+	end
+end
+
+local function debugRemove(group)
+	if not debugFlag then
+		group:remove(healthRectBG)
+		group:remove(powahRectBG)
+		group:remove(powahRect)
+		group:remove(healthRect)
+	end
+end
 
 local function update(event)
 	
@@ -104,8 +122,7 @@ local function update(event)
 	player:updatePassives()
 	player:cullBulletsOffScreen()
 	
-	healthRect.width = (display.contentWidth/2.05)*(player.health/player.maxhealth)
-	powahRect.height = (display.contentHeight/2.05)*(player.powah/PLAYER_MAXPOWAH)
+	debugUpdate()
 	
 	step = step + 1
 end
@@ -140,6 +157,8 @@ local function back()
 	storyboard.gotoScene("com.mainmenu.MainMenu", "fade", 500)
 	return true
 end
+
+
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -199,7 +218,10 @@ function scene:enterScene( event )
 	AIDirector.initialize(player, currentLevel)
 	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
+	
+	--This line below will eventually be moved to debug add when Inventory and shop menu work.
 	player:equipDebug(group)
+	
 	player.weapon.targets = AIDirector.haterList
 	
 	step = 0
@@ -208,6 +230,8 @@ function scene:enterScene( event )
 	bulletManager:start()
 	Runtime:addEventListener("enterFrame", update )
 	Runtime:addEventListener("enterFrame", updateBackground )
+	
+	debugAdd(group)
 end
 
 -- Called when scene is about to move offscreen:
@@ -224,6 +248,9 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
+	
+	debugRemove(group)
+	
 	physics.pause()
 end
 

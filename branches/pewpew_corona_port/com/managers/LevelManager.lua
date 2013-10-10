@@ -72,14 +72,6 @@ function createGame(filename)
 			elseif fieldType == 'Passives' then
 				enemy[fieldType] = {}
 				equipToHater(field, enemy, fieldType)
-			else
-				print('fieldType: ' .. fieldType)
-				print('field: ' .. tostring(field))
-				enemyTypeAmountTable[fieldType] = field
-				
-				
-				--modulateEnemy(levels[currentLevel].Time, fieldType, field)
-				
 			end
 		end
 	end

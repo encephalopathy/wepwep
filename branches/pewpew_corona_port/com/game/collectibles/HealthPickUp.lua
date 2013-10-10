@@ -11,6 +11,9 @@ end
 
 function HealthPickUp:activateEffect(player)
 	player.health = player.health + 5
+	if player.health > PLAYER_MAXHEALTH then
+		player.health = PLAYER_MAXHEALTH
+	end
 end
 
 function HealthPickUp:update()
