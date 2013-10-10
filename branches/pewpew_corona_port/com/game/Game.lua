@@ -179,7 +179,7 @@ function scene:enterScene( event )
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	
 	debugFlag = event.params.debug
-	local currentLevel = setLevel('level1') --set to be the default level
+	local currentLevel = setLevel('test') --set to be the default level
 	AIDirector.initialize(player, currentLevel)
 	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y

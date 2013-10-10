@@ -46,6 +46,7 @@ function CollectibleHeap:spawnCollectible(event)
 	end
 	
 	local collectible = Queue.removeBack(self.outOfViewCollectibles[tostring(event.target)])
+	if collectible == nil then return end
 	assert(event.position ~= nil, 'Did not pass a pass location to a spawnCollectible event call')
 	assert(event.position.x, 'Did not set the x location for the collectible ' .. tostring(event.target))
 	assert(event.position.y, 'Did not set the y location for the collectible ' .. tostring(event.target))

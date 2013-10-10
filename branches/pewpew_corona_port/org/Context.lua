@@ -92,7 +92,7 @@ end
      ex of how to use this. Suppose I pass this to this function: "images.sprites.wtf", 
      this gets turned into "wtf".
 --]]
-     function Context:getClassName(classType)
+function Context:getClassName(classType)
 		assert(classType ~= nil, "You cannot pass a null classType")
 		local testStartIndex,testEndIndex = classType:find(".", 1, true)
 		if testStartIndex == nil then

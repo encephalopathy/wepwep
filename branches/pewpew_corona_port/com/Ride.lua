@@ -108,6 +108,7 @@ function Ride:createShipPieceParticleEmitter(sceneGroup, shipPieces)
 	local emitAngle = 0
     
 	local particleEmitter = ParticleEmitter:new(self.sprite.x, self.sprite.y, emitTime)
+	
 	if shipPieces ~= nil then
 		for i = 1, #shipPieces, 1 do
 			--[[

@@ -21,11 +21,26 @@ haterPootiePooOutofViewList = nil
 --forward declaration
 local setSpawnClock = nil
 
+local function createHater(haterList, haterType)
+	if haterList[haterType] == nil then
+		haterList[haterType] = {}
+		haterList[haterType].outOfView = Queue.new()
+		haterList[haterType].inView = Queue.new()
+	end
+	local newHater = require(haterType):new(AIDirector.haterGroup, player, 
+										haterList[haterType].inView, haterList[haterType].outOfView,
+										haterList)
+	newHater.sprite.isBodyActive = false
+	newHater.sprite.isVisible = false
+	return newHater
+end
+
 local function createHaterList(currentLevel, player)
 	assert(currentLevel ~= nil, 'current level is nil, make sure the correct level is being loaded from LevelManager.')
 	assert(player ~= nil, 'player is nil, player was not passed in from AIDirector')
 	haterCreationInfo = currentLevel.enemyFrequency
 	
+	print('haterCreationInfo enemy frequency: ' .. tostring(currentLevel.enemyFrequency))
 	local haterGroup = AIDirector.haterGroup
 	
 	for haterType, haterAmount in pairs(haterCreationInfo) do
@@ -48,7 +63,19 @@ end
 local function spawnHater(enemies)
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
-			local enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+			local haterType = enemyContext.Type
+			local enemyInView = nil
+			if haterList[haterType] == nil then
+				haterList[haterType] = {}
+				haterList[haterType].outOfView = Queue.new()
+				haterList[haterType].inView = Queue.new()
+			else
+				enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+			end
+			
+			if enemyInView == nil then
+				enemyInView = createHater(haterList, enemyContext.Type)
+			end
 			enemyInView.sprite.isBodyActive = true
 			enemyInView.sprite.isVisible = true
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
@@ -127,7 +154,7 @@ function AIDirector.create(sceneGroup)
 end
 
 function AIDirector.initialize(player, currentLevel)
-	createHaterList(currentLevel, player)
+	--createHaterList(currentLevel, player)
 	
 	if player ~= nil then
 		AIDirector.player = player

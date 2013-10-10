@@ -2,7 +2,8 @@
 local currentLevel
 local waveNumber
 local currentWaveNumber = 1
-
+local ENEMY_THRESHOLD_TIME = 1000
+local maximumEnemyTypeAmount
 --Levels
 	--Theme (Level Name)
 		--Level (Level Number)
@@ -15,14 +16,15 @@ local currentWaveNumber = 1
 					--weapons
 						--weapon 1
 						--weapon 2
-				--Enemy2
+--Enemy2
+
 function createGame(filename)
 	local filePath = system.pathForFile( filename, system.ResourceDirectory )
 	local file = io.open(filePath, "r")
 	local enemy
 	local levels = {}
 	local currentLevelName
-	local maximumEnemyTypeAmount
+	
 	--local currentLevelNumber
 	local currentWave
 	local enemyTypeAmountTable
@@ -34,10 +36,10 @@ function createGame(filename)
 			if fieldType == 'Name' then
 				--Name; denotes the theme of the level
 				--if levels[field] == nil then
-					levels[field] = {}
-					currentLevelName = field
-					maximumEnemyTypeAmount = {}
-					levels[field]['enemyFrequency'] = maximumEnemyTypeAmount
+				levels[field] = {}
+				currentLevelName = field
+				maximumEnemyTypeAmount = {}
+				levels[field]['enemyFrequency'] = maximumEnemyTypeAmount
 				--end
 			elseif fieldType == 'Number' then
 				--Number; denotes a level of a given theme
@@ -71,10 +73,13 @@ function createGame(filename)
 				enemy[fieldType] = {}
 				equipToHater(field, enemy, fieldType)
 			else
+				print('fieldType: ' .. fieldType)
+				print('field: ' .. tostring(field))
 				enemyTypeAmountTable[fieldType] = field
-				if maximumEnemyTypeAmount[fieldType] == nil or maximumEnemyTypeAmount[fieldType] < field then
-					maximumEnemyTypeAmount[fieldType] = field
-				end
+				
+				
+				--modulateEnemy(levels[currentLevel].Time, fieldType, field)
+				
 			end
 		end
 	end
@@ -118,7 +123,7 @@ function setLevel(levelName)
 	return currentLevel
 end
 
-levels = createGame('com/game/levels/resolutionTest.pew')  
+levels = createGame('com/game/levels/test.pew')  
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	
