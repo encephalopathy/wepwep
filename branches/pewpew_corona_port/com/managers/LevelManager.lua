@@ -3,7 +3,7 @@ local currentLevel
 local waveNumber
 local currentWaveNumber = 1
 local ENEMY_THRESHOLD_TIME = 1000
-local maximumEnemyTypeAmount
+
 --Levels
 	--Theme (Level Name)
 		--Level (Level Number)
@@ -24,7 +24,7 @@ function createGame(filename)
 	local enemy
 	local levels = {}
 	local currentLevelName
-	
+	local maximumEnemyTypeAmount
 	--local currentLevelNumber
 	local currentWave
 	local enemyTypeAmountTable
@@ -96,16 +96,10 @@ function fitToResolution(enemy)
 	local blackBox = {width = 480, height = 800}
 	enemy.x = (enemy.x*(display.contentWidth/blackBox.width))
 	enemy.y = (enemy.y*(display.contentHeight/blackBox.height))
-	--print("enemy.x: "..enemy.x.." enemy.y: "..enemy.y)
 end
 
 function equipToHater(line, enemy, fieldType)
-	--print('line is:'..line)
-	--print(enemy[fieldType])
-	--print(line)
-	--for equipment in string.gmatch(line, "%p*(%w+)%p*") do
 	for equipment in string.gmatch(line, "[(%w)+.?]+") do
-		--print('weapon is: ' .. equipment)
 		table.insert(enemy[fieldType], equipment)
 	end
 end

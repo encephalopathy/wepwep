@@ -35,31 +35,6 @@ local function createHater(haterList, haterType)
 	return newHater
 end
 
-local function createHaterList(currentLevel, player)
-	assert(currentLevel ~= nil, 'current level is nil, make sure the correct level is being loaded from LevelManager.')
-	assert(player ~= nil, 'player is nil, player was not passed in from AIDirector')
-	haterCreationInfo = currentLevel.enemyFrequency
-	
-	print('haterCreationInfo enemy frequency: ' .. tostring(currentLevel.enemyFrequency))
-	local haterGroup = AIDirector.haterGroup
-	
-	for haterType, haterAmount in pairs(haterCreationInfo) do
-		if haterList[haterType] == nil then
-			haterList[haterType] = {}
-			haterList[haterType].outOfView = Queue.new()
-			haterList[haterType].inView = Queue.new()
-		end
-		for i = 1, haterAmount, 1 do
-			local newHater = require(haterType):new(haterGroup, player, 
-										haterList[haterType].inView, haterList[haterType].outOfView,
-										haterList)
-			newHater.sprite.isBodyActive = false
-			newHater.sprite.isVisible = false
-			Queue.insertFront(haterList[haterType].outOfView, newHater)
-		end
-	end
-end
-
 local function spawnHater(enemies)
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do

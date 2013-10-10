@@ -9,7 +9,7 @@ PLAYER_POWAH_REGENERATION_RATE = 3
 
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
-require "com.game.weapons.primary.HomingshotWeapon"
+require "com.game.weapons.primary.HomingShotWeapon"
 require "com.game.weapons.secondary.GrenadeLauncher"
 require "com.game.weapons.primary.SineWaveWeapon"
 require "com.game.weapons.secondary.StandardMissile"
@@ -19,8 +19,8 @@ require "com.game.weapons.primary.SpiralStraightshotWeapon"
 require "com.game.weapons.primary.SpiralCurveshotWeapon"
 require "com.managers.AIDirector"
 require "com.game.passives.Passive"
-require "com.game.passives.player.ExtraStartingHealth"
-require "com.game.passives.player.HealthRegen"
+require "com.game.passives.Player.ExtraStartingHealth"
+require "com.game.passives.Player.HealthRegen"
 --require("ParticleEmitter")
 
 
