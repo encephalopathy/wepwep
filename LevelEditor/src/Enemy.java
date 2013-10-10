@@ -43,7 +43,7 @@ public class Enemy extends BoundingBox{
 	public List<String> weaponList = new ArrayList<String>(); //list of all the weapons
 	public int maxPassives = 0;
 	public List<String> passiveList = new ArrayList<String>(); //list of all the weapons
-	public String imageFileName = "src/test.png"; //default image for an enemy
+	public String imageFileName = "src/sprites/enemy_01.png"; //default image for an enemy
 	public EnemyPlacementGrid Grid;
 	JFrame rotationPopUp = new JFrame(); //FFrame for the Rotation pop up
 	Image imageObject = null;
@@ -220,5 +220,18 @@ public class Enemy extends BoundingBox{
 	public void onBoundingBoxClick(Object sender, int eventType) {
 		//this is where we will be deleting enemies!!! OMG!
 		
+	}
+	
+	public void clearObject(){
+		this.Grid = null;
+		if(this.weaponList != null){
+			this.weaponList.clear();
+			this.weaponList = null;
+		}
+		if(this.passiveList != null){
+			this.passiveList.clear();
+			this.passiveList = null;
+		}
+		this.imageObject = null;
 	}
 }

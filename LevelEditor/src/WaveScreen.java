@@ -69,7 +69,7 @@ import java.lang.reflect.*;
 public class WaveScreen extends JFrame {
 
 	//private JPanel EnemyPlacementGrid;
-	private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
+	//private List<Enemy> currentEnemyList = new ArrayList<Enemy>(); //holds the enemyObject that are created
 	static Wave currentWave;// = new Wave(0, null); //the current wave you are working on 
 	static Level currentLevel;// = new Level(null, 0); //the current level you are working on
 	//private List<Wave> waveList = new ArrayList<Wave>(); //the list of waves you currently working on
@@ -78,7 +78,7 @@ public class WaveScreen extends JFrame {
 	public static String waveExtensionString = ".pew";
 	public String selectedEnemy = "enemy";
 	public Enemy workingEnemy;
-	public Enemy highlightedEnemy;
+	//public Enemy highlightedEnemy;
 	JMenu LevelMenu = new JMenu(); //declarations of level menu
 	JFrame levelPopUp = new JFrame(); //JFrame for the level naming pop up
 	JFrame savePopUp = new JFrame(); //JFrame for the Save pop up
@@ -100,9 +100,11 @@ public class WaveScreen extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public void SetEnemyList(List<Enemy> newList){
 		currentEnemyList = newList;
 	}
+	*/
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -134,7 +136,7 @@ public class WaveScreen extends JFrame {
 		currentLevel = new Level(null, 0, Grid);
 		currentWave = new Wave(0, null, Grid);
 		workingEnemy = new Enemy(Grid);
-		highlightedEnemy = new Enemy(Grid);
+		//highlightedEnemy = new Enemy(Grid);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -216,7 +218,7 @@ public class WaveScreen extends JFrame {
 		JMenu FileMenu = new JMenu("File");
 		menuBar.add(FileMenu);
 		
-		JMenuItem SaveButton = new JMenuItem("Save");
+		JMenuItem SaveButton = new JMenuItem("Export");
 		SaveButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -225,9 +227,14 @@ public class WaveScreen extends JFrame {
 					String s = (String)JOptionPane.showInputDialog(  //set up for the popup menu
 		                    savePopUp,
 		                    "Enter a name for this file.",
-		                    "Save To File",
+		                    "Export To File",
 		                    JOptionPane.PLAIN_MESSAGE, null,
 		                    null, "");
+					File newFile = new File(s+".pew");
+					if(newFile.exists()){
+						System.out.println("File Already Exists.");
+						newFile.delete();
+					}
 				    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(s+".pew", true)));
 				    for (int i = 0; i < levelSet.size(); i++){
 				    	out.print(levelSet.get(i));
@@ -254,7 +261,7 @@ public class WaveScreen extends JFrame {
 		*/
 		
 		//Use for finding file
-		JMenuItem OpenButton = new JMenuItem("Open");
+		JMenuItem OpenButton = new JMenuItem("Import");
 		OpenButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -262,8 +269,8 @@ public class WaveScreen extends JFrame {
 				try {
 					String s = (String)JOptionPane.showInputDialog(  //set up for the popup menu
 		                    openPopUp,
-		                    "Select a File to open. Enter path to desired file.",
-		                    "Open File",
+		                    "Select a File to Import. Enter path to desired file.",
+		                    "Import File",
 		                    JOptionPane.PLAIN_MESSAGE, null,
 		                    null, "");
 					
@@ -272,6 +279,14 @@ public class WaveScreen extends JFrame {
 					String line = null;
 					String[] tokens = null;
  					Scanner in = new Scanner(new File(s+".pew"));
+ 					
+ 					for(int i = 0; i < levelSet.size(); i++){
+ 						System.out.println("NOW REMOVING: " + levelSet.get(i).levelName);
+ 						LevelMenu.remove(levelSet.get(i).levelWavesMenu);
+ 						levelSet.get(i).clearObject();
+ 					}
+ 					levelSet.clear();
+ 					Grid.clear();
  					
  					//temps for building
 					Level l = null;
@@ -325,6 +340,7 @@ public class WaveScreen extends JFrame {
 								System.out.println("what is w.time: " + w.time);
 								l.waveList.add(w);
 								l.levelWavesMenu.add(w.waveButton);
+								currentWave = w;
 							}
 							
 							else if(sub.equals("Type")){
@@ -361,11 +377,12 @@ public class WaveScreen extends JFrame {
 							
 							else if(sub.equals("Location")) {
 								//put in properties
+								System.out.println("INSIDE LOCATION");
 								String coordinates = tokens[i].substring(equalsIndex + 1);
 								String[] xy = coordinates.split(",");
-								//System.out.println(xy.length);
-								enemy.setLocation(Integer.parseInt(xy[0]), Integer.parseInt(xy[1]));
-								//System.out.println("enemy location: " + enemy.enemyX + " " + enemy.enemyY);
+								System.out.println(xy[0] + " " + xy[1]);
+								enemy.setLocation((Integer.parseInt(xy[0]) + Grid.topLeftCorner.x), (Integer.parseInt(xy[1]) + Grid.topLeftCorner.y));
+								System.out.println("enemy location: " + enemy.enemyX + " " + enemy.enemyY);
 								Grid.enemyToDraw = enemy;
 							}
 							
@@ -445,7 +462,7 @@ public class WaveScreen extends JFrame {
 		Hater_NoramlItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	        	   System.out.println("CREATING A NEW Enemy_1");
+	        	   System.out.println("CREATING A NEW Hater_Normal");
 	               enemyChoiceMenu.setText("Hater_Normal");
 	               Hater_Normal newDude = new Hater_Normal(Grid);
 	               newDude.setRotation();
@@ -460,7 +477,7 @@ public class WaveScreen extends JFrame {
 		Hater_HalfStrafeItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               System.out.println("CREATING A NEW Enemy_2");
+	               System.out.println("CREATING A NEW Hater_HalfStrafe");
 	        	   enemyChoiceMenu.setText("Hater_HalfStrafe");
 	        	   Hater_HalfStrafe newDude = new Hater_HalfStrafe(Grid);
 	        	   newDude.setRotation();
@@ -475,7 +492,7 @@ public class WaveScreen extends JFrame {
 		Hater_HomingItem.addActionListener(new ActionListener() {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
-	               System.out.println("CREATING A NEW Enemy_3");
+	               System.out.println("CREATING A NEW Hater_Homing");
 	        	   enemyChoiceMenu.setText("Hater_HomingItem");
 	        	   Hater_Homing newDude = new Hater_Homing(Grid);
 	        	   newDude.setRotation();
@@ -483,6 +500,82 @@ public class WaveScreen extends JFrame {
 	        	   workingEnemy = newDude;
 	           }
 	       });
+		
+		//adding in Hater_SineWave enemy option
+		JMenuItem Hater_SineWaveItem = new JMenuItem("Hater_SineWave");
+		enemyChoiceMenu.add(Hater_SineWaveItem);
+		Hater_SineWaveItem.addActionListener(new ActionListener() {
+			   @Override
+			   public void actionPerformed(ActionEvent event) {
+				   System.out.println("CREATING A NEW Hater_SineWave");
+			       enemyChoiceMenu.setText("Hater_HomingItem");
+			       Hater_SineWave newDude = new Hater_SineWave(Grid);
+			       newDude.setRotation();
+			       newDude.createWeaponList(); //generates the weapons and passive pop ups
+			       workingEnemy = newDude;
+			   }
+		   });
+		
+		
+		//adding in Hater_MidScreen enemy option
+		JMenuItem Hater_MidScreenItem = new JMenuItem("Hater_MidScreen");
+		enemyChoiceMenu.add(Hater_MidScreenItem);
+		Hater_MidScreenItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+			   System.out.println("CREATING A NEW Hater_MidScreen");
+			   enemyChoiceMenu.setText("Hater_HomingItem");
+			   Hater_MidScreen newDude = new Hater_MidScreen(Grid);
+			   newDude.setRotation();
+			   newDude.createWeaponList(); //generates the weapons and passive pop ups
+			   workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_UpDown enemy option
+		JMenuItem Hater_UpDownItem = new JMenuItem("Hater_UpDown");
+		enemyChoiceMenu.add(Hater_UpDownItem);
+		Hater_UpDownItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_UpDown");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_UpDown newDude = new Hater_UpDown(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive  pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_SpeedUp enemy option
+		JMenuItem Hater_SpeedUpItem = new JMenuItem("Hater_SpeedUp");
+		enemyChoiceMenu.add(Hater_SpeedUpItem);
+		Hater_SpeedUpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_SpeedUp");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_SpeedUp newDude = new Hater_SpeedUp(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
+		// adding in Hater_Carrier enemy option
+		JMenuItem Hater_CarrierItem = new JMenuItem("Hater_Carrier");
+		enemyChoiceMenu.add(Hater_CarrierItem);
+		Hater_CarrierItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_Carrier");
+				enemyChoiceMenu.setText("Hater_HomingItem");
+				Hater_Carrier newDude = new Hater_Carrier(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
 		
 		//setting up the delete menu
 		JMenu deleteMenu = new JMenu("Delete");

@@ -80,4 +80,17 @@ public class Level {
 		return printedLine;
 	}
 	
+	public void clearObject(){
+		
+		for(int i = 0; i < waveList.size(); i++){
+			levelWavesMenu.remove(waveList.get(i).waveButton); //remove the waveButton from levelWavesMenu
+			waveList.get(i).clearObject();  //clear the wave object
+		}
+		if(waveList != null){
+			waveList = null;
+		}
+		waveFrame = null;
+		wavePopup = null;
+	}
+	
 }

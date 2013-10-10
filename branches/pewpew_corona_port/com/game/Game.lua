@@ -26,6 +26,19 @@ local currentLevelNumber = 1
 step = 0
 
 
+
+local healthRectBG = display.newRect(display.contentWidth/20, display.contentHeight/50, display.contentWidth/2, display.contentHeight/23)
+healthRectBG:setFillColor(150, 150, 150, 120)
+
+local powahRectBG = display.newRect(display.contentWidth/20, display.contentHeight/12, display.contentWidth/17, display.contentHeight/2)
+powahRectBG:setFillColor(150, 150, 150, 120)
+
+local powahRect = display.newRect(display.contentWidth/18 , display.contentHeight/11, display.contentWidth/20, display.contentHeight/2.05)
+powahRect:setFillColor(50, 80, 200, 140)
+
+local healthRect = display.newRect(display.contentWidth/18, display.contentHeight/40 , display.contentWidth/2.05, display.contentHeight/30)
+healthRect:setFillColor(50, 220, 80, 140)
+
 local gameContext
 
 
@@ -90,6 +103,9 @@ local function update(event)
 	
 	player:updatePassives()
 	player:cullBulletsOffScreen()
+	
+	healthRect.width = (display.contentWidth/2.05)*(player.health/player.maxhealth)
+	powahRect.height = (display.contentHeight/2.05)*(player.powah/PLAYER_MAXPOWAH)
 	
 	step = step + 1
 end

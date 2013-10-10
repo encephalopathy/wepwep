@@ -52,6 +52,7 @@ public class PassivePopUp extends JDialog {
 	 */
 	public PassivePopUp(int passives) throws FileNotFoundException {
 		self = this;
+		this.setTitle("Select Passive(s) for Enemy To Be Placed");
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
 		Scanner in = new Scanner(new File("Passives"));
