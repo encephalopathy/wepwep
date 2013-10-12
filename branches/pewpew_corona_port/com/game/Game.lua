@@ -106,7 +106,9 @@ local function update(event)
 	updateParticleEmitters()
 --if not pauseGame then
    -- print("I am updating")
-	if not player.alive then
+	if not player.alive and not deflagFlag then
+		audio.stop()
+		storyboard.gotoScene("com.mainmenu.MainMenu", "fade", 500)
 		player.sprite.x = 4000
 		player.sprite.y = 4000
 	end

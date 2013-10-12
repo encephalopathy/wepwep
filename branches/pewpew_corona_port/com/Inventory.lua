@@ -43,7 +43,6 @@ function Inventory:init (scene)
    self.equipped = {}
    
    -- Keep second list for secondary weapons
-   self.equippedSecondaryWeapon = 1
    self.equippedSecondaryWeapons = {}
    self.SecondaryWeapons = {}
    
@@ -85,18 +84,14 @@ function Inventory:equipRig(player, sceneGroup)
 	self:equipSecondaryWeapon(player, sceneGroup)
 end
 
-function Inventory:selectSecondaryWeapon(weaponNumber)
-   self.equippedSecondaryWeapon = weaponNumber
-end
-
-function Inventory:addSecondaryWeapon(weaponNumber)
-	if self.SecondaryWeapons[weaponNumber] ~= nil then
-		self.equippedSecondaryWeapon[weaponNumber] = weaponNumber
+function Inventory:addSecondaryWeapon(weaponName)
+	if self.SecondaryWeapons[weaponName] ~= nil then
+		self.equippedSecondaryWeapons[weaponName] =  self.SecondaryWeapons[weaponName]
 	end
 end
 
-function Inventory:removeSecondaryWeapon(weaponNumber)
-	self.equippedSecondaryWeapon[weaponNumber] = nil
+function Inventory:removeSecondaryWeapon(weaponName)
+	self.equippedSecondaryWeapon[weaponName] = nil
 end
 
 function Inventory:unequip(player)
@@ -112,7 +107,6 @@ end
 function Inventory:equipOneWeapon(weaponNumber)
    if (self.permission[weaponNumber]) then
       self.equippedWeapon = weaponNumber
-      --self:equip(self.player, self.sceneGroup)
    end
 end
 

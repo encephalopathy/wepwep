@@ -289,9 +289,9 @@ end
 
 	@RETURN: VOID
 ]]--
-function Weapon:adjustPowah()
-	if self.owner.powah then
-		self.owner.powah = self.owner.powah - self.energyCost
+function Weapon:adjustPowah(owner)
+	if self.energyCost then
+		owner.powah = owner.powah - self.energyCost
 	end
 end
 
