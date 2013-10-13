@@ -9,6 +9,9 @@ local h = display.contentHeight
 
 local M = {}
 
+M.w = display.contentWidth
+M.h = display.contentHeight
+
 -- c_txtb: codec textbox
 M.c_txtb_x  = 200
 M.c_txtb_y  = h - 175 + 200
