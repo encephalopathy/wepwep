@@ -94,9 +94,14 @@ function SpiralCurveshot:fire (player)
 		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
       local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
-		self:playFiringSound(self.soundFX)
+		
 	end
 	self.startAngle = self.startAngle + 7
+	
+	if self.isPlayerOwned == true then
+		--print("PLAYER OWNED. FIRE SOUNDS")
+		self:playFiringSound(self.soundFX) --call to play sound for weapons
+	end
 end 
 
 return SpiralCurveshot

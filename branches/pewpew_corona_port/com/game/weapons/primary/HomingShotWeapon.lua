@@ -1,9 +1,9 @@
 require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.HomingBullet"
 
-HomingShot = Weapon:subclass("HomingShot")
+Homingshot = Weapon:subclass("Homingshot")
 
-function HomingShot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, rotationSpeed, trackTime, soundFX)
+function Homingshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, rotationSpeed, trackTime, soundFX)
 	--[[
 	if soundFX == nil then --if no pre-defined sound, set as the default
 		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
@@ -19,6 +19,12 @@ function HomingShot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		imgSrc = "com/resources/art/sprites/bullet_04.png"
 	end
 	
+	if soundFx == nil then
+		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
+		soundFX = "com/resources/music/soundfx/laser.ogg"
+		--print("soundFX:"..soundFX)
+	end
+	
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, 25, bulletType, bulletWidth, bulletHeight, soundFX)
    --self.soundPath = 'homingShot.ogg'
    --homingShotSFX = MOAIUntzSound.new()
@@ -28,11 +34,11 @@ function HomingShot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    self.bulletSpeed = bulletSpeed
 end
 
-function HomingShot:setTargets(targets)
+function Homingshot:setTargets(targets)
 	self.targets = targets
 end
 
-function HomingShot:fire()
+function Homingshot:fire()
 
    self.super:fire()
    
@@ -47,11 +53,15 @@ function HomingShot:fire()
 			bullet.sprite.rotation = self.owner.sprite.rotation
 			bullet:fire(math.abs(self.bulletSpeed))
 			
-			--self:playFiringSound(self.soundFX)
+			if self.isPlayerOwned == true then
+				--print("PLAYER OWNED. FIRE SOUNDS")
+				self:playFiringSound(self.soundFX) --call to play sound for weapons
+			end
+			
 		end
    
    --end
 
 end
 
-return HomingShot
+return Homingshot

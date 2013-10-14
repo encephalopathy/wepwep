@@ -44,7 +44,10 @@ function Doubleshot:fire(player)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 		bullet2:fire(bulletVelocity.x, bulletVelocity.y)
 		
-		self:playFiringSound(self.soundFX) --call to play sound for weapons
+		if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound(self.soundFX) --call to play sound for weapons
+		end
 			
 		return bullet, bullet2
 	end

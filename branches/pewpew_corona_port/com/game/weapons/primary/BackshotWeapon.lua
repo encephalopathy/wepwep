@@ -112,7 +112,6 @@ function Backshot:fire (player)
 		   self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
          local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		   bullet:fire(bulletVelocity.x, bulletVelocity.y)
-		   self:playFiringSound(self.soundFX)
 		end 
 		
 		for i = 0, (numberOfBackwardShots - 1), 1 do
@@ -125,7 +124,12 @@ function Backshot:fire (player)
 		   self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 		   local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		   bullet:fire(bulletVelocity.x, bulletVelocity.y)
-		   self:playFiringSound(self.soundFX)
+		   
+		end
+		
+		 if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound(self.soundFX) --call to play sound for weapons
 		end
 
 end 

@@ -8,7 +8,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
 require "com.game.weapons.primary.SineWaveWeapon"
-require "com.game.weapons.primary.HomingShotWeapon"
+require "com.game.weapons.primary.HomingshotWeapon"
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.secondary.Bomb"
 require "com.game.weapons.secondary.FreezeMissile"
@@ -25,7 +25,7 @@ function Inventory:init (scene)
    self.Weapons[1] = Singleshot:new(scene, 25, -200)
    self.Weapons[2] = Spreadshot:new(scene)
    self.Weapons[3] = SineWave:new(scene)
-   self.Weapons[4] = HomingShot:new(scene)
+   self.Weapons[4] = Homingshot:new(scene)
    self.Weapons[5] = Doubleshot:new(scene, 25, -200, 7) 
    --self.scene = scene
    

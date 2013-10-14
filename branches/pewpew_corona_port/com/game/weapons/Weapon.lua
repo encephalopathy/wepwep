@@ -71,8 +71,10 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	self.bulletWidth = bulletWidth
 	self.bulletHeight = bulletHeight
 	
+	--loading the soundFX for the weapon
 	local loadedAudioFile = audio.loadSound(soundFX)
 	self.soundFX = loadedAudioFile
+	
 	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
 		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
@@ -303,9 +305,11 @@ end
 	@RETURN: VOID
 ]]--
 
---takes in file path
+--takes in the handle to the audio file
 --audio.play the sound
 function Weapon:playFiringSound(audioObject)
 	--print("audioObject: "..tostring(audioObject))
-	audio.play(audioObject) 
+	local openChannel = audio.findFreeChannel()
+	print("openChannel: "..openChannel)
+	audio.play(audioObject, {channel = openChannel})
 end
