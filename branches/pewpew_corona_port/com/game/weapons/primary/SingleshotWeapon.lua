@@ -61,7 +61,7 @@ end
 	DESCRIPTION: Determines the velocity of the bullet based on the bullet speed and muzzle location 
 				 relative to the ship's origin.
 	PARAMETERS:
-		@bullet: The bullet to fire.
+		@bulapplelet: The bullet to fire.
 	@RETURN: A Lua table that has the fields "x", the bullet's velocity in the x direction, 
 			 and "y" the bullet's velocity in the y direction.
 ]]--
@@ -96,8 +96,10 @@ function Singleshot:fire()
 		local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 
-
-		self:playFiringSound(self.soundFX) --call to play sound for weapons
+		if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound(self.soundFX) --call to play sound for weapons
+		end
 		--self:adjustPowah()
 	end	
 end

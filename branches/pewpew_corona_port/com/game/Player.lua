@@ -21,7 +21,6 @@ require "com.managers.AIDirector"
 require "com.game.passives.Passive"
 require "com.game.passives.Player.ExtraStartingHealth"
 require "com.game.passives.Player.HealthRegen"
---require("ParticleEmitter")
 
 
 --[[
@@ -108,10 +107,9 @@ end
 
 
 function Player:equipDebug(sceneGroup) 
-
-	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
-	--self.weapon = Backshot:new(sceneGroup, true, 25, 200)
-	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	--sceneGroup, playerOwned, rateOfFire, bulletSpeed
+	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Backshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
@@ -243,15 +241,12 @@ function Player:onHit(phase, collide)
 			if not collide.isPlayerBullet  then
 				self.health = self.health - 1
 			--sound:load(self.soundPathHit) --got hit by a dude
-			--[[if (you.health <= 0) then
-				--sound:load(self.soundPathDeath) 
-				--got the deadness
-				playerDeathSFX:play()
-				you.alive = false
-				you:explode()
-			else
-				playerHitSFX:play()
-			end]]--
+				if self.health <= 0 then
+					--sound:load(self.soundPathDeath) 
+					--got the deadness
+					--playerDeathSFX:play()
+					self:die()
+				end
 			end
 		end
 	end

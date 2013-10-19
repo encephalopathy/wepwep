@@ -82,7 +82,10 @@ function SpiralStraightshot:fire (player)
           
       local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
 	   bullet:fire(bulletVelocity.x, bulletVelocity.y)
-	   self:playFiringSound(self.soundFX)
+	   if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound(self.soundFX) --call to play sound for weapons
+		end
       self.shotIterator = self.shotIterator + 1
 end 
 
