@@ -6,7 +6,12 @@ and speakers. Used as input for the codec.
 ]]--
 
 
+-- public functions for messagereader
+local mr = {}
+
+
 local messages = {}
+
 
 messages = {			-- NOTE: messages[0] is the number of total messages
 	[0] = 5,
@@ -16,5 +21,9 @@ messages = {			-- NOTE: messages[0] is the number of total messages
 	{name = "Reggie", content = "Do you know what I'm saying?"},
 	{name = "Tyce",   content = "Frankly, sir, I don't give a damn."}
 }
+
+
+-- 
+
 
 return messages
