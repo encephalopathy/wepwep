@@ -222,8 +222,11 @@ function scene:enterScene( event )
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	
 	--This line below will eventually be moved to debug add when Inventory and shop menu work.
-	player:equipDebug(group)
-	
+	if not debugFlag then
+		mainInventory:equipRig(player, group)
+	else
+		player:equipDebug(group)
+	end
 	player.weapon.targets = AIDirector.haterList
 	
 	step = 0
@@ -251,9 +254,6 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
-	if not debugFlag then
-		shopInventory:setDefaultAmmoAmount()
-	end
 	debugRemove(group)
 	
 	physics.pause()
