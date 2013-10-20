@@ -6,7 +6,7 @@ and speakers. Used as input for the codec.
 ]]--
 
 
--- public functions for messagereader
+-- mr: messagesreader, public functions for messagesreader
 local mr = {}
 
 
@@ -23,7 +23,30 @@ messages = {			-- NOTE: messages[0] is the number of total messages
 }
 
 
--- 
+-- read a text file, and then populate the messages table with those messages
+function mr.readMessagesTextFile(messagesFileName)
+
+	-- load the file
+	local filePath 	= system.pathForFile(messagesFileName)
+	local file, err	= io.open(filePath)
+	
+	-- read the file, and do stuff with it
+	if file then
+		local fileContent = file:read()
+		print(fileContent)
+	else
+		print(err)
+	end
+
+	-- close and remove the file
+	io.close(file)
+	file = nil
+	print("read messages all finished!")
+end
+
+
+-- let's test this function out
+mr.readMessagesTextFile("messages.txt")
 
 
 return messages
