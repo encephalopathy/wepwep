@@ -48,7 +48,7 @@ end
 
 local function equipWeapon(weaponNumber)
 	--mainInventory:equipOneWeapon(1)
-	mainInventory:equipOneWeapon(weaponNumber)
+	mainInventory:equipPrimaryWeapon(weaponNumber)
 		--setThingsUp()
 end
 
