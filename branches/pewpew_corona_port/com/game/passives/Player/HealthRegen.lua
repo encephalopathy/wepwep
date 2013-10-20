@@ -4,26 +4,26 @@ HealthRegen = Passive:subclass("HealthRegen")
 local DEFAULT_REGENVALUE = 1
 local DEFAULT_COOLDOWN = 60
 
-function HealthRegen: init(objectRef, regenValue, cooldown)
-	assert(objectRef, "In Health Regen passive, object reference is incorrect.")
-	assert(objectRef["health"], "In Health Regen passive, object reference does not have a health field.")
-	if objectRef ~= nil then
-		self.super:init(objectRef, "health")
-		
-		if regenValue == nil then
-			self.regenValue = DEFAULT_REGENVALUE
-		else
-			self.regenValue = regenValue
-		end
-		
-		if cooldown == nil then
-			self.cooldown = DEFAULT_COOLDOWN
-		else
-			self.cooldown = cooldown
-		end
-		
-		self.counter = 0
+function HealthRegen: init(fieldName, regenValue, cooldown)
+	self.super:init(fieldName)
+	
+	if regenValue == nil then
+		self.regenValue = DEFAULT_REGENVALUE
+	else
+		self.regenValue = regenValue
 	end
+		
+	if cooldown == nil then
+		self.cooldown = DEFAULT_COOLDOWN
+	else
+		self.cooldown = cooldown
+	end
+		
+	self.counter = 0
+end
+
+function HealthRegen:setOwner(objectRef)
+	self.super:setOwner(objectRef)
 end
 
 function HealthRegen: update()

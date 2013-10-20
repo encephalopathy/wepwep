@@ -17,9 +17,21 @@ Passive = Object:subclass("Passive")
 	@objectRef: The object which contains the field to be modified by this passive.
 	@fieldName: The name of the field that is to be modified by this passive.
 ]]--
-function Passive:init(objectRef, fieldName)
-	self.objectRef = objectRef
+function Passive:init(fieldName)
 	self.fieldName = fieldName
+end
+
+
+--[[
+	FUNCTION NAME: equip
+	
+	DESCRIPTION: Updates the passive.
+	
+	@RETURN: VOID
+]]--
+function Passive:setOwner(objectRef)
+	assert(objectRef ~= nil, 'Did not equip a owner such as player or an enemy to this passive')
+	self.objectRef = objectRef
 end
 
 --[[
