@@ -251,6 +251,9 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
+	if not debugFlag then
+		shopInventory:setDefaultAmmoAmount()
+	end
 	debugRemove(group)
 	
 	physics.pause()

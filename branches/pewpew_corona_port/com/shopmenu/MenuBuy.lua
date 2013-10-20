@@ -7,6 +7,7 @@ require "com.Utility"
 require "com.Inventory"
 require "com.managers.BGM"
 
+
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
@@ -20,11 +21,14 @@ local regularButton, sineButton, doubleButton, homingButton, spreadButton, subam
 local weapon, dollaztext, confirmText, denyText, buyText, pauseScreen
 
 -- 'onRelease' event listeners
-local function back()	
+local function back()
 	-- go to menu
 	storyboard.gotoScene( "com.shopmenu.MenuStore", "fade", 500 )
 	return true	-- indicates successful touch
 end
+
+--The shop object that holds all the passives and secondary weapons to purchase.
+local shop
 
 function yes(event)
     if (weapon == "regular") then
@@ -53,12 +57,12 @@ function yes(event)
 	end		
 
     if (weapon == "sub1") then
-		mainInventory:addAmmo(1)
+		--mainInventory:addAmmo(1)
 		mainInventory.dollaz = mainInventory.dollaz - subammoButton.cost		
 	end		
 
     if (weapon == "sub10") then
-		mainInventory:addAmmo(10)
+		--mainInventory:addAmmo(10)
 		mainInventory.dollaz = mainInventory.dollaz - subtenButton.cost		
 	end		
 
@@ -231,7 +235,7 @@ function scene:createScene( event )
 	 confirmText = display.newText( "...",  display.contentWidth * 0.45,  display.contentHeight * 0.3, native.systemFont, 25 )
 	 denyText = display.newText( "You cannot afford that.",  display.contentWidth * 0.25,  display.contentHeight * 0.3, native.systemFont, 25 )
 
-
+	
 
     regularButton = createBttn(widget, display, "Regular - " ..250, display.contentWidth * 0.3, 
 		display.contentHeight * 0.3, regular)

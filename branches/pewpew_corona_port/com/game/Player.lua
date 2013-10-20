@@ -114,26 +114,11 @@ function Player:equipDebug(sceneGroup)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
-	self.defensePassives = {}
-	self.defensePassives[1] = ExtraStartingHealth:new(self)
-	self.defensePassives[2] = HealthRegen:new(self)
+	self.defensePassives[1] = ExtraStartingHealth:new()
+	self.defensePassives[1]:setOwner(self)
+	self.defensePassives[2] = HealthRegen:new()
+	self.defensePassives[2]:setOwner(self)
 end
-
---Loads secondary amunition for sub weapons
-function Weapon:load(ammoType, sceneGroup, amount, spawnVector, width, height)
-   width = 50 or width
-   height = 50 or height
-   
-   --The lines below are for testing, the subweapons will be created in inventory and cloned in player.
-   if not self.secondaryWeapons[tostring(ammoType)] then
-     self.secondaryWeapons[tostring(ammoType)] = Queue.new()
-   end
-   
-   for i = 1, amount, 1 do
-	   Queue.insertFront(self.secondaryWeapons[tostring(ammoType)], ammoType:new(sceneGroup, self.imgSrc, true, 5000, i*5000, 0, width, height))
-   end
-end
-
 
 --[[
 	FUNCTION NAME: move
@@ -242,7 +227,7 @@ function Player:onHit(phase, collide)
 			if not collide.isPlayerBullet  then
 				self.health = self.health - 1
 			--sound:load(self.soundPathHit) --got hit by a dude
-				if self.health <= 0 then
+				if self.health <= 0 and not debugFlag then
 					--sound:load(self.soundPathDeath) 
 					--got the deadness
 					--playerDeathSFX:play()

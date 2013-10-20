@@ -7,6 +7,7 @@ require "com.Utility"
 require "com.Inventory"
 require "org.Object"
 require "org.Queue"
+require "com.shopmenu.Shop"
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -35,27 +36,27 @@ local function back()
 end
 
 local function regular(event)
-	mainInventory:equipOneWeapon(1)
+	mainInventory:equipPrimaryWeapon(1)
 		setThingsUp()
 end
 
 local function spread(event)
-	mainInventory:equipOneWeapon(2)
+	mainInventory:equipPrimaryWeapon(2)
 		setThingsUp()
 end
 
 local function sine(event)
-	mainInventory:equipOneWeapon(3)
+	mainInventory:equipPrimaryWeapon(3)
 		setThingsUp()
 end
 
 local function double(event)
-	mainInventory:equipOneWeapon(5)
+	mainInventory:equipPrimaryWeapon(5)
 		setThingsUp()
 end
 
 local function homing(event)
-	mainInventory:equipOneWeapon(4)
+	mainInventory:equipPrimaryWeapon(4)
 		setThingsUp()
 end
 
@@ -124,7 +125,7 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-	
+	shop = Shop:new()
 	weaponCarousel = Queue.new()
 
 	-- display a background image
@@ -164,12 +165,12 @@ function scene:createScene( event )
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
-	local ammotext = display.newText( "Ammo :" .. mainInventory.SecondaryWeapons['Bomb'].ammoAmount, display.contentWidth * 0.7, display.contentHeight * 0.05, native.systemFont, 25 )
 	local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
 	local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
 	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
 
-
+	
+	
     -- create the widget buttons
 	local centerOfScreenX = display.contentWidth*0.5
 	
@@ -223,7 +224,6 @@ function scene:createScene( event )
 	group:insert( bgRect )
 	
 	group:insert( dollaztext )
-	group:insert( ammotext )
 	group:insert( equiptext )
 	group:insert( maintext )
 	group:insert( subtext )
@@ -257,13 +257,13 @@ function scene:createScene( event )
 end
 
 function setThingsUp()
-	if not mainInventory.permission[1] then regularButton.x = 5000 end
-	if not mainInventory.permission[2] then spreadButton.x = 5000 end
-	if not mainInventory.permission[3] then sineButton.x = 5000 end
-	if not mainInventory.permission[5] then doubleButton.x = 5000 end
-	if not mainInventory.permission[4] then homingButton.x = 5000 end
-	if not mainInventory.permission[6] then end
-	if not mainInventory.permission[7] then end	
+	if not shop.permission[1] then regularButton.x = 5000 end
+	if not shop.permission[2] then spreadButton.x = 5000 end
+	if not shop.permission[3] then sineButton.x = 5000 end
+	if not shop.permission[5] then doubleButton.x = 5000 end
+	if not shop.permission[4] then homingButton.x = 5000 end
+	if not shop.permission[6] then end
+	if not shop.permission[7] then end	
 	
 	if (mainInventory.equippedWeapon == 1) 
 	then 
