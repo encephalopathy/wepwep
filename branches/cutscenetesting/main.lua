@@ -14,5 +14,11 @@ end
 timer.performWithDelay( 1000, checkMemory, 0 )
 
 
--- fire off the codec!
+-- import all the codec information
 local c = require("codec")
+
+
+-- fire off the codec!
+c.launchCodec(nil)
+
+print("I am at the end of main.")

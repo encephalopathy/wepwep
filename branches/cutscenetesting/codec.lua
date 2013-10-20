@@ -14,6 +14,20 @@ local M = require("globals")
 local MSGS = require("messagesreader")
 
 
+-- sfx: sound effects table
+local sfx = {
+	activeChannelNumber = 0,
+	ring 	= audio.loadSound("sounds/ring.wav"),
+	answer	= audio.loadSound("sounds/answer.wav"),
+	appear	= audio.loadSound("sounds/appear.wav"),
+	advance	= audio.loadSound("sounds/advance.wav"),
+	hangUp	= audio.loadSound("sounds/hangup.wav"),
+}
+
+-- c: public codec functions that can be called in main.lua
+local c = {}
+
+
 -- w: display width, h: display height
 local w  = M.w
 local h  = M.h
@@ -33,6 +47,7 @@ ca.alpha = 0
 local ca_b = display.newRect(w*0.33, h*0.85, w*0.33, 50) -- x, y, width, height
 ca_b.strokeWidth = M.c_txtb_sw
 ca_b:setFillColor(255, 0, 0)
+ca_b.currentTransition = nil
 ca:insert(ca_b)
 
 
@@ -51,10 +66,15 @@ ca:insert(ca_b_txt)
 local caFadeOut
 
 local function caFadeIn()
-	transition.to(
+
+	-- play the ringing sound
+	sfx.activeChannelNumber = audio.play(sfx.ring)
+	
+	-- make the transition happen
+	ca_b.currentTransition = transition.to(
 		ca,
 		{
-			time=500,
+			time=300,
 			alpha=1,
 			transition=easing.inOutQuad,
 			onComplete=caFadeOut
@@ -65,7 +85,7 @@ end
 
 -- codec answering button fade out
 function caFadeOut()
-	transition.to(
+	ca_b.currentTransition = transition.to(
 		ca,
 		{
 			time=500,
@@ -84,6 +104,15 @@ function ca_b:touch(event)
 
 	-- if the codec activation button is touched
 	if event.phase == "began" then
+	
+		-- cancel the ca_b's transition
+		transition.cancel(ca_b.currentTransition)
+		
+		-- stop the currently playing sound effect
+		audio.stop(sfx.activeChannelNumber)
+		
+		-- play the codec activation button
+		audio.play(sfx.answer)
 	
 		-- make the text box darker
 		ca_b:setFillColor(200, 0, 0)
@@ -106,6 +135,9 @@ ca_b:addEventListener("touch", ca_b)
 
 -- disposing codec answering button
 function disposeCodecAnsweringButton()
+	
+	ca_b.currentTransition = nil
+	
 	ca_b:removeSelf()
 	ca_b = nil
 		
@@ -117,8 +149,8 @@ function disposeCodecAnsweringButton()
 end
 
 
--- c: codec
-local c = display.newGroup()
+-- c_dg: codec display group
+local c_dg = display.newGroup()
 
 
 -- c_txtb: codec textbox
@@ -126,7 +158,7 @@ local c_txtb = display.newRect(M.c_txtb_x, M.c_txtb_y, M.c_txtb_w, M.c_txtb_h)
 c_txtb.strokeWidth = M.c_txtb_sw
 c_txtb:setFillColor(0, 0, 200)
 c_txtb:setStrokeColor(200, 200, 200)
-c:insert(c_txtb)
+c_dg:insert(c_txtb)
 
 
 -- c_txt: codec text
@@ -147,7 +179,7 @@ local c_p = display.newRect(M.c_p_x, M.c_p_y, M.c_p_w, M.c_p_w)
 c_p.strokeWidth = M.c_p_sw
 c_p:setFillColor(60, 60, 60)
 c_p:setStrokeColor(200, 200, 200)
-c:insert(c_p)
+c_dg:insert(c_p)
 
 
 -- c_p_txt: codec portrait text
@@ -165,8 +197,13 @@ c_p_txt.alpha = 0
 local makeCodecAssetsAppear
 
 function activateCodec()
+
+	-- play the appearing sound effect
+	audio.play(sfx.appear)
+	
+	-- make the codec screen appear
 	transition.to(
-		c, 
+		c_dg, 
 		{
 			time = 900,
 			y = -200,
@@ -191,18 +228,23 @@ end
 -- codec touch event listener
 local deactivateCodec
 
-function c:touch(event)
+function c_dg:touch(event)
 
 	-- if the codec is touched
 	if event.phase == "began" then
-		c.alpha = 0.5
+		
+		-- change the alpha to half
+		c_dg.alpha = 0.5
 	
 	-- if the codec is released
 	elseif event.phase == "ended" or event.phase == "cancelled" then
-		c.alpha = 1.0
+		c_dg.alpha = 1.0
 		
 		-- if there are any more messages
 		if msg_c < MSGS[0] then
+		
+			-- play the advance sound effect
+			audio.play(sfx.advance)
 		
 			-- change the message and/or portrait in codec
 			msg_c = msg_c + 1
@@ -224,17 +266,24 @@ function c:touch(event)
 	return true
 end
 
-c:addEventListener("touch", c)
+c_dg:addEventListener("touch", c_dg)
 
 
 -- disappearing codec effect
 local disposeCodec
 
 function deactivateCodec()
+	
+	-- play the disappearing codec sound
+	audio.play(sfx.hangUp)
+	
+	-- make the text disappear
 	c_txt.alpha   = 0
 	c_p_txt.alpha = 0
+	
+	-- have the codec fall off the screen
 	transition.to(
-		c, 
+		c_dg, 
 		{
 			time = 900,
 			y = 25,
@@ -245,8 +294,27 @@ function deactivateCodec()
 end
 
 
--- codec disposal
+-- codec sound effect disposal
+local function disposeCodecSfx()
+	
+	sfx.activeChannelButton = nil
+	
+	-- dispose the rest of the sound effects
+	for s,v in pairs(sfx) do
+		audio.dispose(sfx[s])
+		sfx[s] = nil
+	end
+	
+	-- dispose the sfx table
+	sfx = nil
+end
+
+
+-- complete codec disposal
 function disposeCodec()
+
+	-- dispose the sfx
+	disposeCodecSfx()
 
 	-- dispose codec textbox
 	c_txtb:removeSelf()
@@ -265,14 +333,14 @@ function disposeCodec()
 	c_p_txt = nil
 	
 	-- remove codec display group
-	c:removeSelf()
-	c = nil
+	c_dg:removeSelf()
+	c_dg = nil
 	
 end
 
 
 -- codec launch!
-local function launchCodec(messages)
+function c:launchCodec(messages)
 
 	-- set the messages to be displayed by the codec
 	
@@ -280,4 +348,6 @@ local function launchCodec(messages)
 	caFadeIn()
 end
 
-launchCodec(nil)
+
+return c
+
