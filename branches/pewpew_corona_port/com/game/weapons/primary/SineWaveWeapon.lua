@@ -48,7 +48,10 @@ function SineWave:fire(player)
 	   print('Bullet 2')
 	   bullet2:fire()
 	   
-	   self:playFiringSound(self.soundFX)
+	   if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound(self.soundFX) --call to play sound for weapons
+		end
 	   
 	   bullet1.amp = -50
 	   bullet2.amp = 50	   

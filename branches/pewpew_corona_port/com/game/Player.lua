@@ -107,10 +107,9 @@ end
 
 
 function Player:equipDebug(sceneGroup) 
-
-	--self.weapon = Doubleshot:new(sceneGroup, true, 25, 200) 
-	--self.weapon = Backshot:new(sceneGroup, true, 25, 200)
-	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	--sceneGroup, playerOwned, rateOfFire, bulletSpeed
+	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Backshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self

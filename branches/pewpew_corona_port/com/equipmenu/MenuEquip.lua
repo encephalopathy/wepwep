@@ -28,6 +28,8 @@ local carousel1, carousel2, carousel3, carousel4, carousel5
 
 local weaponCarousel = {}
 
+local carouselButton
+
 -- 'onRelease' event listener for newGameButton
 local function back()	
 	-- go to menu
@@ -35,18 +37,30 @@ local function back()
 	return true	-- indicates successful touch
 end
 
-local function regular(event)
-	mainInventory:equipPrimaryWeapon(1)
-		setThingsUp()
+-- Function to handle button events
+local function handleButtonEvent( event )
+    local phase = event.phase 
+
+    if "ended" == phase then
+        print( "You pressed and released a button!" )
+    end
+end
+
+local function equipWeapon(weaponNumber)
+	--mainInventory:equipOneWeapon(1)
+	mainInventory:equipOneWeapon(weaponNumber)
+		--setThingsUp()
 end
 
 local function spread(event)
-	mainInventory:equipPrimaryWeapon(2)
+	--mainInventory:equipOneWeapon(2)
+	equipOneWeapon(weaponNumber)
 		setThingsUp()
 end
 
 local function sine(event)
 	mainInventory:equipPrimaryWeapon(3)
+	
 		setThingsUp()
 end
 
@@ -137,17 +151,64 @@ function scene:createScene( event )
 	
 	local bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
 	bgRect:setFillColor(20, 70, 10, 130)
+		
+	--[[
+	addSecondaryWeapon('Bomb')
+	equipOneWeapon(weaponNumber) for primary weaons
+	removeSecondaryWeapon(weaponName) for remvoing a secondary weapon
+	--]]	
 	
-	carousel1 = display.newImageRect("com/resources/art/sprites/bomb_01.png",
-	                                        display.contentWidth/10, display.contentHeight/10 )
-	carousel2 = display.newImageRect("com/resources/art/sprites/bomb_02.png",
-	                                        display.contentWidth/10, display.contentHeight/10 )
-	carousel3 = display.newImageRect("com/resources/art/sprites/bomb_03.png",
-	                                        display.contentWidth/10, display.contentHeight/10 )
-	carousel4 = display.newImageRect("com/resources/art/sprites/bomb_04.png",
-	                                        display.contentWidth/10, display.contentHeight/10 )
-	carousel5 = display.newImageRect("com/resources/art/sprites/bomb_05.png",
-	                                        display.contentWidth/10, display.contentHeight/10 )
+	carousel1 = widget.newButton
+	{
+		width = display.contentWidth/10,
+		height = display.contentHeight/10,
+		defaultFile = "com/resources/art/sprites/bomb_01.png",
+		overFile = "com/resources/art/sprites/bomb_01.png",
+		id = "button_1",
+		label = "1",
+		onEvent = equipWeapon(1),
+	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
+					--display.contentWidth/10, display.contentHeight/10 )
+	carousel2 = widget.newButton
+	{
+		width = display.contentWidth/10,
+		height = display.contentHeight/10,
+		defaultFile = "com/resources/art/sprites/bomb_02.png",
+		overFile = "com/resources/art/sprites/bomb_02.png",
+		id = "button_2",
+		label = "2",
+		onEvent = equipWeapon(2),
+	}
+	carousel3= widget.newButton
+	{
+		width = display.contentWidth/10,
+		height = display.contentHeight/10,
+		defaultFile = "com/resources/art/sprites/bomb_03.png",
+		overFile = "com/resources/art/sprites/bomb_03.png",
+		id = "button_3",
+		label = "3",
+		onEvent = equipWeapon(3),
+	}
+	carousel4 = widget.newButton
+	{
+		width = display.contentWidth/10,
+		height = display.contentHeight/10,
+		defaultFile = "com/resources/art/sprites/bomb_04.png",
+		overFile = "com/resources/art/sprites/bomb_04.png",
+		id = "button_4",
+		label = "4",
+		onEvent = equipWeapon(4),
+	}	
+	carousel5 = widget.newButton
+	{
+		width = display.contentWidth/10,
+		height = display.contentHeight/10,
+		defaultFile = "com/resources/art/sprites/bomb_05.png",
+		overFile = "com/resources/art/sprites/bomb_05.png",
+		id = "button_5",
+		label = "5",
+		onEvent = equipWeapon(5),
+	}	
 	
 	carousel1.x, carousel1.y = 200, 5000
 	carousel2.x, carousel2.y = 200, 5000
@@ -253,7 +314,7 @@ function scene:createScene( event )
 	group:insert( prevWeapon )
 		
 	setupWepCarousel()
-	setThingsUp()
+	--setThingsUp()
 end
 
 function setThingsUp()
