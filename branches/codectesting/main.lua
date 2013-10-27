@@ -19,6 +19,6 @@ local c = require("codec")
 
 
 -- fire off the codec!
-c.launchCodec(nil)
+Runtime:dispatchEvent(c.codecStartEvent)
 
 print("I am at the end of main.")

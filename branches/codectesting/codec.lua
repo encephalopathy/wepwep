@@ -17,36 +17,8 @@ local M = require("globals")
 local MSGS = require("messagesreader")
 
 
--- codecStartEvent: the event that indicates the codec has started operating
-local codecStartEvent = {
-	name = "codecStartEvent"
-}
-
-
--- codecStartEventListener: called when the codecStartEvent is called
-local function codecStartEventListener(event)
-	print(event.name .. " has happened")
-end
-
-
--- add the codec start event listener to runtime
-Runtime:addEventListener("codecStartEvent", codecStartEventListener)
-
-
--- codecEndEvent: the event that indicates the codec has ended
-local codecEndEvent = {
-	name = "codecEndEvent"
-}
-
-
--- codecStartEvent: called when the codecEndEvent is called
-local function codecEndEventListener(event)
-	print(event.name .. " has happened")
-end
-
-
--- add the codec end event listener to runtime
-Runtime:addEventListener("codecEndEvent", codecEndEventListener)
+-- c: public codec functions that can be called in main.lua
+local c = {}
 
 
 -- sfx: sound effects table
@@ -58,10 +30,6 @@ local sfx = {
 	advance	= audio.loadSound("sounds/advance.wav"),
 	hangUp	= audio.loadSound("sounds/hangup.wav"),
 }
-
-
--- c: public codec functions that can be called in main.lua
-local c = {}
 
 
 -- w: display width, h: display height
@@ -376,23 +344,44 @@ function disposeCodec()
 	c_dg = nil
 	
 	-- codec has now finally ended
-	Runtime:dispatchEvent(codecEndEvent) 
+	Runtime:dispatchEvent(c.codecEndEvent) 
 	
 end
 
 
--- codec launch!
-function c:launchCodec(messages)
+-- codecStartEvent: the event that indicates the codec has started operating
+c.codecStartEvent = {
+	name = "codecStartEvent"
+}
 
-	-- dispatch the start codec runtime event
-	Runtime:dispatchEvent(codecStartEvent)
 
-	-- set the messages to be displayed by the codec
+-- codecStartEventListener: called when the codecStartEvent is called
+local function codecStartEventListener(event)
+	print(event.name .. " has happened")
 	
 	-- codec answering button fades in
 	caFadeIn()
 end
 
 
-return c
+-- add the codec start event listener to runtime
+Runtime:addEventListener("codecStartEvent", codecStartEventListener)
 
+
+-- codecEndEvent: the event that indicates the codec has ended
+c.codecEndEvent = {
+	name = "codecEndEvent"
+}
+
+
+-- codecStartEvent: called when the codecEndEvent is called
+local function codecEndEventListener(event)
+	print(event.name .. " has happened")
+end
+
+
+-- add the codec end event listener to runtime
+Runtime:addEventListener("codecEndEvent", codecEndEventListener)
+
+
+return c
