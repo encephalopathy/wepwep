@@ -3,6 +3,9 @@ main.lua (codec.lua?)
 
 The codec appears, cycles through messages when the codec is touched,
 and then disappears.
+
+TODO: Codec portraits and animation
+TODO: Text input
 --]]
 
 
@@ -14,6 +17,38 @@ local M = require("globals")
 local MSGS = require("messagesreader")
 
 
+-- codecStartEvent: the event that indicates the codec has started operating
+local codecStartEvent = {
+	name = "codecStartEvent"
+}
+
+
+-- codecStartEventListener: called when the codecStartEvent is called
+local function codecStartEventListener(event)
+	print(event.name .. " has happened")
+end
+
+
+-- add the codec start event listener to runtime
+Runtime:addEventListener("codecStartEvent", codecStartEventListener)
+
+
+-- codecEndEvent: the event that indicates the codec has ended
+local codecEndEvent = {
+	name = "codecEndEvent"
+}
+
+
+-- codecStartEvent: called when the codecEndEvent is called
+local function codecEndEventListener(event)
+	print(event.name .. " has happened")
+end
+
+
+-- add the codec end event listener to runtime
+Runtime:addEventListener("codecEndEvent", codecEndEventListener)
+
+
 -- sfx: sound effects table
 local sfx = {
 	activeChannelNumber = 0,
@@ -23,6 +58,7 @@ local sfx = {
 	advance	= audio.loadSound("sounds/advance.wav"),
 	hangUp	= audio.loadSound("sounds/hangup.wav"),
 }
+
 
 -- c: public codec functions that can be called in main.lua
 local c = {}
@@ -315,6 +351,9 @@ function disposeCodec()
 
 	-- dispose the sfx
 	disposeCodecSfx()
+	
+	-- dispose codec display group event listener
+	
 
 	-- dispose codec textbox
 	c_txtb:removeSelf()
@@ -336,11 +375,17 @@ function disposeCodec()
 	c_dg:removeSelf()
 	c_dg = nil
 	
+	-- codec has now finally ended
+	Runtime:dispatchEvent(codecEndEvent) 
+	
 end
 
 
 -- codec launch!
 function c:launchCodec(messages)
+
+	-- dispatch the start codec runtime event
+	Runtime:dispatchEvent(codecStartEvent)
 
 	-- set the messages to be displayed by the codec
 	
