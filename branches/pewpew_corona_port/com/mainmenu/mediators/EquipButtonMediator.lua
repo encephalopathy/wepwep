@@ -18,6 +18,8 @@ end
 
 function EquipButtonMediator:GoToEquip(event)
 	if event.name == "GoToEquip" then
+		print("DISPATCHING EVENT")
+		Runtime:dispatchEvent({name = "playSound", soundHandle = 'enterEquip'})
 		self.storyboard.gotoScene("com.equipmenu.MenuEquip", "fade", 500)
 	end
 

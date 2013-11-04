@@ -27,7 +27,7 @@ local DEFAULT_RATE_OF_FIRE = 25
 	@bulletWidth: See inherit doc.
 	@bulletHeight: See inherit doc.
 ]]--
-function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX)
+function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle)
    if rateOfFire == nil then
      rateOfFire = DEFAULT_RATE_OF_FIRE
    end
@@ -36,13 +36,13 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
      imgSrc = "com/resources/art/sprites/bullet_02.png"
    end
    
-   if soundFX == nil then
+   if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundFX = "com/resources/music/soundfx/laser.ogg"
+		soundHandle = "singleShot"
 		--print("soundFX:"..soundFX)
    end
    
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType, bulletWidth, bulletHeight, soundFX)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType, bulletWidth, bulletHeight, soundHandle)
    
    if bulletSpeed == nil then
 		self.bulletSpeed = DEFUALT_BULLET_VELOCITY 
@@ -97,8 +97,9 @@ function Singleshot:fire()
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 
 		if self.isPlayerOwned == true then
-			--print("PLAYER OWNED. FIRE SOUNDS")
-			self:playFiringSound(self.soundFX) --call to play sound for weapons
+			print("PLAYER OWNED. FIRE SOUNDS")
+			--self:playFiringSound(self.soundFX) --call to play sound for weapons
+			self:playFiringSound()
 		end
 		--self:adjustPowah()
 	end	
