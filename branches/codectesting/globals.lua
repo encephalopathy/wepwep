@@ -30,12 +30,18 @@ M.c_txt_fs     = 20		-- fs: font size
 -- c_p: codec portrait
 M.c_p_img = {			-- c_p_img: portrait image (this will be replaced with strings for images)
 	Reggie = {r = 225, g = 100, b = 100},
-	Tyce   = {r = 100, g = 225, b = 100}
+	Tyce   = {r = 100, g = 225, b = 100},
+	ReggiePath 	= "images/face01.png",
+	TycePath	= "images/face02.png"
 }
 M.c_p_x  = 75
 M.c_p_y  = h - 175 + 200
 M.c_p_w  = 125
 M.c_p_sw = 3			-- sw: stroke width
+
+-- c_p_img: codec portrait image
+M.c_p_img_x = 75 + 125 * 0.5
+M.c_p_img_y = (h - 175 + 200) + 125 * 0.5
 
 -- c_p_t: codec portrait text
 M.c_p_t_x = 85
