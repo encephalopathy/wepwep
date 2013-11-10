@@ -493,7 +493,7 @@ public class WaveScreen extends JFrame {
 	           @Override
 	           public void actionPerformed(ActionEvent event) {
 	               System.out.println("CREATING A NEW Hater_Homing");
-	        	   enemyChoiceMenu.setText("Hater_HomingItem");
+	        	   enemyChoiceMenu.setText("Hater_Homing");
 	        	   Hater_Homing newDude = new Hater_Homing(Grid);
 	        	   newDude.setRotation();
 	        	   newDude.createWeaponList(); //generates the weapons and passive pop ups
@@ -508,7 +508,7 @@ public class WaveScreen extends JFrame {
 			   @Override
 			   public void actionPerformed(ActionEvent event) {
 				   System.out.println("CREATING A NEW Hater_SineWave");
-			       enemyChoiceMenu.setText("Hater_HomingItem");
+			       enemyChoiceMenu.setText("Hater_SineWave");
 			       Hater_SineWave newDude = new Hater_SineWave(Grid);
 			       newDude.setRotation();
 			       newDude.createWeaponList(); //generates the weapons and passive pop ups
@@ -524,7 +524,7 @@ public class WaveScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 			   System.out.println("CREATING A NEW Hater_MidScreen");
-			   enemyChoiceMenu.setText("Hater_HomingItem");
+			   enemyChoiceMenu.setText("Hater_MidScreen");
 			   Hater_MidScreen newDude = new Hater_MidScreen(Grid);
 			   newDude.setRotation();
 			   newDude.createWeaponList(); //generates the weapons and passive pop ups
@@ -539,7 +539,7 @@ public class WaveScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.out.println("CREATING A NEW Hater_UpDown");
-				enemyChoiceMenu.setText("Hater_HomingItem");
+				enemyChoiceMenu.setText("Hater_UpDown");
 				Hater_UpDown newDude = new Hater_UpDown(Grid);
 				newDude.setRotation();
 				newDude.createWeaponList(); // generates the weapons and passive  pop ups
@@ -554,7 +554,7 @@ public class WaveScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.out.println("CREATING A NEW Hater_SpeedUp");
-				enemyChoiceMenu.setText("Hater_HomingItem");
+				enemyChoiceMenu.setText("Hater_SpeedUp");
 				Hater_SpeedUp newDude = new Hater_SpeedUp(Grid);
 				newDude.setRotation();
 				newDude.createWeaponList(); // generates the weapons and passive pop ups
@@ -569,7 +569,7 @@ public class WaveScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.out.println("CREATING A NEW Hater_Carrier");
-				enemyChoiceMenu.setText("Hater_HomingItem");
+				enemyChoiceMenu.setText("Hater_Carrier");
 				Hater_Carrier newDude = new Hater_Carrier(Grid);
 				newDude.setRotation();
 				newDude.createWeaponList(); // generates the weapons and passive pop ups

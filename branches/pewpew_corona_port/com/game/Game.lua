@@ -4,6 +4,7 @@ require "com.managers.AIDirector"
 require "com.managers.BulletManager"
 require "com.managers.CollectibleHeap"
 require "com.game.Player"
+require "com.game.gameSFXInfo"
 -----------------------------------------------------------------------------------------
 --
 -- level1.lua
@@ -25,6 +26,7 @@ local playerStartLocation = { x = display.contentWidth / 2, y =  display.content
 local background = nil
 local backgroundBuffer = nil
 local currentLevelNumber = 1
+local soundHandler = nil
 step = 0
 
 --[[  DEBUG ]]--
@@ -174,8 +176,6 @@ function scene:createScene( event )
 	
 	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 100, 100)
 	
-	
-	
 	local myButton = widget.newButton
 	{
 		left = screenW - screenW*0.3,
@@ -196,6 +196,7 @@ function scene:createScene( event )
 	}
 	myButton.baseLabel = ""
 	
+	soundHandler = SFX:new(group, gameSFXInfo, "game")
 	
 	AIDirector.create(group)
 	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
@@ -222,6 +223,9 @@ function scene:enterScene( event )
 	AIDirector.initialize(player, currentLevel)
 	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
+	
+	--creating sound table
+	soundHandler:addListener()
 	
 	--This line below will eventually be moved to debug add when Inventory and shop menu work.
 	if not debugFlag then
@@ -256,6 +260,8 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
+	soundHandler:removeListener()
+	
 	debugRemove(group)
 	
 	physics.pause()
@@ -272,6 +278,12 @@ function scene:destroyScene( event )
 	bulletManager.bulletGroupInView = nil
 	collectibles:destroy()
 	
+	print("Attempting to free memory")
+	if soundHandler then
+		soundHandler:disposeSound()
+		soundHandler = nil  --make the soundHandler table nil
+	end
+	print("After disposeSound")
 	
 	package.loaded[physics] = nil
 	physics = nil

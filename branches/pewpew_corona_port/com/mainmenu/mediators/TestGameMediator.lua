@@ -18,6 +18,8 @@ end
 
 function TestGameMediator:PlayGame(event)
 	if event.name == "PlayGame" then
+		print("DISPATCHING EVENT")
+		Runtime:dispatchEvent({name = "playSound", soundHandle = 'enterGame'})
 		local options = { effect = "fade", time = 500, params = { debug = true } }
 		self.storyboard.gotoScene( "com.game.Game", options)
 	end

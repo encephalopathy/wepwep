@@ -45,7 +45,7 @@ Weapon = Object:subclass("Weapon")
 	@bulletWidth: Width of the bullet fired by this weapon in DPI.
 	@bulletHeight: Height of the bullet fired by this weapon in DPI.
 ]]--
-function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight, soundFX)
+function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight, soundHandle)
 
 	-- These 3 variables will be deprecated after the Bullet Manager is done.
     self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
@@ -72,8 +72,8 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	self.bulletHeight = bulletHeight
 	
 	--loading the soundFX for the weapon
-	local loadedAudioFile = audio.loadSound(soundFX)
-	self.soundFX = loadedAudioFile
+	--local loadedAudioFile = audio.loadSound(soundFX)
+	self.soundHandle = soundHandle
 	
 	--[[This is something a little weird and probably something you have not seen before, we can pass the class dynamically 
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
@@ -307,9 +307,8 @@ end
 
 --takes in the handle to the audio file
 --audio.play the sound
-function Weapon:playFiringSound(audioObject)
+function Weapon:playFiringSound()
 	--print("audioObject: "..tostring(audioObject))
-	local openChannel = audio.findFreeChannel()
-	print("openChannel: "..openChannel)
-	audio.play(audioObject, {channel = openChannel})
+	Runtime:dispatchEvent({name = "playSound", soundHandle = self.soundHandle})
+
 end

@@ -3,6 +3,9 @@ main.lua (codec.lua?)
 
 The codec appears, cycles through messages when the codec is touched,
 and then disappears.
+
+TODO: Codec portraits and animation
+TODO: Text input
 --]]
 
 
@@ -14,6 +17,10 @@ local M = require("globals")
 local MSGS = require("messagesreader")
 
 
+-- c: public codec functions that can be called in main.lua
+local c = {}
+
+
 -- sfx: sound effects table
 local sfx = {
 	activeChannelNumber = 0,
@@ -23,9 +30,6 @@ local sfx = {
 	advance	= audio.loadSound("sounds/advance.wav"),
 	hangUp	= audio.loadSound("sounds/hangup.wav"),
 }
-
--- c: public codec functions that can be called in main.lua
-local c = {}
 
 
 -- w: display width, h: display height
@@ -89,7 +93,7 @@ function caFadeOut()
 		ca,
 		{
 			time=500,
-			alpha=0,
+			alpha=0.1,
 			transition=easing.inOutQuad,
 			onComplete=caFadeIn
 		}
@@ -182,6 +186,27 @@ c_p:setStrokeColor(200, 200, 200)
 c_dg:insert(c_p)
 
 
+-- c_p_img: codec portrait image
+local c_p_imgtable = {
+	Reggie 	= display.newImageRect(M.c_p_img["ReggiePath"], M.c_p_w, M.c_p_w),
+	Tyce	= display.newImageRect(M.c_p_img["TycePath"], M.c_p_w, M.c_p_w)
+}
+
+-- c_p_reggie: reggie's portrait image
+local c_p_reggie	= c_p_imgtable["Reggie"]
+c_p_reggie.x 		= M.c_p_img_x
+c_p_reggie.y 		= M.c_p_img_y
+c_p_reggie.alpha	= 0
+
+-- c_p_tyce: tyce's portrait image
+local c_p_tyce		= c_p_imgtable["Tyce"]
+c_p_tyce.x 			= M.c_p_img_x
+c_p_tyce.y 			= M.c_p_img_y
+c_p_tyce.alpha		= 0
+c_dg:insert(c_p_reggie)
+c_dg:insert(c_p_tyce)
+
+
 -- c_p_txt: codec portrait text
 local c_p_txt = display.newText(
 	MSGS[msg_c].name,				-- text
@@ -216,12 +241,16 @@ end
 
 -- codec assets populating listener
 function makeCodecAssetsAppear(obj)
+
+	-- make text appear
 	c_txt.alpha   = 1
 	c_p_txt.alpha = 1
 	
+	-- make portrait appear
 	local speaker = MSGS[msg_c].name
 	local c_p_rgb = M.c_p_img[speaker]
 	c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
+	c_p_imgtable[speaker].alpha = 1
 end
 
 
@@ -245,16 +274,23 @@ function c_dg:touch(event)
 		
 			-- play the advance sound effect
 			audio.play(sfx.advance)
+			
+			-- make the previous image go away
+			local previousSpeaker = MSGS[msg_c].name
+			c_p_imgtable[previousSpeaker].alpha = 0
 		
-			-- change the message and/or portrait in codec
+			-- grab the information for the next message
 			msg_c = msg_c + 1
 			local speaker = MSGS[msg_c].name
 			local message = MSGS[msg_c].content
 			local c_p_rgb = M.c_p_img[speaker]
 			
+			-- change the message and portrait in the codec
 			c_txt.text    = message
 			c_p_txt.text  = speaker
 			c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
+			c_p_imgtable[speaker].alpha = 1
+			
 			
 		else
 		
@@ -315,6 +351,9 @@ function disposeCodec()
 
 	-- dispose the sfx
 	disposeCodecSfx()
+	
+	-- dispose codec display group event listener
+	
 
 	-- dispose codec textbox
 	c_txtb:removeSelf()
@@ -336,18 +375,45 @@ function disposeCodec()
 	c_dg:removeSelf()
 	c_dg = nil
 	
+	-- codec has now finally ended
+	Runtime:dispatchEvent(c.codecEndEvent) 
+	
 end
 
 
--- codec launch!
-function c:launchCodec(messages)
+-- codecStartEvent: the event that indicates the codec has started operating
+c.codecStartEvent = {
+	name = "codecStartEvent"
+}
 
-	-- set the messages to be displayed by the codec
+
+-- codecStartEventListener: called when the codecStartEvent is called
+local function codecStartEventListener(event)
+	print(event.name .. " has happened")
 	
 	-- codec answering button fades in
 	caFadeIn()
 end
 
 
-return c
+-- add the codec start event listener to runtime
+Runtime:addEventListener("codecStartEvent", codecStartEventListener)
 
+
+-- codecEndEvent: the event that indicates the codec has ended
+c.codecEndEvent = {
+	name = "codecEndEvent"
+}
+
+
+-- codecStartEvent: called when the codecEndEvent is called
+local function codecEndEventListener(event)
+	print(event.name .. " has happened")
+end
+
+
+-- add the codec end event listener to runtime
+Runtime:addEventListener("codecEndEvent", codecEndEventListener)
+
+
+return c
