@@ -19,12 +19,12 @@ Shop = Object:subclass("Shop")
 ]]--
 function Shop:init()
    self.Weapons = {}
-   self.Weapons[1] = { item = Singleshot:new(scene, true, 25, -200), cost = 500 }
-   self.Weapons[2] = { item = Spreadshot:new(scene, true, 35, -200, nil, nil, nil, nil, nil, 4, 15, 4, 15), cost = 500 }
-   self.Weapons[3] = { item = SineWave:new(scene, true, 40, -200), cost = 500 }
-   self.Weapons[4] = { item = Homingshot:new(scene, true), cost = 500 }
-   self.Weapons[5] = { item = Doubleshot:new(scene, true, 25, -200, 7), cost = 500 }
-   self.Weapons[6] = { item = Backshot:new(scene, true), cost = 500 }
+   self.Weapons[1] = Singleshot:new(scene, true, 25, -200)
+   self.Weapons[2] = Spreadshot:new(scene, true, 35, -200, nil, nil, nil, nil, nil, 4, 15, 4, 15)
+   self.Weapons[3] = SineWave:new(scene, true, 40, -200)
+   self.Weapons[4] = Homingshot:new(scene, true)
+   self.Weapons[5] = Doubleshot:new(scene, true, 25, -200, 7)
+   self.Weapons[6] = Backshot:new(scene, true)
    
    self.permission = {}
    self.permission[1] = true
