@@ -188,8 +188,8 @@ c_dg:insert(c_p)
 
 -- c_p_img: codec portrait image
 local c_p_imgtable = {
-	Reggie 	= display.newImageRect(M.c_p_img["ReggiePath"], M.c_p_w, M.c_p_w),
-	Tyce	= display.newImageRect(M.c_p_img["TycePath"], M.c_p_w, M.c_p_w)
+	Reggie 	= display.newImageRect(M.c_p_img.Reggie.neutral, M.c_p_w, M.c_p_w),
+	Tyce	= display.newImageRect(M.c_p_img.Tyce.neutral, M.c_p_w, M.c_p_w)
 }
 
 -- c_p_reggie: reggie's portrait image
@@ -212,7 +212,7 @@ local c_p_txt = display.newText(
 	MSGS[msg_c].name,				-- text
 	M.c_p_t_x, M.c_p_t_y,			-- x, y
 	M.c_p_w, 28,					-- width, height
-	native.systemFont,				-- font,
+	native.systemFontBold,			-- font,
 	M.c_txt_fs						-- font size
 )
 c_p_txt.alpha = 0
@@ -248,8 +248,9 @@ function makeCodecAssetsAppear(obj)
 	
 	-- make portrait appear
 	local speaker = MSGS[msg_c].name
-	local c_p_rgb = M.c_p_img[speaker]
+	local c_p_rgb = M.c_p_img[speaker].color
 	c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
+	c_p_txt:setTextColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
 	c_p_imgtable[speaker].alpha = 1
 end
 
@@ -283,14 +284,14 @@ function c_dg:touch(event)
 			msg_c = msg_c + 1
 			local speaker = MSGS[msg_c].name
 			local message = MSGS[msg_c].content
-			local c_p_rgb = M.c_p_img[speaker]
+			local c_p_rgb = M.c_p_img[speaker].color
 			
 			-- change the message and portrait in the codec
 			c_txt.text    = message
 			c_p_txt.text  = speaker
 			c_p:setFillColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
+			c_p_txt:setTextColor(c_p_rgb.r, c_p_rgb.g, c_p_rgb.b)
 			c_p_imgtable[speaker].alpha = 1
-			
 			
 		else
 		
@@ -301,7 +302,6 @@ function c_dg:touch(event)
 	
 	return true
 end
-
 c_dg:addEventListener("touch", c_dg)
 
 
