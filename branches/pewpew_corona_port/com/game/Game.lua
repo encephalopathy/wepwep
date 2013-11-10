@@ -10,6 +10,8 @@ require "com.game.Player"
 --
 -----------------------------------------------------------------------------------------
 
+levels = createGame('com/game/levels/test.pew')  
+
 -- scene managment api, dictates game scene transition
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene("game")

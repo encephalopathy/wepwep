@@ -73,6 +73,7 @@ end
 function Inventory:equipSecondaryItems(player, sceneGroup)	
 	for weaponName, secondaryWeapon in pairs(self.secondaryWeapons) do
 		secondaryWeapon.sceneGroup = sceneGroup
+		print('Equipping secondary weapon')
 		table.insert(player.secondaryWeapons, secondaryWeapon)
 	end
 	
@@ -122,8 +123,6 @@ function Inventory:addSecondaryWeapon(weaponName)
 	if self.secondaryWeapons[weaponName] ~= nil and self.numOfEquipSlotsAvailable > 0 then
 		self.secondaryWeapons[weaponname] =  weaponObject
 		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
-	else
-		self.secondaryWeapons[weaponObject].ammoAmount = self.secondaryWeapons[weaponObject].ammoAmount + weaponObject.ammoAmount
 	end
 end
 
