@@ -231,7 +231,7 @@ function activateCodec()
 		c_dg, 
 		{
 			time = 900,
-			y = -200,
+			y = -275,
 			transition = easing.outExpo,
 			onComplete = makeCodecAssetsAppear
 		}
@@ -322,7 +322,7 @@ function deactivateCodec()
 		c_dg, 
 		{
 			time = 900,
-			y = 25,
+			y = 50,
 			transition = easing.outExpo,
 			onComplete = disposeCodec
 		}
