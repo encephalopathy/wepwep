@@ -6,7 +6,7 @@ function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bull
    
    if soundFX == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundHandle = "sineWave"
+		soundHandle = "SineWave"
 		--print("soundFX:"..soundFX)
    end
    

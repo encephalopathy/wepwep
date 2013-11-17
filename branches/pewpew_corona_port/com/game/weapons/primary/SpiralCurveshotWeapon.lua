@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 SpiralCurveshot = Weapon:subclass("SpiralCurveshot")
 
-function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, startAngle)
+function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, startAngle)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -16,13 +16,13 @@ function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-	if soundFX == nil then
+	if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		soundHandle = "SpiralCurveshot"
 		--print("soundFX:"..soundFX)
    end
 
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 		self.bulletSpeed = bulletSpeed
    else
@@ -100,7 +100,7 @@ function SpiralCurveshot:fire (player)
 	
 	if self.isPlayerOwned == true then
 		--print("PLAYER OWNED. FIRE SOUNDS")
-		self:playFiringSound(self.soundFX) --call to play sound for weapons
+		self:playFiringSound() --call to play sound for weapons
 	end
 end 
 
