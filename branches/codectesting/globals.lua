@@ -14,7 +14,7 @@ M.h = display.contentHeight
 
 -- c_txtb: codec textbox
 M.c_txtb_x  = 200
-M.c_txtb_y  = h - 175 + 200
+M.c_txtb_y  = h + 25
 M.c_txtb_w  = 250
 M.c_txtb_h  = 125
 M.c_txtb_sw = 3			-- sw: stroke width
