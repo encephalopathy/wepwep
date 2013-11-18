@@ -17,6 +17,7 @@ require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.weapons.primary.CircleshotWeapon"
 require "com.game.weapons.primary.SpiralStraightshotWeapon"
 require "com.game.weapons.primary.SpiralCurveshotWeapon"
+require "com.game.weapons.primary.RandomshotWeapon"
 require "com.managers.AIDirector"
 require "com.game.passives.Passive"
 require "com.game.passives.Player.ExtraStartingHealth"
@@ -108,8 +109,8 @@ end
 
 function Player:equipDebug(sceneGroup) 
 	--sceneGroup, playerOwned, rateOfFire, bulletSpeed
-	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
-	--self.weapon = SineWave:new(sceneGroup, true, 25, 200)
+	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Randomshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self

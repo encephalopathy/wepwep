@@ -3,7 +3,7 @@ require "com.game.weapons.primary.HomingBullet"
 
 Homingshot = Weapon:subclass("Homingshot")
 
-function Homingshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, rotationSpeed, trackTime, soundFX)
+function Homingshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, rotationSpeed, trackTime, soundHandle)
 	--[[
 	if soundFX == nil then --if no pre-defined sound, set as the default
 		print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
@@ -19,13 +19,13 @@ function Homingshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		imgSrc = "com/resources/art/sprites/bullet_04.png"
 	end
 	
-	if soundFx == nil then
+	if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundFX = "com/resources/music/soundfx/laser.ogg"
+		soundHandle = "Homingshot"
 		--print("soundFX:"..soundFX)
 	end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, 25, bulletType, bulletWidth, bulletHeight, soundFX)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, 25, bulletType, bulletWidth, bulletHeight, soundHandle)
    --self.soundPath = 'homingShot.ogg'
    --homingShotSFX = MOAIUntzSound.new()
    --homingShotSFX:load('homingShot.ogg')
@@ -55,7 +55,7 @@ function Homingshot:fire()
 			
 			if self.isPlayerOwned == true then
 				--print("PLAYER OWNED. FIRE SOUNDS")
-				self:playFiringSound(self.soundFX) --call to play sound for weapons
+				self:playFiringSound() --call to play sound for weapons
 			end
 			
 		end

@@ -50,20 +50,20 @@ end
 
 --play
 function SFX:playSound(event)
-	print("INSIDE playSound")
-	print("name: "..self.name)
+	--print("INSIDE playSound")
+	--print("name: "..self.name)
 	if event.name == "playSound" then
-		print("event.handle "..event.soundHandle)
+		--print("event.handle "..event.soundHandle)
 		if self.sfx[event.soundHandle] ~= nil then
-			print("type: "..type(self.sfx[event.soundHandle].object))
-			print("channel: "..self.sfx[event.soundHandle].channel)
+			--print("type: "..type(self.sfx[event.soundHandle].object))
+			--print("channel: "..self.sfx[event.soundHandle].channel)
 			if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))then
 				audio.stop(self.sfx[event.soundHandle].channel)
 			end
 			audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
-			print(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))
+			--print(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))
 		else
-			print("event.soundHandle was a nil value")
+			--print("event.soundHandle was a nil value")
 		end
 		
 	end
