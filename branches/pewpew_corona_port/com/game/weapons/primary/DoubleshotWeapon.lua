@@ -7,7 +7,7 @@ function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    
    if soundHandle == nil then --if no pre-defined sound, set as the default
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundHandle = "doubleShot"
+		soundHandle = "DoubleShot"
 		--print("soundFX:"..soundFX)
    end
    

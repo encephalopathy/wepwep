@@ -47,7 +47,7 @@ end
 function Collectible:onHit(phase, collide)
 	if phase == "began" and self.alive then
 		if self.alive then
-			Runtime:dispatchEvent({name = "playSound", soundHandle = 'collectible'})
+			Runtime:dispatchEvent({name = "playSound", soundHandle = 'Collectible'})
 			self:activateEffect(collide)
 			self.alive = false
 		end

@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Circleshot = Weapon:subclass("Circleshot")
 
-function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, soundFX)
+function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, soundHandle)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -16,13 +16,13 @@ function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 	
-	if soundFX == nil then
+	if soundHandle == nil then
 		--print("IN CIRCLE SHOT THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		soundHandle = "Circleshot"
 		--print("soundFX:"..soundFX)
    end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
    
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
@@ -90,7 +90,7 @@ function Circleshot:fire (player)
 	
 	if self.isPlayerOwned == true then
 		--print("PLAYER OWNED. FIRE SOUNDS")
-		self:playFiringSound(self.soundFX) --call to play sound for weapons
+		self:playFiringSound() --call to play sound for weapons
 	end  
 end 
 
