@@ -18,6 +18,8 @@ local widget = require "widget"
 --------------------------------------------
 
 -- forward declarations and other locals
+shop = Shop:new()
+
 local regularButton, sineButton, doubleButton, homingButton, spreadButton,
 		bombsButton, rocketsButton, freezeButton, backButton, nextWeapon, 
 		prevWeapon
@@ -46,10 +48,15 @@ local function handleButtonEvent( event )
     end
 end
 
-local function equipWeapon(weaponNumber)
+local function equipWeapon(event)
 	--mainInventory:equipOneWeapon(1)
-	mainInventory:equipPrimaryWeapon(weaponNumber)
-		--setThingsUp()
+    if event.phase == "ended" then
+
+		local a = (string.gsub(event.target.id,"button_",""))
+		print("Equipped " .. tostring(shop.Weapons[tonumber( a ) ] ))
+		mainInventory:equipPrimaryWeapon(shop.Weapons[tonumber( a ) ])
+			--setThingsUp()
+	end
 end
 
 local function spread(event)
@@ -166,7 +173,7 @@ function scene:createScene( event )
 		overFile = "com/resources/art/sprites/bomb_01.png",
 		id = "button_1",
 		label = "1",
-		onEvent = equipWeapon(1),
+		onEvent = equipWeapon,
 	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
 					--display.contentWidth/10, display.contentHeight/10 )
 	carousel2 = widget.newButton
@@ -177,7 +184,7 @@ function scene:createScene( event )
 		overFile = "com/resources/art/sprites/bomb_02.png",
 		id = "button_2",
 		label = "2",
-		onEvent = equipWeapon(2),
+		onEvent = equipWeapon,
 	}
 	carousel3= widget.newButton
 	{
@@ -187,7 +194,7 @@ function scene:createScene( event )
 		overFile = "com/resources/art/sprites/bomb_03.png",
 		id = "button_3",
 		label = "3",
-		onEvent = equipWeapon(3),
+		onEvent = equipWeapon,
 	}
 	carousel4 = widget.newButton
 	{
@@ -197,7 +204,7 @@ function scene:createScene( event )
 		overFile = "com/resources/art/sprites/bomb_04.png",
 		id = "button_4",
 		label = "4",
-		onEvent = equipWeapon(4),
+		onEvent = equipWeapon,
 	}	
 	carousel5 = widget.newButton
 	{
@@ -207,7 +214,7 @@ function scene:createScene( event )
 		overFile = "com/resources/art/sprites/bomb_05.png",
 		id = "button_5",
 		label = "5",
-		onEvent = equipWeapon(5),
+		onEvent = equipWeapon,
 	}	
 	
 	carousel1.x, carousel1.y = 200, 5000

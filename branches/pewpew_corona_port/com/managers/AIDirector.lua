@@ -27,7 +27,7 @@ local function createHater(haterList, haterType)
 		haterList[haterType].outOfView = Queue.new()
 		haterList[haterType].inView = Queue.new()
 	end
-	local newHater = require(haterType):new(AIDirector.haterGroup, player, 
+	local newHater = require(haterType):new(AIDirector.haterGroup, AIDirector.player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
 										haterList)
 	newHater.sprite.isBodyActive = false
