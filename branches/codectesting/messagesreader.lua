@@ -23,6 +23,28 @@ messages = {			-- NOTE: messages[0] is the number of total messages
 }
 
 
+function removeCommentedContent(line)
+    -- find a hash, if there is one 
+    local hashPosition = line:find("#")
+    
+    if hashPosition ~= nil then
+        line = line:sub(0, hashPosition - 1)
+        print("The stuff that is NOT commented is \""..line.."\".")
+    end
+    
+    return line
+end
+
+-- grab the line, and assign the strings to the appropriate values
+function interpretLine(line)
+    
+    -- remove the commented content from the line
+    line = removeCommentedContent(line)
+    
+    print(line)
+end
+
+
 -- read a text file, and then populate the messages table with those messages
 function mr.readMessagesTextFile(messagesFileName)
 
@@ -32,8 +54,18 @@ function mr.readMessagesTextFile(messagesFileName)
 	
 	-- read the file, and do stuff with it
 	if file then
-		local fileContent = file:read()
-		print(fileContent)
+	
+		local currentLine = file:read("*l")
+		
+		while currentLine ~= nil do
+		
+	        -- interpret the line 
+		    interpretLine(currentLine)
+		    
+		    -- move to the next line
+		    currentLine = file:read("*l")
+		end
+		
 	else
 		print(err)
 	end
