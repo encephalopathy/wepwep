@@ -114,8 +114,11 @@ end
 function setLevel(levelName)
 	currentLevel = levels[levelName]
 	currentWaveNumber = 1
+	print('currentLevel: ' .. tostring(currentLevel))
 	return currentLevel
 end
+
+levels = createGame('com/game/levels/test.pew')  
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	

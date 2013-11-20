@@ -220,6 +220,7 @@ function scene:enterScene( event )
 	
 	debugFlag = event.params.debug
 	local currentLevel = setLevel('test') --set to be the default level
+	
 	AIDirector.initialize(player, currentLevel)
 	
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y

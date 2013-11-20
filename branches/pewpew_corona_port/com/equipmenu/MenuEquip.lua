@@ -18,7 +18,7 @@ local widget = require "widget"
 --------------------------------------------
 
 -- forward declarations and other locals
-shop = Shop:new()
+
 
 local regularButton, sineButton, doubleButton, homingButton, spreadButton,
 		bombsButton, rocketsButton, freezeButton, backButton, nextWeapon, 
@@ -49,15 +49,9 @@ local function handleButtonEvent( event )
 end
 
 local function equipWeapon(event)
-	--mainInventory:equipOneWeapon(1)
     if event.phase == "ended" then
 		print('id: ' .. tostring(event.target.id))
-		print('Default image: ' .. tostring(event.target.overFile))
-		local a = (string.gsub(event.target.id,"button_",""))
-		print("Equipped " .. tostring(shop.Weapons[tonumber( a ) ] ))
 		shop:buyItem(event.target.id)
-		--shop:buyPrimaryWeapon(tonumber( a ))
-			--setThingsUp()
 	end
 end
 

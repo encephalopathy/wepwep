@@ -43,7 +43,9 @@ function SineWave:fire(player)
 	   bullet1.time = 0
 	   bullet2.time = 0
 	   
+	   --print('Bullet 1')
 	   bullet1:fire()
+	   --print('Bullet 2')
 	   bullet2:fire()
 	   
 	   if self.isPlayerOwned == true then
