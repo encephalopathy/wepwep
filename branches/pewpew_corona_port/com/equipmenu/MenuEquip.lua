@@ -7,7 +7,7 @@ require "com.Utility"
 require "com.Inventory"
 require "org.Object"
 require "org.Queue"
-require "com.shopmenu.Shop"
+
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()

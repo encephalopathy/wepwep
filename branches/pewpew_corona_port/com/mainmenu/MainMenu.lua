@@ -12,6 +12,7 @@ require "org.Context"
 require "com.mainmenu.views.PlayButton"
 require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
+require "com.shopmenu.Shop"
 require "com.managers.SFX"
 
 local widget = require("widget")
