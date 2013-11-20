@@ -25,9 +25,11 @@ function Inventory:init (scene)
    -- keep all the weapons in a master list
 
    self.dollaz = 5000
-   self.equippedWeapon = 1
+   self.primaryWeapon = 1
    self.numOfEquipSlotsAvailable = NUMBER_OF_EQUIP_SLOTS
    -- permissions list
+   
+   self.slots = {}
    
    self.secondaryWeapons = {}
    
@@ -44,24 +46,7 @@ end
 	
 ****************************************************************************************************************************
 ]]--
--- Do permissions check and change weapons, will rename to equipRig.
-function Inventory:equipPrimaryWeapon(player, sceneGroup)
 
-
-   local weapon = nil
-   
-	if (self.permission[self.equippedWeapon] == true and
-		self.Weapons[self.equippedWeapon] ~= nil) then
-		weapon = self.Weapons[self.equippedWeapon]
-		
-		weapon:setMuzzleLocation({ x = 0, y = -100 })
-		weapon.owner = player
-		--self.player = player
-		
-		weapon.sceneGroup = sceneGroup
-   end
-	player.weapon = weapon
-end
 
 --Equip all secondary weapons and passives to the player when the player starts the game.
 function Inventory:equipRig(player, sceneGroup)
@@ -113,14 +98,21 @@ end
 	
 ****************************************************************************************************************************
 ]]--
-function Inventory:equipPrimaryWeapon(weaponObject)
-	assert(weaponObject ~= nil, 'Equipped a nil weapon in Inventory:equipPrimaryWeapon')
-    self.equippedWeapon = weaponObject
+
+-- Do permissions check and change weapons, will rename to equipRig.
+function Inventory:equipPrimaryWeapon(player, sceneGroup)
+	assert(self.primaryWeapon ~= nil, 'Equipped a nil weapon in Inventory:equipPrimaryWeapon')
+    player.weapon = self.primaryWeapon
+    player.weapon.sceneGroup = sceneGroup
+	player.weapon.targets = AIDirector.haterList
+	player.weapon:setMuzzleLocation({ x = 0, y = -100 })
+	player.weapon.owner = player
 end
 
 -- Adds a secondary weapon to the equipment slots.
 function Inventory:addSecondaryWeapon(weaponName)
 	if self.secondaryWeapons[weaponName] ~= nil and self.numOfEquipSlotsAvailable > 0 then
+		print('Adding secondary weapon')
 		self.secondaryWeapons[weaponname] =  weaponObject
 		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
 	end

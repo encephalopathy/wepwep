@@ -51,10 +51,12 @@ end
 local function equipWeapon(event)
 	--mainInventory:equipOneWeapon(1)
     if event.phase == "ended" then
-
+		print('id: ' .. tostring(event.target.id))
+		print('Default image: ' .. tostring(event.target.overFile))
 		local a = (string.gsub(event.target.id,"button_",""))
 		print("Equipped " .. tostring(shop.Weapons[tonumber( a ) ] ))
-		mainInventory:equipPrimaryWeapon(shop.Weapons[tonumber( a ) ])
+		shop:buyItem(event.target.id)
+		--shop:buyPrimaryWeapon(tonumber( a ))
 			--setThingsUp()
 	end
 end
@@ -82,12 +84,12 @@ local function homing(event)
 end
 
 local function bombs(event)
-	mainInventory:addSecondaryWeapon('Bomb')
+	mainInventory:addSecondaryWeapon("com/resources/art/sprites/bomb.png")
 		setThingsUp()
 end
 
 local function rockets(event)
-	mainInventory:addSecondaryWeapon('Missile')
+	mainInventory:addSecondaryWeapon("com/resources/art/sprites/missile.png")
 		setThingsUp()
 end
 
@@ -160,7 +162,7 @@ function scene:createScene( event )
 	bgRect:setFillColor(20, 70, 10, 130)
 		
 	--[[
-	addSecondaryWeapon('Bomb')
+	addSecondaryWeapon("com/resources/art/sprites/bomb.png")
 	equipOneWeapon(weaponNumber) for primary weaons
 	removeSecondaryWeapon(weaponName) for remvoing a secondary weapon
 	--]]	
@@ -169,9 +171,9 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_01.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
 		overFile = "com/resources/art/sprites/bomb_01.png",
-		id = "button_1",
+		id = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
 		label = "1",
 		onEvent = equipWeapon,
 	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
@@ -180,9 +182,9 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_02.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
 		overFile = "com/resources/art/sprites/bomb_02.png",
-		id = "button_2",
+		id = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
 		label = "2",
 		onEvent = equipWeapon,
 	}
@@ -190,9 +192,9 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_03.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
 		overFile = "com/resources/art/sprites/bomb_03.png",
-		id = "button_3",
+		id = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
 		label = "3",
 		onEvent = equipWeapon,
 	}
@@ -200,9 +202,9 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_04.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
 		overFile = "com/resources/art/sprites/bomb_04.png",
-		id = "button_4",
+		id = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
 		label = "4",
 		onEvent = equipWeapon,
 	}	
@@ -210,9 +212,9 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_05.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
 		overFile = "com/resources/art/sprites/bomb_05.png",
-		id = "button_5",
+		id = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
 		label = "5",
 		onEvent = equipWeapon,
 	}	

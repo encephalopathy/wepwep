@@ -18,9 +18,7 @@ function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    else
 	 self.bulletSeperationDistance = BULLET_SEPERATION_DIST
    end
-   --self.soundPath = 'doubleShot.ogg'
-   --doubleShotSFX = MOAIUntzSound.new()
-   --doubleShotSFX:load('doubleShot.ogg')
+
    self.energyCost = 10
 end
 
