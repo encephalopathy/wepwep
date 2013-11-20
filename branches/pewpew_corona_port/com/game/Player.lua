@@ -63,7 +63,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	"com/resources/art/sprites/player_piece_03.png", 
 	"com/resources/art/sprites/player_piece_04.png",
 	"com/resources/art/sprites/player_piece_05.png"},
-	{ categoryBits = 1, maskBits = 27} ) 
+	{ categoryBits = 1, maskBits = 26} ) 
 
 	self.health = 10
 	self.maxhealth = 10
