@@ -27,7 +27,7 @@ local DEFAULT_RATE_OF_FIRE = 25
 	@bulletWidth: See inherit doc.
 	@bulletHeight: See inherit doc.
 ]]--
-function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle)
+function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfWaves, delayBetweenWaves)
    if rateOfFire == nil then
      rateOfFire = DEFAULT_RATE_OF_FIRE
    end
@@ -50,6 +50,21 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.bulletSpeed = bulletSpeed
    end
    self.energyCost = 5
+   
+   if numberOfWaves == nil then
+      self.numberOfWaves = 3
+   else
+      self.numberOfWaves = numberOfWaves
+   end
+   
+   if delayBetweenWaves == nil then
+      self.delayBetweenWaves = 5
+   else
+      self.delayBetweenWaves = delayBetweenWaves
+   end
+   
+	self.waveCounter = 0
+	self.delayCounter = 0
    
    --load it here with a string to sound file
 end
@@ -90,16 +105,25 @@ function Singleshot:fire()
 	if not self:canFire() then return end
 	local bullet = self:getNextShot()
 	if bullet then  --you are allowed to shoot
-		local rotationAngle = math.rad(self.owner.sprite.rotation)
-			
-		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-		local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
-		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 
 		if self.isPlayerOwned == true then
-			print("PLAYER OWNED. FIRE SOUNDS")
+			--print("PLAYER OWNED. FIRE SOUNDS")
 			--self:playFiringSound(self.soundFX) --call to play sound for weapons
-			self:playFiringSound()
+			if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
+				local rotationAngle = math.rad(self.owner.sprite.rotation)
+				self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+				local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+				bullet:fire(bulletVelocity.x, bulletVelocity.y)
+				self:playFiringSound()
+				if self.numberOfWaves > 0 then
+					self.waveCounter = self.waveCounter + 1
+				end
+			elseif self.waveCounter > self.numberOfWaves and self.delayCounter <= self.delayBetweenWaves then
+				self.delayCounter = self.delayCounter + 1
+			elseif self.waveCounter > self.numberOfWaves and self.delayCounter > self.delayBetweenWaves then
+				self.waveCounter = 0
+				self.delayCounter = 0
+			end
 		end
 		--self:adjustPowah()
 	end	

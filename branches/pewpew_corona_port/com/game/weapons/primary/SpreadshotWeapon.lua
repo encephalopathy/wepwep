@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Spreadshot = Weapon:subclass("Spreadshot")
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs, numberOfWaves, delayBetweenWaves)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -53,6 +53,21 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
      self.angleBetweenArcs = 15
    end
    
+   if numberOfWaves == nil then
+      self.numberOfWaves = 3
+   else
+      self.numberOfWaves = numberOfWaves
+   end
+   
+   if delayBetweenWaves == nil then
+      self.delayBetweenWaves = 5
+   else
+      self.delayBetweenWaves = delayBetweenWaves
+   end
+   
+	self.waveCounter = 0
+	self.delayCounter = 0
+   
    self.energyCost = 20
 end
 
@@ -93,26 +108,36 @@ function Spreadshot:fire (player)
 		end
 	end
        
-	for i = 1, (self.numberOfShots), 1 do
-		local bullet = shots[i]
+   if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
+		for i = 1, (self.numberOfShots), 1 do
+			local bullet = shots[i]
 		  
-		if (bullet == nil) then
-			break
+			if (bullet == nil) then
+				break
+			end
+		
+			local rotationAngle = math.rad(startAngle - (i * angleStep) - ((math.ceil(i / shotsPerArc) - 1) * self.angleBetweenArcs))
+			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+         
+	      local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+		   bullet:fire(bulletVelocity.x, bulletVelocity.y)
+	   end 
+   
+	   if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound(self.soundFX) --call to play sound for weapons
 		end
 		
-		local rotationAngle = math.rad(startAngle - (i * angleStep) - ((math.ceil(i / shotsPerArc) - 1) * self.angleBetweenArcs))
-		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-         
-      local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
-	  bullet:fire(bulletVelocity.x, bulletVelocity.y)
-	  
-   end 
-   
-   if self.isPlayerOwned == true then
-		--print("PLAYER OWNED. FIRE SOUNDS")
-		self:playFiringSound(self.soundFX) --call to play sound for weapons
+		if self.numberOfWaves > 0 then
+			self.waveCounter = self.waveCounter + 1
+		end
+	elseif self.waveCounter > self.numberOfWaves and self.delayCounter <= self.delayBetweenWaves then
+		self.delayCounter = self.delayCounter + 1
+	elseif self.waveCounter > self.numberOfWaves and self.delayCounter > self.delayBetweenWaves then
+		self.waveCounter = 0
+		self.delayCounter = 0
 	end
 	
-end 
+end
 
 return Spreadshot

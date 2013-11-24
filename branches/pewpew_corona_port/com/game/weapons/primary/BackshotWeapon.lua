@@ -42,6 +42,22 @@ function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgS
    end
    
    self.energyCost = 20
+   
+   if numberOfWaves == nil then
+      self.numberOfWaves = 3
+   else
+      self.numberOfWaves = numberOfWaves
+   end
+   
+   if delayBetweenWaves == nil then
+      self.delayBetweenWaves = 5
+   else
+      self.delayBetweenWaves = delayBetweenWaves
+   end
+   
+	self.waveCounter = 0
+	self.delayCounter = 0
+   
 end
 
 --[[+
@@ -101,7 +117,7 @@ function Backshot:fire (player)
 		      backwardShots[i] = self:getNextShot()
 		   end
 	   end
-       
+      
 	   for i = 0, (numberOfForwardShots - 1), 1 do
 		   local bullet = forwardShots[i]
 		   if (bullet == nil) then
