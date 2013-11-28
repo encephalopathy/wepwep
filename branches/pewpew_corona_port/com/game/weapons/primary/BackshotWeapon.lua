@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Backshot = Weapon:subclass("Backshot")
 
-function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, firingAngle)
+function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, firingAngle)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -16,13 +16,17 @@ function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgS
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
+	if energyCost == nil then
+	  energyCost = 20
+   end
+	
 	if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundHandle = "Backshot"
 		--print("soundFX:"..soundFX)
    end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 	   self.bulletSpeed = bulletSpeed
    else
@@ -40,8 +44,7 @@ function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgS
    else
       self.firingAngle = 45--FIRING_ANGLE
    end
-   
-   self.energyCost = 20
+
 end
 
 --[[+

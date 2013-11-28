@@ -3,15 +3,19 @@ Doubleshot = Singleshot:subclass("Doubleshot")
 
 local BULLET_SEPERATION_DIST = 7
 
-function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance,soundHandle)
+function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance,soundHandle)
+   
+   if energyCost == nil then
+	  energyCost = 10
+   end
    
    if soundHandle == nil then --if no pre-defined sound, set as the default
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundHandle = "DoubleShot"
+		soundHandle = "Doubleshot"
 		--print("soundFX:"..soundFX)
    end
    
-   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight,soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight,soundHandle)
    
    if bulletSeperationDistance ~= nil then
 	 self.bulletSeperationDistance = bulletSeperationDistance
@@ -19,7 +23,6 @@ function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 	 self.bulletSeperationDistance = BULLET_SEPERATION_DIST
    end
 
-   self.energyCost = 10
 end
 
 

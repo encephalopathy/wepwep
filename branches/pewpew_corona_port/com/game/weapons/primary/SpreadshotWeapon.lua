@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Spreadshot = Weapon:subclass("Spreadshot")
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundFX, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -16,13 +16,17 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
-	if soundFX == nil then
+	if energyCost == nil then
+	  energyCost = 20
+   end
+	
+	if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
-		soundFX = "com/resources/music/soundfx/shotgun.ogg"
+		soundHandle = "Spreadshot"
 		--print("soundFX:"..soundFX)
    end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundFX)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else
@@ -52,8 +56,7 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    else
      self.angleBetweenArcs = 15
    end
-   
-   self.energyCost = 20
+
 end
 
 --[[+
