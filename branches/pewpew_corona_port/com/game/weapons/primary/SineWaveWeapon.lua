@@ -2,22 +2,33 @@ require "com.game.weapons.Weapon"
 
 SineWave = Weapon:subclass("SineWave")
 
-function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, bulletWidth, bulletHeight,soundHandle)
+function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletWidth, bulletHeight,soundHandle)
+  if rateOfFire == nil then
+	 rateOfFire = 50
+  end
+  
+  if imgSrc == nil then
+     imgSrc = "com/resources/art/sprites/bullet_05.png"
+   end
    
-   if soundFX == nil then
+   if energyCost == nil then
+	  energyCost = 15
+   end
+   
+   if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundHandle = "SineWave"
 		--print("soundFX:"..soundFX)
    end
    
-   self.super:init(sceneGroup, isPlayerOwned, "com/resources/art/sprites/bullet_05.png", 50, SineWaveBullet, bulletWidth, bulletHeight,soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, SineWaveBullet, bulletWidth, bulletHeight,soundHandle)
 
-   self.energyCost = 15
 end
 
 function SineWave:fire(player)
+	self.super:fire()
 	
-   --if self:canFire() then
+   if self:willFire() then
 	   local bullet1 = self:getNextShot()
 	   local bullet2 = self:getNextShot()
 	   
@@ -54,17 +65,13 @@ function SineWave:fire(player)
 		end
 	   
 	   bullet1.amp = -50
-	   bullet2.amp = 50	   
-	--end
-   
-   --powah stuff
-   --player.powah = player.powah - self.energyCost
-   
-   self.super:fire()
-   
-   --SFX stuff
-   --sineWaveShotSFX:play()
-   
+	   bullet2.amp = 50
+
+	   return true
+		
+	else
+		return false
+	end
 end
 
 return SineWave

@@ -65,7 +65,7 @@ end
 
 function SpiralStraightshot:fire (player)
    self.super:fire()
-	if not self:canFire() then return end
+	if not self:willFire() then return false end
 	   local angleStep = 360 / (self.numberOfShots)
        
 	   if (self.shotIterator > self.numberOfShots - 1) then 
@@ -87,6 +87,9 @@ function SpiralStraightshot:fire (player)
 			self:playFiringSound() --call to play sound for weapons
 		end
       self.shotIterator = self.shotIterator + 1
+	  
+	  return true
+	  
 end 
 
 return SpiralStraightshot

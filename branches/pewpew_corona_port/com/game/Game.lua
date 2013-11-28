@@ -11,7 +11,7 @@ require "com.game.gameSFXInfo"
 --
 -----------------------------------------------------------------------------------------
 
-levels = createGame('com/game/levels/test.pew')  
+--levels = createGame('com/game/levels/test.pew')  
 
 -- scene managment api, dictates game scene transition
 local storyboard = require( "storyboard" )

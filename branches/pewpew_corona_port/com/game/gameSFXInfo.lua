@@ -2,9 +2,10 @@
 --all information for soundeffects in the game play screen
 
  gameSFXInfo = {
-	SingleShot = {path = "com/resources/music/soundfx/laser.ogg", channel = 2, weight = 1},
-	DoubleShot = {path = "com/resources/music/soundfx/doubleshot.ogg", channel = 2, weight = 1},
+	Singleshot = {path = "com/resources/music/soundfx/laser.ogg", channel = 2, weight = 1},
+	Doubleshot = {path = "com/resources/music/soundfx/doubleshot.ogg", channel = 2, weight = 1},
 	SineWave = {path = "com/resources/music/soundfx/sineWave.ogg", channel = 2, weight = 1},
+	Spreadshot = {path = "com/resources/music/soundfx/sineWave.ogg", channel = 2, weight = 1},
 	Homingshot = {path = "com/resources/music/soundfx/laser.ogg", channel = 2, weight = 1},
 	Randomshot = {path = "com/resources/music/soundfx/shotgun.ogg", channel = 2, weight = 1},
 	SpiralStraightshot = {path = "com/resources/music/soundfx/laser.ogg", channel = 2, weight = 1},

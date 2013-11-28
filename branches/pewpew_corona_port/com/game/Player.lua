@@ -109,8 +109,8 @@ end
 
 function Player:equipDebug(sceneGroup) 
 	--sceneGroup, playerOwned, rateOfFire, bulletSpeed
-	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
-	self.weapon = Randomshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	--self.weapon = Randomshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
@@ -162,7 +162,10 @@ end
 
 function Player:regeneratePowah()
 	if not self.isFiring and self.powah < PLAYER_MAXPOWAH then
-		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE 
+		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE
+		if self.powah > PLAYER_MAXPOWAH then
+			self.powah = 100
+		end
 	end
 end
 
@@ -182,7 +185,15 @@ end
 
 function Player:fire()
 	if self.alive ~= false then
-		self.weapon:fire(self)
+	--print("Player Powah is: "..self.powah)
+		if (self.powah - self.weapon.energyCost) >= 0 then
+			local hasFired = self.weapon:fire()
+			if hasFired then
+				self.weapon:adjustPowah(self)
+			end
+		else
+			print("Not enough powah")
+		end
 	end
 end
 

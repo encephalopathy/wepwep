@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Randomshot = Weapon:subclass("Randomshot")
 
-function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, maxNumberOfShots, firingAngle)
+function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, maxNumberOfShots, firingAngle, numberOfWaves, delayBetweenWaves)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -41,6 +41,21 @@ function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
      self.firingAngle = 45
    end
    
+   if numberOfWaves == nil then
+      self.numberOfWaves = 3
+   else
+      self.numberOfWaves = numberOfWaves
+   end
+   
+   if delayBetweenWaves == nil then
+      self.delayBetweenWaves = 5
+   else
+      self.delayBetweenWaves = delayBetweenWaves
+   end
+   
+	self.waveCounter = 0
+	self.delayCounter = 0
+   
    self.energyCost = 20
 end
 
@@ -69,7 +84,7 @@ end
 
 function Randomshot:fire (player)
    self.super:fire()
-	if not self:canFire() then return end
+	if not self:willFire() then return false end
 	local startAngle = self.firingAngle / 2 + self.owner.sprite.rotation
 
    local shots = {}
@@ -79,24 +94,39 @@ function Randomshot:fire (player)
 		end
 	end
        
-	for i = 1, (math.random(self.maxNumberOfShots)), 1 do
-		local bullet = shots[i]
+   if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
+       
+		for i = 1, (math.random(self.maxNumberOfShots)), 1 do
+			local bullet = shots[i]
 		  
-		if (bullet == nil) then
-			break
+			if (bullet == nil) then
+				break
+			end
+		
+			local rotationAngle = (math.rad(startAngle - math.random(self.firingAngle)))
+			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+         
+         local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+		   bullet:fire(bulletVelocity.x, bulletVelocity.y)
+      end 
+   
+      if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound() --call to play sound for weapons
 		end
 		
-		local rotationAngle = (math.rad(startAngle - math.random(self.firingAngle)))
-		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-         
-      local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
-	  bullet:fire(bulletVelocity.x, bulletVelocity.y)
-   end 
-   
-   if self.isPlayerOwned == true then
-		--print("PLAYER OWNED. FIRE SOUNDS")
-		self:playFiringSound() --call to play sound for weapons
+		if self.numberOfWaves > 0 then
+			self.waveCounter = self.waveCounter + 1
+		end	
+		
+	elseif self.waveCounter > self.numberOfWaves and self.delayCounter <= self.delayBetweenWaves then
+		self.delayCounter = self.delayCounter + 1
+	elseif self.waveCounter > self.numberOfWaves and self.delayCounter > self.delayBetweenWaves then
+		self.waveCounter = 0
+		self.delayCounter = 0
 	end
+	
+	return true
 	
 end 
 

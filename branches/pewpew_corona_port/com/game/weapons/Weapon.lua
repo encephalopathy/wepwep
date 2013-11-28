@@ -45,7 +45,7 @@ Weapon = Object:subclass("Weapon")
 	@bulletWidth: Width of the bullet fired by this weapon in DPI.
 	@bulletHeight: Height of the bullet fired by this weapon in DPI.
 ]]--
-function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight, soundHandle)
+function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, classType, bulletWidth, bulletHeight, soundHandle)
 
 	-- These 3 variables will be deprecated after the Bullet Manager is done.
     self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
@@ -63,6 +63,9 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	
 	--Rate of fire of this Weapon, the rate of fire is based on the number of frames. 
 	self.rateOfFire = rateOfFire
+	
+	--amount energy that the weapon uses per shot
+	self.energyCost = energyCost
 	
 	--Keeps track of how many times this weapon has fired.  This is incremented whenever fire() is called.
 	self.fireAttempts = 0
@@ -198,11 +201,18 @@ end
 ]]--
 function Weapon:canFire()
 	if self.rateOfFire - self.fireAttempts == 0 then
-		self.fireAttempts = 0
 		return true
 	else
 		return false
 	end
+end
+
+function Weapon:willFire()
+	local isFiring = self:canFire()
+	if isFiring then
+		self.fireAttempts = 0
+	end
+	return isFiring
 end
 
 --[[
@@ -292,6 +302,7 @@ end
 	@RETURN: VOID
 ]]--
 function Weapon:adjustPowah(owner)
+	--print("self.energyCost: "..self.energyCost)
 	if self.energyCost then
 		owner.powah = owner.powah - self.energyCost
 	end

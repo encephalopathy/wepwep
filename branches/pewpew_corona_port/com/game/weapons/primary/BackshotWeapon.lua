@@ -80,7 +80,7 @@ function Backshot:fire (player)
    local backwardAngleStep
    local forwardStartAngle
    local backwardStartAngle
-	if not self:canFire() then return end
+	if not self:willFire() then return false end
 	   if (numberOfForwardShots == 1) then
 	      forwardAngleStep = 0
 	   else
@@ -104,7 +104,7 @@ function Backshot:fire (player)
 		      backwardShots[i] = self:getNextShot()
 		   end
 	   end
-       
+      
 	   for i = 0, (numberOfForwardShots - 1), 1 do
 		   local bullet = forwardShots[i]
 		   if (bullet == nil) then
@@ -135,6 +135,8 @@ function Backshot:fire (player)
 			self:playFiringSound() --call to play sound for weapons
 		end
 
+		return true
+		
 end 
 
 return Backshot

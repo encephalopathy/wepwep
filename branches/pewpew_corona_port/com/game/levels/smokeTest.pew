@@ -1,5 +1,5 @@
 Name=level1 Number=1
-Time=2 com.game.enemies.Hater_Normal=2 com.game.enemies.Hater_HalfStrafe=1 com.game.enemies.Hater_Homing=1 com.game.enemies.Hater_SineWave=1 com.game.enemies.Hater_MidScreen=1 com.game.enemies.Hater_UpDown=1 com.game.enemies.Hater_SpeedUp=1 com.game.enemies.Hater_Carrier=1
+Time=2 com.game.enemies.Hater_Normal=2 com.game.enemies.Hater_HalfStrafe=1 com.game.enemies.Hater_Homing=1 com.game.enemies.Hater_SineWave=1 com.game.enemies.Hater_MidScreen=1 com.game.enemies.Hater_UpDown=1 com.game.enemies.Hater_SpeedUp=1 com.game.enemies.Hater_RandomCarrier=1
    Type=com.game.enemies.Hater_Normal Location=24,-28 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_HalfStrafe Location=79,-27 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=
    Type=com.game.enemies.Hater_Homing Location=126,-25 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen
@@ -7,7 +7,7 @@ Time=2 com.game.enemies.Hater_Normal=2 com.game.enemies.Hater_HalfStrafe=1 com.g
    Type=com.game.enemies.Hater_MidScreen Location=205,-23 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.HealthRegen
    Type=com.game.enemies.Hater_UpDown Location=249,-23 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.HealthRegen
    Type=com.game.enemies.Hater_SpeedUp Location=294,-20 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.HealthRegen
-   Type=com.game.enemies.Hater_Carrier Location=341,-18 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_RandomCarrier Location=341,-18 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
 Name=level2 Number=2
 Time=2 com.game.enemies.Hater_Normal=8
    Type=com.game.enemies.Hater_Normal Location=65,-23 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
@@ -68,8 +68,8 @@ Time=8 com.game.enemies.Hater_SpeedUp=5
    Type=com.game.enemies.Hater_SpeedUp Location=184,-30 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
    Type=com.game.enemies.Hater_SpeedUp Location=296,-29 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
    Type=com.game.enemies.Hater_SpeedUp Location=378,-28 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
-Time=9 com.game.enemies.Hater_Carrier=5
-   Type=com.game.enemies.Hater_Carrier Location=60,-39 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
-   Type=com.game.enemies.Hater_Carrier Location=202,-36 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
-   Type=com.game.enemies.Hater_Carrier Location=302,-36 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
-   Type=com.game.enemies.Hater_Carrier Location=402,-48 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+Time=9 com.game.enemies.Hater_RandomCarrier=5
+   Type=com.game.enemies.Hater_RandomCarrier Location=60,-39 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_RandomCarrier Location=202,-36 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_RandomCarrier Location=302,-36 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
+   Type=com.game.enemies.Hater_RandomCarrier Location=402,-48 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
