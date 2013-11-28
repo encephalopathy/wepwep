@@ -191,8 +191,6 @@ function Player:fire()
 			if hasFired then
 				self.weapon:adjustPowah(self)
 			end
-		else
-			print("Not enough powah")
 		end
 	end
 end

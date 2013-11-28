@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Spreadshot = Weapon:subclass("Spreadshot")
 
-function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs, numberOfWaves, delayBetweenWaves)
+function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, numberOfWaves, delayBetweenWaves, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
 	else
@@ -25,7 +25,7 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		--print("soundFX:"..soundFX)
    end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else

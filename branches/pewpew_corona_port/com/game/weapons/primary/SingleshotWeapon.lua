@@ -28,7 +28,7 @@ local DEFAULT_RATE_OF_FIRE = 25
 	@bulletHeight: See inherit doc.
 ]]--
 
-function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfWaves, delayBetweenWaves)
+function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, numberOfWaves, delayBetweenWaves, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle)
    if rateOfFire == nil then
      rateOfFire = DEFAULT_RATE_OF_FIRE
    end
@@ -55,7 +55,7 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.bulletSpeed = bulletSpeed
    end
   
-   
+   --these values are for haters to give them delay
    if numberOfWaves == nil then
       self.numberOfWaves = 3
    else
@@ -63,13 +63,13 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    end
    
    if delayBetweenWaves == nil then
-      self.delayBetweenWaves = 5
+      self.delayBetweenWaves = 3
    else
       self.delayBetweenWaves = delayBetweenWaves
    end
    
-	self.waveCounter = 0
-	self.delayCounter = 0
+	self.waveCounter = 3
+	self.delayCounter = 3
    
    --load it here with a string to sound file
 end

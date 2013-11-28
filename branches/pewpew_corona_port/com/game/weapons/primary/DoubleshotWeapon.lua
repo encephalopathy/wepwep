@@ -4,7 +4,7 @@ Doubleshot = Singleshot:subclass("Doubleshot")
 local BULLET_SEPERATION_DIST = 7
 
 
-function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance, soundHandle, numberOfWaves, delayBetweenWaves)
+function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, numberOfWaves, delayBetweenWaves, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, bulletSeperationDistance, soundHandle)
    
    if energyCost == nil then
 	  energyCost = 10
@@ -16,7 +16,7 @@ function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		--print("soundFX:"..soundFX)
    end
    
-   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight,soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, numberOfWaves, delayBetweenWaves, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle)
    
    if bulletSeperationDistance ~= nil then
 	 self.bulletSeperationDistance = bulletSeperationDistance
@@ -36,8 +36,8 @@ function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
       self.delayBetweenWaves = delayBetweenWaves
    end
    
-	self.waveCounter = 0
-	self.delayCounter = 0
+	self.waveCounter = 3
+	self.delayCounter = 3
 
 end
 

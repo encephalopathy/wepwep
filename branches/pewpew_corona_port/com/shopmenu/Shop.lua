@@ -19,11 +19,11 @@ Shop = Object:subclass("Shop")
 ]]--
 function Shop:init()
    self.Weapons = {}
-   self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = { item = Singleshot:new(scene, true, 25, 200), dollaz = 40 }
-   self.Weapons['com/resources/art/sprites/shop_splash_images/SpreadShot.png'] = { item = Spreadshot:new(scene, true, 35, 200, nil, nil, nil, nil, nil, 4, 15, 4, 15), dollaz = 500 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = { item = Singleshot:new(scene, true, 25, 200, 0, 0), dollaz = 40 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/SpreadShot.png'] = { item = Spreadshot:new(scene, true, 35, 200, 0, 0, nil, nil, nil, nil, nil, 4, 15, 4, 15), dollaz = 500 }
    self.Weapons['com/resources/art/sprites/shop_splash_images/Sinewave.png'] = { item = SineWave:new(scene, true, 25, 200), dollaz = 50 }
    self.Weapons['com/resources/art/sprites/shop_splash_images/HomingShot.png'] = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100 }
-   self.Weapons['com/resources/art/sprites/shop_splash_images/DoubleShot.png'] = { item = Doubleshot:new(scene, true, 25, 200), dollaz = 70 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/DoubleShot.png'] = { item = Doubleshot:new(scene, true, 25, 200, 0, 0), dollaz = 70 }
    self.Weapons['com/resources/art/sprities/shop_splash_images/BackShot.png'] = { item = Backshot:new(scene, true), dollaz = 80 }
    
    self.permission = {}
