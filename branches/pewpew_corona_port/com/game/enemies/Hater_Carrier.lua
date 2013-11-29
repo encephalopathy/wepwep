@@ -11,7 +11,17 @@ local scrnWidth = display.stageWidth
 --Assign screen height
 local scrnHeight  = display.stageHeight
 
-function Hater_Carrier:init(sceneGroup)
+function Hater_Carrier:init(sceneGroup, player, sameHaterTypeInView, sameHaterTypeOutOfView, haterList, spawnTypeTable, releaseTime)
+	
+	if spawnTypeTable == nil then
+		spawnTable = { type = 'com.game.enemies.Hater_CarrierDrone', x = -5000, y = -50000 }
+		table.insert(spawnTable, 'com.game.enemies.Hater_CarrierDrone')
+	else
+		assert(type(spawnTypeTable) == table)
+	end
+	
+	self:poolHaterMinions(spawnTypeTable, haterList.outOfView)
+	
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_08.png", 0, 0, 0, 100, 100, 
 	{"com/resources/art/sprites/enemy_08_piece_01.png",
 	 "com/resources/art/sprites/enemy_08_piece_02.png",
@@ -21,12 +31,18 @@ function Hater_Carrier:init(sceneGroup)
 	 }
 	)
 	--Copy Paste these fields if you plan on using them in the collision function
+		
+	if releaseTime == nil then
+		releaseTime = DEFAULT_HATER_RELEASE_TIME
+	end
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
-	self.sprite.objRef = self 
+	self.hatersOutofView = haterList.outOfView
+	self.hatersInView = haterList.inView
+	self.sprite.objRef = self
 	self.health = 10
 	self.maxHealth = 10
-	self.pootsreleased = 0
+	self.releaseTime = releaseTime
 	self.step = 0
 end
 
@@ -35,15 +51,6 @@ function Hater_Carrier:initMuzzleLocations()
 end
 
 function Hater_Carrier:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print(self.sprite.x .. " " .. self.sprite.y)
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
@@ -54,38 +61,38 @@ function Hater_Carrier:update()
    if (self.isFrozen) then
       return
    end
-   if self.alive then
-		self.step = self.step + 1   
-		if self.pootsreleased < 11 and self.sprite.x < scrnWidth/2 and self.sprite.y < scrnHeight/2 + self.sprite.height then
-			self:move(0.6,1.2)
-		end
-		if (self.step % 90 == 0 and self.pootsreleased < 11 and self.sprite.x <= scrnWidth/2 + self.sprite.width 
-			and self.sprite.x >= scrnWidth/2 and self.sprite.y <= scrnHeight/2 + self.sprite.height 
-			and self.sprite.y >= scrnWidth/2 - self.sprite.height) then
-				self:release()
-				print("Poooooot")
-		
-		elseif (self.pootsreleased > 11) then
-			self:move(1,-1)
-	end
-  end
+   self:releaseIfAble()
 end
 
-function Hater_Carrier:release()
-	self.pootsreleased = self.pootsreleased + 1
+function Hater_Carrier:releaseIfAble()
 	
-	self:moveHaterToTopOfScreen(haterPootiePooInViewList, haterPootiePooOutofViewList, self.sprite.x, self.sprite.y+(self.sprite.height/2))
+	if self.releaseTime > 0 then
+		self.releaseTime = self.releaseTime - 1
+	else
+		self:deployHater(self.sprite.x, self.sprite.y+(self.sprite.height/2))
+	end
 end
 
-function Hater_Carrier:moveHaterToTopOfScreen(inViewList, outOfViewList, xLoc, yLoc)
-	--print("moving hater to screen")
-	if outOfViewList.size > 0 then
-		--10 columns in the level editor
-		local hater = Queue.removeBack(outOfViewList)
-		hater.sprite.x = xLoc
-		hater.sprite.y = yLoc
-		Queue.insertFront(inViewList, hater)
-		haterList[hater] = hater
+function Hater_Carrier:deployHater(minionType, x, y)
+	assert(self.haterOutofView[minionType] ~= nil, minionType .. " is not a hater type")
+	if self.hatersOutofView.size > 0 then
+		local hater = Queue.removeBack(self.hatersOutofView[minionType])
+		hater.sprite.x = x
+		hater.sprite.y = y
+		Queue.insertFront(self.hatersInView[minionType], hater)
+	end
+end
+
+function Hater_Carrier:poolHaterMinions(minionTypes, haterGroup, haterOutOfViewList, xLoc, yLoc)
+	
+	for i = 1, #minionTypes, 1 do
+		local minionType = minionTypes[i].type
+		
+		if haterOutOfViewList[minionType] == nil then
+			haterOutofViewList[minionType] = Queue.new()
+		end
+		
+		Queue.insertFront(haterOutOfViewList[minionType], require(minionType):new(haterGroup, minionTypes))
 	end
 end
 

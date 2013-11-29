@@ -10,9 +10,6 @@ require "com.game.gameSFXInfo"
 -- level1.lua
 --
 -----------------------------------------------------------------------------------------
-
-levels = createGame('com/game/levels/test.pew')  
-
 -- scene managment api, dictates game scene transition
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene("game")
@@ -216,9 +213,12 @@ function scene:enterScene( event )
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
 	
+	
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	
 	debugFlag = event.params.debug
+	
+	
 	local currentLevel = setLevel('test') --set to be the default level
 	
 	AIDirector.initialize(player, currentLevel)
@@ -237,6 +237,8 @@ function scene:enterScene( event )
 	player.weapon.targets = AIDirector.haterList
 	
 	step = 0
+	
+	player.alive = true
 	
 	collectibles:start()
 	bulletManager:start()

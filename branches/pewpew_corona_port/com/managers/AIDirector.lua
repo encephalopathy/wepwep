@@ -35,6 +35,29 @@ local function createHater(haterList, haterType)
 	return newHater
 end
 
+function AIDirector.spawnHater(enemyType, spawnX, spawnY, rotation, weapons, passives)
+	local enemyInView = nil
+	if haterList[haterType] == nil then
+		haterList[haterType] = {}
+		haterList[haterType].outOfView = Queue.new()
+		haterList[haterType].inView = Queue.new()
+	else
+		enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+	end
+	
+	if enemyInView == nil then
+		enemyInView = createHater(haterList, enemyContext.Type)
+	end
+	enemyInView.sprite.isBodyActive = true
+	enemyInView.sprite.isVisible = true
+	Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
+	enemyInView.sprite.x = enemyContext.x
+	enemyInView.sprite.y = enemyContext.y
+	enemyInView.sprite.rotation = enemyContext.Rotation
+	enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
+	allHatersInView[enemyInView] = enemyInView
+end
+
 local function spawnHater(enemies)
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
