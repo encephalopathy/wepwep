@@ -51,7 +51,7 @@ end
 
 function GrenadeLauncher:fire()
 	self.super.super:fire()
-	if not self:canFire() then return end
+	if not self:willFire() then return false end
 	local bullet = self:getNextShot()
 	if bullet then
 		local rotationAngle = math.rad(self.owner.sprite.rotation)
@@ -64,6 +64,9 @@ function GrenadeLauncher:fire()
 		bullet.explosionRadius = self.explosionRadius
 		self:playFiringSound(self.soundFX) --call to play sound for weapons
 	end
+	
+	return true
+	
 end
 
 function GrenadeLauncher:recycle(bullet)

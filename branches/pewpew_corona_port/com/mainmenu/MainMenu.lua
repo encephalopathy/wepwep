@@ -12,12 +12,15 @@ require "org.Context"
 require "com.mainmenu.views.PlayButton"
 require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
+require "com.shopmenu.Shop"
+require "com.managers.SFX"
 
 local widget = require("widget")
 
 mainInventory = nil
 mainInventory = Inventory:new(group)
 
+shop = Shop:new()
 
 local storyboard = require("storyboard")
 local scene = storyboard.newScene("MainMenu")
@@ -26,6 +29,12 @@ local scene = storyboard.newScene("MainMenu")
 local widget = require "widget"
 
 local mainMenuContext
+
+local mainMenuSFXInfo = {
+	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, weight = 1},
+	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, weight = 1},
+	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, weight = 1}
+}
 
 local function createMainMenuMVC(group)
 	mainMenuContext = Context:new()
@@ -40,7 +49,7 @@ end
 ---------------------------------------------
 
 -- forward declarations and other locals
-local playButton, weaponShopButton, EquipRideButton
+local playButton, weaponShopButton, EquipRideButton,soundHandler
 
 -- 'onRelease' event listener for newGameButton
 local function onPlayButtonRelease()
@@ -87,13 +96,15 @@ function scene:createScene( event )
 	background.x, background.y = 0, 0
 	group:insert( background )
 	createMainMenuMVC(group)
-
-    slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 	
+	soundHandler = SFX:new(group,mainMenuSFXInfo,"mainMenu")
+	
+    --slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
+
 	-- all display objects must be inserted into group.
 	-- Adding things to the group works like a stack.  Last thing added appears
 	-- on top of everything else.
-    group:insert(slider)
+    --group:insert(slider)
 
 end
 
@@ -102,6 +113,10 @@ end
 function scene:enterScene( event )
 	local group = self.view
 	playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
+	
+	--set up table of soundHandlers
+	soundHandler:addListener()
+	
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 end
 
@@ -110,6 +125,9 @@ end
 function scene:exitScene( event )
 	local group = self.view
 	stopBGM()
+	
+	soundHandler:removeListener()
+	
 	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
 	
 end
@@ -134,7 +152,14 @@ function scene:destroyScene( event )
         slider:removeSelf()
         slider = nil
     end    
-    
+	
+	print("Attempting to free memory")
+	if soundHandler then
+		soundHandler:disposeSound()
+		soundHandler = nil  --make the soundHandler table nil
+	end
+	print("After disposeSound")
+	
 end
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION

@@ -18,6 +18,8 @@ end
 
 function ShopButtonMediator:GoToShop(event)
 	if event.name == "GoToShop" then
+		print("DISPATCHING EVENT")
+		Runtime:dispatchEvent({name = "playSound", soundHandle = 'enterStore'})
 		self.storyboard.gotoScene("com.shopmenu.MenuStore", "fade", 500)
 	end
 

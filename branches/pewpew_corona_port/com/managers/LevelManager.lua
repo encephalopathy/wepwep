@@ -20,7 +20,15 @@ local ENEMY_THRESHOLD_TIME = 1000
 
 function createGame(filename)
 	local filePath = system.pathForFile( filename, system.ResourceDirectory )
+	if filePath == nil then
+		print('Cannot open a file that does not exist in LevelManager.lua:createGame')
+		return nil 
+	end
 	local file = io.open(filePath, "r")
+	if file == nil then
+		print('The file locaed at ' .. filePath .. ' cannot be opened because it is not a plain text file')
+		return nil 
+	end
 	local enemy
 	local levels = {}
 	local currentLevelName
@@ -106,6 +114,7 @@ end
 function setLevel(levelName)
 	currentLevel = levels[levelName]
 	currentWaveNumber = 1
+	print('currentLevel: ' .. tostring(currentLevel))
 	return currentLevel
 end
 

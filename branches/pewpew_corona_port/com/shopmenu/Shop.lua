@@ -19,12 +19,12 @@ Shop = Object:subclass("Shop")
 ]]--
 function Shop:init()
    self.Weapons = {}
-   self.Weapons[1] = Singleshot:new(scene, true, 25, -200)
-   self.Weapons[2] = Spreadshot:new(scene, true, 35, -200, nil, nil, nil, nil, nil, 4, 15, 4, 15)
-   self.Weapons[3] = SineWave:new(scene, true, 40, -200)
-   self.Weapons[4] = Homingshot:new(scene, true)
-   self.Weapons[5] = Doubleshot:new(scene, true, 25, -200, 7)
-   self.Weapons[6] = Backshot:new(scene, true)
+   self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = { item = Singleshot:new(scene, true, 25, 200, 0, 0), dollaz = 40 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/SpreadShot.png'] = { item = Spreadshot:new(scene, true, 35, 200, 0, 0, nil, nil, nil, nil, nil, 4, 15, 4, 15), dollaz = 500 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/Sinewave.png'] = { item = SineWave:new(scene, true, 25, 200), dollaz = 50 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/HomingShot.png'] = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100 }
+   self.Weapons['com/resources/art/sprites/shop_splash_images/DoubleShot.png'] = { item = Doubleshot:new(scene, true, 25, 200, 0, 0), dollaz = 70 }
+   self.Weapons['com/resources/art/sprities/shop_splash_images/BackShot.png'] = { item = Backshot:new(scene, true), dollaz = 80 }
    
    self.permission = {}
    self.permission[1] = true
@@ -37,6 +37,8 @@ function Shop:init()
    self:createSecondaryWeapons()
    
    self:createPassives()
+   
+   mainInventory.primaryWeapon = self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'].item
 end
 
 function Shop:createSecondaryWeapons()
@@ -44,9 +46,10 @@ function Shop:createSecondaryWeapons()
    self.SecondaryWeapons = {}
    
    --Commented out because physics doesn't exist in the menus
-   self.SecondaryWeapons['Bomb'] = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/bomb.png", Bomb)
-   self.SecondaryWeapons['Missile'] = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", StandardMissile)
-   self.SecondaryWeapons['FrezeMissile'] = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", FreezeMissile)
+   self.SecondaryWeapons["com/resources/art/sprites/bomb.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/bomb.png", Bomb), cost = 50 }
+   self.SecondaryWeapons["com/resources/art/sprites/missile.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", StandardMissile), cost = 70 }
+   self.SecondaryWeapons["com/resources/art/sprites/missile.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", FreezeMissile), cost = 100 }
+   
 end
 
 -- Unlock a weapon to equip.
@@ -59,8 +62,49 @@ function Shop:lock (weaponNumber)
    self.permission[weaponNumber] = false
 end
 
+function Shop:buyItem(itemName, slot) 
+	if self.Weapons[itemName] ~= nil then
+		self:buyPrimaryWeapon(itemName)
+	elseif self.SecondaryWeapons[itemName] ~= nil then
+		--self:buySecondaryWeapon(weaponName)
+	else
+		--self:buyPassive(passiveName)
+	end
+end
+
+function Shop:buyPrimaryWeapon(weaponNumber, slot)
+	if mainInventory.primaryWeapon ~= self.Weapons[weaponNumber].item then
+		print('Equipping Weapon: ' .. weaponNumber)
+		mainInventory.primaryWeapon = self.Weapons[weaponNumber].item
+		mainInventory.dollaz = mainInventory.dollaz - self.Weapons[weaponNumber].dollaz
+		return true
+	else
+		return false
+	end
+end
+
+function Shop:buySecondaryWeapon(weaponName, slot)
+	if not mainInventory:hasSecondaryWeapon(weaponName) then
+		--mainInvetory.primaryWeapon = self.SecondaryWeapons[weaponName].item
+		mainInventory.dollaz = mainInventory.dollaz - self.SecondaryWeapons[weaponName].dollaz
+		return true
+	else
+		return false
+	end
+end
+
+function Shop:buyPassive(passiveName, slot)
+	if not mainInventory:hasPassive(passiveName) then
+		--mainInvetory.primaryWeapon = self.Passives[passiveName].item
+		mainInventory.dollaz = mainInventory.dollaz - self.Passives[passiveName].dollaz
+		return true
+	else
+		return false
+	end
+end
+
 function Shop:createPassives()
    self.Passives = {}
-   self.Passives['ExtraStartingHealth'] = ExtraStartingHealth:new()
-   self.Passives['HealthRegen'] = HealthRegen:new()
+   self.Passives['ExtraStartingHealth'] = { item = ExtraStartingHealth:new(), cost = 100 }
+   self.Passives['HealthRegen'] = { item = HealthRegen:new(), cost = 100 }
 end

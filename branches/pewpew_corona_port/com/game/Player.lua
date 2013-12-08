@@ -17,6 +17,7 @@ require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.weapons.primary.CircleshotWeapon"
 require "com.game.weapons.primary.SpiralStraightshotWeapon"
 require "com.game.weapons.primary.SpiralCurveshotWeapon"
+require "com.game.weapons.primary.RandomshotWeapon"
 require "com.managers.AIDirector"
 require "com.game.passives.Passive"
 require "com.game.passives.Player.ExtraStartingHealth"
@@ -62,7 +63,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	"com/resources/art/sprites/player_piece_03.png", 
 	"com/resources/art/sprites/player_piece_04.png",
 	"com/resources/art/sprites/player_piece_05.png"},
-	{ categoryBits = 1, maskBits = 27} ) 
+	{ categoryBits = 1, maskBits = 26} ) 
 
 	self.health = 10
 	self.maxhealth = 10
@@ -108,8 +109,8 @@ end
 
 function Player:equipDebug(sceneGroup) 
 	--sceneGroup, playerOwned, rateOfFire, bulletSpeed
-	--self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
-	--self.weapon = Backshot:new(sceneGroup, true, 25, 200)
+	self.weapon = Singleshot:new(sceneGroup, true, 25, 200)
+	--self.weapon = Randomshot:new(sceneGroup, true, 25, 200)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
@@ -161,7 +162,10 @@ end
 
 function Player:regeneratePowah()
 	if not self.isFiring and self.powah < PLAYER_MAXPOWAH then
-		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE 
+		self.powah = self.powah + PLAYER_POWAH_REGENERATION_RATE
+		if self.powah > PLAYER_MAXPOWAH then
+			self.powah = 100
+		end
 	end
 end
 
@@ -181,7 +185,13 @@ end
 
 function Player:fire()
 	if self.alive ~= false then
-		self.weapon:fire(self)
+	--print("Player Powah is: "..self.powah)
+		if (self.powah - self.weapon.energyCost) >= 0 then
+			local hasFired = self.weapon:fire()
+			if hasFired then
+				self.weapon:adjustPowah(self)
+			end
+		end
 	end
 end
 

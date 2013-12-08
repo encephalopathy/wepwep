@@ -7,7 +7,7 @@ require "com.Utility"
 require "com.Inventory"
 require "org.Object"
 require "org.Queue"
-require "com.shopmenu.Shop"
+
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -18,6 +18,8 @@ local widget = require "widget"
 --------------------------------------------
 
 -- forward declarations and other locals
+
+
 local regularButton, sineButton, doubleButton, homingButton, spreadButton,
 		bombsButton, rocketsButton, freezeButton, backButton, nextWeapon, 
 		prevWeapon
@@ -46,10 +48,11 @@ local function handleButtonEvent( event )
     end
 end
 
-local function equipWeapon(weaponNumber)
-	--mainInventory:equipOneWeapon(1)
-	mainInventory:equipPrimaryWeapon(weaponNumber)
-		--setThingsUp()
+local function equipWeapon(event)
+    if event.phase == "ended" then
+		print('id: ' .. tostring(event.target.id))
+		shop:buyItem(event.target.id)
+	end
 end
 
 local function spread(event)
@@ -75,12 +78,12 @@ local function homing(event)
 end
 
 local function bombs(event)
-	mainInventory:addSecondaryWeapon('Bomb')
+	mainInventory:addSecondaryWeapon("com/resources/art/sprites/bomb.png")
 		setThingsUp()
 end
 
 local function rockets(event)
-	mainInventory:addSecondaryWeapon('Missile')
+	mainInventory:addSecondaryWeapon("com/resources/art/sprites/missile.png")
 		setThingsUp()
 end
 
@@ -153,7 +156,7 @@ function scene:createScene( event )
 	bgRect:setFillColor(20, 70, 10, 130)
 		
 	--[[
-	addSecondaryWeapon('Bomb')
+	addSecondaryWeapon("com/resources/art/sprites/bomb.png")
 	equipOneWeapon(weaponNumber) for primary weaons
 	removeSecondaryWeapon(weaponName) for remvoing a secondary weapon
 	--]]	
@@ -162,52 +165,52 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_01.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
 		overFile = "com/resources/art/sprites/bomb_01.png",
-		id = "button_1",
+		id = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
 		label = "1",
-		onEvent = equipWeapon(1),
+		onEvent = equipWeapon,
 	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
 					--display.contentWidth/10, display.contentHeight/10 )
 	carousel2 = widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_02.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
 		overFile = "com/resources/art/sprites/bomb_02.png",
-		id = "button_2",
+		id = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
 		label = "2",
-		onEvent = equipWeapon(2),
+		onEvent = equipWeapon,
 	}
 	carousel3= widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_03.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
 		overFile = "com/resources/art/sprites/bomb_03.png",
-		id = "button_3",
+		id = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
 		label = "3",
-		onEvent = equipWeapon(3),
+		onEvent = equipWeapon,
 	}
 	carousel4 = widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_04.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
 		overFile = "com/resources/art/sprites/bomb_04.png",
-		id = "button_4",
+		id = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
 		label = "4",
-		onEvent = equipWeapon(4),
+		onEvent = equipWeapon,
 	}	
 	carousel5 = widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb_05.png",
+		defaultFile = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
 		overFile = "com/resources/art/sprites/bomb_05.png",
-		id = "button_5",
+		id = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
 		label = "5",
-		onEvent = equipWeapon(5),
+		onEvent = equipWeapon,
 	}	
 	
 	carousel1.x, carousel1.y = 200, 5000

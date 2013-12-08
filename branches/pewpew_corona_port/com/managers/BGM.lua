@@ -21,10 +21,8 @@ local loadTypes = {
 	["stream"] = { extensions = { ".mp3", ".ogg" } },
 }]]--
 
-local loopTypes = { ["bgm"] = -1, ["soundfx"] = 1 }
+local loopTypes = { ["bgm"] = -1}
 local bgmMusicChannel = 1
-local soundFxStack = 2
-local lastSoundFXFileLoaded
 currentBGMPlaying = nil
 
 function playBGM(file, fadeInTime, onComplete)
@@ -53,7 +51,7 @@ end
 
 function resumeBGM()
 	if audio.isChannelPaused(bgmMusicChannel) then
-		audio.resume(bgmMusicChannel)
+		audio.resume(bgmMusicChannel){}
 	end
 end
 
@@ -71,16 +69,3 @@ end
 
 local loadedAudioFile = audio.loadSound("com/resources/music/soundfx/laser.ogg")
 
-function playSoundFX(file, duration, fadein, onComplete)
-	if fadeInTime == nil then
-		fadeInTime = 0
-	end
-	
-	if onComplete == nil then
-		--onComplete = 
-	end
-	
-	
-	currentBGMPlaying = audio.play(loadedAudioFile, { channel = soundFxStack, 
-	loops = loopTypes['soundfx']} )
-end
