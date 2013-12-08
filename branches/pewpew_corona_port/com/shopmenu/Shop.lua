@@ -1,4 +1,5 @@
 require 'org.Object'
+require 'com.Utility'
 require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
@@ -46,46 +47,58 @@ function Shop:createSecondaryWeapons()
    self.SecondaryWeapons = {}
    
    --Commented out because physics doesn't exist in the menus
-   self.SecondaryWeapons["com/resources/art/sprites/bomb.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/bomb.png", Bomb), cost = 50 }
-   self.SecondaryWeapons["com/resources/art/sprites/missile.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", StandardMissile), cost = 70 }
-   self.SecondaryWeapons["com/resources/art/sprites/missile.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", FreezeMissile), cost = 100 }
+   self.SecondaryWeapons['com/resources/art/sprites/bomb.png'] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/bomb.png", Bomb), dollaz = 50 }
+   self.SecondaryWeapons['com/resources/art/sprites/missile.png'] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", StandardMissile), dollaz = 70 }
+   --self.SecondaryWeapons["com/resources/art/sprites/missile.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", FreezeMissile), cost = 100 }
    
 end
 
+function Shop:createPassives()
+   self.Passives = {}
+   self.Passives['ExtraStartingHealth'] = { item = ExtraStartingHealth:new(), dollaz = 100 }
+   self.Passives['HealthRegen'] = { item = HealthRegen:new(), dollaz = 100 }
+end
+
 -- Unlock a weapon to equip.
-function Shop:unlock (weaponNumber)
-   self.permission[weaponNumber] = true
+function Shop:unlock (weaponName)
+   self.permission[weaponName] = true
 end
 
 -- Lock a weapon to equip.
-function Shop:lock (weaponNumber)
-   self.permission[weaponNumber] = false
+function Shop:lock (weaponName)
+   self.permission[weaponName] = false
 end
 
-function Shop:buyItem(itemName, slot) 
+function Shop:buyItem(itemName, slot)
+	assert(type(itemName) == 'string', 'The parameter itemName must be a string')
+	--assert(type(slot) == 'number', 'Did not pass a slot number to buyItem')
+	
 	if self.Weapons[itemName] ~= nil then
 		self:buyPrimaryWeapon(itemName)
 	elseif self.SecondaryWeapons[itemName] ~= nil then
-		--self:buySecondaryWeapon(weaponName)
+		self:buySecondaryWeapon(itemName, slot)
 	else
-		--self:buyPassive(passiveName)
+		self:buyPassive(itemName, slot)
 	end
 end
 
-function Shop:buyPrimaryWeapon(weaponNumber, slot)
-	if mainInventory.primaryWeapon ~= self.Weapons[weaponNumber].item then
-		print('Equipping Weapon: ' .. weaponNumber)
-		mainInventory.primaryWeapon = self.Weapons[weaponNumber].item
-		mainInventory.dollaz = mainInventory.dollaz - self.Weapons[weaponNumber].dollaz
+function Shop:buyPrimaryWeapon(weaponName, slot)
+	if mainInventory.primaryWeapon ~= self.Weapons[weaponName].item then
+		print('Equipping Weapon: ' .. weaponName)
+		mainInventory.primaryWeapon = self.Weapons[weaponName].item
+		mainInventory.dollaz = mainInventory.dollaz - self.Weapons[weaponName].dollaz
 		return true
 	else
 		return false
 	end
 end
 
+--Buy weapon also equips
 function Shop:buySecondaryWeapon(weaponName, slot)
 	if not mainInventory:hasSecondaryWeapon(weaponName) then
-		--mainInvetory.primaryWeapon = self.SecondaryWeapons[weaponName].item
+		slot = 1
+		print('equipping secondary weapon: ' .. weaponName)
+		mainInventory:addSecondaryWeapon(slot, weaponName, self.SecondaryWeapons[weaponName].item)
 		mainInventory.dollaz = mainInventory.dollaz - self.SecondaryWeapons[weaponName].dollaz
 		return true
 	else
@@ -95,7 +108,7 @@ end
 
 function Shop:buyPassive(passiveName, slot)
 	if not mainInventory:hasPassive(passiveName) then
-		--mainInvetory.primaryWeapon = self.Passives[passiveName].item
+		mainInventory:addPassive(slot, passiveName, self.Passives[passiveName].item)
 		mainInventory.dollaz = mainInventory.dollaz - self.Passives[passiveName].dollaz
 		return true
 	else
@@ -103,8 +116,3 @@ function Shop:buyPassive(passiveName, slot)
 	end
 end
 
-function Shop:createPassives()
-   self.Passives = {}
-   self.Passives['ExtraStartingHealth'] = { item = ExtraStartingHealth:new(), cost = 100 }
-   self.Passives['HealthRegen'] = { item = HealthRegen:new(), cost = 100 }
-end

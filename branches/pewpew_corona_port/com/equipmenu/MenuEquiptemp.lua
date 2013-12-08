@@ -7,7 +7,7 @@ require "com.Utility"
 require "com.Inventory"
 require "org.Object"
 require "org.Queue"
-
+require "com.shopmenu.Shop"
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -18,8 +18,6 @@ local widget = require "widget"
 --------------------------------------------
 
 -- forward declarations and other locals
-
-
 local regularButton, sineButton, doubleButton, homingButton, spreadButton,
 		bombsButton, rocketsButton, freezeButton, backButton, nextWeapon, 
 		prevWeapon
@@ -28,7 +26,7 @@ local weaponIndex = 0
 		
 local carousel1, carousel2, carousel3, carousel4, carousel5
 
-local weaponCarousel = {}
+local testCarousel = {}
 
 local carouselButton
 
@@ -48,13 +46,10 @@ local function handleButtonEvent( event )
     end
 end
 
-local function equipWeapon(event)
-    if event.phase == "ended" then
-		print('id: ' .. tostring(event.target.id))
-		--TODO: Pass in the appropiate slot number based on what carousel was created.  I.E the first Queue of carousels
-		--created should pass the number 1, the 2nd, the 3rd, etc.
-		shop:buyItem(event.target.id, 1)
-	end
+local function equipWeapon(weaponNumber)
+	--mainInventory:equipOneWeapon(1)
+	mainInventory:equipPrimaryWeapon(weaponNumber)
+		--setThingsUp()
 end
 
 local function spread(event)
@@ -80,12 +75,12 @@ local function homing(event)
 end
 
 local function bombs(event)
-	mainInventory:addSecondaryWeapon("com/resources/art/sprites/bomb.png")
+	mainInventory:addSecondaryWeapon('Bomb')
 		setThingsUp()
 end
 
 local function rockets(event)
-	mainInventory:addSecondaryWeapon("com/resources/art/sprites/missile.png")
+	mainInventory:addSecondaryWeapon('Missile')
 		setThingsUp()
 end
 
@@ -95,43 +90,146 @@ local function freeze(event)
 end
 
 local function nextWep(event)
-	if(weaponIndex == weaponCarousel.last) then weaponIndex = weaponCarousel.first 
-	else weaponIndex = weaponIndex + 1
+	if(event.target.ref.weaponIndex == event.target.ref.last) then event.target.ref.weaponIndex = event.target.ref.first 
+	else event.target.ref.weaponIndex = weaponIndex + 1
 	end
-	setupWepCarousel()
+	setupHorizCarousel(event.target.ref)
 end
 
 local function prevWep(event)
-	if(weaponIndex == weaponCarousel.first) then weaponIndex = weaponCarousel.last 
-	else weaponIndex = weaponIndex - 1
+	if(event.target.ref.weaponIndex == event.target.ref.first) then event.target.ref.weaponIndex = event.target.ref.last 
+	else event.target.ref.weaponIndex = event.target.ref.weaponIndex - 1
 	end
-	setupWepCarousel()
+	setupHorizCarousel(event.target.ref)
 end
 
-function setupWepCarousel()
+function setupHorizCarousel(weaponCarousel)
 	--send away the old
-	carousel1.x, carousel1.y = 200, 5000
+	for key,val in pairs(weaponCarousel)
+	do
+		weaponCarousel[key].x, weaponCarousel[key].y = 200, 5000
+	end
+	
+--[[	carousel1.x, carousel1.y = 200, 5000
 	carousel2.x, carousel2.y = 200, 5000
 	carousel3.x, carousel3.y = 200, 5000
 	carousel4.x, carousel4.y = 200, 5000
-	carousel5.x, carousel5.y = 200, 5000	
+	carousel5.x, carousel5.y = 200, 5000	--]]
 	
 	--set-up the new
-	weaponCarousel[weaponIndex].x, weaponCarousel[weaponIndex].y  = display.contentWidth * 0.5, display.contentHeight * 0.8
+	weaponCarousel[weaponCarousel.weaponIndex].x, weaponCarousel[weaponCarousel.weaponIndex].y  = display.contentWidth * 0.5, weaponCarousel.yPos
+	
+	if(weaponIndex == weaponCarousel.first) then 
+	weaponCarousel[weaponCarousel.last].x, weaponCarousel[weaponCarousel.last].y = display.contentWidth * 0.3, weaponCarousel.yPos
+	weaponCarousel[weaponCarousel.weaponIndex + 1].x, weaponCarousel[weaponCarousel.weaponIndex + 1].y = display.contentWidth * 0.7, weaponCarousel.yPos	
+	
+	elseif (weaponIndex == weaponCarousel.last) then 
+	weaponCarousel[weaponCarousel.weaponIndex - 1].x, weaponCarousel[weaponCarousel.weaponIndex - 1].y = display.contentWidth * 0.3, weaponCarousel.yPos
+	weaponCarousel[weaponCarousel.first].x, weaponCarousel[weaponCarousel.first].y = display.contentWidth * 0.7, weaponCarousel.yPos	
+	
+	else  
+	weaponCarousel[weaponCarousel.weaponIndex - 1].x, weaponCarousel[weaponCarousel.weaponIndex - 1].y = display.contentWidth * 0.3, weaponCarousel.yPos
+	weaponCarousel[weaponCarousel.weaponIndex + 1].x, weaponCarousel[weaponCarousel.weaponIndex + 1].y = display.contentWidth * 0.7, weaponCarousel.yPos	
+	end
+end
+
+function setupVertCarousel(weaponCarousel)
+	--send away the old
+	for i = weaponCarousel.first, weaponCarousel.size
+	do
+		weaponCarousel[i].x, weaponCarousel[i].y = 200, 5000
+	end
+	
+--[[	carousel1.x, carousel1.y = 200, 5000
+	carousel2.x, carousel2.y = 200, 5000
+	carousel3.x, carousel3.y = 200, 5000
+	carousel4.x, carousel4.y = 200, 5000
+	carousel5.x, carousel5.y = 200, 5000	--]]
+	
+	--set-up the new
+	weaponCarousel[weaponCarousel.weaponIndex].x, weaponCarousel[weaponCarousel.weaponIndex].y  = display.contentWidth * 0.5, display.contentHeight * 0.8
 	
 	if(weaponIndex == weaponCarousel.first) then 
 	weaponCarousel[weaponCarousel.last].x, weaponCarousel[weaponCarousel.last].y = display.contentWidth * 0.3, display.contentHeight * 0.8
-	weaponCarousel[weaponIndex + 1].x, weaponCarousel[weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
+	weaponCarousel[weaponCarousel.weaponIndex + 1].x, weaponCarousel[weaponCarousel.weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
 	
 	elseif (weaponIndex == weaponCarousel.last) then 
-	weaponCarousel[weaponIndex - 1].x, weaponCarousel[weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
+	weaponCarousel[weaponCarousel.weaponIndex - 1].x, weaponCarousel[weaponCarousel.weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
 	weaponCarousel[weaponCarousel.first].x, weaponCarousel[weaponCarousel.first].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
 	
 	else  
-	weaponCarousel[weaponIndex - 1].x, weaponCarousel[weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
-	weaponCarousel[weaponIndex + 1].x, weaponCarousel[weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
+	weaponCarousel[weaponCarousel.weaponIndex - 1].x, weaponCarousel[weaponCarousel.weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
+	weaponCarousel[weaponCarousel.weaponIndex + 1].x, weaponCarousel[weaponCarousel.weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
 	end
 end
+
+function createHorizontalCarousel(yPos)
+	local newCarousel = {}
+	newCarousel = Queue.new()
+	
+	newCarousel.yPos = yPos
+	newCarousel.weaponIndex = 0
+	--newCarousel.prevWeapon = createBttn(widget, display, "<", display.contentWidth * 0.1, yPos, prevWep)
+		
+    newCarousel.prevWeapon = widget.newButton
+		{
+			ref = newCarousel,
+			width = display.contentWidth/10,
+			height = display.contentHeight/10,
+			defaultFile = defaultImagePath,
+			overFile = clickedImagePath,
+			id = "",
+			label = "<",
+			onEvent = prevWep,--(event, newCarousel),
+		}	
+	newCarousel.prevWeapon.y = yPos
+	newCarousel.prevWeapon.x = display.contentWidth * 0.1
+	newCarousel.prevWeapon.ref = newCarousel
+
+	
+	--newCarousel.nextWeapon = createBttn(widget, display, ">", display.contentWidth * 0.9, yPos, nextWep)
+    newCarousel.nextWeapon = widget.newButton
+		{
+			ref = newCarousel,
+			width = display.contentWidth/10,
+			height = display.contentHeight/10,
+			defaultFile = defaultImagePath,
+			overFile = clickedImagePath,
+			id = "",
+			label = ">",
+			onEvent = nextWep,
+		}	
+	newCarousel.nextWeapon.y = yPos		
+	newCarousel.nextWeapon.x = display.contentWidth * 0.9
+	
+	return newCarousel
+end
+
+function createVerticalCarousel(xPos)
+	local newCarousel = {}
+	newCarousel = Queue.new()
+	return newCarousel
+end
+
+function addCarouselWeapon(weaponCarousel, defaultImagePath, clickedImagePath, idText, labelText, weaponNumber)
+
+		local newItem = widget.newButton
+		{
+			width = display.contentWidth/10,
+			height = display.contentHeight/10,
+			defaultFile = defaultImagePath,
+			overFile = clickedImagePath,
+			id = idText,
+			label = labelText,
+			onEvent = equipWeapon(weaponNumber),
+		}	
+		newItem.x, newItem.y = 200, 5000
+		Queue.insertFront(weaponCarousel, newItem)
+		
+		weaponCarousel.weaponIndex = weaponCarousel.first
+		setupHorizCarousel(weaponCarousel)
+end
+
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -145,8 +243,16 @@ end
 function scene:createScene( event )
 	local group = self.view
 	shop = Shop:new()
-	weaponCarousel = Queue.new()
-
+	--weaponCarousel = Queue.new()
+	
+	testCarousel = createHorizontalCarousel(display.contentHeight * 0.8)
+	addCarouselWeapon(testCarousel, "com/resources/art/sprites/bomb_01.png", "com/resources/art/sprites/bomb_01.png", "", "1", 1)
+	addCarouselWeapon(testCarousel, "com/resources/art/sprites/bomb_02.png", "com/resources/art/sprites/bomb_02.png", "", "2", 2)
+	addCarouselWeapon(testCarousel, "com/resources/art/sprites/bomb_03.png", "com/resources/art/sprites/bomb_03.png", "", "3", 3)
+	addCarouselWeapon(testCarousel, "com/resources/art/sprites/bomb_04.png", "com/resources/art/sprites/bomb_04.png", "", "4", 4)
+	addCarouselWeapon(testCarousel, "com/resources/art/sprites/bomb_05.png", "com/resources/art/sprites/bomb_05.png", "", "5", 5)
+	
+	
 	-- display a background image
 	local background = display.newImageRect("com/resources/art/background/sheet_metal.png",
 	                                        display.contentWidth, display.contentHeight )
@@ -158,61 +264,52 @@ function scene:createScene( event )
 	bgRect:setFillColor(20, 70, 10, 130)
 		
 	--[[
-	addSecondaryWeapon("com/resources/art/sprites/bomb.png")
+	addSecondaryWeapon('Bomb')
 	equipOneWeapon(weaponNumber) for primary weaons
 	removeSecondaryWeapon(weaponName) for remvoing a secondary weapon
-	--]]	
+	--	
 	
-	carousel1 = widget.newButton
-	{
-		width = display.contentWidth/10,
-		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
-		overFile = "com/resources/art/sprites/bomb_01.png",
-		id = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
-		label = "1",
-		onEvent = equipWeapon,
-	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
+			--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
 					--display.contentWidth/10, display.contentHeight/10 )
 	carousel2 = widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
+		defaultFile = "com/resources/art/sprites/bomb_02.png",
 		overFile = "com/resources/art/sprites/bomb_02.png",
-		id = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
+		id = "button_2",
 		label = "2",
-		onEvent = equipWeapon,
+		onEvent = equipWeapon(2),
 	}
 	carousel3= widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
+		defaultFile = "com/resources/art/sprites/bomb_03.png",
 		overFile = "com/resources/art/sprites/bomb_03.png",
-		id = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
+		id = "button_3",
 		label = "3",
-		onEvent = equipWeapon,
+		onEvent = equipWeapon(3),
 	}
 	carousel4 = widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
+		defaultFile = "com/resources/art/sprites/bomb_04.png",
 		overFile = "com/resources/art/sprites/bomb_04.png",
-		id = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
+		id = "button_4",
 		label = "4",
-		onEvent = equipWeapon,
+		onEvent = equipWeapon(4),
 	}	
 	carousel5 = widget.newButton
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
+		defaultFile = "com/resources/art/sprites/bomb_05.png",
 		overFile = "com/resources/art/sprites/bomb_05.png",
-		id = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
+		id = "button_5",
 		label = "5",
-		onEvent = equipWeapon,
+		onEvent = equipWeapon(5),
 	}	
 	
 	carousel1.x, carousel1.y = 200, 5000
@@ -228,7 +325,7 @@ function scene:createScene( event )
 	Queue.insertFront(weaponCarousel, carousel1)
 	
 	weaponIndex = weaponCarousel.first
-	
+	--]]
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
 	local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
@@ -262,11 +359,11 @@ function scene:createScene( event )
 	backButton = createBttn(widget, display, "Back", display.contentWidth * 0.5, 
 		display.contentHeight * 0.9, back)
 
-	prevWeapon = createBttn(widget, display, "<", display.contentWidth * 0.1, 
-		display.contentHeight * 0.8, prevWep)
+	--prevWeapon = createBttn(widget, display, "<", display.contentWidth * 0.1, 
+	--	display.contentHeight * 0.8, prevWep)
 		
-	nextWeapon = createBttn(widget, display, ">", display.contentWidth * 0.9, 
-		display.contentHeight * 0.8, nextWep)
+	--nextWeapon = createBttn(widget, display, ">", display.contentWidth * 0.9, 
+	--	display.contentHeight * 0.8, nextWep)
 	
 	--playButton:setReferencePoint( display.CenterReferencePoint )
 	--playButton.x = display.contentWidth*0.5
@@ -309,7 +406,7 @@ function scene:createScene( event )
 	group:insert( highlightWeaponRect )
 	group:insert( highlightSubWeaponRect )
 	
-	group:insert( carousel1 )
+	--[[group:insert( carousel1 )
 	group:insert( carousel2 )
 	group:insert( carousel3 )
 	group:insert( carousel4 )
@@ -318,8 +415,9 @@ function scene:createScene( event )
 	group:insert( nextWeapon )
 	group:insert( prevWeapon )
 		
-	setupWepCarousel()
+	--setupWepCarousel()
 	--setThingsUp()
+	--]]
 end
 
 function setThingsUp()

@@ -59,14 +59,12 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 
 
 
---[[local function createGameUIMVC(group)
-	gameContext = Context:new()
-	gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
-    gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
-    gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
-   
-    gameContext:preprocess(group)
-end]]--
+local function createGameUIMVC(group)
+	--gameContext = Context:new()
+	--Map a certain amount of views to the game.
+	--gameContext:mapMediator('com.game.views.SecondaryItemButtons', 'com.game.mediators.SecondaryItemMediator')
+    --gameContext:preprocess(group)
+end
 
 local function debugUpdate()
 	if not debugFlag then
@@ -244,13 +242,13 @@ function scene:createScene( event )
 	onPewButton.isVisible = false
 	
 	soundHandler = SFX:new(group, gameSFXInfo, "game")
-	
 	AIDirector.create(group)
 	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
 	bulletManager = BulletManager:new(group)
 	group:insert( myButton )
 	group:insert( offPewButton )
 	group:insert( onPewButton )
+	createGameUIMVC(group)
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
 
@@ -258,7 +256,6 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
-	
 	playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
 	physics.start()
 	physics.setGravity(0, 0)

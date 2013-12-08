@@ -236,6 +236,17 @@ function Player:updatePassives()
 	--print("player's health is currently", self.health)
 end
 
+function Player:fireSecondary(event)
+	local secondaryItem = self.secondaryWeapons[event.item]
+	if Hater:made(secondaryItem) then
+		secondaryItem:fire()
+	elseif Passive:made(secondaryItem) then
+		print('passive name: ' .. event.name)
+	else
+		print('INVALID SECONDARY FIRING')
+	end
+end
+
 
 --function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)
