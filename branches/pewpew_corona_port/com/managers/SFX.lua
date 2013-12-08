@@ -38,7 +38,7 @@ function SFX:init(sceneGroup, infoTable, debugName)
 		print("soundType is : "..soundType)
 		self.sfx[soundType] = {object = audio.loadSound(soundInfo.path), channel = soundInfo.channel, weight = soundInfo.weight}
 	end
-	audio.setVolume(0)
+
 end
 
 function SFX:addListener()
