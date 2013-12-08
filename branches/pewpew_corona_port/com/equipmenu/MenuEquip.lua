@@ -51,7 +51,9 @@ end
 local function equipWeapon(event)
     if event.phase == "ended" then
 		print('id: ' .. tostring(event.target.id))
-		shop:buyItem(event.target.id)
+		--TODO: Pass in the appropiate slot number based on what carousel was created.  I.E the first Queue of carousels
+		--created should pass the number 1, the 2nd, the 3rd, etc.
+		shop:buyItem(event.target.id, 1)
 	end
 end
 

@@ -1,0 +1,92 @@
+require 'org.View'
+require 'com.Utility'
+local storyboard = require('storyboard')
+--TODO: Free scene and widget local variables
+SecondaryItemButtons = View:subclass("SecondaryItemButtons")
+
+local scene = storyboard.getScene("game")
+local widget = require 'widget'
+
+function SecondaryItemButtons:init(sceneGroup)
+	self.super:init(sceneGroup)
+	
+	local group = self.sceneGroup
+	function group:onPress(event)
+		print('DISPATCHING ON PRESS EVENT with id: ' .. tostring(group))
+		group:dispatchEvent({name = 'FireSecondaryWeapon', target = group})
+	end
+	group.name = 'secondary items'
+	scene:addEventListener("enterScene", self.createButtons)
+	self:createView(self)
+end
+
+local function getButtonResolution()
+	--TODO: reset the x and y positions and width and height based on the resolution of the phone.
+	local xPos, yPos = 70, 70
+	local width, height = 50, 50
+	local dy = 50
+	return xPos, yPos, width, height, dy
+end
+
+local function createItemButton(group, i, name, xPos, yPos, width, height)
+	if group[i] == nil then
+		print(type(group.onPress))
+		local secondaryItem = widget.newButton {
+			left = xPos,
+			top = yPos,
+			label = "",
+			labelAlign = "center",
+			defaultFile = name,
+			overFile = "com/resources/art/sprites/heart.png",
+			width = width,
+			height = height,
+			onRelease = group.onPress
+		}
+		
+		secondaryItem.baseLabel = ""
+		--We need to keep a reference to the widget to destroy it later
+		group:insert(secondaryItem)
+	else
+		group[i].defaultFile = name
+	end
+	
+end
+
+function SecondaryItemButtons:createButtons(event)
+	local screenWidth, screenHeight = display.contentWidth, display.contentHeight
+	local xPos, yPos, width, height, dy = getButtonResolution()
+	local i = 1
+	
+	local sceneGroup = scene.view
+
+	local group = nil
+	for j = 1, sceneGroup.numChildren, 1 do
+		if sceneGroup[j].name == 'secondary items' then
+			group = sceneGroup[j]
+		end
+	end
+	assert(group ~= nil, 'No group found in Secondary Item Buttons')
+	
+	
+	for passiveName, passive in pairs(mainInventory.passives) do
+		print('passive name: ' .. passiveName)
+		createItemButton(group, i, passiveName, xPos, yPos, width, height)
+		i = i + 1
+		yPos = yPos + dy
+	end
+
+	--print('mainInventory.secondaryWeapons is: ' .. tostring(mainInventory.secondaryWeapons))
+	for weaponName, weapon in pairs(mainInventory.secondaryWeapons) do
+		print('weapon name: ' .. weaponName)
+		createItemButton(group, i, weaponName, xPos, yPos, width, height)
+		i = i + 1
+		yPos = yPos + dy
+	end
+end
+
+--Also make sure to override this by placing the name of the class with a call to the function name.
+function SecondaryItemButtons:__tostring()
+	return SecondaryItemButtons.name()
+end
+
+return SecondaryItemButtons
