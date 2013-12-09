@@ -243,7 +243,7 @@ function scene:createScene( event )
 	
 	soundHandler = SFX:new(group, gameSFXInfo, "game")
 	AIDirector.create(group)
-	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
+	collectibles = CollectibleHeap:new(group, {'HealthPickUp', 'ScrapPickUp', 'EnergyPickUp'})
 	bulletManager = BulletManager:new(group)
 	group:insert( myButton )
 	group:insert( offPewButton )

@@ -216,6 +216,8 @@ end
 
 function Hater:die()
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
+	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
+	Runtime:dispatchEvent({name = "spawnCollectible", target = "EnergyPickUp", position =  {x = self.sprite.x + 3, y = self.sprite.y + 3}})
 	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
 end
 

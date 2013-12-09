@@ -23,7 +23,6 @@ local NUMBER_OF_EQUIP_SLOTS = 5
 
 function Inventory:init (scene)
    -- keep all the weapons in a master list
-
    self.dollaz = 5000
    self.primaryWeapon = 1
    self.numOfEquipSlotsAvailable = NUMBER_OF_EQUIP_SLOTS
