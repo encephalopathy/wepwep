@@ -577,6 +577,21 @@ public class WaveScreen extends JFrame {
 			}
 		});
 		
+		// adding in Hater_Carrier enemy option
+		JMenuItem Hater_HealthItem = new JMenuItem("Hater_Health");
+		enemyChoiceMenu.add(Hater_HealthItem);
+		Hater_RandomCarrierItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("CREATING A NEW Hater_Health");
+				enemyChoiceMenu.setText("Hater_Health");
+				Hater_Health newDude = new Hater_Health(Grid);
+				newDude.setRotation();
+				newDude.createWeaponList(); // generates the weapons and passive pop ups
+				workingEnemy = newDude;
+			}
+		});
+		
 		//setting up the delete menu
 		JMenu deleteMenu = new JMenu("Delete");
 		menuBar.add(deleteMenu);

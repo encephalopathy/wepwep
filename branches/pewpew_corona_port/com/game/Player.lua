@@ -1,5 +1,6 @@
 require "com.Ride"
 
+--TO DO: PLAYER_MAXHEALTH will later be dependent on what ship and what passives
 PLAYER_MAXHEALTH = 10
 
 PLAYER_MAXPOWAH = 100

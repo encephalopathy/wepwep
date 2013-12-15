@@ -31,9 +31,9 @@ local widget = require "widget"
 local mainMenuContext
 
 local mainMenuSFXInfo = {
-	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, weight = 1},
-	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, weight = 1},
-	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, weight = 1}
+	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, setting = 'R'},
+	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, setting = 'R'},
+	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, setting = 'R'}
 }
 
 local function createMainMenuMVC(group)

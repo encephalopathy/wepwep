@@ -11,6 +11,7 @@ end
 
 function ScrapPickUp:activateEffect(player)
 	print("Picked up Scrap")
+	Runtime:dispatchEvent({name = "playSound", soundHandle = 'ScrapPickUp'})
 	mainInventory.dollaz = mainInventory.dollaz + 5
 end
 
