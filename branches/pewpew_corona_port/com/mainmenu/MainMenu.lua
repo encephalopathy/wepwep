@@ -14,6 +14,7 @@ require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
 require "com.shopmenu.Shop"
 require "com.managers.SFX"
+require "com.managers.AIDirector"
 
 local widget = require("widget")
 
@@ -111,6 +112,7 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+	
 	local group = self.view
 	playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
 	

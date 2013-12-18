@@ -111,7 +111,8 @@ public class Wave {
 		printedLine += ("Time=" + Integer.toString(time));
 		//printedLine += " ";
 		for (int i = 0; i < enemyCountList.size(); i++){
-			printedLine += (" " + enemyCountList.get(i));
+			enemyCountList.get(i).value--;
+			printedLine += (" " + (enemyCountList.get(i)));
 		}
 		printedLine += ("\n");
 		for(int i = 0; i < waveEnemyList.size(); i++){

@@ -238,13 +238,14 @@ function Hater:destroy()
 	
 end
 
-
-function Hater:respawn(group)
-	if group ~= nil then
-		group:insert(self.sprite)
-	end
+--used to take in group
+function Hater:respawn()
+	-- if group ~= nil then
+		-- group:insert(self.sprite)
+	-- end
 	self.time = 0
 	self.health = self.maxHealth
+	self.alive = true
 	self.isFrozen = false
 	self.freezeTimer = 0
 end
