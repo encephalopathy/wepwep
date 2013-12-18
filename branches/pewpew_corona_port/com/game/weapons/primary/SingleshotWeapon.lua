@@ -57,13 +57,13 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
   
    --these values are for haters to give them delay
    if numberOfWaves == nil then
-      self.numberOfWaves = 3
+      self.numberOfWaves = 0
    else
       self.numberOfWaves = numberOfWaves
    end
    
    if delayBetweenWaves == nil then
-      self.delayBetweenWaves = 3
+      self.delayBetweenWaves = 0
    else
       self.delayBetweenWaves = delayBetweenWaves
    end

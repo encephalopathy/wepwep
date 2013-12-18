@@ -36,8 +36,8 @@ function Doubleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
       self.delayBetweenWaves = delayBetweenWaves
    end
    
-	self.waveCounter = 3
-	self.delayCounter = 3
+	self.waveCounter = 0
+	self.delayCounter = 0
 
 end
 
