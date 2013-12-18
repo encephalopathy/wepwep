@@ -114,7 +114,7 @@ function Singleshot:fire()
 		if self.isPlayerOwned == true then
 			--print("PLAYER OWNED. FIRE SOUNDS")
 			--self:playFiringSound(self.soundFX) --call to play sound for weapons
-			-if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
+			if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
 				local rotationAngle = math.rad(self.owner.sprite.rotation)
 				self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 				local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
