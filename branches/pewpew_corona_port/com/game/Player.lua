@@ -197,6 +197,8 @@ function Player:fire()
 			if self.hasFired then
 				self.weapon:adjustPowah(self)
 			end
+		else
+			self.hasFired = false
 		end
 	end
 end
