@@ -51,8 +51,8 @@ end
 local function equipWeapon(event)
     if event.phase == "ended" then
 		print('id: ' .. tostring(event.target.id))
-		--TODO: Pass in the appropiate slot number based on what carousel was created.  I.E the first Queue of carousels
-		--created should pass the number 1, the 2nd, the 3rd, etc.
+		--TODO: Pass in the appropiate slot number based on what carousel was created.  I.E the first Queue of carouels
+		--created should pass the number 1, the 2nd, number 2, etc.
 		shop:buyItem(event.target.id, 1)
 	end
 end
@@ -167,9 +167,9 @@ function scene:createScene( event )
 	{
 		width = display.contentWidth/10,
 		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
+		defaultFile = "com/resources/art/sprites/bomb.png",
 		overFile = "com/resources/art/sprites/bomb_01.png",
-		id = "com/resources/art/sprites/shop_splash_images/SingleShot.png",
+		id = 'com/resources/art/sprites/bomb.png',
 		label = "1",
 		onEvent = equipWeapon,
 	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",

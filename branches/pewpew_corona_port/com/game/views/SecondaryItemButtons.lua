@@ -13,7 +13,7 @@ function SecondaryItemButtons:init(sceneGroup)
 	local group = self.sceneGroup
 	function group:onPress(event)
 		print('DISPATCHING ON PRESS EVENT with id: ' .. tostring(group))
-		group:dispatchEvent({name = 'FireSecondaryWeapon', target = group})
+		group:dispatchEvent({name = 'FireSecondaryWeapon', target = group, id = self.target.id})
 	end
 	group.name = 'secondary items'
 	scene:addEventListener("enterScene", self.createButtons)
@@ -35,6 +35,7 @@ local function createItemButton(group, i, name, xPos, yPos, width, height)
 			left = xPos,
 			top = yPos,
 			label = "",
+			id = name,
 			labelAlign = "center",
 			defaultFile = name,
 			overFile = "com/resources/art/sprites/heart.png",

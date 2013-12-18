@@ -9,6 +9,7 @@ require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.passives.Player.ExtraStartingHealth"
 require "com.game.passives.Player.HealthRegen"
+require "com.game.weapons.secondary.GrenadeLauncher"
 require "com.game.weapons.secondary.Bomb"
 require "com.game.weapons.secondary.FreezeMissile"
 require "com.game.weapons.secondary.StandardMissile"
@@ -47,8 +48,8 @@ function Shop:createSecondaryWeapons()
    self.SecondaryWeapons = {}
    
    --Commented out because physics doesn't exist in the menus
-   self.SecondaryWeapons['com/resources/art/sprites/bomb.png'] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/bomb.png", Bomb), dollaz = 50 }
-   self.SecondaryWeapons['com/resources/art/sprites/missile.png'] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", StandardMissile), dollaz = 70 }
+   self.SecondaryWeapons['com/resources/art/sprites/bomb.png'] = { item = GrenadeLauncher:new(scene, true, 1, 200), dollaz = 50 }
+   self.SecondaryWeapons['com/resources/art/sprites/missile.png'] = { item = Singleshot:new(scene, true, 1, 1, "com/resources/art/sprites/missile.png", StandardMissile), dollaz = 70 }
    --self.SecondaryWeapons["com/resources/art/sprites/missile.png"] = { item = Singleshot:new(scene, true, 1, 50, "com/resources/art/sprites/missile.png", FreezeMissile), cost = 100 }
    
 end

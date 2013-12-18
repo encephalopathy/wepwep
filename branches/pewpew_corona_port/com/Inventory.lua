@@ -3,6 +3,7 @@ Main inventory class. Right now it just manages the weapons, but
 could be expanded to keep track of other items
 --]]
 require "org.Object"
+require "com.managers.AIDirector"
 require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
@@ -59,7 +60,10 @@ function Inventory:equipSecondaryItems(player, sceneGroup)
 	for weaponName, secondaryWeapon in pairs(self.secondaryWeapons) do
 		secondaryWeapon.sceneGroup = sceneGroup
 		print('Equipping secondary weapon in game: ' .. weaponName)
-		table.insert(player.secondaryWeapons, secondaryWeapon)
+		player.secondaryWeapons[weaponName] = secondaryWeapon
+		player.secondaryWeapons[weaponName].targets = AIDirector.haterList
+		secondaryWeapon.owner = player
+		secondaryWeapon:setMuzzleLocation({ x = 0, y = -100 })
 	end
 	
 	for passiveName, passive in pairs(self.passives) do
@@ -84,7 +88,8 @@ function Inventory:unequip(player)
 	--Unequips the secondary weapons from the player.
 	for weapon in pairs(player.secondaryWeapons) do
 		weapon.sceneGroup = nil
-		weapon = nil
+		weapon.owner = nil
+		weapon.targets = nil
 	end
 end
 

@@ -75,6 +75,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.secondaryWeapons = {}
 	
 	Runtime:addEventListener("touch", self.touch)
+	Runtime:addEventListener("fireSecondary", self)
 	self.x0 = 0
 	self.y0 = 0
     self.prevX = 0
@@ -230,7 +231,8 @@ end
 
 function Player:fireSecondary(event)
 	local secondaryItem = self.secondaryWeapons[event.item]
-	if Hater:made(secondaryItem) then
+	print('Using secondaryWeapon in Player:fireSecondary: ' .. tostring(secondaryItem))
+	if Weapon:made(secondaryItem) then
 		secondaryItem:fire()
 	elseif Passive:made(secondaryItem) then
 		print('passive name: ' .. event.name)
