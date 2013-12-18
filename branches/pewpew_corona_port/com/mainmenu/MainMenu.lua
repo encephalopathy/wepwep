@@ -14,6 +14,7 @@ require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
 require "com.shopmenu.Shop"
 require "com.managers.SFX"
+require "com.managers.AIDirector"
 
 local widget = require("widget")
 
@@ -31,9 +32,9 @@ local widget = require "widget"
 local context
 
 local mainMenuSFXInfo = {
-	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, weight = 1},
-	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, weight = 1},
-	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, weight = 1}
+	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, setting = 'R'},
+	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, setting = 'R'},
+	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, setting = 'R'}
 }
 
 local function createMainMenuMVC(scene, group)
@@ -111,6 +112,7 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+	
 	local group = self.view
 	playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
 	

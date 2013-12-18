@@ -1,5 +1,6 @@
 require "com.Ride"
 
+--TO DO: PLAYER_MAXHEALTH will later be dependent on what ship and what passives
 PLAYER_MAXHEALTH = 10
 
 PLAYER_MAXPOWAH = 100
@@ -137,7 +138,7 @@ function Player.touch(event, player)
 	local phase = event.phase
 	
 	if phase == "began" then
-		player.isFiring = true
+		--player.isFiring = true
 		elseif phase == "moved" then
 			player.x0 = event.x - player.prevX
 			player.y0 = event.y - player.prevY
@@ -153,7 +154,7 @@ function Player.touch(event, player)
 				player.sprite.y = player.sprite.y + player.y0
 			end
 		elseif phase == "ended" or phase == "cancelled" then
-			player.isFiring = false
+			--player.isFiring = false
 		end
 	player.prevX = event.x
 	player.prevY = event.y
@@ -185,7 +186,7 @@ end
 
 
 function Player:fire()
-	if self.alive ~= false then
+	if self.alive ~= false and self.isFiring == true then
 	--print("Player Powah is: "..self.powah)
 		if (self.powah - self.weapon.energyCost) >= 0 then
 			local hasFired = self.weapon:fire()
@@ -200,6 +201,14 @@ end
 function Player:fireSecondaryWeapon()
 	if self.alive ~= false then
 		--self.secondaryWeapon:fire()
+	end
+end
+
+function Player:switchMode()
+	if self.isFiring == false then
+		self.isFiring = true
+	else
+		self.isFiring = false
 	end
 end
 

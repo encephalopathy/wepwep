@@ -57,19 +57,19 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
   
    --these values are for haters to give them delay
    if numberOfWaves == nil then
-      self.numberOfWaves = 3
+      self.numberOfWaves = 0
    else
       self.numberOfWaves = numberOfWaves
    end
    
    if delayBetweenWaves == nil then
-      self.delayBetweenWaves = 3
+      self.delayBetweenWaves = 0
    else
       self.delayBetweenWaves = delayBetweenWaves
    end
    
-	self.waveCounter = 3
-	self.delayCounter = 3
+	self.waveCounter = 0
+	self.delayCounter = 0
    
    --load it here with a string to sound file
 end
@@ -111,15 +111,18 @@ function Singleshot:fire()
 	local bullet = self:getNextShot()
 	if bullet then  --you are allowed to shoot
 
-		if self.isPlayerOwned == true then
+		--if self.isPlayerOwned == true then
 			--print("PLAYER OWNED. FIRE SOUNDS")
 			--self:playFiringSound(self.soundFX) --call to play sound for weapons
 			if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
 				local rotationAngle = math.rad(self.owner.sprite.rotation)
 				self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 				local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+				--print(bullet.isPlayerBullet)
 				bullet:fire(bulletVelocity.x, bulletVelocity.y)
-				self:playFiringSound()
+				if self.isPlayerOwned == true then
+					self:playFiringSound()
+				end
 				if self.numberOfWaves > 0 then
 					self.waveCounter = self.waveCounter + 1
 				end
@@ -129,7 +132,7 @@ function Singleshot:fire()
 				self.waveCounter = 0
 				self.delayCounter = 0
 			end
-		end
+		--end
 	end	
 	
 	return true

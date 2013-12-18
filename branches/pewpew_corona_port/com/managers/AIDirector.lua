@@ -36,24 +36,40 @@ local function createHater(haterList, haterType)
 end
 
 local function spawnHater(enemies)
+	--count is a variable that goes up each time you add a hater to the inView queue. IT IS FOR DEBUGGING!
+	--local count = 0
 	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
+			-- for key,value in pairs(enemyContext) do
+				-- print("enemyContext key: "..tostring(key).." enemyContext value: "..tostring(value))
+			-- end
 			local haterType = enemyContext.Type
 			local enemyInView = nil
 			if haterList[haterType] == nil then
-				haterList[haterType] = {}
-				haterList[haterType].outOfView = Queue.new()
-				haterList[haterType].inView = Queue.new()
+				--haterList[haterType] = {}
+				--haterList[haterType].outOfView = Queue.new()
+				--haterList[haterType].inView = Queue.new()
+				enemyInView = createHater(haterList, enemyContext.Type)
 			else
-				enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+				
+				if haterList[enemyContext.Type].outOfView.size > 0 then
+					enemyInView = Queue.removeBack(haterList[enemyContext.Type].outOfView)
+					enemyInView:respawn()
+				else
+					enemyInView = require(haterType):new(AIDirector.haterGroup, AIDirector.player, 
+										haterList[haterType].inView, haterList[haterType].outOfView,
+										haterList)
+				enemyInView.sprite.isBodyActive = false
+				enemyInView.sprite.isVisible = false
+				end
 			end
 			
-			if enemyInView == nil then
-				enemyInView = createHater(haterList, enemyContext.Type)
-			end
 			enemyInView.sprite.isBodyActive = true
 			enemyInView.sprite.isVisible = true
+			--print("enemyInView.health: "..enemyInView.health)
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
+			--count = count + 1
+			--print(count)
 			enemyInView.sprite.x = enemyContext.x
 			enemyInView.sprite.y = enemyContext.y
 			enemyInView.sprite.rotation = enemyContext.Rotation
@@ -86,7 +102,7 @@ setSpawnClock = function()
 end
 
 local function moveHaterOffScreen(hater)
-	print('MOVING HATER OFF SCREEN')
+	print("Inside moveHaterOffScreen")
 	Queue.removeObject(haterList[tostring(hater)].inView, hater) --pulled out of inView
 	hater.sprite.x = 5000
 	hater.sprite.y = 5000
@@ -166,15 +182,18 @@ function AIDirector.deactivate()
 end
 
 function AIDirector.uninitialize(sceneGroup)
+	--spawnClock = nil
+	timer.cancel(spawnClock)
+	
+	for haterKey in pairs(allHatersInView) do
+		allHatersInView[haterKey] = nil
+	end
+	
 	for haterType, queues in pairs (haterList) do
 		emptyHaterList(queues.inView)
 		emptyHaterList(queues.outOfView)
 	end
 	
-	for haterKey, hater in pairs(allHatersInView) do
-		haterKey = nil
-	end
-	spawnClock = nil
 	AIDirector.active = false
 	
 	

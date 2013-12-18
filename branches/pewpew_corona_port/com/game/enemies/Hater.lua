@@ -188,6 +188,7 @@ end
 function Hater:onHit(phase, collide)
 	if phase == 'began' then
 		if self.alive and collide.isPlayerBullet then
+			Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_onHit'})
 			self.health = self.health - collide.damage
 			
 			if FreezeMissile:made(collide) then
@@ -215,7 +216,8 @@ end
 
 
 function Hater:die()
-	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
+	Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_die'})
+	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
 	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
 end
 
@@ -236,13 +238,14 @@ function Hater:destroy()
 	
 end
 
-
-function Hater:respawn(group)
-	if group ~= nil then
-		group:insert(self.sprite)
-	end
+--used to take in group
+function Hater:respawn()
+	-- if group ~= nil then
+		-- group:insert(self.sprite)
+	-- end
 	self.time = 0
 	self.health = self.maxHealth
+	self.alive = true
 	self.isFrozen = false
 	self.freezeTimer = 0
 end

@@ -162,12 +162,13 @@ local function back()
 	return true
 end
 
-
-
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	print('Create Scene')
 	local group = self.view
+	
+	local offPewButton
+	local onPewButton
 
 	-- creates the scrolling background for the current game
 	createScrollingBackground(group)
@@ -194,12 +195,59 @@ function scene:createScene( event )
 	}
 	myButton.baseLabel = ""
 	
+	offPewButton = widget.newButton
+	{
+		left = screenW - screenW*0.95,
+		top = screenH - screenH*0.2,
+		width = screenW*0.3,
+		height = screenH*0.2,
+		defaultFile = "com/resources/art/sprites/fire_off_unpressed.png",
+		overFile = "com/resources/art/sprites/fire_off_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			print("offPewButton Event")
+			player:switchMode()
+			offPewButton.isVisible = false
+			onPewButton.isVisible = true
+		end
+	}
+	offPewButton.baseLabel = ""
+	offPewButton.isVisible = true
+	
+	onPewButton = widget.newButton
+	{
+		left = screenW - screenW*0.95,
+		top = screenH - screenH*0.2,
+		width = screenW*0.3,
+		height = screenH*0.2,
+		defaultFile = "com/resources/art/sprites/fire_on_unpressed.png",
+		overFile = "com/resources/art/sprites/fire_on_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			print("onPewButton Event")
+			player:switchMode()
+			onPewButton.isVisible = false
+			offPewButton.isVisible = true
+		end
+	}
+	onPewButton.baseLabel = ""
+	onPewButton.isVisible = false
+	
 	soundHandler = SFX:new(group, gameSFXInfo, "game")
 	AIDirector.create(group)
-	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
+	collectibles = CollectibleHeap:new(group, {'HealthPickUp', 'ScrapPickUp', 'EnergyPickUp'})
 	bulletManager = BulletManager:new(group)
 	group:insert( myButton )
-	
+	group:insert( offPewButton )
+	group:insert( onPewButton )
 	createGameUIMVC(group)
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end

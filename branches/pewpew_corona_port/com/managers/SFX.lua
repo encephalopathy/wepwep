@@ -36,9 +36,9 @@ function SFX:init(sceneGroup, infoTable, debugName)
 	print("creating sound table")
 	for soundType,soundInfo in pairs(infoTable) do
 		print("soundType is : "..soundType)
-		self.sfx[soundType] = {object = audio.loadSound(soundInfo.path), channel = soundInfo.channel, weight = soundInfo.weight}
+		--print(soundInfo.setting)
+		self.sfx[soundType] = {object = audio.loadSound(soundInfo.path), channel = soundInfo.channel, setting = soundInfo.setting}
 	end
-	audio.setVolume(0)
 end
 
 function SFX:addListener()
@@ -53,18 +53,31 @@ end
 function SFX:playSound(event)
 	--print("INSIDE playSound")
 	--print("name: "..self.name)
-	if event.name == "playSound" then
+	if event.name == "playSound" then 
 		--print("event.handle "..event.soundHandle)
 		if self.sfx[event.soundHandle] ~= nil then
-			--print("type: "..type(self.sfx[event.soundHandle].object))
-			--print("channel: "..self.sfx[event.soundHandle].channel)
-			if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))then
-				audio.stop(self.sfx[event.soundHandle].channel)
+			--print('event.soundHandle was not nil')
+			if self.sfx[event.soundHandle].setting == 'R' then
+				--print("type: "..type(self.sfx[event.soundHandle].object))
+				--print("channel: "..self.sfx[event.soundHandle].channel)
+				if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))then 
+					audio.stop(self.sfx[event.soundHandle].channel)
+				end 
+				audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
+				--print(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))
+			elseif self.sfx[event.soundHandle].setting == 'NR' then 
+				--print("playing a setting = NR")
+				if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel)) then 
+					return
+				else 
+					audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
+				end
+			elseif self.sfx[event.soundHandle].setting == 'NRML' then
+				local freeChannel = audio.findFreeChannel()
+				audio.play(self.sfx[event.soundHandle].object, {channel = freeChannel})
 			end
-			audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
-			--print(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))
 		else
-			--print("event.soundHandle was a nil value")
+			print("event.soundHandle was a nil value")
 		end
 		
 	end
@@ -73,13 +86,17 @@ function SFX:playSound(event)
 end
 
 --stop
-function SFX:stopSound(handle)
+function SFX:stopSound(event)
 	print("INSIDE stopSound")
-	if self.sfx[handle].objec ~= nil then
-		audio.stop(self.sfx[handle].channel)
-	else
-		print("NO SUCH HANDLE EXISTS!")
+	if event.name == "stopSound"then
+		if self.sfx[event.soundHandle].object ~= nil then
+			--the sound handle you want to stop doesn't exist
+			print("NO SUCH HANDLE EXISTS!")
+		else
+			audio.stop(self.sfx[event.soundHandle].channel)
+		end
 	end
+	return
 end
 
 --dispose
