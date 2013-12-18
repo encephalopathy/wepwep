@@ -14,13 +14,11 @@ Passive = Object:subclass("Passive")
 
 --[[
 	CONSTRUCTOR:
-	@objectRef: The object which contains the field to be modified by this passive.
 	@fieldName: The name of the field that is to be modified by this passive.
 ]]--
 function Passive:init(fieldName)
 	self.fieldName = fieldName
 end
-
 
 --[[
 	FUNCTION NAME: equip
@@ -30,7 +28,7 @@ end
 	@RETURN: VOID
 ]]--
 function Passive:setOwner(objectRef)
-	assert(objectRef ~= nil, 'Did not equip a owner such as player or an enemy to this passive')
+	assert(objectRef ~= nil, 'Did not equip an owner such as player or an enemy to this passive')
 	self.objectRef = objectRef
 end
 

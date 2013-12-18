@@ -12,7 +12,7 @@ Player collision flag: 1
 It can collide with Haters, enemy bullets, and collectibles. Hence it's collision mask is
 Player's category mask: 2 + 8 + 16  = 26
 
-A category mas in our code base is called "maskBits".
+A category mask in our code base is called "maskBits".
 
 ------CATEGORY BITS------
 	PLAYER: 1
