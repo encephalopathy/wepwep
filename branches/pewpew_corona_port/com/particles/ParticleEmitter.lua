@@ -85,10 +85,12 @@ end
 
 -- takes particles that have been used, and cycles them back to the live list so they may be used again.
 function ParticleEmitter:recycleParticles()
-	while self.particleDeadList.size > 0 do
-		local particle = Queue.removeBack(self.particleDeadList)
-		particle:activate(self.x, self.y)
-		Queue.insertFront(self.particleLiveList, particle)
+	if self.particleDeadList ~= nil then
+		while self.particleDeadList.size > 0 do
+			local particle = Queue.removeBack(self.particleDeadList)
+			particle:activate(self.x, self.y)
+			Queue.insertFront(self.particleLiveList, particle)
+		end
 	end
 end
 
@@ -105,8 +107,6 @@ end
 function ParticleEmitter:destroy()
 	emptyQueue(self.particleLiveList)
 	emptyQueue(self.particleDeadList)
-	self.particleLiveList = nil
-	self.particleDeadList = nil
 --	print(self.particleLiveList)
 --	print(self.particleDeadList)
 end

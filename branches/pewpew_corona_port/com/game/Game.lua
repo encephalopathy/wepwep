@@ -29,6 +29,9 @@ local currentLevelNumber = 1
 local soundHandler = nil
 step = 0
 
+local offPewButton
+local onPewButton
+
 --[[  DEBUG ]]--
 local healthRectBG, powahRectBG, powahRect, healthRect
 
@@ -166,9 +169,6 @@ end
 function scene:createScene( event )
 	print('Create Scene')
 	local group = self.view
-	
-	local offPewButton
-	local onPewButton
 
 	-- creates the scrolling background for the current game
 	createScrollingBackground(group)
@@ -257,6 +257,7 @@ function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
 	playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
+	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	physics.start()
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
@@ -269,7 +270,16 @@ function scene:enterScene( event )
 	
 	AIDirector.initialize(player, currentLevel)
 	
-	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
+	player.alive = true;
+	player.health = player.maxhealth
+	
+	player.powah = PLAYER_MAXPOWAH
+	
+	player.isFiring = false
+	
+	onPewButton.isVisible = false
+	offPewButton.isVisible = true
+	player.isFiring = false
 	
 	--creating sound table
 	soundHandler:addListener()
