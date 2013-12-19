@@ -102,7 +102,6 @@ setSpawnClock = function()
 end
 
 local function moveHaterOffScreen(hater)
-	print("Inside moveHaterOffScreen")
 	Queue.removeObject(haterList[tostring(hater)].inView, hater) --pulled out of inView
 	hater.sprite.x = 5000
 	hater.sprite.y = 5000
