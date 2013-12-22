@@ -23,7 +23,10 @@ require "com.managers.AIDirector"
 require "com.game.passives.Passive"
 require "com.game.passives.Player.ExtraStartingHealth"
 require "com.game.passives.Player.HealthRegen"
-
+require "com.game.collectibles.Collectible"
+--require "com.game.collectibles.HealthPickUp"
+--require "com.game.collectibles.ScrapPickUp"
+--require "com.game.collectibles.EnergyPickUp"
 
 --[[
 	CLASS NAME: Player
@@ -66,9 +69,10 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	"com/resources/art/sprites/player_piece_05.png"},
 	{ categoryBits = 1, maskBits = 26} ) 
 
-	self.health = 10
-	self.maxhealth = 10
-
+	
+	self.maxhealth = PLAYER_MAXHEALTH
+	self.health = PLAYER_MAXHEALTH
+	
 	self.powah = PLAYER_MAXPOWAH
 	
 	self.isFiring = false
@@ -254,8 +258,9 @@ end
 --function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)
    if phase == "ended"  then
+		print('Colliding with player: ' .. tostring(collide))
 		if self.alive == true then
-			if not collide.isPlayerBullet  then
+			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
 			--sound:load(self.soundPathHit) --got hit by a dude
 				if self.health <= 0 and not debugFlag then
