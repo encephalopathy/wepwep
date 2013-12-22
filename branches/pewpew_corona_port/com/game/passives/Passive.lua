@@ -29,6 +29,7 @@ end
 ]]--
 function Passive:setOwner(objectRef)
 	assert(objectRef ~= nil, 'Did not equip an owner such as player or an enemy to this passive')
+	
 	self.objectRef = objectRef
 end
 

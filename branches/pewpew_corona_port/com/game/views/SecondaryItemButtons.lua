@@ -33,25 +33,27 @@ local function createItemButton(group, i, name, xPos, yPos, width, height, isPas
 		print(type(group.onPress))
 		
 		local labelColor
+		local secondaryItem
 		if isPassive then
 			labelColor = { 0.3, 0.3, 0.3, 0.7 }
+			secondaryItem = display.newImageRect(name, width, height)
+			secondaryItem.x, secondaryItem.y = xPos, yPos
 		else
 			labelColor = { 1, 1, 1, 1 }
+			secondaryItem = widget.newButton {
+				left = xPos,
+				top = yPos,
+				label = "",
+				id = name,
+				labelAlign = "center",
+				defaultFile = name,
+				overFile = "com/resources/art/sprites/sheep.png",
+				width = width,
+				height = height,
+				labelColor = { default = labelColor, over = labelColor },
+				onRelease = group.onPress
+			}
 		end
-		
-		local secondaryItem = widget.newButton {
-			left = xPos,
-			top = yPos,
-			label = "",
-			id = name,
-			labelAlign = "center",
-			defaultFile = name,
-			overFile = "com/resources/art/sprites/sheep.png",
-			width = width,
-			height = height,
-			labelColor = { default = labelColor, over = labelColor },
-			onRelease = group.onPress
-		}
 		
 		secondaryItem.baseLabel = ""
 		--secondaryItem:setFillColor(255, )

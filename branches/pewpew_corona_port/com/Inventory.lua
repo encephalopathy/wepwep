@@ -58,14 +58,14 @@ end
 function Inventory:equipSecondaryItems(player, sceneGroup)	
 	for weaponName, secondaryWeapon in pairs(self.secondaryWeapons) do
 		secondaryWeapon.sceneGroup = sceneGroup
-		print('Equipping secondary weapon in game: ' .. weaponName)
+		--print('Equipping secondary weapon in game: ' .. weaponName)
 		player.secondaryWeapons[weaponName] = secondaryWeapon
 		player.secondaryWeapons[weaponName].targets = AIDirector.haterList
 		secondaryWeapon.owner = player
 		secondaryWeapon:setMuzzleLocation({ x = 0, y = -100 })
 	end
 	
-	print('Does self.passives EXIST?: ' .. tostring(self.passives))
+	--print('Does self.passives EXIST?: ' .. tostring(self.passives))
 	for passiveName, passive in pairs(self.passives) do
 		print('Equipping passive in game: ' .. passiveName)
 		passive:setOwner(player, sceneGroup)
@@ -141,7 +141,7 @@ function Inventory:hasSecondaryWeapon(weaponName)
 end
 
 function Inventory:hasPassive(passiveName)
-	return self.passives[weaponName] ~= nil
+	return self.passives[passiveName] ~= nil
 end
 
 -- Removes a secondary weapon from the equipment slots.  If the secondary weapon is already equipped.  Double the shots that can be fired.
@@ -161,7 +161,7 @@ function Inventory:addPassive(slot, passiveName, passiveObject)
 		self.slots[slot] = passiveName
 		
 		print('Adding passive object: ' .. tostring(passiveObject))
-		print('Old passive: ' .. tostring(oldPassiveName))
+		
 		self.passives[passiveName] = passiveObject
 		if oldPassiveName == nil then
 			print('Slot taken: ' .. slot)

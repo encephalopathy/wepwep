@@ -105,7 +105,7 @@ end
 --Buy weapon also equips
 function Shop:buySecondaryWeapon(weaponName, slot)
 	if not mainInventory:hasSecondaryWeapon(weaponName) then
-		print('equipping secondary weapon: ' .. weaponName)
+		--print('equipping secondary weapon: ' .. weaponName)
 		mainInventory:addSecondaryWeapon(slot, weaponName, self.SecondaryWeapons[weaponName].item)
 		mainInventory.dollaz = mainInventory.dollaz - self.SecondaryWeapons[weaponName].dollaz
 		return true
@@ -116,7 +116,7 @@ end
 
 function Shop:buyPassive(passiveName, slot)
 	if not mainInventory:hasPassive(passiveName) then
-		print('equipping passive at slot ' .. slot .. ': ' ..passiveName)
+		--print('equipping passive at slot ' .. slot .. ': ' ..passiveName)
 		mainInventory:addPassive(slot, passiveName, self.Passives[passiveName].item)
 		mainInventory.dollaz = mainInventory.dollaz - self.Passives[passiveName].dollaz
 		return true

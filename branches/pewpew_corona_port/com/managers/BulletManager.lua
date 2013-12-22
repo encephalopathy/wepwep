@@ -42,6 +42,8 @@ function BulletManager:offScreen (event)
 		offScreenBulletList = self.haterOffScreenBullets
 		shipType = 'hater '
 	end
+	
+	--print('Ship type collecting bullets on crash: ' .. shipType)
 
 	self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
 	
@@ -90,7 +92,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				bullet.sprite.isVisible = false
 				bullet.sprite.x = 5000
 				bullet.sprite.y = 5000
-
+				print('Caching Bullet: ' .. tostring(bullet))
 				Queue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 		end
@@ -148,6 +150,7 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 end
 
 function BulletManager:stop(sceneGroup)
+	print('Stopping bullet Manager')
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.bulletGroupInView)
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.bulletGroupInView)
 	Runtime:removeEventListener("offScreen", self)
