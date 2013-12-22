@@ -9,6 +9,7 @@ local spawnPoolLocX, spawnPoolLocY = 200, 5000
 local padding = display.contentWidth * 0.1
 
 local function equip(id, itemName)
+	print('ADDING ID TO EQUIP: ' .. id)
 	shop:buyItem(itemName, id)
 end
 
@@ -102,6 +103,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 			overFile = 'com/resources/art/sprites/sheep.png',
 			id = package[i],
 			onEvent = function(event)
+				
 				equip(id, package[i])
 			end
 		}

@@ -3,12 +3,11 @@ require("org.Mediator")
 SecondaryItemMediator = Mediator:subclass("SecondaryItemMediator")
 
 function SecondaryItemMediator:init()
-	print('CREATING SECONDARY ITEM MEDIATOR')
 	self.super:init()
 end
 
 function SecondaryItemMediator:onRegister()
-	print('view id in secondaryItemMediator: ' .. tostring(self.view))
+	--print('view id in secondaryItemMediator: ' .. tostring(self.view))
 	self.viewInstance.sceneGroup:addEventListener("FireSecondaryWeapon", self)
 end
 

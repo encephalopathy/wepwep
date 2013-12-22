@@ -93,6 +93,12 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, 
 	--self.owner = nil 
 end
 
+function Weapon:setAmmoAmount(number)
+	local maxAmmoAmount = number
+	self.ammoAmount = maxAmmoAmount
+	self.maxAmmoAmount = maxAmmoAmount
+end
+
 --[[
 	FUNCTION NAME: equip
 	
@@ -263,7 +269,7 @@ function Weapon:getNextShot(numberOfShots)
 		if self.ammoAmount ~= nil then
 			self.ammoAmount = self.ammoAmount - 1
 		end
-	end	
+	
 		--We need to increment the fire attempts when we fire else we will be firing infintely.
 		--self.fireAttempts = self.fireAttempts + 1
 		--[[
@@ -277,7 +283,7 @@ function Weapon:getNextShot(numberOfShots)
 		else
 			return nil
 		end
-		
+	end	
 	--end
 end
 

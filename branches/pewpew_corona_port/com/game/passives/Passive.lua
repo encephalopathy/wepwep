@@ -21,10 +21,10 @@ function Passive:init(fieldName)
 end
 
 --[[
-	FUNCTION NAME: equip
+	FUNCTION NAME: setOwner
 	
-	DESCRIPTION: Updates the passive.
-	
+	DESCRIPTION: Sets the owner for this passive.  This function gets called
+				 when the player or hater enters the game.
 	@RETURN: VOID
 ]]--
 function Passive:setOwner(objectRef)

@@ -128,8 +128,8 @@ function Player:equipDebug(sceneGroup)
 	self.defensePassives[1]:setOwner(self)
 	self.defensePassives[2] = HealthRegen:new()
 	self.defensePassives[2]:setOwner(self)
-	self.defensePassives[3] = GunpodCollection:new(self, sceneGroup)
-	self.defensePassives[3]:setOwner(self)
+	self.defensePassives[3] = GunpodCollection:new()
+	self.defensePassives[3]:setOwner(self, sceneGroup)
 end
 
 --[[

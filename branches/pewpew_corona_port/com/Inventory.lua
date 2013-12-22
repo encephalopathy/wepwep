@@ -65,9 +65,10 @@ function Inventory:equipSecondaryItems(player, sceneGroup)
 		secondaryWeapon:setMuzzleLocation({ x = 0, y = -100 })
 	end
 	
+	print('Does self.passives EXIST?: ' .. tostring(self.passives))
 	for passiveName, passive in pairs(self.passives) do
 		print('Equipping passive in game: ' .. passiveName)
-		passive.objectRef = player
+		passive:setOwner(player, sceneGroup)
 		table.insert(player.defensePassives, passive)
 	end
 end
@@ -89,6 +90,7 @@ function Inventory:unequip(player)
 		weapon.sceneGroup = nil
 		weapon.owner = nil
 		weapon.targets = nil
+		weapon.ammoAmount = weapon.maxAmmoAmount
 	end
 end
 
@@ -120,7 +122,7 @@ function Inventory:addSecondaryWeapon(slot, weaponName, weaponObject)
 		local oldWeaponName = self.slots[slot]
 		self.slots[slot] = weaponName
 		
-		print('Adding secondary weapon in Inventory: ' .. weaponName)
+		print('Adding secondary weapon in Inventory at slot ' .. slot .. ': ' .. weaponName)
 		
 		self.secondaryWeapons[weaponName] = weaponObject
 		
@@ -158,6 +160,8 @@ function Inventory:addPassive(slot, passiveName, passiveObject)
 		local oldPassiveName = self.slots[slot]
 		self.slots[slot] = passiveName
 		
+		print('Adding passive object: ' .. tostring(passiveObject))
+		print('Old passive: ' .. tostring(oldPassiveName))
 		self.passives[passiveName] = passiveObject
 		if oldPassiveName == nil then
 			print('Slot taken: ' .. slot)
@@ -171,8 +175,10 @@ end
 -- Remove a passive to the equipment slots.
 function Inventory:removeItem(slot, itemName)
 	if self.passives[itemName] ~= nil then
+		print('Removing passive in Inventory: ' .. itemName)
 		self.passives[itemName] = nil
 	elseif self.secondaryWeapons[itemName] ~= nil then
+		print('Removing secondary weapon in Inventory: ' .. itemName)
 		self.secondaryWeapons[itemName] = nil
 	end
 	self.slots[itemName] = nil
