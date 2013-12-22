@@ -17,19 +17,22 @@ function ScoreManager.create()
 	
 	gameScene = scene
 	
-	scene:addEventListener("enterScene", ScoreManager.resetRunScore)
-	scene:addEventListener("enterScene", ScoreManager.resetSectionScore)
+	Runtime:addEventListener("enterScene", ScoreManager.resetRunScore)
+	Runtime:addEventListener("enterScene", ScoreManager.resetSectionScore)
 end
 
 function ScoreManager:addListener() --grab scene object from the storyBoard for optimization
-	gameScene.view:addEventListener("addScore", ScoreManager.addScore)
+	Runtime:addEventListener("addScore", ScoreManager.addScore)
+	--gameScene.view:addEventListener("addScore", ScoreManager.addScore)
 end
 
 function ScoreManager:removeListener() --grab scene object from the storyBoard for optimization
-	gameScene.view:removeEventListener("addScore", ScoreManager.addScore)
+	Runtime:removeEventListener("addScore", ScoreManager.addScore)
+	--gameScene.view:removeEventListener("addScore", ScoreManager.addScore)
 end
 
 function ScoreManager.addScore(event)
+	print("INSIDE ScoreManager.addScore")
 	if event.name == "addScore" then
 		--print("inside addScore")
 		-- print("ScoreManager.runScore: "..ScoreManager.runScore)
@@ -37,17 +40,20 @@ function ScoreManager.addScore(event)
 		-- print("ScoreManager.startingDollaz: "..ScoreManager.startingDollaz)
 		-- print("new runScore: "..(ScoreManager.runScore + (event.score - ScoreManager.startingDollaz)))
 		ScoreManager.runScore = ScoreManager.runScore + (event.score - ScoreManager.startingDollaz)
+		print(ScoreManager.runScore)
 		--print("ScoreManager runScore: "..ScoreManager.runScore)
 	end
 end
 
 function ScoreManager.resetRunScore(event)
+	print("resetRunScore")
 	if event.name == "resetRunScore" then
 		ScoreManager.runScore = 0
 	end
 end
 
 function ScoreManager.resetSectionScore(event)
+	print("resetSectionScore")
 	if event.name == "resetSectionScore" then
 		ScoreManager.sectionScore = 0
 	end

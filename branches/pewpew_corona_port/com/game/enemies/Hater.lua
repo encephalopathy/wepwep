@@ -219,6 +219,7 @@ function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup even
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_die'})
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
 	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
+	print("dispatchEvent Hater.lua addScore")
 	Runtime:dispatchEvent({name = "addScore", score = mainInventory.dollaz})
 end
 

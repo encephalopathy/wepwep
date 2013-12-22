@@ -120,6 +120,7 @@ local function update(event)
 	end
 	
 	scoreText.text = "Score: "..tostring(ScoreManager.runScore)
+	
 	collectibles:update()
 	AIDirector.update()
 	if(player.isFiring) then 

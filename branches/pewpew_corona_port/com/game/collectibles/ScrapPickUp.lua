@@ -13,6 +13,7 @@ function ScrapPickUp:activateEffect(player)
 	print("Picked up Scrap")
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'ScrapPickUp'})
 	mainInventory.dollaz = mainInventory.dollaz + 5
+	print("dispatchEvent ScrapPickUp.lua addScore")
 	Runtime:dispatchEvent({name = "addScore", score = mainInventory.dollaz})
 end
 
