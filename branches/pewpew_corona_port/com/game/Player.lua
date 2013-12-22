@@ -27,6 +27,8 @@ require "com.game.collectibles.Collectible"
 --require "com.game.collectibles.HealthPickUp"
 --require "com.game.collectibles.ScrapPickUp"
 --require "com.game.collectibles.EnergyPickUp"
+require "com.game.passives.Player.GunpodCollection"
+require "com.game.passives.Player.GunpodSingle"
 
 --[[
 	CLASS NAME: Player
@@ -87,6 +89,8 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
     self.prevY = 0
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE INIT FUNCTION
 	
+	self.hasFired = false
+	
 	--self:equipDebug(sceneGroup)
 	Player.player = self
 	self:setPlayerType()
@@ -124,6 +128,8 @@ function Player:equipDebug(sceneGroup)
 	self.defensePassives[1]:setOwner(self)
 	self.defensePassives[2] = HealthRegen:new()
 	self.defensePassives[2]:setOwner(self)
+	self.defensePassives[3] = GunpodCollection:new(self, sceneGroup)
+	self.defensePassives[3]:setOwner(self)
 end
 
 --[[
@@ -190,13 +196,15 @@ end
 
 
 function Player:fire()
-	if self.alive ~= false and self.isFiring == true then
+	if self.alive ~= false then
 	--print("Player Powah is: "..self.powah)
 		if (self.powah - self.weapon.energyCost) >= 0 then
-			local hasFired = self.weapon:fire()
-			if hasFired then
+			self.hasFired = self.weapon:fire()
+			if self.hasFired then
 				self.weapon:adjustPowah(self)
 			end
+		else
+			self.hasFired = false
 		end
 	end
 end

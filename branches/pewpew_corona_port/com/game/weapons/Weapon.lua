@@ -48,7 +48,7 @@ Weapon = Object:subclass("Weapon")
 function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, classType, bulletWidth, bulletHeight, soundHandle)
 
 	-- These 3 variables will be deprecated after the Bullet Manager is done.
-    self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
+   self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
 	self.ammo = Queue.new()	--Magazine or clip that holds ammo that has not been fired by this weapon yet.
 	self.firedAmmo = Queue.new() --A queue that holds ammo that has been fired by this weapon.
 	
