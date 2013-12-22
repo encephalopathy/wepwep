@@ -13,7 +13,7 @@ function SecondaryItemButtons:init(sceneGroup)
 	local group = self.sceneGroup
 	function group:onPress(event)
 		print('DISPATCHING ON PRESS EVENT with id: ' .. tostring(group))
-		group:dispatchEvent({name = 'FireSecondaryWeapon', target = group})
+		group:dispatchEvent({name = 'FireSecondaryWeapon', target = group, id = self.target.id})
 	end
 	group.name = 'secondary items'
 	scene:addEventListener("enterScene", self.createButtons)
@@ -28,22 +28,35 @@ local function getButtonResolution()
 	return xPos, yPos, width, height, dy
 end
 
-local function createItemButton(group, i, name, xPos, yPos, width, height)
+local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive)
 	if group[i] == nil then
 		print(type(group.onPress))
-		local secondaryItem = widget.newButton {
-			left = xPos,
-			top = yPos,
-			label = "",
-			labelAlign = "center",
-			defaultFile = name,
-			overFile = "com/resources/art/sprites/heart.png",
-			width = width,
-			height = height,
-			onRelease = group.onPress
-		}
+		
+		local labelColor
+		local secondaryItem
+		if isPassive then
+			labelColor = { 0.3, 0.3, 0.3, 0.7 }
+			secondaryItem = display.newImageRect(name, width, height)
+			secondaryItem.x, secondaryItem.y = xPos, yPos
+		else
+			labelColor = { 1, 1, 1, 1 }
+			secondaryItem = widget.newButton {
+				left = xPos,
+				top = yPos,
+				label = "",
+				id = name,
+				labelAlign = "center",
+				defaultFile = name,
+				overFile = "com/resources/art/sprites/sheep.png",
+				width = width,
+				height = height,
+				labelColor = { default = labelColor, over = labelColor },
+				onRelease = group.onPress
+			}
+		end
 		
 		secondaryItem.baseLabel = ""
+		--secondaryItem:setFillColor(255, )
 		--We need to keep a reference to the widget to destroy it later
 		group:insert(secondaryItem)
 	else
@@ -70,15 +83,15 @@ function SecondaryItemButtons:createButtons(event)
 	
 	for passiveName, passive in pairs(mainInventory.passives) do
 		print('passive name: ' .. passiveName)
-		createItemButton(group, i, passiveName, xPos, yPos, width, height)
+		createItemButton(group, i, passiveName, xPos, yPos, width, height, true)
 		i = i + 1
 		yPos = yPos + dy
 	end
 
 	--print('mainInventory.secondaryWeapons is: ' .. tostring(mainInventory.secondaryWeapons))
 	for weaponName, weapon in pairs(mainInventory.secondaryWeapons) do
-		print('weapon name: ' .. weaponName)
-		createItemButton(group, i, weaponName, xPos, yPos, width, height)
+		print('CREATING SECONDARY WEAPON IN GAME: weapon name: ' .. weaponName)
+		createItemButton(group, i, weaponName, xPos, yPos, width, height, false)
 		i = i + 1
 		yPos = yPos + dy
 	end

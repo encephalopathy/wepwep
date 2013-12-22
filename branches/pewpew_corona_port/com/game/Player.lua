@@ -23,6 +23,7 @@ require "com.managers.AIDirector"
 require "com.game.passives.Passive"
 require "com.game.passives.Player.ExtraStartingHealth"
 require "com.game.passives.Player.HealthRegen"
+require "com.game.collectibles.Collectible"
 require "com.game.passives.Player.GunpodCollection"
 require "com.game.passives.Player.GunpodSingle"
 
@@ -67,9 +68,10 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	"com/resources/art/sprites/player_piece_05.png"},
 	{ categoryBits = 1, maskBits = 26} ) 
 
-	self.health = 10
-	self.maxhealth = 10
-
+	
+	self.maxhealth = PLAYER_MAXHEALTH
+	self.health = PLAYER_MAXHEALTH
+	
 	self.powah = PLAYER_MAXPOWAH
 	
 	self.isFiring = false
@@ -77,6 +79,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.secondaryWeapons = {}
 	
 	Runtime:addEventListener("touch", self.touch)
+	Runtime:addEventListener("fireSecondary", self)
 	self.x0 = 0
 	self.y0 = 0
     self.prevX = 0
@@ -122,8 +125,8 @@ function Player:equipDebug(sceneGroup)
 	self.defensePassives[1]:setOwner(self)
 	self.defensePassives[2] = HealthRegen:new()
 	self.defensePassives[2]:setOwner(self)
-	self.defensePassives[3] = GunpodCollection:new(self, sceneGroup)
-	self.defensePassives[3]:setOwner(self)
+	self.defensePassives[3] = GunpodCollection:new()
+	self.defensePassives[3]:setOwner(self, sceneGroup)
 end
 
 --[[
@@ -246,7 +249,8 @@ end
 
 function Player:fireSecondary(event)
 	local secondaryItem = self.secondaryWeapons[event.item]
-	if Hater:made(secondaryItem) then
+	print('Using secondaryWeapon in Player:fireSecondary: ' .. tostring(secondaryItem))
+	if Weapon:made(secondaryItem) then
 		secondaryItem:fire()
 	elseif Passive:made(secondaryItem) then
 		print('passive name: ' .. event.name)
@@ -259,8 +263,9 @@ end
 --function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)
    if phase == "ended"  then
+		print('Colliding with player: ' .. tostring(collide))
 		if self.alive == true then
-			if not collide.isPlayerBullet  then
+			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
 			--sound:load(self.soundPathHit) --got hit by a dude
 				if self.health <= 0 and not debugFlag then

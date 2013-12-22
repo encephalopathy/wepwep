@@ -64,10 +64,10 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 
 
 local function createGameUIMVC(group)
-	--gameContext = Context:new()
+	gameContext = Context:new()
 	--Map a certain amount of views to the game.
-	--gameContext:mapMediator('com.game.views.SecondaryItemButtons', 'com.game.mediators.SecondaryItemMediator')
-    --gameContext:preprocess(group)
+	gameContext:mapMediator('com.game.views.SecondaryItemButtons', 'com.game.mediators.SecondaryItemMediator')
+    gameContext:preprocess(group)
 end
 
 local function debugUpdate()

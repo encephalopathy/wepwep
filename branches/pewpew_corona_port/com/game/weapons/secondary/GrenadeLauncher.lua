@@ -7,7 +7,7 @@ local DEFAULT_DETONATION_TIME = 25
 local DEFAULT_EXPLOSION_RADIUS = 448
 local DEFAULT_RATE_OF_FIRE = 25
 
-function GrenadeLauncher:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, targets, detonationTime, explosionRadius, imgSrc, bulletType, soundFX)
+function GrenadeLauncher:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, targets, detonationTime, explosionRadius, soundFX)
    if rateOfFire == nil then
      rateOfFire = DEFAULT_RATE_OF_FIRE
    end
@@ -30,7 +30,7 @@ function GrenadeLauncher:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
 	 imgSrc = "com/resources/art/sprites/bomb.png"
    end
    
-   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, width, height, soundFX)
+   self.super:init(sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, 0, 0, imgSrc, 0, bulletType, 50, 50, soundFX)
    
    if bulletSpeed == nil then
 		self.bulletSpeed = DEFUALT_BULLET_VELOCITY 

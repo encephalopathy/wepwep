@@ -63,6 +63,7 @@ function Bullet:onHit(phase, collitor)
 end
 
 function Bullet:onCollision()
+	print('Bullet On Collision')
 	self.alive = false
 end
 

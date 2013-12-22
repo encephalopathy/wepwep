@@ -70,6 +70,7 @@ function Bomb:explode()
 		self.explosion.xScale = explosionSize; self.explosion.yScale = explosionSize
 		self.explosion:play()
 		Runtime:removeEventListener("enterFrame", self.update)
+		self:recycle()
 		self.alive = false
 	end
 	
@@ -105,6 +106,7 @@ end
 	DESCRIPTION Occlussion culls the bombs offscreen.
 ]]--
 function Bomb:recycle()
+	print('Recycling Bombs!')
 	Runtime:removeEventListener("enterFrame", self.update)
 	self.super:recycle(self)
 end
