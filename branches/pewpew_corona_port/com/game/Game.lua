@@ -3,8 +3,10 @@ require "com.managers.LevelManager"
 require "com.managers.AIDirector"
 require "com.managers.BulletManager"
 require "com.managers.CollectibleHeap"
+require "com.managers.ScoreManager"
 require "com.game.Player"
 require "com.game.gameSFXInfo"
+
 -----------------------------------------------------------------------------------------
 --
 -- level1.lua
@@ -27,6 +29,8 @@ local background = nil
 local backgroundBuffer = nil
 local currentLevelNumber = 1
 local soundHandler = nil
+local scoreText
+
 step = 0
 
 --[[  DEBUG ]]--
@@ -115,6 +119,7 @@ local function update(event)
 		player.sprite.y = 4000
 	end
 	
+	scoreText.text = "Score: "..tostring(ScoreManager.runScore)
 	collectibles:update()
 	AIDirector.update()
 	if(player.isFiring) then 
@@ -169,7 +174,7 @@ function scene:createScene( event )
 	
 	local offPewButton
 	local onPewButton
-
+	
 	-- creates the scrolling background for the current game
 	createScrollingBackground(group)
 	
@@ -242,12 +247,15 @@ function scene:createScene( event )
 	onPewButton.isVisible = false
 	
 	soundHandler = SFX:new(group, gameSFXInfo, "game")
+	scoreText = display.newText("Score: ", display.contentWidth * 0.57, display.contentHeight * 0.03, native.systemFont, 25 )
 	AIDirector.create(group)
+	ScoreManager.create()
 	collectibles = CollectibleHeap:new(group, {'HealthPickUp', 'ScrapPickUp', 'EnergyPickUp'})
 	bulletManager = BulletManager:new(group)
 	group:insert( myButton )
 	group:insert( offPewButton )
 	group:insert( onPewButton )
+	group:insert( scoreText )
 	createGameUIMVC(group)
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
@@ -261,6 +269,11 @@ function scene:enterScene( event )
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
+	
+	ScoreManager:addListener()
+	print("ScoreManager.runScore: "..ScoreManager.runScore)
+	ScoreManager.startingDollaz = mainInventory.dollaz
+	print("ScoreManager.startingDollaz: "..ScoreManager.startingDollaz)
 	
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	

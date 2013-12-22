@@ -215,10 +215,11 @@ function Hater:onHit(phase, collide)
 end
 
 
-function Hater:die()
+function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup events
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_die'})
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
 	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
+	Runtime:dispatchEvent({name = "addScore", score = mainInventory.dollaz})
 end
 
 
