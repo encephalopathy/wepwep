@@ -23,6 +23,7 @@ function HealthRegen: init(fieldName, regenValue, cooldown)
 end
 
 function HealthRegen:setOwner(objectRef)
+	print('SETTING OWNER HEALTH REGEN')
 	self.super:setOwner(objectRef)
 end
 

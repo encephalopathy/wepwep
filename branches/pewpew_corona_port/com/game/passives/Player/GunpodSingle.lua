@@ -12,6 +12,8 @@ function GunpodSingle: init(sceneGroup, imgSrc, x, y)
 	elseif y == nil then
 		print("y is nil in Gunpod Single")
 	end
+	
+	print('CREATING GUNPOD SINGLE')
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, { categoryBits = 1, maskBits = 0 })
 	self.sprite.objRef = self
 end
