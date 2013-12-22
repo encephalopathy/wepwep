@@ -7,7 +7,10 @@ require "com.Utility"
 require "com.Inventory"
 require "org.Object"
 require "org.Queue"
+require "com.equipmenu.Carousel"
 
+local secondaryItemCarousels = {}
+local numOfSlots = mainInventory.numOfEquipSlotsAvailable 
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -19,19 +22,6 @@ local widget = require "widget"
 
 -- forward declarations and other locals
 
-
-local regularButton, sineButton, doubleButton, homingButton, spreadButton,
-		bombsButton, rocketsButton, freezeButton, backButton, nextWeapon, 
-		prevWeapon
-		
-local weaponIndex = 0
-		
-local carousel1, carousel2, carousel3, carousel4, carousel5
-
-local weaponCarousel = {}
-
-local carouselButton
-
 -- 'onRelease' event listener for newGameButton
 local function back()	
 	-- go to menu
@@ -39,99 +29,18 @@ local function back()
 	return true	-- indicates successful touch
 end
 
--- Function to handle button events
-local function handleButtonEvent( event )
-    local phase = event.phase 
+local function createSecondaryItemCarousels(group)
+	local secondarySplashImages = {"com/resources/art/sprites/bomb.png", "com/resources/art/sprites/heart.png", 
+	"com/resources/art/sprites/shop_splash_images/Gunpods.png", 
+	"com/resources/art/sprites/shop_splash_images/HealthRegen.png", "com/resources/art/sprites/shop_splash_images/FreezeMissile.png", 
+	"com/resources/art/sprites/missile.png"}
 
-    if "ended" == phase then
-        print( "You pressed and released a button!" )
-    end
-end
-
-local function equipWeapon(event)
-    if event.phase == "ended" then
-		print('id: ' .. tostring(event.target.id))
-		--TODO: Pass in the appropiate slot number based on what carousel was created.  I.E the first Queue of carouels
-		--created should pass the number 1, the 2nd, number 2, etc.
-		shop:buyItem(event.target.id, 1)
+	for i = 1,  numOfSlots, 1 do
+	  secondaryItemCarousels[i] = Carousel.new(group, i, secondarySplashImages, 100, display.contentHeight * 0.3 + i * 80, 300, display.contentHeight * 0.1, 4, false)
 	end
 end
 
-local function spread(event)
-	--mainInventory:equipOneWeapon(2)
-	equipOneWeapon(weaponNumber)
-		setThingsUp()
-end
 
-local function sine(event)
-	mainInventory:equipPrimaryWeapon(3)
-	
-		setThingsUp()
-end
-
-local function double(event)
-	mainInventory:equipPrimaryWeapon(5)
-		setThingsUp()
-end
-
-local function homing(event)
-	mainInventory:equipPrimaryWeapon(4)
-		setThingsUp()
-end
-
-local function bombs(event)
-	mainInventory:addSecondaryWeapon("com/resources/art/sprites/bomb.png")
-		setThingsUp()
-end
-
-local function rockets(event)
-	mainInventory:addSecondaryWeapon("com/resources/art/sprites/missile.png")
-		setThingsUp()
-end
-
-local function freeze(event)
-	mainInventory:addSecondaryWeapon('Freeze')
-		setThingsUp()
-end
-
-local function nextWep(event)
-	if(weaponIndex == weaponCarousel.last) then weaponIndex = weaponCarousel.first 
-	else weaponIndex = weaponIndex + 1
-	end
-	setupWepCarousel()
-end
-
-local function prevWep(event)
-	if(weaponIndex == weaponCarousel.first) then weaponIndex = weaponCarousel.last 
-	else weaponIndex = weaponIndex - 1
-	end
-	setupWepCarousel()
-end
-
-function setupWepCarousel()
-	--send away the old
-	carousel1.x, carousel1.y = 200, 5000
-	carousel2.x, carousel2.y = 200, 5000
-	carousel3.x, carousel3.y = 200, 5000
-	carousel4.x, carousel4.y = 200, 5000
-	carousel5.x, carousel5.y = 200, 5000	
-	
-	--set-up the new
-	weaponCarousel[weaponIndex].x, weaponCarousel[weaponIndex].y  = display.contentWidth * 0.5, display.contentHeight * 0.8
-	
-	if(weaponIndex == weaponCarousel.first) then 
-	weaponCarousel[weaponCarousel.last].x, weaponCarousel[weaponCarousel.last].y = display.contentWidth * 0.3, display.contentHeight * 0.8
-	weaponCarousel[weaponIndex + 1].x, weaponCarousel[weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
-	
-	elseif (weaponIndex == weaponCarousel.last) then 
-	weaponCarousel[weaponIndex - 1].x, weaponCarousel[weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
-	weaponCarousel[weaponCarousel.first].x, weaponCarousel[weaponCarousel.first].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
-	
-	else  
-	weaponCarousel[weaponIndex - 1].x, weaponCarousel[weaponIndex - 1].y = display.contentWidth * 0.3, display.contentHeight * 0.8
-	weaponCarousel[weaponIndex + 1].x, weaponCarousel[weaponIndex + 1].y = display.contentWidth * 0.7, display.contentHeight * 0.8	
-	end
-end
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -145,7 +54,6 @@ end
 function scene:createScene( event )
 	local group = self.view
 	shop = Shop:new()
-	weaponCarousel = Queue.new()
 
 	-- display a background image
 	local background = display.newImageRect("com/resources/art/background/sheet_metal.png",
@@ -156,78 +64,6 @@ function scene:createScene( event )
 	
 	local bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
 	bgRect:setFillColor(20, 70, 10, 130)
-		
-	--[[
-	addSecondaryWeapon("com/resources/art/sprites/bomb.png")
-	equipOneWeapon(weaponNumber) for primary weaons
-	removeSecondaryWeapon(weaponName) for remvoing a secondary weapon
-	--]]	
-	
-	carousel1 = widget.newButton
-	{
-		width = display.contentWidth/10,
-		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/bomb.png",
-		overFile = "com/resources/art/sprites/bomb_01.png",
-		id = 'com/resources/art/sprites/bomb.png',
-		label = "1",
-		onEvent = equipWeapon,
-	}				--= display.newImageRect("com/resources/art/sprites/bomb_01.png",
-					--display.contentWidth/10, display.contentHeight/10 )
-	carousel2 = widget.newButton
-	{
-		width = display.contentWidth/10,
-		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
-		overFile = "com/resources/art/sprites/bomb_02.png",
-		id = "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
-		label = "2",
-		onEvent = equipWeapon,
-	}
-	carousel3= widget.newButton
-	{
-		width = display.contentWidth/10,
-		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
-		overFile = "com/resources/art/sprites/bomb_03.png",
-		id = "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
-		label = "3",
-		onEvent = equipWeapon,
-	}
-	carousel4 = widget.newButton
-	{
-		width = display.contentWidth/10,
-		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
-		overFile = "com/resources/art/sprites/bomb_04.png",
-		id = "com/resources/art/sprites/shop_splash_images/Sinewave.png",
-		label = "4",
-		onEvent = equipWeapon,
-	}	
-	carousel5 = widget.newButton
-	{
-		width = display.contentWidth/10,
-		height = display.contentHeight/10,
-		defaultFile = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
-		overFile = "com/resources/art/sprites/bomb_05.png",
-		id = "com/resources/art/sprites/shop_splash_images/HomingShot.png",
-		label = "5",
-		onEvent = equipWeapon,
-	}	
-	
-	carousel1.x, carousel1.y = 200, 5000
-	carousel2.x, carousel2.y = 200, 5000
-	carousel3.x, carousel3.y = 200, 5000
-	carousel4.x, carousel4.y = 200, 5000
-	carousel5.x, carousel5.y = 200, 5000	
-	
-	Queue.insertFront(weaponCarousel, carousel5)
-	Queue.insertFront(weaponCarousel, carousel4)
-	Queue.insertFront(weaponCarousel, carousel3)
-	Queue.insertFront(weaponCarousel, carousel2)
-	Queue.insertFront(weaponCarousel, carousel1)
-	
-	weaponIndex = weaponCarousel.first
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
@@ -235,57 +71,28 @@ function scene:createScene( event )
 	local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
 	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
 
-	
-	
     -- create the widget buttons
 	local centerOfScreenX = display.contentWidth*0.5
-	
-    regularButton = createBttn(widget, display, "Regular", display.contentWidth * 0.3, 
-		display.contentHeight * 0.3, regular)
-    sineButton = createBttn(widget, display, "Sine", display.contentWidth * 0.3, 
-		display.contentHeight * 0.4, sine)
-	doubleButton = createBttn(widget, display, "Double", display.contentWidth * 0.3, 
-		display.contentHeight * 0.5, double)
-	homingButton = createBttn(widget, display, "Homing", display.contentWidth * 0.3, 
-		display.contentHeight * 0.6, homing)
-	spreadButton = createBttn(widget, display, "Spread", display.contentWidth * 0.3, 
-		display.contentHeight * 0.7, spread)
-
- 
-    bombsButton = createBttn(widget, display, "Bombs", display.contentWidth * 0.7, 
-		display.contentHeight * 0.3, bombs)
-	rocketsButton = createBttn(widget, display, "Rockets", display.contentWidth * 0.7, 
-		display.contentHeight * 0.4, rockets)
-	freezeButton = createBttn(widget, display, "Freeze", display.contentWidth * 0.7, 
-		display.contentHeight * 0.5, freeze)
 
 	backButton = createBttn(widget, display, "Back", display.contentWidth * 0.5, 
 		display.contentHeight * 0.9, back)
-
-	prevWeapon = createBttn(widget, display, "<", display.contentWidth * 0.1, 
-		display.contentHeight * 0.8, prevWep)
-		
-	nextWeapon = createBttn(widget, display, ">", display.contentWidth * 0.9, 
-		display.contentHeight * 0.8, nextWep)
 	
-	--playButton:setReferencePoint( display.CenterReferencePoint )
-	--playButton.x = display.contentWidth*0.5
-	--playButton.y = display.contentHeight - 125
+	--TODO: Replace the heart with Extra Health and Missile with a splash image of a missile
 	
-	-- all display objects must be inserted into group
 	
-	--group:insert( titleLogo )
+	local primaryWeapsSplashImages = {"com/resources/art/sprites/shop_splash_images/SingleShot.png", "com/resources/art/sprites/shop_splash_images/DoubleShot.png", 
+	"com/resources/art/sprites/shop_splash_images/Sinewave.png", 
+	"com/resources/art/sprites/shop_splash_images/HomingShot.png", "com/resources/art/sprites/shop_splash_images/SpreadShot.png",  "com/resources/art/sprites/shop_splash_images/BackShot.png"}
 	
-	--bgRect:setStrokeColor(20, 70, 10, 130)
-
-	highlightWeaponRect = display.newRect(180, 150, 150, 50)
-	highlightWeaponRect:setFillColor(30, 130, 130, 150)
-	--highlightWeaponRect:setStrokeColor(30, 130, 90, 230)
-
-	highlightSubWeaponRect = display.newRect(280, 150, 150, 50)
-	highlightSubWeaponRect:setFillColor(180, 70, 50, 150)
-	--highlightSubWeaponRect:setStrokeColor(130, 30, 90, 230)
-
+	
+	-- group:insert(primaryWeapons.nextItem)
+	-- group:insert(primaryWeapons.prevItem)
+	-- print(tostring(primaryWeapons.nextItem))
+	-- for j = primaryWeapons.items.first, primaryWeapons.items.last, 1 do
+		-- group:insert(primaryWeapons.items[j])
+	-- end
+	--createSecondaryItemCarousels(group)
+	
 	group:insert( background )
 	group:insert( bgRect )
 	
@@ -294,92 +101,9 @@ function scene:createScene( event )
 	group:insert( maintext )
 	group:insert( subtext )
 
-	group:insert( regularButton )
-	group:insert( sineButton )
-	group:insert( doubleButton )
-	group:insert( spreadButton )
-	group:insert( homingButton )
-
-	group:insert( bombsButton )
-	group:insert( rocketsButton )
-	group:insert( freezeButton )
-
 	group:insert( backButton )
-
-	group:insert( highlightWeaponRect )
-	group:insert( highlightSubWeaponRect )
-	
-	group:insert( carousel1 )
-	group:insert( carousel2 )
-	group:insert( carousel3 )
-	group:insert( carousel4 )
-	group:insert( carousel5 )
-	
-	group:insert( nextWeapon )
-	group:insert( prevWeapon )
-		
-	setupWepCarousel()
-	--setThingsUp()
-end
-
-function setThingsUp()
-	if not shop.permission[1] then regularButton.x = 5000 end
-	if not shop.permission[2] then spreadButton.x = 5000 end
-	if not shop.permission[3] then sineButton.x = 5000 end
-	if not shop.permission[5] then doubleButton.x = 5000 end
-	if not shop.permission[4] then homingButton.x = 5000 end
-	if not shop.permission[6] then end
-	if not shop.permission[7] then end	
-	
-	if (mainInventory.equippedWeapon == 1) 
-	then 
-		highlightWeaponRect.x = regularButton.x
-		highlightWeaponRect.y = regularButton.y 
-	end
-
-	if (mainInventory.equippedWeapon == 2) 
-	then  
-		highlightWeaponRect.x = spreadButton.x
-		highlightWeaponRect.y = spreadButton.y 
-	end
-
-	if (mainInventory.equippedWeapon == 3) 
-	then  
-		highlightWeaponRect.x = sineButton.x
-		highlightWeaponRect.y = sineButton.y 
-	end
-
-	if (mainInventory.equippedWeapon == 5) 
-	then  
-		highlightWeaponRect.x = doubleButton.x
-		highlightWeaponRect.y = doubleButton.y 
-	end
-
-	if (mainInventory.equippedWeapon == 4) 
-	then  
-		highlightWeaponRect.x = homingButton.x
-		highlightWeaponRect.y = homingButton.y 
-	end
-	
-	if (mainInventory.equippedSecondaryWeapon == 1) 
-	then  
-		highlightSubWeaponRect.x = bombsButton.x
-		highlightSubWeaponRect.y = bombsButton.y
-	end
-
-	if (mainInventory.equippedSecondaryWeapon == 2) 
-	then  
-		highlightSubWeaponRect.x = freezeButton.x
-		highlightSubWeaponRect.y = freezeButton.y
-	end
-
-	if (mainInventory.equippedSecondaryWeapon == 3) 
-	then  
-		highlightSubWeaponRect.x = rocketsButton.x
-		highlightSubWeaponRect.y = rocketsButton.y
-	end
-	--highlightSubWeaponRect:bringToFront()
-	--highlightWeaponRect:bringToFront()
+	local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false) 
+	createSecondaryItemCarousels(group)
 end
 
 
@@ -406,40 +130,6 @@ function scene:destroyScene( event )
 	if backButton then
 		backButton:removeSelf()	-- widgets must be manually removed
 		backButton = nil
-	end
-	
-	if regularButton then
-		regularButton:removeSelf()
-		regularButton = nil
-	end
-
-	if sineButton then
-		sineButton:removeSelf()
-		sineButton = nil
-	end
-	if doubleButton then
-		doubleButton:removeSelf()
-		doubleButton = nil
-	end
-	if spreadButton then
-		spreadButton:removeSelf()
-		spreadButton = nil
-	end
-	if homingButton then
-		homingButton:removeSelf()
-		homingButton = nil
-	end
-	if bombsButton then
-		bombsButton:removeSelf()
-		bombsButton = nil
-	end
-	if rocketsButton then
-		rocketsButton:removeSelf()
-		rocketsButton = nil
-	end
-	if freezeButton then
-		freezeButton:removeSelf()
-		freezeButton = nil
 	end
 end
 

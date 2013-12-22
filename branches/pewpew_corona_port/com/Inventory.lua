@@ -129,7 +129,7 @@ function Inventory:addSecondaryWeapon(slot, weaponName, weaponObject)
 			
 			self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
 		else
-			self.secondaryWeapons[oldWeaponName] = nil
+			self:removeItem(slot, oldWeaponName)
 		end
 	end
 end
@@ -158,21 +158,23 @@ function Inventory:addPassive(slot, passiveName, passiveObject)
 		local oldPassiveName = self.slots[slot]
 		self.slots[slot] = passiveName
 		
-		
 		self.passives[passiveName] = passiveObject
 		if oldPassiveName == nil then
 			print('Slot taken: ' .. slot)
 			self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable - 1
 		else
-			self.passives[oldPassiveName] = nil
+			self:removeItem(slot, oldPassiveName)
 		end
 	end
 end
 
 -- Remove a passive to the equipment slots.
-function Inventory:removePassvive(slot, passiveName)
-	if self.passives[passiveName] ~= nil then
-		self.passives[passiveName] = nil
-		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
+function Inventory:removeItem(slot, itemName)
+	if self.passives[itemName] ~= nil then
+		self.passives[itemName] = nil
+	elseif self.secondaryWeapons[itemName] ~= nil then
+		self.secondaryWeapons[itemName] = nil
 	end
+	self.slots[itemName] = nil
+	self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
 end

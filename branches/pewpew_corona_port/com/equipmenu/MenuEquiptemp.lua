@@ -8,6 +8,7 @@ require "com.Inventory"
 require "org.Object"
 require "org.Queue"
 require "com.shopmenu.Shop"
+require "com.equipmenu.Carousel"
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
