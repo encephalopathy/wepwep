@@ -38,6 +38,7 @@ local function createItemButton(group, i, name, xPos, yPos, width, height, isPas
 			labelColor = { 0.3, 0.3, 0.3, 0.7 }
 			secondaryItem = display.newImageRect(name, width, height)
 			secondaryItem.x, secondaryItem.y = xPos, yPos
+			secondaryItem:setFillColor(155, 155, 155, 0.5)
 		else
 			labelColor = { 1, 1, 1, 1 }
 			secondaryItem = widget.newButton {
