@@ -8,4 +8,5 @@ com.game.weapons.primary.BackshotWeapon
 com.game.weapons.primary.SpiralCurveshotWeapon
 com.game.weapons.primary.SpiralStraightshotWeapon
 com.game.weapons.primary.CircleshotWeapon
+com.game.weapons.primary.RandomshotWeapon
 com.game.weapons.secondary.GrenadeLauncher

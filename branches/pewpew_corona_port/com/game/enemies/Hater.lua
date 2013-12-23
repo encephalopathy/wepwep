@@ -36,6 +36,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
 
+	--self.sceneGroup = sceneGroup --wanted to give Hater a reference to the sceneGroup; took out since it wasn't needed
+	
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
@@ -216,11 +218,12 @@ end
 
 
 function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup events
+	print("YOU HAVE KILLED A HATER!!!")
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_die'})
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
-	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
-	print("dispatchEvent Hater.lua addScore")
-	Runtime:dispatchEvent({name = "addScore", score = mainInventory.dollaz})
+	--mainInventory.dollaz = mainInventory.dollaz + (3 * self.maxHealth)
+	--print("dispatchEvent Hater.lua addScore")
+	Runtime:dispatchEvent({name = "addScore", score = (3*self.maxHealth)})
 end
 
 
@@ -237,6 +240,7 @@ function Hater:destroy()
 		self.super:destroy()
 	end
 	--self.haterList[self] = nil
+	--self.sceneGroup = nil --trying to solve scoreManager issue of not listening to events
 	
 end
 
