@@ -285,6 +285,7 @@ function scene:enterScene( event )
 	player.alive = true
 	player.health = player.maxhealth
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
+	player.powah = PLAYER_MAXPOWAH
 	
 	--creating sound table
 	soundHandler:addListener()
