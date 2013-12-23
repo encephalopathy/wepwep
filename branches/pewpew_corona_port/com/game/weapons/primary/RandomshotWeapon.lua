@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Randomshot = Weapon:subclass("Randomshot")
 
-function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, maxNumberOfShots, firingAngle, numberOfWaves, delayBetweenWaves)
+function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, maxNumberOfShots, firingAngle, numberOfWaves, delayBetweenWaves)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -21,8 +21,9 @@ function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		soundHandle = "Randomshot"
 		--print("soundFX:"..soundFX)
    end
-	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   
+	--print("width is ", bulletWidth, "and height is ", bulletHeight)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else

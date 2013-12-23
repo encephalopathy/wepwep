@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 Circleshot = Weapon:subclass("Circleshot")
 
-function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, numberOfShots, soundHandle, numberOfWaves, delayBetweenWaves)
+function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, numberOfShots, soundHandle, numberOfWaves, delayBetweenWaves)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -22,7 +22,7 @@ function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		--print("soundFX:"..soundFX)
    end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
