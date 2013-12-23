@@ -263,7 +263,7 @@ end
 --function Player:onHit(you, collitor)
 function Player:onHit(phase, collide)
    if phase == "ended"  then
-		print('Colliding with player: ' .. tostring(collide))
+		--print('Colliding with player: ' .. tostring(collide))
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1

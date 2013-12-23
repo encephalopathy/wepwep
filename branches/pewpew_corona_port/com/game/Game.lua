@@ -281,6 +281,8 @@ function scene:enterScene( event )
 	
 	AIDirector.initialize(player, currentLevel)
 	
+	player.alive = true
+	player.health = player.maxhealth
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	
 	--creating sound table

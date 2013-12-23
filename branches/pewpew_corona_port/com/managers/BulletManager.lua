@@ -3,6 +3,7 @@ require "org.Queue"
 require "com.game.weapons.Bullet"
 require "com.game.weapons.primary.SineWaveBullet"
 require "com.game.weapons.secondary.StandardMissile"
+require "com.game.weapons.secondary.FreezeMissile"
 
 BulletManager = Object:subclass("BulletManager");
 
@@ -92,7 +93,10 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				bullet.sprite.isVisible = false
 				bullet.sprite.x = 5000
 				bullet.sprite.y = 5000
-				print('Caching Bullet: ' .. tostring(bullet))
+				--print('Caching Bullet: ' .. tostring(bullet))
+				-- for key, value in (offScreenBullets) do
+					-- print('key: ' .. tostring(key) .. ' value: ' .. tostring(value))
+				-- end
 				Queue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 		end

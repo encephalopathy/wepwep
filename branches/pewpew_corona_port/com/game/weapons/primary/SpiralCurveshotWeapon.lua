@@ -22,7 +22,7 @@ function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
 		--print("soundFX:"..soundFX)
    end
 
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 		self.bulletSpeed = bulletSpeed
    else

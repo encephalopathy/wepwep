@@ -102,7 +102,7 @@ function scene:createScene( event )
 	group:insert( subtext )
 
 	group:insert( backButton )
-	local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false) 
+local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false) 
 	createSecondaryItemCarousels(group)
 end
 

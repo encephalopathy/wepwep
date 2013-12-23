@@ -67,7 +67,7 @@ function Inventory:equipSecondaryItems(player, sceneGroup)
 	
 	--print('Does self.passives EXIST?: ' .. tostring(self.passives))
 	for passiveName, passive in pairs(self.passives) do
-		print('Equipping passive in game: ' .. passiveName)
+		print('Equipping passive in game: ' .. passiveName .. ' object: ' .. tostring(passive))
 		passive:setOwner(player, sceneGroup)
 		table.insert(player.defensePassives, passive)
 	end
