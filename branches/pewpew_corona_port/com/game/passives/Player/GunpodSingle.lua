@@ -14,7 +14,7 @@ function GunpodSingle: init(sceneGroup, imgSrc, x, y)
 	end
 	
 	print('CREATING GUNPOD SINGLE')
-	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, { categoryBits = 1, maskBits = 0 })
+	self.super:init(sceneGroup, imgSrc, x, y, rotation, 75, 75, { categoryBits = 1, maskBits = 0 })
 	self.sprite.objRef = self
 end
 
