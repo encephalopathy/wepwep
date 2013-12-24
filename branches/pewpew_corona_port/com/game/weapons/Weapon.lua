@@ -48,7 +48,7 @@ Weapon = Object:subclass("Weapon")
 function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, classType, bulletWidth, bulletHeight, soundHandle)
 
 	-- These 3 variables will be deprecated after the Bullet Manager is done.
-   self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
+    self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
 	self.ammo = Queue.new()	--Magazine or clip that holds ammo that has not been fired by this weapon yet.
 	self.firedAmmo = Queue.new() --A queue that holds ammo that has been fired by this weapon.
 	
@@ -82,6 +82,7 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, 
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
 		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
 		dispatch the class name by holding a reference to the class declaration. ]]--
+		
 	if classType == nil then
 		self.ammoType = Bullet
 	else
@@ -188,6 +189,9 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
        bullet.sprite.x <= -50 or not bullet.alive) then
 		
 		--Recycles the bullet by moving it offscreen and storing it in a bullet queue. This is stored in BulletManager.
+		if tostring(bullet) ~= 'Bullet' then
+			print('Bullet to recylcle: ' .. tostring(bullet))
+		end
 		bullet:recycle()
 		
 	  Queue.insertFront(self.ammo, bullet)

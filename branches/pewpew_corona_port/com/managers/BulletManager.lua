@@ -94,7 +94,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				bullet.sprite.isVisible = false
 				bullet.sprite.x = 5000
 				bullet.sprite.y = 5000
-				print('Caching Bullet: ' .. tostring(bullet) .. ' imgSrc: ' .. tostring(bullet.imgSrc))
+				--print('Caching Bullet: ' .. tostring(bullet) .. ' imgSrc: ' .. tostring(bullet.imgSrc))
 				
 				if offScreenBullets[tostring(bullet)] == nil then
 					offScreenBullets[tostring(bullet)] = {}

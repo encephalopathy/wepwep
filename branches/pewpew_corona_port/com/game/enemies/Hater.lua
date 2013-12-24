@@ -136,7 +136,12 @@ function Hater:update()
       self:explode()
    end
    
-   if (self.isFrozen) then
+   
+   if (self.isFrozen and self.alive) then
+	  print('IN HATERS UPDATE')
+	  print(self.health)
+	  print(self.isFrozen)
+	  print(self.freezeTimer)
       self.freezeTimer = self.freezeTimer + 1
       if (self.freezeTimer >= 1000) then
          self.isFrozen = false

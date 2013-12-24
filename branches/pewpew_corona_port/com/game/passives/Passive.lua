@@ -43,4 +43,16 @@ end
 function Passive:update()
 end
 
+--[[
+	FUNCTION NAME: clear
+	
+	DESCRIPTION: Zeros out all the necassary fields needed when the passive de-equips from the player.
+	
+	@RETURN: VOID
+]]--
+function Passive:clear()
+	self.objectRef = nil
+end
+
+
 return Passive

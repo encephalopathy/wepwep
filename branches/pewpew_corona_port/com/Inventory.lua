@@ -67,7 +67,7 @@ function Inventory:equipSecondaryItems(player, sceneGroup)
 	
 	--print('Does self.passives EXIST?: ' .. tostring(self.passives))
 	for passiveName, passive in pairs(self.passives) do
-		print('Equipping passive in game: ' .. passiveName .. ' object: ' .. tostring(passive))
+		--print('Equipping passive in game: ' .. passiveName .. ' object: ' .. tostring(passive))
 		passive:setOwner(player, sceneGroup)
 		table.insert(player.defensePassives, passive)
 	end
@@ -81,7 +81,7 @@ function Inventory:unequip(player)
 	
 	--Unequips the passives from the player.
 	for passive in pairs(player.defensePassives) do
-		passive.objectRef = nil
+		passive:clear()
 		passive = nil
 	end
 	
@@ -122,12 +122,12 @@ function Inventory:addSecondaryWeapon(slot, weaponName, weaponObject)
 		local oldWeaponName = self.slots[slot]
 		self.slots[slot] = weaponName
 		
-		print('Adding secondary weapon in Inventory at slot ' .. slot .. ': ' .. weaponName)
+		--print('Adding secondary weapon in Inventory at slot ' .. slot .. ': ' .. weaponName)
 		
 		self.secondaryWeapons[weaponName] = weaponObject
 		
 		if oldWeaponName == nil then
-			print('Slot taken: ' .. slot)
+			--print('Slot taken: ' .. slot)
 			
 			self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
 		else
@@ -160,11 +160,11 @@ function Inventory:addPassive(slot, passiveName, passiveObject)
 		local oldPassiveName = self.slots[slot]
 		self.slots[slot] = passiveName
 		
-		print('Adding passive object: ' .. tostring(passiveObject))
+		--print('Adding passive object: ' .. tostring(passiveObject))
 		
 		self.passives[passiveName] = passiveObject
 		if oldPassiveName == nil then
-			print('Slot taken: ' .. slot)
+			--print('Slot taken: ' .. slot)
 			self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable - 1
 		else
 			self:removeItem(slot, oldPassiveName)
@@ -175,10 +175,10 @@ end
 -- Remove a passive to the equipment slots.
 function Inventory:removeItem(slot, itemName)
 	if self.passives[itemName] ~= nil then
-		print('Removing passive in Inventory: ' .. itemName)
+		--print('Removing passive in Inventory: ' .. itemName)
 		self.passives[itemName] = nil
 	elseif self.secondaryWeapons[itemName] ~= nil then
-		print('Removing secondary weapon in Inventory: ' .. itemName)
+		--print('Removing secondary weapon in Inventory: ' .. itemName)
 		self.secondaryWeapons[itemName] = nil
 	end
 	self.slots[itemName] = nil

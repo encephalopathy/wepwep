@@ -12,7 +12,6 @@ function SecondaryItemButtons:init(sceneGroup)
 	
 	local group = self.sceneGroup
 	function group:onPress(event)
-		print('DISPATCHING ON PRESS EVENT with id: ' .. tostring(group))
 		group:dispatchEvent({name = 'FireSecondaryWeapon', target = group, id = self.target.id})
 	end
 	group.name = 'secondary items'
@@ -30,7 +29,7 @@ end
 
 local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive)
 	if group[i] == nil then
-		print(type(group.onPress))
+		--print(type(group.onPress))
 		
 		local labelColor
 		local secondaryItem
@@ -83,7 +82,7 @@ function SecondaryItemButtons:createButtons(event)
 	
 	
 	for passiveName, passive in pairs(mainInventory.passives) do
-		print('passive name: ' .. passiveName)
+		--print('passive name: ' .. passiveName)
 		createItemButton(group, i, passiveName, xPos, yPos, width, height, true)
 		i = i + 1
 		yPos = yPos + dy
@@ -91,7 +90,7 @@ function SecondaryItemButtons:createButtons(event)
 
 	--print('mainInventory.secondaryWeapons is: ' .. tostring(mainInventory.secondaryWeapons))
 	for weaponName, weapon in pairs(mainInventory.secondaryWeapons) do
-		print('CREATING SECONDARY WEAPON IN GAME: weapon name: ' .. weaponName)
+		--print('CREATING SECONDARY WEAPON IN GAME: weapon name: ' .. weaponName)
 		createItemButton(group, i, weaponName, xPos, yPos, width, height, false)
 		i = i + 1
 		yPos = yPos + dy

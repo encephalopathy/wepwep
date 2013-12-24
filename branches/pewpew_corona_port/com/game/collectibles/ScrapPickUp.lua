@@ -10,7 +10,7 @@ function ScrapPickUp:init(sceneGroup, player, imgSrc, startX, startY, rotation, 
 end
 
 function ScrapPickUp:activateEffect(player)
-	print("Picked up Scrap")
+	--print("Picked up Scrap")
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'ScrapPickUp'})
 	mainInventory.dollaz = mainInventory.dollaz + 5
 	Runtime:dispatchEvent({name = "addScore", score = mainInventory.dollaz})

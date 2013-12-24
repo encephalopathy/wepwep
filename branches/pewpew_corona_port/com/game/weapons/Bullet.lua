@@ -63,13 +63,13 @@ function Bullet:onHit(phase, collitor)
 end
 
 function Bullet:onCollision()
-	print('Bullet On Collision')
+	--print('Bullet On Collision')
 	self.alive = false
 end
 
 function Bullet:recycle(bullet)
 	self.sprite.x = 5000
-   self.sprite.y = 5000
+    self.sprite.y = 5000
 	local offScreen
 	if bullet == nil then
 		offScreen = { name = "offScreen", target = self }
