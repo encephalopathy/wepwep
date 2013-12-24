@@ -120,6 +120,7 @@ local function update(event)
 	end
 	
 	scoreText.text = "Score: "..tostring(ScoreManager.runScore)
+	
 	collectibles:update()
 	AIDirector.update()
 	if(player.isFiring) then 
@@ -272,8 +273,6 @@ function scene:enterScene( event )
 	
 	ScoreManager:addListener()
 	print("ScoreManager.runScore: "..ScoreManager.runScore)
-	ScoreManager.startingDollaz = mainInventory.dollaz
-	print("ScoreManager.startingDollaz: "..ScoreManager.startingDollaz)
 	
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	
@@ -323,7 +322,11 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
+	print("mainInventory.dollaz: "..mainInventory.dollaz)
+	
 	soundHandler:removeListener()
+	
+	ScoreManager.removeListener()
 	
 	debugRemove(group)
 	
