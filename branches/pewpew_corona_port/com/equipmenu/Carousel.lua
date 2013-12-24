@@ -5,6 +5,7 @@ require "com.equipmenu.Dequeue"
 local widget = require "widget"
 local storyboard = require( "storyboard" )
 
+
 local spawnPoolLocX, spawnPoolLocY = 200, 5000
 local padding = display.contentWidth * 0.1
 
@@ -48,9 +49,9 @@ local function prevItem(carousel)
 end
 
 
-function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal)
+function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal, dollazText)
 	local newCarousel = {}
-	
+
 	newCarousel.yPos = y
 	newCarousel.items = Dequeue.new()
 	
@@ -103,8 +104,8 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 			overFile = 'com/resources/art/sprites/sheep.png',
 			id = package[i],
 			onEvent = function(event)
-				
 				equip(id, package[i])
+				dollazText.text = "Dollaz : " .. tostring(mainInventory.dollaz)
 			end
 		}
 		newItem.x, newItem.y = spawnPoolLocX, spawnPoolLocY

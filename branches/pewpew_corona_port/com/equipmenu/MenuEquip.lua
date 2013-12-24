@@ -14,7 +14,6 @@ local numOfSlots = mainInventory.numOfEquipSlotsAvailable
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-
 -- include Corona's "widget" library
 local widget = require "widget"
 
@@ -29,14 +28,14 @@ local function back()
 	return true	-- indicates successful touch
 end
 
-local function createSecondaryItemCarousels(group)
+local function createSecondaryItemCarousels(group, dollazText)
 	local secondarySplashImages = {"com/resources/art/sprites/bomb.png", "com/resources/art/sprites/heart.png", 
 	"com/resources/art/sprites/shop_splash_images/Gunpods.png", 
 	"com/resources/art/sprites/shop_splash_images/HealthRegen.png", "com/resources/art/sprites/shop_splash_images/FreezeMissile.png", 
 	"com/resources/art/sprites/missile.png"}
 
 	for i = 1,  numOfSlots, 1 do
-	  secondaryItemCarousels[i] = Carousel.new(group, i, secondarySplashImages, 100, display.contentHeight * 0.3 + i * 80, 300, display.contentHeight * 0.1, 4, false)
+	  secondaryItemCarousels[i] = Carousel.new(group, i, secondarySplashImages, 100, display.contentHeight * 0.3 + i * 80, 300, display.contentHeight * 0.1, 4, false, dollazText)
 	end
 end
 
@@ -102,8 +101,8 @@ function scene:createScene( event )
 	group:insert( subtext )
 
 	group:insert( backButton )
-local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false) 
-	createSecondaryItemCarousels(group)
+local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false, dollaztext) 
+	createSecondaryItemCarousels(group, dollaztext)
 end
 
 
