@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 SpiralStraightshot = Weapon:subclass("SpiralStraightshot")
 
-function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots)
+function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -22,7 +22,7 @@ function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletS
 		--print("soundFX:"..soundFX)
    end
 	
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 	  self.bulletSpeed = bulletSpeed
    else
@@ -65,7 +65,7 @@ end
 
 function SpiralStraightshot:fire (player)
    self.super:fire()
-	if not self:canFire() then return end
+	if not self:willFire() then return false end
 	   local angleStep = 360 / (self.numberOfShots)
        
 	   if (self.shotIterator > self.numberOfShots - 1) then 
@@ -87,6 +87,9 @@ function SpiralStraightshot:fire (player)
 			self:playFiringSound() --call to play sound for weapons
 		end
       self.shotIterator = self.shotIterator + 1
+	  
+	  return true
+	  
 end 
 
 return SpiralStraightshot

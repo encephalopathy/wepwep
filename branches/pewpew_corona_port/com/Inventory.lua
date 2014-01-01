@@ -3,6 +3,7 @@ Main inventory class. Right now it just manages the weapons, but
 could be expanded to keep track of other items
 --]]
 require "org.Object"
+require "com.managers.AIDirector"
 require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
@@ -23,7 +24,6 @@ local NUMBER_OF_EQUIP_SLOTS = 5
 
 function Inventory:init (scene)
    -- keep all the weapons in a master list
-
    self.dollaz = 5000
    self.primaryWeapon = 1
    self.numOfEquipSlotsAvailable = NUMBER_OF_EQUIP_SLOTS
@@ -58,12 +58,17 @@ end
 function Inventory:equipSecondaryItems(player, sceneGroup)	
 	for weaponName, secondaryWeapon in pairs(self.secondaryWeapons) do
 		secondaryWeapon.sceneGroup = sceneGroup
-		print('Equipping secondary weapon')
-		table.insert(player.secondaryWeapons, secondaryWeapon)
+		--print('Equipping secondary weapon in game: ' .. weaponName)
+		player.secondaryWeapons[weaponName] = secondaryWeapon
+		player.secondaryWeapons[weaponName].targets = AIDirector.haterList
+		secondaryWeapon.owner = player
+		secondaryWeapon:setMuzzleLocation({ x = 0, y = -100 })
 	end
 	
+	--print('Does self.passives EXIST?: ' .. tostring(self.passives))
 	for passiveName, passive in pairs(self.passives) do
-		passive.objectRef = player
+		--print('Equipping passive in game: ' .. passiveName .. ' object: ' .. tostring(passive))
+		passive:setOwner(player, sceneGroup)
 		table.insert(player.defensePassives, passive)
 	end
 end
@@ -76,14 +81,16 @@ function Inventory:unequip(player)
 	
 	--Unequips the passives from the player.
 	for passive in pairs(player.defensePassives) do
-		passive.objectRef = nil
+		passive:clear()
 		passive = nil
 	end
 	
 	--Unequips the secondary weapons from the player.
 	for weapon in pairs(player.secondaryWeapons) do
 		weapon.sceneGroup = nil
-		weapon = nil
+		weapon.owner = nil
+		weapon.targets = nil
+		weapon.ammoAmount = weapon.maxAmmoAmount
 	end
 end
 
@@ -110,11 +117,22 @@ function Inventory:equipPrimaryWeapon(player, sceneGroup)
 end
 
 -- Adds a secondary weapon to the equipment slots.
-function Inventory:addSecondaryWeapon(weaponName)
-	if self.secondaryWeapons[weaponName] ~= nil and self.numOfEquipSlotsAvailable > 0 then
-		print('Adding secondary weapon')
-		self.secondaryWeapons[weaponname] =  weaponObject
-		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
+function Inventory:addSecondaryWeapon(slot, weaponName, weaponObject)
+	if self.secondaryWeapons[weaponName] == nil and self.numOfEquipSlotsAvailable > 0 then
+		local oldWeaponName = self.slots[slot]
+		self.slots[slot] = weaponName
+		
+		--print('Adding secondary weapon in Inventory at slot ' .. slot .. ': ' .. weaponName)
+		
+		self.secondaryWeapons[weaponName] = weaponObject
+		
+		if oldWeaponName == nil then
+			--print('Slot taken: ' .. slot)
+			
+			self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
+		else
+			self:removeItem(slot, oldWeaponName)
+		end
 	end
 end
 
@@ -123,11 +141,11 @@ function Inventory:hasSecondaryWeapon(weaponName)
 end
 
 function Inventory:hasPassive(passiveName)
-	return self.passives[weaponName] ~= nil
+	return self.passives[passiveName] ~= nil
 end
 
 -- Removes a secondary weapon from the equipment slots.  If the secondary weapon is already equipped.  Double the shots that can be fired.
-function Inventory:removeSecondaryWeapon(weaponName)
+function Inventory:removeSecondaryWeapon(slot, weaponName)
 	if self.secondaryWeapons[weaponName] ~= nil then
 		self.secondaryWeapons[weaponName] = nil
 		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable - 1
@@ -137,17 +155,32 @@ function Inventory:removeSecondaryWeapon(weaponName)
 end
 
 -- Add passive to the equipment slots.
-function Inventory:addPassive(passiveName)
-	if self.passives[passiveName] ~= nil and self.numOfEquipSlotsAvailable > 0 then
+function Inventory:addPassive(slot, passiveName, passiveObject)
+	if self.numOfEquipSlotsAvailable > 0 then
+		local oldPassiveName = self.slots[slot]
+		self.slots[slot] = passiveName
+		
+		--print('Adding passive object: ' .. tostring(passiveObject))
+		
 		self.passives[passiveName] = passiveObject
-		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable - 1
+		if oldPassiveName == nil then
+			--print('Slot taken: ' .. slot)
+			self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable - 1
+		else
+			self:removeItem(slot, oldPassiveName)
+		end
 	end
 end
 
 -- Remove a passive to the equipment slots.
-function Inventory:removePassvive(passiveName)
-	if self.passives[passiveName] ~= nil then
-		self.passives[passiveName] = nil
-		self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
+function Inventory:removeItem(slot, itemName)
+	if self.passives[itemName] ~= nil then
+		--print('Removing passive in Inventory: ' .. itemName)
+		self.passives[itemName] = nil
+	elseif self.secondaryWeapons[itemName] ~= nil then
+		--print('Removing secondary weapon in Inventory: ' .. itemName)
+		self.secondaryWeapons[itemName] = nil
 	end
+	self.slots[itemName] = nil
+	self.numOfEquipSlotsAvailable = self.numOfEquipSlotsAvailable + 1
 end

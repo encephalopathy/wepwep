@@ -10,7 +10,8 @@ function HealthPickUp:init(sceneGroup, player, imgSrc, startX, startY, rotation,
 end
 
 function HealthPickUp:activateEffect(player)
-	player.health = player.health + 5
+	Runtime:dispatchEvent({name = "playSound", soundHandle = 'HealthPickUp'})
+	player.health = player.health + (PLAYER_MAXHEALTH * .1) --TODO: THIS VALUE WILL BE AFFECTED BY PASSIVES
 	if player.health > PLAYER_MAXHEALTH then
 		player.health = PLAYER_MAXHEALTH
 	end

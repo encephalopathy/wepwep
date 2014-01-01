@@ -1,0 +1,35 @@
+Name=ga Number=1
+Time=2 com.game.enemies.Hater_Normal=2
+   Type=com.game.enemies.Hater_Normal Location=4,-27 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=469,-25 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+Time=4 com.game.enemies.Hater_Normal=30
+   Type=com.game.enemies.Hater_Normal Location=0,-38 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=14,-40 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=29,-38 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=39,-34 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=58,-37 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=74,-38 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=93,-36 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=108,-37 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=119,-37 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=135,-32 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=150,-38 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=166,-39 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=179,-33 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=197,-34 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=216,-35 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=230,-32 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=253,-33 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=277,-34 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=304,-36 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=322,-40 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=333,-37 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=352,-34 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=366,-33 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=383,-29 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=391,-32 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=413,-29 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=435,-30 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=450,-29 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=466,-27 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=479,-30 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=

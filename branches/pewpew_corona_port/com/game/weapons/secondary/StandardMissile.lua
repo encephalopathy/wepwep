@@ -8,6 +8,7 @@ function StandardMissile:init (sceneGroup, imgSrc, isPlayerMissile, width, heigh
 end
 
 function StandardMissile:recycle(bullet)
+	print('RECYCLING STANDARD MISSILE')
 	if bullet == nil then
 		self.super:recycle(self)
 	else

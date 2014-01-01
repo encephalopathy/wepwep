@@ -45,7 +45,7 @@ Weapon = Object:subclass("Weapon")
 	@bulletWidth: Width of the bullet fired by this weapon in DPI.
 	@bulletHeight: Height of the bullet fired by this weapon in DPI.
 ]]--
-function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, bulletWidth, bulletHeight, soundHandle)
+function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, classType, bulletWidth, bulletHeight, soundHandle)
 
 	-- These 3 variables will be deprecated after the Bullet Manager is done.
     self.isLoaded = false --Determines if the weapon has been loaded with animation.  Should only be set in the load function.
@@ -64,6 +64,9 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	--Rate of fire of this Weapon, the rate of fire is based on the number of frames. 
 	self.rateOfFire = rateOfFire
 	
+	--amount energy that the weapon uses per shot
+	self.energyCost = energyCost
+	
 	--Keeps track of how many times this weapon has fired.  This is incremented whenever fire() is called.
 	self.fireAttempts = 0
 	
@@ -79,6 +82,7 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	    instantiate the type of object as long as we know the class definition.  For instance, suppose I pass up a 
 		SineWaveBullet up the Constructor, if we include the defintion of it via the require, then we can dyanmically
 		dispatch the class name by holding a reference to the class declaration. ]]--
+		
 	if classType == nil then
 		self.ammoType = Bullet
 	else
@@ -88,6 +92,12 @@ function Weapon:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, classType, b
 	--Needs to be set before weapon can be used, this field is commented out because
 	--we can create it dynamically in Lua later.  One of the magic tricks in Lua.
 	--self.owner = nil 
+end
+
+function Weapon:setAmmoAmount(number)
+	local maxAmmoAmount = number
+	self.ammoAmount = maxAmmoAmount
+	self.maxAmmoAmount = maxAmmoAmount
 end
 
 --[[
@@ -179,6 +189,9 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
        bullet.sprite.x <= -50 or not bullet.alive) then
 		
 		--Recycles the bullet by moving it offscreen and storing it in a bullet queue. This is stored in BulletManager.
+		if tostring(bullet) ~= 'Bullet' then
+			print('Bullet to recylcle: ' .. tostring(bullet))
+		end
 		bullet:recycle()
 		
 	  Queue.insertFront(self.ammo, bullet)
@@ -198,11 +211,18 @@ end
 ]]--
 function Weapon:canFire()
 	if self.rateOfFire - self.fireAttempts == 0 then
-		self.fireAttempts = 0
 		return true
 	else
 		return false
 	end
+end
+
+function Weapon:willFire()
+	local isFiring = self:canFire()
+	if isFiring then
+		self.fireAttempts = 0
+	end
+	return isFiring
 end
 
 --[[
@@ -253,7 +273,7 @@ function Weapon:getNextShot(numberOfShots)
 		if self.ammoAmount ~= nil then
 			self.ammoAmount = self.ammoAmount - 1
 		end
-	end	
+	
 		--We need to increment the fire attempts when we fire else we will be firing infintely.
 		--self.fireAttempts = self.fireAttempts + 1
 		--[[
@@ -267,7 +287,7 @@ function Weapon:getNextShot(numberOfShots)
 		else
 			return nil
 		end
-		
+	end	
 	--end
 end
 
@@ -292,6 +312,7 @@ end
 	@RETURN: VOID
 ]]--
 function Weapon:adjustPowah(owner)
+	--print("self.energyCost: "..self.energyCost)
 	if self.energyCost then
 		owner.powah = owner.powah - self.energyCost
 	end

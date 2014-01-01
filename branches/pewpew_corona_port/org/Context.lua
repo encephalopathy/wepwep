@@ -1,10 +1,9 @@
 require "org.Object"
-
+require "com.Utility"
 Context = Object:subclass("Object")
 
 --Sets up the context variables that will manage all mediators, commands and views.
 function Context:init()
-	 
 	self.commands = {}
 	self.mediators = {}
 	
@@ -71,7 +70,6 @@ end
 --Creates a mediator for the particular view that it was mapped to.
 function Context:createMediator(viewInstance)
 	local mediatorClassName = self.mediators[tostring(viewInstance)]
-
 	if mediatorClassName ~= nil then
 		local mediatorClass = require( mediatorClassName ):new()
 		mediatorClass.viewInstance = viewInstance

@@ -36,6 +36,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, { categoryBits = 2, maskBits = 7 } )
 
+	--self.sceneGroup = sceneGroup --wanted to give Hater a reference to the sceneGroup; took out since it wasn't needed
+	
 	self.health = 1
 	self.maxHealth = 1
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
@@ -136,7 +138,12 @@ function Hater:update()
       self:explode()
    end
    
-   if (self.isFrozen) then
+   
+   if (self.isFrozen and self.alive) then
+	  print('IN HATERS UPDATE')
+	  print(self.health)
+	  print(self.isFrozen)
+	  print(self.freezeTimer)
       self.freezeTimer = self.freezeTimer + 1
       if (self.freezeTimer >= 1000) then
          self.isFrozen = false
@@ -188,6 +195,7 @@ end
 function Hater:onHit(phase, collide)
 	if phase == 'began' then
 		if self.alive and collide.isPlayerBullet then
+			Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_onHit'})
 			self.health = self.health - collide.damage
 			
 			if FreezeMissile:made(collide) then
@@ -214,9 +222,13 @@ function Hater:onHit(phase, collide)
 end
 
 
-function Hater:die()
-	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
-	mainInventory.dollaz = mainInventory.dollaz + 3 * self.maxHealth
+function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup events
+	print("YOU HAVE KILLED A HATER!!!")
+	Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_die'})
+	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
+	--mainInventory.dollaz = mainInventory.dollaz + (3 * self.maxHealth)
+	--print("dispatchEvent Hater.lua addScore")
+	Runtime:dispatchEvent({name = "addScore", score = (3*self.maxHealth)})
 end
 
 
@@ -233,16 +245,18 @@ function Hater:destroy()
 		self.super:destroy()
 	end
 	--self.haterList[self] = nil
+	--self.sceneGroup = nil --trying to solve scoreManager issue of not listening to events
 	
 end
 
-
-function Hater:respawn(group)
-	if group ~= nil then
-		group:insert(self.sprite)
-	end
+--used to take in group
+function Hater:respawn()
+	-- if group ~= nil then
+		-- group:insert(self.sprite)
+	-- end
 	self.time = 0
 	self.health = self.maxHealth
+	self.alive = true
 	self.isFrozen = false
 	self.freezeTimer = 0
 end

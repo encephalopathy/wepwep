@@ -2,7 +2,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.Bullet"
 SpiralCurveshot = Weapon:subclass("SpiralCurveshot")
 
-function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, startAngle)
+function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgSrc, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, startAngle, numberOfWaves, delayBetweenWaves)
 
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
@@ -22,7 +22,7 @@ function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
 		--print("soundFX:"..soundFX)
    end
 
-   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, bulletType ,bulletWidth, bulletHeight, soundHandle)
+   self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
 		self.bulletSpeed = bulletSpeed
    else
@@ -40,6 +40,21 @@ function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
    else
       self.startAngle = 0
    end
+   
+   if numberOfWaves == nil then
+      self.numberOfWaves = 3
+   else
+      self.numberOfWaves = numberOfWaves
+   end
+   
+   if delayBetweenWaves == nil then
+      self.delayBetweenWaves = 5
+   else
+      self.delayBetweenWaves = delayBetweenWaves
+   end
+   
+	self.waveCounter = 0
+	self.delayCounter = 0
 
    self.energyCost = 20
 end
@@ -69,7 +84,7 @@ end
 
 function SpiralCurveshot:fire (player)
    self.super:fire()
-	if not self:canFire() then return end
+	if not self:willFire() then return false end
 	local angleStep = 360 / (self.numberOfShots - 1)
 	local rotationAngle
 
@@ -84,24 +99,39 @@ function SpiralCurveshot:fire (player)
 		end
 	end
 
-   for i = 0, (self.numberOfShots - 2), 1 do
-		local bullet = shots[i]
-		if (bullet == nil) then
-			break
+	if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
+      for i = 0, (self.numberOfShots - 2), 1 do
+			local bullet = shots[i]
+			if (bullet == nil) then
+				break
+			end
+		
+         rotationAngle = math.rad((-i * angleStep) - self.startAngle)
+			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
+         local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+			bullet:fire(bulletVelocity.x, bulletVelocity.y)
+		
+		end
+		self.startAngle = self.startAngle + 7
+	
+		if self.isPlayerOwned == true then
+			--print("PLAYER OWNED. FIRE SOUNDS")
+			self:playFiringSound() --call to play sound for weapons
 		end
 		
-      rotationAngle = math.rad((-i * angleStep) - self.startAngle)
-		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-      local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
-		bullet:fire(bulletVelocity.x, bulletVelocity.y)
+		if self.numberOfWaves > 0 then
+			self.waveCounter = self.waveCounter + 1
+		end	
 		
+	elseif self.waveCounter > self.numberOfWaves and self.delayCounter <= self.delayBetweenWaves then
+		self.delayCounter = self.delayCounter + 1
+	elseif self.waveCounter > self.numberOfWaves and self.delayCounter > self.delayBetweenWaves then
+		self.waveCounter = 0
+		self.delayCounter = 0
 	end
-	self.startAngle = self.startAngle + 7
 	
-	if self.isPlayerOwned == true then
-		--print("PLAYER OWNED. FIRE SOUNDS")
-		self:playFiringSound() --call to play sound for weapons
-	end
+	return true
+	
 end 
 
 return SpiralCurveshot

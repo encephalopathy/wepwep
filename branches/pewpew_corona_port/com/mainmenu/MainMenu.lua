@@ -14,6 +14,7 @@ require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
 require "com.shopmenu.Shop"
 require "com.managers.SFX"
+require "com.managers.AIDirector"
 
 local widget = require("widget")
 
@@ -28,22 +29,22 @@ local scene = storyboard.newScene("MainMenu")
 -- include Corona's "widget" library
 local widget = require "widget"
 
-local mainMenuContext
+local context
 
 local mainMenuSFXInfo = {
-	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, weight = 1},
-	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, weight = 1},
-	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, weight = 1}
+	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, setting = 'R'},
+	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, setting = 'R'},
+	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, setting = 'R'}
 }
 
-local function createMainMenuMVC(group)
-	mainMenuContext = Context:new()
-	mainMenuContext:mapMediator("com.mainmenu.views.PlayButton", "com.mainmenu.mediators.PlayButtonMediator")
-    mainMenuContext:mapMediator("com.mainmenu.views.ShopButton", "com.mainmenu.mediators.ShopButtonMediator")
-    mainMenuContext:mapMediator("com.mainmenu.views.EquipButton", "com.mainmenu.mediators.EquipButtonMediator")
-	mainMenuContext:mapMediator("com.mainmenu.views.TestPlayGameButton", "com.mainmenu.mediators.TestGameMediator")
+local function createMainMenuMVC(scene, group)
+	context = Context:new(scene)
+	context:mapMediator("com.mainmenu.views.PlayButton", "com.mainmenu.mediators.PlayButtonMediator")
+    context:mapMediator("com.mainmenu.views.ShopButton", "com.mainmenu.mediators.ShopButtonMediator")
+    context:mapMediator("com.mainmenu.views.EquipButton", "com.mainmenu.mediators.EquipButtonMediator")
+	context:mapMediator("com.mainmenu.views.TestPlayGameButton", "com.mainmenu.mediators.TestGameMediator")
    
-    mainMenuContext:preprocess(group)
+    context:preprocess(group)
 end
 
 ---------------------------------------------
@@ -95,7 +96,7 @@ function scene:createScene( event )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	group:insert( background )
-	createMainMenuMVC(group)
+	createMainMenuMVC(scene, group)
 	
 	soundHandler = SFX:new(group,mainMenuSFXInfo,"mainMenu")
 	
@@ -111,13 +112,15 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+	
 	local group = self.view
 	playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
 	
 	--set up table of soundHandlers
 	soundHandler:addListener()
-	
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
+	
+	print("mainInventory.dollaz: "..mainInventory.dollaz)
 end
 
 

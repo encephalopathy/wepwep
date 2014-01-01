@@ -3,6 +3,7 @@ require "org.Queue"
 require "com.game.weapons.Bullet"
 require "com.game.weapons.primary.SineWaveBullet"
 require "com.game.weapons.secondary.StandardMissile"
+require "com.game.weapons.secondary.FreezeMissile"
 
 BulletManager = Object:subclass("BulletManager");
 
@@ -42,8 +43,11 @@ function BulletManager:offScreen (event)
 		offScreenBulletList = self.haterOffScreenBullets
 		shipType = 'hater '
 	end
-
-	self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
+	
+	--print('Ship type collecting bullets on crash: ' .. shipType)
+	if bullet ~= nil then
+		self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
+	end
 	
 	return true
 end
@@ -90,7 +94,16 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				bullet.sprite.isVisible = false
 				bullet.sprite.x = 5000
 				bullet.sprite.y = 5000
-
+				--print('Caching Bullet: ' .. tostring(bullet) .. ' imgSrc: ' .. tostring(bullet.imgSrc))
+				
+				if offScreenBullets[tostring(bullet)] == nil then
+					offScreenBullets[tostring(bullet)] = {}
+				end
+				
+				if offScreenBullets[tostring(bullet)][bullet.imgSrc] == nil then
+					offScreenBullets[tostring(bullet)][bullet.imgSrc] = Queue.new()
+				end
+				
 				Queue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 		end
@@ -148,6 +161,23 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 end
 
 function BulletManager:stop(sceneGroup)
+	-- print('Stopping bullet Manager')
+	-- print('PLAYER BULLETS ON SCREEN')
+	-- for bulletName, bulletTable in pairs(self.playerOnScreenBullets) do
+		-- print('key: ' .. tostring(bulletName) .. ' value: ' .. tostring(bulletTable))
+		-- for bulletImgSrc, bullet in pairs(bulletTable) do
+			-- print('		' .. tostring(bulletImgSrc) .. ': ' .. tostring(bullet))
+		-- end 
+	-- end
+	
+	-- print('HATER BULLETS ON SCREEN')
+	-- for bulletName, bulletTable in pairs(self.haterOnScreenBullets) do
+		-- print('bulletName: ' .. tostring(bulletName) .. ' value: ' .. tostring(bulletTable))
+		
+		-- for bulletImgSrc, bullet in pairs(bulletTable) do
+			-- print('		' .. tostring(bulletImgSrc) .. ': ' .. tostring(bullet))
+		-- end
+	-- end
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.bulletGroupInView)
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.bulletGroupInView)
 	Runtime:removeEventListener("offScreen", self)

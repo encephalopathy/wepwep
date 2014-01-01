@@ -3,13 +3,18 @@ require "com.managers.LevelManager"
 require "com.managers.AIDirector"
 require "com.managers.BulletManager"
 require "com.managers.CollectibleHeap"
+require "com.managers.ScoreManager"
 require "com.game.Player"
 require "com.game.gameSFXInfo"
+
 -----------------------------------------------------------------------------------------
 --
 -- level1.lua
 --
 -----------------------------------------------------------------------------------------
+
+--levels = createGame('com/game/levels/test.pew')  
+
 -- scene managment api, dictates game scene transition
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene("game")
@@ -24,6 +29,8 @@ local background = nil
 local backgroundBuffer = nil
 local currentLevelNumber = 1
 local soundHandler = nil
+local scoreText
+
 step = 0
 
 --[[  DEBUG ]]--
@@ -56,14 +63,11 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 
 
 
---[[local function createGameUIMVC(group)
+local function createGameUIMVC(group)
 	gameContext = Context:new()
-	gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
-    gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
-    gameContext:mapMediator("com.mainmenu.views.SecondaryFireButton", "com.mainmenu.mediators.SecondaryFireButtonMediator")
-   
+	gameContext:mapMediator('com.game.views.SecondaryItemButtons', 'com.game.mediators.SecondaryItemMediator')
     gameContext:preprocess(group)
-end]]--
+end
 
 local function debugUpdate()
 	if not debugFlag then
@@ -113,6 +117,8 @@ local function update(event)
 		player.sprite.x = 4000
 		player.sprite.y = 4000
 	end
+	
+	scoreText.text = "Score: "..tostring(ScoreManager.runScore)
 	
 	collectibles:update()
 	AIDirector.update()
@@ -167,7 +173,10 @@ end
 function scene:createScene( event )
 	print('Create Scene')
 	local group = self.view
-
+	
+	local offPewButton
+	local onPewButton
+	
 	-- creates the scrolling background for the current game
 	createScrollingBackground(group)
 	
@@ -193,12 +202,63 @@ function scene:createScene( event )
 	}
 	myButton.baseLabel = ""
 	
-	soundHandler = SFX:new(group, gameSFXInfo, "game")
+	offPewButton = widget.newButton
+	{
+		left = screenW - screenW*0.95,
+		top = screenH - screenH*0.2,
+		width = screenW*0.3,
+		height = screenH*0.2,
+		defaultFile = "com/resources/art/sprites/fire_off_unpressed.png",
+		overFile = "com/resources/art/sprites/fire_off_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			print("offPewButton Event")
+			player:switchMode()
+			offPewButton.isVisible = false
+			onPewButton.isVisible = true
+		end
+	}
+	offPewButton.baseLabel = ""
+	offPewButton.isVisible = true
 	
+	onPewButton = widget.newButton
+	{
+		left = screenW - screenW*0.95,
+		top = screenH - screenH*0.2,
+		width = screenW*0.3,
+		height = screenH*0.2,
+		defaultFile = "com/resources/art/sprites/fire_on_unpressed.png",
+		overFile = "com/resources/art/sprites/fire_on_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			print("onPewButton Event")
+			player:switchMode()
+			onPewButton.isVisible = false
+			offPewButton.isVisible = true
+		end
+	}
+	onPewButton.baseLabel = ""
+	onPewButton.isVisible = false
+	
+	soundHandler = SFX:new(group, gameSFXInfo, "game")
+	scoreText = display.newText("Score: ", display.contentWidth * 0.57, display.contentHeight * 0.03, native.systemFont, 25 )
 	AIDirector.create(group)
-	collectibles = CollectibleHeap:new(group, {'HealthPickUp'})
+	ScoreManager.create()
+	collectibles = CollectibleHeap:new(group, {'HealthPickUp', 'ScrapPickUp', 'EnergyPickUp'})
 	bulletManager = BulletManager:new(group)
 	group:insert( myButton )
+	group:insert( offPewButton )
+	group:insert( onPewButton )
+	group:insert( scoreText )
+	createGameUIMVC(group)
 	--powahTimer = timer.performWithDelay(1000, player.regeneratePowah)
 end
 
@@ -213,6 +273,8 @@ function scene:enterScene( event )
 	physics.setVelocityIterations(1)
 	physics.setPositionIterations(1)
 	
+	ScoreManager:addListener()
+	print("ScoreManager.runScore: "..ScoreManager.runScore)
 	
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	
@@ -223,7 +285,10 @@ function scene:enterScene( event )
 	
 	AIDirector.initialize(player, currentLevel)
 	
+	player.alive = true
+	player.health = player.maxhealth
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
+	player.powah = PLAYER_MAXPOWAH
 	
 	--creating sound table
 	soundHandler:addListener()
@@ -263,7 +328,11 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
+	print("mainInventory.dollaz: "..mainInventory.dollaz)
+	
 	soundHandler:removeListener()
+	
+	ScoreManager.removeListener()
 	
 	debugRemove(group)
 	
