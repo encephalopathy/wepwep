@@ -119,8 +119,7 @@ function scene:enterScene( event )
 	--set up table of soundHandlers
 	soundHandler:addListener()
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
-	
-	print("mainInventory.dollaz: "..mainInventory.dollaz)
+
 end
 
 
