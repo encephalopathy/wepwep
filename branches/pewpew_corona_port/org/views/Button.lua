@@ -31,7 +31,8 @@ function Button:init(sceneGroup, x, y, buttonImg, buttonImgOnOver, clickEventNam
 	newGameButton.x = x or 0
 	newGameButton.y = y or 0
 	
-	newGameButton:setReferencePoint(display.CenterReferencePoint)
+	--newGameButton:setReferencePoint(display.CenterReferencePoint)
+	newGameButton.anchorX, newGameButton.anchorY = 0.5, 0.5
 	--We need to keep a reference to the widget to destroy it later
 	self.newGameButton = newGameButton
 	self.sceneGroup:insert(newGameButton)

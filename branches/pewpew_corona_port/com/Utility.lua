@@ -22,7 +22,8 @@ function createBttn(widget, display, labelName, x, y, onReleaseCallback)
 	}
 	
 	if display ~= nil then
-		newGameButton:setReferencePoint(  display.CenterReferencePoint )
+		--newGameButton:setReferencePoint(  display.CenterReferencePoint )
+		newGameButton.anchorX, newGameButton.anchorY = 0.5, 0.5
 	end
 	
 	if x ~= nil then
