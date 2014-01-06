@@ -9,7 +9,7 @@ Hater_MidScreen = Hater:subclass("Hater_MidScreen")
 switched = false
 
 function Hater_MidScreen:init(sceneGroup)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_05.png", 0, 0, 0, 100, 100,
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_05.png", 0, 0, 0, 50, 50,
 	{"com/resources/art/sprites/enemy_05_piece_01.png", 
 	"com/resources/art/sprites/enemy_05_piece_02.png", 
 	"com/resources/art/sprites/enemy_05_piece_03.png", 

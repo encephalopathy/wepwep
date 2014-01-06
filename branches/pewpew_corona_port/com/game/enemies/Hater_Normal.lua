@@ -9,7 +9,7 @@ Hater_Normal = Hater:subclass("Hater_Normal")
 switched = false
 
 function Hater_Normal:init(sceneGroup)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_01.png", 0, 0, 0, 100, 100,
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_01.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_01_piece_01.png",
 	"com/resources/art/sprites/enemy_01_piece_02.png",
 	"com/resources/art/sprites/enemy_01_piece_03.png",

@@ -58,7 +58,7 @@ Player = Ride:subclass("Player")
 	RETURN: VOID
 ]]--
 
-
+--player values set in game.lua
 function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
 	{"com/resources/art/sprites/player_piece_01.png", 

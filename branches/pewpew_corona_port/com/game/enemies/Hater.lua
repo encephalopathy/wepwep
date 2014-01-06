@@ -175,7 +175,6 @@ function Hater:update()
 			return
 		end
 	end
-	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 end
 
 
@@ -231,7 +230,6 @@ function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup even
 	Runtime:dispatchEvent({name = "addScore", score = (3*self.maxHealth)})
 end
 
-
 --[[
 	FUNCTION NAME: destroy
 	
@@ -240,13 +238,11 @@ end
 	RETURN: VOID
 ]]--
 function Hater:destroy()
-	
 	if(self) then 
 		self.super:destroy()
 	end
 	--self.haterList[self] = nil
 	--self.sceneGroup = nil --trying to solve scoreManager issue of not listening to events
-	
 end
 
 --used to take in group
@@ -260,7 +256,6 @@ function Hater:respawn()
 	self.isFrozen = false
 	self.freezeTimer = 0
 end
-
 
 Hater:virtual("equipRig")
 Hater:virtual("initMuzzleLocations")

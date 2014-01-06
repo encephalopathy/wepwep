@@ -7,9 +7,8 @@ require "com.game.weapons.secondary.FreezeMissile"
 
 BulletManager = Object:subclass("BulletManager");
 
-local DEFAULT_WIDTH = 50
-local DEFAULT_HEIGHT = 50
-local DEFAULT_ROTATION = 0
+local DEFAULT_WIDTH = 65
+local DEFAULT_HEIGHT = 65
 
 function BulletManager:init (sceneGroup)
 	self.playerOnScreenBullets = {}
