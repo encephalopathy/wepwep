@@ -36,14 +36,14 @@ function ScoreManager:removeListener() --grab scene object from the storyBoard f
 end
 
 function ScoreManager.addScore(event)
-	print("INSIDE ScoreManager.addScore")
+	--print("INSIDE ScoreManager.addScore")
 	if event.name == "addScore" then
 		--print("inside addScore")
 		-- print("ScoreManager.runScore: "..ScoreManager.runScore)
-		print("event.score: "..event.score)
-		print("new runScore: "..(ScoreManager.runScore + (event.score )))
+		--print("event.score: "..event.score)
+		--print("new runScore: "..(ScoreManager.runScore + (event.score )))
 		ScoreManager.runScore = ScoreManager.runScore + event.score
-		print(ScoreManager.runScore)
+		--print(ScoreManager.runScore)
 		--print("ScoreManager runScore: "..ScoreManager.runScore)
 	end
 end
@@ -52,7 +52,7 @@ function ScoreManager.resetRunScore(event)
 	print("INSIDE ScoreManger.resetRunScore")
 	if event.name == "exitScene" then
 		mainInventory.dollaz = mainInventory.dollaz + ScoreManager.runScore
-		print("mainInventory.dollaz: "..mainInventory.dollaz)
+		--print("mainInventory.dollaz: "..mainInventory.dollaz)
 		ScoreManager.runScore = 0
 	end
 end

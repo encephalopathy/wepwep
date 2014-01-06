@@ -80,16 +80,16 @@ end
 local function debugAdd(group)
 	if not debugFlag then
 		healthRectBG = display.newRect(display.contentWidth/20, display.contentHeight/50, display.contentWidth/2, display.contentHeight/23)
-		healthRectBG:setFillColor(150, 150, 150, 120)
+		healthRectBG:setFillColor(150/255, 150/255, 150/255, 120/255)
 
 		powahRectBG = display.newRect(display.contentWidth/20, display.contentHeight/12, display.contentWidth/17, display.contentHeight/2)
-		powahRectBG:setFillColor(150, 150, 150, 120)
+		powahRectBG:setFillColor(150/255, 150/255, 150/255, 120/255)
 
 		powahRect = display.newRect(display.contentWidth/18 , display.contentHeight/11, display.contentWidth/20, display.contentHeight/2.05)
-		powahRect:setFillColor(50, 80, 200, 140)
+		powahRect:setFillColor(50/255, 80/255, 200/255, 140/255)
 
 		healthRect = display.newRect(display.contentWidth/18, display.contentHeight/40 , display.contentWidth/2.05, display.contentHeight/30)
-		healthRect:setFillColor(50, 220, 80, 140)
+		healthRect:setFillColor(50/255, 220/255, 80/255, 140/255)
 		
 		group:insert(healthRectBG)
 		group:insert(powahRectBG)
@@ -151,13 +151,15 @@ end
 local function createScrollingBackground(scene)
 	-- creates the maindropBuffer of the game
 	background = display.newImageRect( "com/resources/art/background/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
-	background:setReferencePoint( display.CenterReferencePoint )
+	--background:setReferencePoint( display.CenterReferencePoint )
+	background.anchorX, background.anchorY = 0.5, 0.5
 	background.x, background.y = 225, 0
 	scene:insert( background )
 	
 	-- creates backdropBuffer of current game
 	backgroundBuffer = display.newImageRect( "com/resources/art/background/bg_spacesm.png", display.contentWidth, display.contentHeight * 7)
-	backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
+	--backgroundBuffer:setReferencePoint( display.CenterReferencePoint )
+	background.anchorX, background.anchorY = 0.5, 0.5
 	backgroundBuffer.x, backgroundBuffer.y = 225, -3600
 	scene:insert(  backgroundBuffer )
 end
@@ -277,7 +279,7 @@ function scene:enterScene( event )
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	
 	debugFlag = event.params.debug
-	local currentLevel = setLevel('test') --set to be the default level
+	local currentLevel = setLevel('w1s1') --set to be the default level
 	
 	AIDirector.initialize(player, currentLevel)
 	
@@ -321,8 +323,6 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
-	
-	print("mainInventory.dollaz: "..mainInventory.dollaz)
 	
 	soundHandler:removeListener()
 	
