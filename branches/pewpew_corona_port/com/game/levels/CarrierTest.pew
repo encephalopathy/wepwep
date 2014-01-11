@@ -1,0 +1,6 @@
+Name=testCarrier Number=1
+Time=2 com.game.enemies.Hater_Carrier=1
+   Type=com.game.enemies.Hater_Carrier Location=227,-26 Rotation=0 Weapons= Passives=,
+Time=4 com.game.enemies.Hater_Carrier=2
+   Type=com.game.enemies.Hater_Carrier Location=127,-31 Rotation=0 Weapons= Passives=,
+   Type=com.game.enemies.Hater_Carrier Location=348,-47 Rotation=0 Weapons= Passives=,

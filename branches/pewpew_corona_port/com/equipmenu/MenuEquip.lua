@@ -58,11 +58,12 @@ function scene:createScene( event )
 	local background = display.newImageRect("com/resources/art/background/sheet_metal.png",
 	                                        display.contentWidth, display.contentHeight )
 
-	background.anchorX, background.anchorY = 0.5, 0.5
+	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	
 	local bgRect = display.newRect(0, 0, display.contentWidth, display.contentHeight)
-	bgRect:setFillColor(20, 70, 10, 130)
+	bgRect.anchorX, bgRect.anchorY = 0,0
+	bgRect:setFillColor(20/255, 70/255, 10/255, 130/255)
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )

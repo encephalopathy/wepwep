@@ -81,15 +81,19 @@ local function debugAdd(group)
 	if not debugFlag then
 		healthRectBG = display.newRect(display.contentWidth/20, display.contentHeight/50, display.contentWidth/2, display.contentHeight/23)
 		healthRectBG:setFillColor(150/255, 150/255, 150/255, 120/255)
+		healthRectBG.anchorX, healthRectBG.anchorY = 0,0
 
 		powahRectBG = display.newRect(display.contentWidth/20, display.contentHeight/12, display.contentWidth/17, display.contentHeight/2)
 		powahRectBG:setFillColor(150/255, 150/255, 150/255, 120/255)
+		powahRectBG.anchorX, powahRectBG.anchorY = 0,0
 
 		powahRect = display.newRect(display.contentWidth/18 , display.contentHeight/11, display.contentWidth/20, display.contentHeight/2.05)
 		powahRect:setFillColor(50/255, 80/255, 200/255, 140/255)
+		powahRect.anchorX, powahRect.anchorY = 0,0
 
 		healthRect = display.newRect(display.contentWidth/18, display.contentHeight/40 , display.contentWidth/2.05, display.contentHeight/30)
 		healthRect:setFillColor(50/255, 220/255, 80/255, 140/255)
+		healthRect.anchorX, healthRect.anchorY = 0,0
 		
 		group:insert(healthRectBG)
 		group:insert(powahRectBG)
@@ -279,6 +283,7 @@ function scene:enterScene( event )
 	--TODO: when weapons are done testing, swap the order of creation of haters with the player initialization calls.
 	
 	debugFlag = event.params.debug
+	--local currentLevel = setLevel('w1s1') --set to be the default level
 	local currentLevel = setLevel('w1s1') --set to be the default level
 	
 	AIDirector.initialize(player, currentLevel)

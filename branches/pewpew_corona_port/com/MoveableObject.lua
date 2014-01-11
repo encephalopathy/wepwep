@@ -60,6 +60,7 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 		sprite.x, sprite.y = startX, startY
 	else
 		sprite = display.newImageRect(imgSrc, width, height)
+		sprite.anchorX, sprite.anchorY = 0,0
 		if sprite == nil then
 			error('Out of memory')
 		end

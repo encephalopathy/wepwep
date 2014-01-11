@@ -250,6 +250,11 @@ function Weapon:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, owner, bullet, rota
 	--The rotation of the bullet must be converted back from radians to degrees because that is how Corona handles rotation.
 	bullet.sprite.rotation = math.deg(rotationAngle)
 	
+	--trying to flip bullet, not working
+	-- if(self.isPlayerOwned == true) then
+		-- bullet.sprite.rotation = bullet.sprite.rotation + 180
+	-- end
+	
 	--Offsets the bullets location to be in the direction of the muzzle Location relative to the ship's origin.
 	bullet.sprite.x = owner.sprite.x + muzzleLocX
 	bullet.sprite.y = owner.sprite.y + muzzleLocY

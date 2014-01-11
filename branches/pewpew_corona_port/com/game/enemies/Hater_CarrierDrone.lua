@@ -65,3 +65,4 @@ function Hater_CarrierDrone:__tostring()
 	return 'com.game.enemies.Hater_CarrierDrone'
 end
 
+return Hater_CarrierDrone
