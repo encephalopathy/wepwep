@@ -230,17 +230,19 @@ public class WaveScreen extends JFrame {
 		                    "Export To File",
 		                    JOptionPane.PLAIN_MESSAGE, null,
 		                    null, "");
-					File newFile = new File(s+".pew");
+					File newFile = new File("../branches/pewpew_corona_port/com/" +s+".pew");
 					if(newFile.exists()){
 						System.out.println("File Already Exists.");
 						newFile.delete();
 					}
-				    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(s+".pew", true)));
+				    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("../branches/pewpew_corona_port/com/" +s+".pew", true)));
 				    for (int i = 0; i < levelSet.size(); i++){
 				    	out.print(levelSet.get(i));
 				    }
 				    out.close();
 				} catch (IOException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
 				    //oh noes!
 				}
 			}
@@ -266,7 +268,6 @@ public class WaveScreen extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
 					String s = (String)JOptionPane.showInputDialog(  //set up for the popup menu
 		                    openPopUp,
 		                    "Select a File to Import. Enter path to desired file.",
@@ -276,157 +277,8 @@ public class WaveScreen extends JFrame {
 					
 					//Clear out the data structure already set up i.e. unload the data that is already here
 					
-					String line = null;
-					String[] tokens = null;
- 					Scanner in = new Scanner(new File(s+".pew"));
- 					
- 					for(int i = 0; i < levelSet.size(); i++){
- 						System.out.println("NOW REMOVING: " + levelSet.get(i).levelName);
- 						LevelMenu.remove(levelSet.get(i).levelWavesMenu);
- 						levelSet.get(i).clearObject();
- 					}
- 					levelSet.clear();
- 					Grid.clear();
- 					
- 					//temps for building
-					Level l = null;
-					Wave w = null;
-					Enemy enemy = null;
- 					
-					while(in.hasNextLine()){
-						line = in.nextLine();
-						System.out.println("LINE PARSED: " + line);
-						tokens = line.split("\\s+");
-						
-						/*
-						for(int i = 0; i < tokens.length; i++){
-							System.out.println("tokens[" + i + "] " + tokens[i]);
-						}
-						*/
-						for(int i = 0; i < tokens.length; i++){
-							//System.out.println("FOR LOOP; tokens[" + i + "]" + tokens[i]);
-							int equalsIndex = tokens[i].indexOf("=");
-							if(equalsIndex == -1) {
-								//System.out.println("HIT A BLANK TOKEN! SKIP IT!!!'");
-								continue;
-							}
-							//System.out.println("= FOUND AT: " + equalsIndex);
-							String sub = tokens[i].substring(0,equalsIndex);
-							//System.out.println("sub IS: " + sub);
-							
-							if(sub.equals("Name")){
-								//System.out.println("sub is: " + sub);
-								//Create a new level with this name. Number should be set up for you
-								String levelName = tokens[i].substring(equalsIndex + 1);
-								//System.out.println(levelName);
-								l = new Level(levelName, (levelSet.size()+1), Grid);  //build a new level
-								levelSet.add(l); //adds a new level to the levelSet
-								LevelMenu.add(l.levelWavesMenu);
-							}
-							
-							//don't need to read in number since it is generated when building a level
-							//don't need to read in types since it is generated during export
-							
-							else if(sub.equals("Time")){
-								//create a new wave with this time
-								System.out.println("sub is: " + sub);
-								String time = tokens[i].substring(equalsIndex + 1);
-								System.out.println("time is: " + time);
-								int t = Integer.parseInt(time);
-								System.out.println("t is: " + t);
-								//attach the wave in to the correct Level
-								System.out.println("what is l: " + l);
-								w = new Wave(t, l, Grid);
-								System.out.println("what is w.time: " + w.time);
-								l.waveList.add(w);
-								l.levelWavesMenu.add(w.waveButton);
-								currentWave = w;
-							}
-							
-							else if(sub.equals("Type")){
-								String enemyType = tokens[i].substring(tokens[i].lastIndexOf(".") + 1);
-								System.out.println("enemyType IS: " + enemyType);
-								try{
-									Class enemyClass = Class.forName(enemyType);
-									Class[] gridArray = {Grid.getClass()};
-									Constructor enemyConstructor = enemyClass.getConstructor(gridArray);
-									
-									Object[] parameters = {Grid};
-									enemy = (Enemy)enemyConstructor.newInstance(parameters);
-
-									
-								//And there is this crap...
-								}catch (ClassNotFoundException ex){
-									ex.printStackTrace();
-							    }catch (NoSuchMethodException ex){
-							    	ex.printStackTrace();
-							    }catch (SecurityException ex) {
-							    	ex.printStackTrace();
-							    }catch (InstantiationException ex) {
-							    	ex.printStackTrace();
-							    }catch (IllegalAccessException ex) {
-							    	ex.printStackTrace();
-							    }catch (InvocationTargetException ex) {
-							    	ex.printStackTrace();
-							    }
-								
-								System.out.println(enemy);
-								w.addEnemy(enemy);
-								
-							}
-							
-							else if(sub.equals("Location")) {
-								//put in properties
-								System.out.println("INSIDE LOCATION");
-								String coordinates = tokens[i].substring(equalsIndex + 1);
-								String[] xy = coordinates.split(",");
-								System.out.println(xy[0] + " " + xy[1]);
-								enemy.setLocation((Integer.parseInt(xy[0]) + Grid.topLeftCorner.x), (Integer.parseInt(xy[1]) + Grid.topLeftCorner.y));
-								System.out.println("enemy location: " + enemy.enemyX + " " + enemy.enemyY);
-								Grid.enemyToDraw = enemy;
-							}
-							
-							else if(sub.equals("Rotation")) {
-								//put in properties
-								String rotation = tokens[i].substring(equalsIndex + 1);
-								int r = Integer.parseInt(rotation);
-								enemy.rotation = r;
-								//System.out.println("rotation is: " + enemy.rotation);
-							}
-							
-							else if(sub.equals("Weapons")) {
-								//populate weaponlist
-								String weaponsString = tokens[i].substring(equalsIndex + 1);
-								String[] weapons = weaponsString.split(",");
-								for(int j = 0; j < weapons.length; j++){
-									enemy.weaponList.add(weapons[j]);
-								}
-								//System.out.println("enemy.weaponlist is: " + enemy.weaponList);
-							}
-							
-							else if(sub.equals("Passives")) {
-								//populate passivelist
-								String passivesString = tokens[i].substring(equalsIndex + 1);
-								String[] passive = passivesString.split(",");
-								for(int k = 0; k < passive.length; k++){
-									enemy.passiveList.add(passive[k]);
-								}
-								//System.out.println("enemy.passivelist is: " + enemy.passiveList);
-							}
-
-							
-						}
-						
-					}
-					
-					in.close();
-					
-				} catch (IOException e) {
-					System.out.println("Error inside Open ActionListener. Check that the file exists.");
-				    e.printStackTrace();
-				}
+					loadFile(s);
 			}
-			
 		});
 		FileMenu.add(OpenButton);
 		
@@ -654,8 +506,161 @@ public class WaveScreen extends JFrame {
 				}
 			}
 		});
-		
+		loadFile("game");
 
+	}
+	
+	public void loadFile(String fileName) {
+		String line = null;
+		String[] tokens = null;
+		try {
+			Scanner in = new Scanner(new File("../branches/pewpew_corona_port/com/"+fileName+".pew"));
+			
+			for(int i = 0; i < levelSet.size(); i++){
+				System.out.println("NOW REMOVING: " + levelSet.get(i).levelName);
+				LevelMenu.remove(levelSet.get(i).levelWavesMenu);
+				levelSet.get(i).clearObject();
+			}
+			levelSet.clear();
+			Grid.clear();
+			
+			//temps for building
+		Level l = null;
+		Wave w = null;
+		Enemy enemy = null;
+			
+		while(in.hasNextLine()){
+			line = in.nextLine();
+			System.out.println("LINE PARSED: " + line);
+			tokens = line.split("\\s+");
+			
+			/*
+			for(int i = 0; i < tokens.length; i++){
+				System.out.println("tokens[" + i + "] " + tokens[i]);
+			}
+			*/
+			for(int i = 0; i < tokens.length; i++){
+				//System.out.println("FOR LOOP; tokens[" + i + "]" + tokens[i]);
+				int equalsIndex = tokens[i].indexOf("=");
+				if(equalsIndex == -1) {
+					//System.out.println("HIT A BLANK TOKEN! SKIP IT!!!'");
+					continue;
+				}
+				//System.out.println("= FOUND AT: " + equalsIndex);
+				String sub = tokens[i].substring(0,equalsIndex);
+				//System.out.println("sub IS: " + sub);
+				
+				if(sub.equals("Name")){
+					//System.out.println("sub is: " + sub);
+					//Create a new level with this name. Number should be set up for you
+					String levelName = tokens[i].substring(equalsIndex + 1);
+					//System.out.println(levelName);
+					l = new Level(levelName, (levelSet.size()+1), Grid);  //build a new level
+					levelSet.add(l); //adds a new level to the levelSet
+					LevelMenu.add(l.levelWavesMenu);
+				}
+				
+				//don't need to read in number since it is generated when building a level
+				//don't need to read in types since it is generated during export
+				
+				else if(sub.equals("Time")){
+					//create a new wave with this time
+					System.out.println("sub is: " + sub);
+					String time = tokens[i].substring(equalsIndex + 1);
+					System.out.println("time is: " + time);
+					int t = Integer.parseInt(time);
+					System.out.println("t is: " + t);
+					//attach the wave in to the correct Level
+					System.out.println("what is l: " + l);
+					w = new Wave(t, l, Grid);
+					System.out.println("what is w.time: " + w.time);
+					l.waveList.add(w);
+					l.levelWavesMenu.add(w.waveButton);
+					currentWave = w;
+				}
+				
+				else if(sub.equals("Type")){
+					String enemyType = tokens[i].substring(tokens[i].lastIndexOf(".") + 1);
+					System.out.println("enemyType IS: " + enemyType);
+					try{
+						Class enemyClass = Class.forName(enemyType);
+						Class[] gridArray = {Grid.getClass()};
+						Constructor enemyConstructor = enemyClass.getConstructor(gridArray);
+						
+						Object[] parameters = {Grid};
+						enemy = (Enemy)enemyConstructor.newInstance(parameters);
+
+						
+					//And there is this crap...
+					}catch (ClassNotFoundException ex){
+						ex.printStackTrace();
+				    }catch (NoSuchMethodException ex){
+				    	ex.printStackTrace();
+				    }catch (SecurityException ex) {
+				    	ex.printStackTrace();
+				    }catch (InstantiationException ex) {
+				    	ex.printStackTrace();
+				    }catch (IllegalAccessException ex) {
+				    	ex.printStackTrace();
+				    }catch (InvocationTargetException ex) {
+				    	ex.printStackTrace();
+				    }
+					
+					System.out.println(enemy);
+					w.addEnemy(enemy);
+					
+				}
+				
+				else if(sub.equals("Location")) {
+					//put in properties
+					System.out.println("INSIDE LOCATION");
+					String coordinates = tokens[i].substring(equalsIndex + 1);
+					String[] xy = coordinates.split(",");
+					System.out.println(xy[0] + " " + xy[1]);
+					enemy.setLocation((Integer.parseInt(xy[0]) + Grid.topLeftCorner.x), (Integer.parseInt(xy[1]) + Grid.topLeftCorner.y));
+					System.out.println("enemy location: " + enemy.enemyX + " " + enemy.enemyY);
+					Grid.enemyToDraw = enemy;
+				}
+				
+				else if(sub.equals("Rotation")) {
+					//put in properties
+					String rotation = tokens[i].substring(equalsIndex + 1);
+					int r = Integer.parseInt(rotation);
+					enemy.rotation = r;
+					//System.out.println("rotation is: " + enemy.rotation);
+				}
+				
+				else if(sub.equals("Weapons")) {
+					//populate weaponlist
+					String weaponsString = tokens[i].substring(equalsIndex + 1);
+					String[] weapons = weaponsString.split(",");
+					for(int j = 0; j < weapons.length; j++){
+						enemy.weaponList.add(weapons[j]);
+					}
+					//System.out.println("enemy.weaponlist is: " + enemy.weaponList);
+				}
+				
+				else if(sub.equals("Passives")) {
+					//populate passivelist
+					String passivesString = tokens[i].substring(equalsIndex + 1);
+					String[] passive = passivesString.split(",");
+					for(int k = 0; k < passive.length; k++){
+						enemy.passiveList.add(passive[k]);
+					}
+					//System.out.println("enemy.passivelist is: " + enemy.passiveList);
+				}
+
+				
+			}
+			
+		}
+		
+		in.close();
+		
+		} catch (IOException e) {
+			System.out.println("Error inside Open ActionListener. Check that the file exists.");
+		    e.printStackTrace();
+		}
 	}
 	
 	public void PrintToFile(String filename){
