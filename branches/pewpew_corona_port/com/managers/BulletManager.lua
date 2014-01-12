@@ -24,6 +24,27 @@ function BulletManager:start()
 	Runtime:addEventListener("offScreen", self)
 end
 
+function BulletManager:handleBulletOffScreen(bullet)
+	local onScreenBulletList
+	local offScreenBulletList
+	
+	local shipType
+	if bullet.isPlayerBullet then
+		onScreenBulletList = self.playerOnScreenBullets
+		offScreenBulletList = self.playerOffScreenBullets
+		shipType = 'player '
+	else
+		onScreenBulletList = self.haterOnScreenBullets
+		offScreenBulletList = self.haterOffScreenBullets
+		shipType = 'hater '
+	end
+	
+	--print('Ship type collecting bullets on crash: ' .. shipType)
+	if bullet ~= nil then
+		self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
+	end
+end
+
 function BulletManager:offScreen (event)
 	if (event.name ~= "offScreen" or not Bullet:made(event.target)) then
 		return
@@ -51,6 +72,25 @@ function BulletManager:offScreen (event)
 	
 	return true
 end
+
+local function cullBulletsOffScreen(onScreenList, offScreenList)
+	for i = onScreenList.first, onScreenList.last, 1 do
+		local bullet = onScreenList[i]
+		if bullet.sprite.y >= display.contentHeight  or bullet.sprite.y <=  -50 or bullet.sprite.x >= display.contentWidth or 
+       		bullet.sprite.x <= -50 or not bullet.alive then
+			bullet.sprite.x = 5000
+			bullet.sprite.y = 5000
+			self:handleBulletOffScreen(bullet)
+	   end
+	end
+end
+
+function BulletManager:update()
+	print('Updating to cull bullets off screen')
+	cullBulletsOffScreen(self.playerOnScreenBullets, self.playerOffScreenBullets)
+	cullBulletsOffScreen(self.haterOnScreenBullets, self.haterOffScreenBullets)
+end
+
 
 function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, height)
 	local onScreenBulletList

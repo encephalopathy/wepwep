@@ -129,7 +129,7 @@ local function update(event)
 	end
 	
 	player:updatePassives()
-	player:cullBulletsOffScreen()
+	--player:cullBulletsOffScreen()
 	
 	debugUpdate()
 	
@@ -334,9 +334,14 @@ function scene:exitScene( event )
 	
 	ScoreManager.removeListener()
 	
+	
 	debugRemove(group)
 	
 	physics.pause()
+	
+	mainInventory:unequip(player)
+	
+	player.alive = false
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
