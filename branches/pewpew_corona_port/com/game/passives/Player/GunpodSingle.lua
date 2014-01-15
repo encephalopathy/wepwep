@@ -43,9 +43,9 @@ end
 		Weapon: A table that holds the arguments for a weapon
 	@RETURN: void
 ]]--
-function GunpodSingle: equipWeapon(sceneGroup)
-	self.weapon = Singleshot:new(sceneGroup, true, 1, 200)
-	self.weapon.targets = AIDirector.haterList
+function GunpodSingle: equipWeapon(sceneGroup, haterList, weaponType, ...)
+	self.weapon = weaponType:new(sceneGroup, unpack(arg))
+	self.weapon.targets = haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
 end
