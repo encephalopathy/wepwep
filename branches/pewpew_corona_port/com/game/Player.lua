@@ -125,8 +125,9 @@ function Player:equipDebug(sceneGroup)
 	self.defensePassives[1]:setOwner(self)
 	self.defensePassives[2] = HealthRegen:new()
 	self.defensePassives[2]:setOwner(self)
-	self.defensePassives[3] = GunpodCollection:new()
-	self.defensePassives[3]:setOwner(self, GunpodSingle, sceneGroup, "com/resources/art/sprites/rocket_01.png", 80, 0, AIDirector.haterList, Singleshot, true, 1, 200)
+	self.defensePassives[3] = GunpodCollection:new(GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200)
+	--self.defensePassives[3]:setOwner(self, GunpodSingle, sceneGroup, "com/resources/art/sprites/rocket_01.png", 80, 0, AIDirector.haterList, Singleshot, true, 1, 200)
+	self.defensePassives[3]:setOwner(self, sceneGroup)
 end
 
 --[[
@@ -218,6 +219,7 @@ function Player:switchMode()
 		self.isFiring = true
 	else
 		self.isFiring = false
+		self.hasFired = false
 	end
 end
 
