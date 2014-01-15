@@ -24,24 +24,52 @@ messages = {			-- NOTE: messages[0] is the number of total messages
 
 
 function removeCommentedContent(line)
+
     -- find a hash, if there is one 
     local hashPosition = line:find("#")
     
+    -- remove the commented section of the line
     if hashPosition ~= nil then
+
         line = line:sub(0, hashPosition - 1)
-        print("The stuff that is NOT commented is \""..line.."\".")
+
     end
     
+    -- return the uncommented content of the line
     return line
 end
 
--- grab the line, and assign the strings to the appropriate values
+
+-- parse the line to grab the message table (NOT the messages table)
+function parseLine(line)
+
+	local message = {}
+
+	-- TODO: use gmatch to iterate through your string 
+
+	message.name = "name"
+   	message.mood = "mood"
+   	message.content = "content"
+
+   	return message
+end
+
+
+-- grab the line, and return a table containing the message to add to the messages table
 function interpretLine(line)
     
     -- remove the commented content from the line
     line = removeCommentedContent(line)
     
-    print(line)
+    if string.len(line) == 0 then 
+   		return nil
+   	else
+   		-- parse line, and populate the message table
+   		local message = parseLine(line)
+
+   		-- return the message table
+   		return message
+   	end
 end
 
 
@@ -56,14 +84,26 @@ function mr.readMessagesTextFile(messagesFileName)
 	if file then
 	
 		local currentLine = file:read("*l")
+		local messagesIndex = 1
 		
 		while currentLine ~= nil do
 		
-	        -- interpret the line 
-		    interpretLine(currentLine)
+	        -- interpret the line and get the message table
+		    local message = interpretLine(currentLine)
+
+		    -- if there is a table that is returned from interpret line
+		    if message ~= nil then
+
+		    	-- put the table into messages
+		    	messages[messagesIndex] = message
+
+		    	-- increase the lineIndex
+		    	messagesIndex = messagesIndex + 1
+		    end
 		    
 		    -- move to the next line
 		    currentLine = file:read("*l")
+
 		end
 		
 	else

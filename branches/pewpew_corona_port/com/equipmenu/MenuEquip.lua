@@ -67,10 +67,14 @@ function scene:createScene( event )
 	
 	--display.newText( string, left, top, font, size )
 	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
+	dollaztext.anchorX, dollaztext.anchorY = 0, 0
 	local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
 	local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
 	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
-
+	
+	equiptext.anchorX, equiptext.anchorY = 0, 0
+	maintext.anchorX, maintext.anchorY = 0, 0
+	subtext.anchorX, subtext.anchorY = 0, 0
     -- create the widget buttons
 	local centerOfScreenX = display.contentWidth*0.5
 
@@ -102,6 +106,7 @@ function scene:createScene( event )
 	group:insert( subtext )
 
 	group:insert( backButton )
+	print('dollazText: ' .. tostring(dollaztext))
 local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false, dollaztext) 
 	createSecondaryItemCarousels(group, dollaztext)
 end

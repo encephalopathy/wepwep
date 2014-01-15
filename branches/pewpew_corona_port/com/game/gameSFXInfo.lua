@@ -27,7 +27,7 @@
 --setting = NRML: this sound does not have a specified behavior and will seek out a free channel to play on
  gameSFXInfo = {
 	Singleshot = {path = "com/resources/music/soundfx/laser.ogg", channel = 2, setting = 'R'},
-	Doubleshot = {path = "com/resources/music/soundfx/doubleshot.ogg", channel = 2, setting = 'R'},
+	Doubleshot = {path = "com/resources/music/soundfx/doubleShot.ogg", channel = 2, setting = 'R'},
 	SineWave = {path = "com/resources/music/soundfx/sineWave.ogg", channel = 2, setting = 'R'},
 	Spreadshot = {path = "com/resources/music/soundfx/sineWave.ogg", channel = 2, setting = 'R'},
 	Homingshot = {path = "com/resources/music/soundfx/laser.ogg", channel = 2, setting = 'R'},

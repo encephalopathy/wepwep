@@ -4,6 +4,8 @@ require "com.game.weapons.secondary.FreezeMissile"
 
 local DEFAULT_HATER_POOL_LOCATION = 11133377
 
+local HIT_COLOR_TIMER = 10
+
 --[[
 	CLASS NAME: Hater
 	
@@ -40,13 +42,14 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	
 	self.health = 1
 	self.maxHealth = 1
-	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
+	
 	self.type = "Hater"
 	
 	self.time = 0
 	self.weapon = nil
     self.isFrozen = false
     self.freezeTimer = 0
+	self.hitColorTimer = 0
 	
 	self.shipSpriteComponents = display.newGroup()
 	self.shipComponenets = Queue.new()
@@ -55,6 +58,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.secondaryWeapons = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
+	
+	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
 	self.sprite.objRef = self
 end
 
@@ -104,7 +109,6 @@ end
 
 
 function Hater:equipRig(sceneGroup, weapons, passives)
-	
 	if weapons ~= nil then
 		for i = 1, #weapons, 1 do
 			--print("weapon[i]: "..weapons[i])
@@ -153,6 +157,14 @@ function Hater:update()
    --ALL THE BULLETS!
    --self.weapon:checkBullets()
    self:cullBulletsOffScreen()
+   
+   if self.hitColorTimer > 0 then
+	  self.hitColorTimer = self.hitColorTimer - 1
+	  	if self.hitColorTimer == 0 then
+		  	self.sprite:setFillColor(1, 1, 1, 1)
+	  	end
+   end
+   
    --[[local length = self.bulletsInView.size
 	local newInViewQueue = Queue.new()
 	while self.bulletsInView.size > 0 do
@@ -204,6 +216,11 @@ function Hater:onHit(phase, collide)
 			
 			if self.health <= 0 then
 				self:die()
+			else
+				if self.hitColorTimer == 0 then
+					self.sprite:setFillColor(1,0.5,1, 1)
+					self.hitColorTimer = HIT_COLOR_TIMER
+				end
 			end
 			--sound:load(self.soundPath)
 			--haterDeathSFX:play()

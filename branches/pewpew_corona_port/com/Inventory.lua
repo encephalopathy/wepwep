@@ -78,18 +78,21 @@ function Inventory:unequip(player)
 	--Uninitializes player weapon.
 	player.weapon.owner = nil
 	player.weapon = nil
-	
+
 	--Unequips the passives from the player.
-	for passive in pairs(player.defensePassives) do
+	for passiveName, passive in pairs(player.defensePassives) do
+		print('removing passive: ' .. tostring(i))
 		passive:clear()
 		passive = nil
+		player.defensePassives[passiveName] = nil
 	end
 	
 	--Unequips the secondary weapons from the player.
-	for weapon in pairs(player.secondaryWeapons) do
+	for weaponName, weapon in pairs(player.secondaryWeapons) do
 		weapon.sceneGroup = nil
 		weapon.owner = nil
 		weapon.targets = nil
+		player.secondaryWeapons[weaponName] = nil
 		weapon.ammoAmount = weapon.maxAmmoAmount
 	end
 end

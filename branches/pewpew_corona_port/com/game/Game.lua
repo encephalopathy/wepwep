@@ -134,7 +134,7 @@ local function update(event)
 	end
 	
 	player:updatePassives()
-	player:cullBulletsOffScreen()
+	--player:cullBulletsOffScreen()
 	
 	debugUpdate()
 	
@@ -173,6 +173,8 @@ local function back()
 	storyboard.gotoScene("com.mainmenu.MainMenu", "fade", 500)
 	return true
 end
+
+
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -271,6 +273,7 @@ end
 function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
+	
 	playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
 	physics.start()
 	physics.setGravity(0, 0)
@@ -306,6 +309,8 @@ function scene:enterScene( event )
 	
 	step = 0
 	
+	player.alive = true
+	
 	collectibles:start()
 	bulletManager:start()
 	Runtime:addEventListener("enterFrame", update )
@@ -333,9 +338,14 @@ function scene:exitScene( event )
 	
 	ScoreManager.removeListener()
 	
+	
 	debugRemove(group)
 	
 	physics.pause()
+	
+	mainInventory:unequip(player)
+	
+	player.alive = false
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
