@@ -25,15 +25,15 @@ Time=8 com.game.enemies.Hater_Normal=3 com.game.enemies.Hater_MidScreen=1
    Type=com.game.enemies.Hater_Normal Location=47,-50 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=233,-52 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=410,-50 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-   Type=com.game.enemies.Hater_MidScreen Location=137,-31 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_MidScreen Location=329,-31 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
+   Type=com.game.enemies.Hater_MidScreen Location=137,-31 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_MidScreen Location=329,-31 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
 Time=10 com.game.enemies.Hater_MidScreen=3
-   Type=com.game.enemies.Hater_MidScreen Location=151,-82 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_MidScreen Location=229,-18 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_MidScreen Location=308,-85 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
+   Type=com.game.enemies.Hater_MidScreen Location=151,-82 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_MidScreen Location=229,-18 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_MidScreen Location=308,-85 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
 Time=12 com.game.enemies.Hater_SineWave=2 com.game.enemies.Hater_Normal=1 com.game.enemies.Hater_Health=0
-   Type=com.game.enemies.Hater_SineWave Location=63,-50 Rotation=0 Weapons=com.game.weapons.primary.SineWaveWeapon Passives=none
-   Type=com.game.enemies.Hater_SineWave Location=420,-44 Rotation=0 Weapons=com.game.weapons.primary.SineWaveWeapon Passives=none
+   Type=com.game.enemies.Hater_SineWave Location=63,-50 Rotation=0 Weapons=com.game.weapons.primary.SineWaveWeapon Passives=
+   Type=com.game.enemies.Hater_SineWave Location=420,-44 Rotation=0 Weapons=com.game.weapons.primary.SineWaveWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=156,-86 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=328,-83 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=
    Type=com.game.enemies.Hater_Health Location=229,-49 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
@@ -59,15 +59,15 @@ Time=6 com.game.enemies.Hater_MidScreen=2
    Type=com.game.enemies.Hater_MidScreen Location=87,-46 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
    Type=com.game.enemies.Hater_MidScreen Location=244,-47 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
 Time=8 com.game.enemies.Hater_SpeedUp=9
-   Type=com.game.enemies.Hater_SpeedUp Location=53,-55 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=106,-54 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=161,-58 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=196,-53 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=294,-39 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=352,-60 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=444,-40 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=246,-39 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
-   Type=com.game.enemies.Hater_SpeedUp Location=381,-34 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=none
+   Type=com.game.enemies.Hater_SpeedUp Location=53,-55 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=106,-54 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=161,-58 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=196,-53 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=294,-39 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=352,-60 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=444,-40 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=246,-39 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_SpeedUp Location=381,-34 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
 Time=10 com.game.enemies.Hater_SineWave=7
    Type=com.game.enemies.Hater_SineWave Location=98,-58 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
    Type=com.game.enemies.Hater_SineWave Location=234,-75 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
@@ -77,17 +77,17 @@ Time=10 com.game.enemies.Hater_SineWave=7
    Type=com.game.enemies.Hater_SineWave Location=416,-73 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
    Type=com.game.enemies.Hater_SineWave Location=35,-30 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=com.game.passives.Player.ExtraStartingHealth
 Time=12 com.game.enemies.Hater_Homing=11
-   Type=com.game.enemies.Hater_Homing Location=225,-21 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=196,-45 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=252,-48 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=284,-77 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=178,-76 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=47,-85 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=66,-58 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=88,-26 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=418,-89 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=384,-59 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=350,-34 Rotation=0 Weapons= Passives=none
+   Type=com.game.enemies.Hater_Homing Location=225,-21 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=196,-45 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=252,-48 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=284,-77 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=178,-76 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=47,-85 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=66,-58 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=88,-26 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=418,-89 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=384,-59 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=350,-34 Rotation=0 Weapons= Passives=
 Time=14 com.game.enemies.Hater_Normal=9
    Type=com.game.enemies.Hater_Normal Location=39,-60 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=122,-54 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
@@ -99,18 +99,18 @@ Time=14 com.game.enemies.Hater_Normal=9
    Type=com.game.enemies.Hater_Normal Location=211,-27 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=404,-35 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
 Time=16 com.game.enemies.Hater_Homing=12 com.game.enemies.Hater_HalfStrafe=0
-   Type=com.game.enemies.Hater_Homing Location=-71,-39 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=-36,0 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=495,8 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=543,-30 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=-127,267 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=-52,266 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=494,271 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=590,268 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=104,-57 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=171,-33 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=316,-33 Rotation=0 Weapons= Passives=none
-   Type=com.game.enemies.Hater_Homing Location=373,-61 Rotation=0 Weapons= Passives=none
+   Type=com.game.enemies.Hater_Homing Location=-71,-39 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=-36,0 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=495,8 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=543,-30 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=-127,267 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=-52,266 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=494,271 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=590,268 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=104,-57 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=171,-33 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=316,-33 Rotation=0 Weapons= Passives=
+   Type=com.game.enemies.Hater_Homing Location=373,-61 Rotation=0 Weapons= Passives=
    Type=com.game.enemies.Hater_HalfStrafe Location=239,-58 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=
 Name=w1s3 Number=3
 Time=2 com.game.enemies.Hater_Normal=10

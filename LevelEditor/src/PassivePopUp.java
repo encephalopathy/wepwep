@@ -70,7 +70,7 @@ public class PassivePopUp extends JDialog {
 		for(int i = 0; i < passiveCapacity.length; i++){
 			passiveCapacity[i] = new JMenu("Passive " + (i+1));
 		}
-		for(int i = 0; i < passiveNames.length; i++){ passiveNames[i] = "none"; }
+		for(int i = 0; i < passiveNames.length; i++){ passiveNames[i] = ""; }
 		
 		in.close();
 		

@@ -15,8 +15,8 @@ local enemiesToSpawn
 local spawnClock 
 --local haterGroup = display.newGroup()
 
-haterPootiePooInViewList = nil
-haterPootiePooOutofViewList = nil
+-- haterPootiePooInViewList = nil
+-- haterPootiePooOutofViewList = nil
 
 --forward declaration
 local setSpawnClock = nil
@@ -29,9 +29,9 @@ local function createHater(haterList, haterType)
 	end
 	local newHater = require(haterType):new(AIDirector.haterGroup, AIDirector.player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
-										haterList)
-	newHater.sprite.isBodyActive = false
-	newHater.sprite.isVisible = false
+										haterList, allHatersInView)
+	-- newHater.sprite.isBodyActive = false
+	-- newHater.sprite.isVisible = false
 	return newHater
 end
 
@@ -81,12 +81,11 @@ local function spawnHater(enemies)
 				else
 					enemyInView = require(haterType):new(AIDirector.haterGroup, AIDirector.player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
-										haterList)
+										haterList, allHatersInView)
 				enemyInView.sprite.isBodyActive = false
 				enemyInView.sprite.isVisible = false
 				end
 			end
-			
 			enemyInView.sprite.isBodyActive = true
 			enemyInView.sprite.isVisible = true
 			--print("enemyInView.health: "..enemyInView.health)

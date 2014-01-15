@@ -1,5 +1,5 @@
 require "com.game.enemies.Hater"
-require "com.game.enemies.CarrierDrone"
+require "com.game.enemies.Hater_CarrierDrone"
 --[[
 	Slowly moves to the middle of the screen. Once it gets there, it begins to spawn smaller enemies
 ]]--
@@ -11,17 +11,7 @@ local scrnWidth = display.stageWidth
 --Assign screen height
 local scrnHeight  = display.stageHeight
 
-function Hater_Carrier:init(sceneGroup, player, sameHaterTypeInView, sameHaterTypeOutOfView, haterList, spawnTypeTable, releaseTime)
-	
-	if spawnTypeTable == nil then
-		spawnTable = { type = 'com.game.enemies.Hater_CarrierDrone', x = -5000, y = -50000 }
-		table.insert(spawnTable, 'com.game.enemies.Hater_CarrierDrone')
-	else
-		assert(type(spawnTypeTable) == table)
-	end
-	
-	self:poolHaterMinions(spawnTypeTable, haterList.outOfView)
-	
+function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, allHatersInView)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_08.png", 0, 0, 0, 100, 100, 
 	{"com/resources/art/sprites/enemy_08_piece_01.png",
 	 "com/resources/art/sprites/enemy_08_piece_02.png",
@@ -31,19 +21,20 @@ function Hater_Carrier:init(sceneGroup, player, sameHaterTypeInView, sameHaterTy
 	 }
 	)
 	--Copy Paste these fields if you plan on using them in the collision function
-		
-	if releaseTime == nil then
-		releaseTime = DEFAULT_HATER_RELEASE_TIME
-	end
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
-	self.hatersOutofView = haterList.outOfView
-	self.hatersInView = haterList.inView
-	self.sprite.objRef = self
+	self.sprite.objRef = self 
 	self.health = 10
 	self.maxHealth = 10
-	self.releaseTime = releaseTime
+	self.drones = 0
 	self.step = 0
+	self.sceneGroup = sceneGroup
+	self.player = player
+	self.inView = inView
+	self.outOfView = outOfView
+	self.haterList = haterList
+	self.allHatersInView = allHatersInView
+	self.droneType = "com.game.enemies.Hater_CarrierDrone"
 end
 
 function Hater_Carrier:initMuzzleLocations()
@@ -51,50 +42,100 @@ function Hater_Carrier:initMuzzleLocations()
 end
 
 function Hater_Carrier:move(x, y)
+	--[[
+		I want this enemy to fly in one direction
+		then about halfway down to switch 
+		horizontal direction
+		so like it goes from right to left or left to right
+		This just starts them off in a single direction though
+	]]--
+	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
+	--print(self.sprite.x .. " " .. self.sprite.y)
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
 end
 
+--This can be overwritten for to change the behavior of the carrier
 function Hater_Carrier:update()
 	self.super:update()
    if (self.isFrozen) then
       return
    end
-   self:releaseIfAble()
-end
-
-function Hater_Carrier:releaseIfAble()
-	
-	if self.releaseTime > 0 then
-		self.releaseTime = self.releaseTime - 1
-	else
-		self:deployHater(self.sprite.x, self.sprite.y+(self.sprite.height/2))
-	end
-end
-
-function Hater_Carrier:deployHater(minionType, x, y)
-	assert(self.haterOutofView[minionType] ~= nil, minionType .. " is not a hater type")
-	if self.hatersOutofView.size > 0 then
-		local hater = Queue.removeBack(self.hatersOutofView[minionType])
-		hater.sprite.x = x
-		hater.sprite.y = y
-		Queue.insertFront(self.hatersInView[minionType], hater)
-	end
-end
-
-function Hater_Carrier:poolHaterMinions(minionTypes, haterGroup, haterOutOfViewList, xLoc, yLoc)
-	
-	for i = 1, #minionTypes, 1 do
-		local minionType = minionTypes[i].type
-		
-		if haterOutOfViewList[minionType] == nil then
-			haterOutofViewList[minionType] = Queue.new()
+   if self.alive then
+		self.step = self.step + 1   
+		if self.drones < 11 and self.sprite.x < scrnWidth/2 and self.sprite.y < scrnHeight/2 + self.sprite.height then
+			self:move(0.6,1.2)
 		end
+		if (self.step % 90 == 0 and self.drones < 11 and self.sprite.x <= scrnWidth/2 + self.sprite.width 
+			and self.sprite.x >= scrnWidth/2 and self.sprite.y <= scrnHeight/2 + self.sprite.height 
+			and self.sprite.y >= scrnWidth/2 - self.sprite.height) then
+				self:release()
+				--print("Poooooot")
 		
-		Queue.insertFront(haterOutOfViewList[minionType], require(minionType):new(haterGroup, minionTypes))
+		elseif (self.drones > 11) then
+			self:move(1,-1)
 	end
+  end
 end
+
+--DO NOT OVERRIDE THIS FUNCTION
+--This is the base function for how Carriers will release their drones
+--TO DO: fix up how carriers and drones equip weapons
+function Hater_Carrier:release()
+	print("Inside Hater_Carrier:release")
+	self.drones = self.drones + 1
+
+	--add it to the inView queue
+	local haterType = self.droneType
+	
+	local enemyInView = nil
+	if self.haterList[haterType] == nil then--this check is only run if this is the very first drone made
+		print("haterList[haterType] is nil")
+		self.haterList[haterType] = {}
+		self.haterList[haterType].outOfView = Queue.new()
+		self.haterList[haterType].inView = Queue.new()
+
+		print(type(require(haterType)))
+		
+		local newHater = require(haterType):new(self.sceneGroup, self.player, 
+										self.inView, self.outOfView,
+										self.haterList, self.allHatersInView)
+										
+		enemyInView = newHater
+	
+	else
+		if self.haterList[haterType].outOfView.size > 0 then
+			enemyInView = Queue.removeBack(self.haterList[haterType].outOfView)
+			--enemyInView:respawn()
+		else
+			enemyInView = require(haterType):new(self.sceneGroup, self.player,
+										self.inView, self.outOfView, self.haterList, self.allHatersInView)
+		enemyInView.sprite.isBodyActive = false
+		enemyInView.sprite.isVisible = false
+		end
+	end
+	enemyInView.sprite.isBodyActive = true
+	enemyInView.sprite.isVisible = true
+	Queue.insertFront(self.haterList[haterType].inView, enemyInView)
+	
+	self.droneSpawn(enemyInView)
+	
+	--need to figure out how to set up the carriers and drones weapons
+	--enemyInView:equipRig(self.sceneGroup, ,self.defensePassives)
+	
+	--need to set the enemyInView into the allHatersInView queue
+	self.allHatersInView[enemyInView] = enemyInView
+	
+	
+end
+
+function Hater_Carrier:droneSpawn(enemyInView)
+	enemyInView.sprite.x = self.sprite.x
+	enemyInView.sprite.y = self.sprite.y + (self.sprite.height/2)
+	enemyInView.sprite.rotation = self.rotation
+end
+
 
 --Used to return the file path of a hater
 function Hater_Carrier:__tostring()

@@ -36,7 +36,7 @@ function ScoreManager:removeListener() --grab scene object from the storyBoard f
 end
 
 function ScoreManager.addScore(event)
-	print("INSIDE ScoreManager.addScore")
+	--print("INSIDE ScoreManager.addScore")
 	if event.name == "addScore" then
 		--print("inside addScore")
 		-- print("ScoreManager.runScore: "..ScoreManager.runScore)

@@ -50,6 +50,15 @@ function GunpodSingle: equipWeapon(sceneGroup)
 	self.weapon.owner = self
 end
 
+function GunpodSingle: destroy()
+	self.weapon.targets = nil
+	self.weapon.owner = nil
+	print('DESTORYING WEAPON ' .. tostring(self.weapon))
+	self.weapon = nil
+	
+	self.super:destroy()
+end
+
 function GunpodSingle: update(x, y)
 	self.sprite.x = x
 	self.sprite.y = y

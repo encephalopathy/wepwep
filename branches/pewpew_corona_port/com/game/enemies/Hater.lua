@@ -4,6 +4,8 @@ require "com.game.weapons.secondary.FreezeMissile"
 
 local DEFAULT_HATER_POOL_LOCATION = 11133377
 
+local HIT_COLOR_TIMER = 10
+
 --[[
 	CLASS NAME: Hater
 	
@@ -40,13 +42,14 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	
 	self.health = 1
 	self.maxHealth = 1
-	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
+	
 	self.type = "Hater"
 	
 	self.time = 0
 	self.weapon = nil
     self.isFrozen = false
     self.freezeTimer = 0
+	self.hitColorTimer = 0
 	
 	self.shipSpriteComponents = display.newGroup()
 	self.shipComponenets = Queue.new()
@@ -55,6 +58,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.secondaryWeapons = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
+	
+	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
 	self.sprite.objRef = self
 end
 
@@ -104,7 +109,6 @@ end
 
 
 function Hater:equipRig(sceneGroup, weapons, passives)
-	
 	if weapons ~= nil then
 		for i = 1, #weapons, 1 do
 			--print("weapon[i]: "..weapons[i])
@@ -153,6 +157,14 @@ function Hater:update()
    --ALL THE BULLETS!
    --self.weapon:checkBullets()
    self:cullBulletsOffScreen()
+   
+   if self.hitColorTimer > 0 then
+	  self.hitColorTimer = self.hitColorTimer - 1
+	  	if self.hitColorTimer == 0 then
+		  	self.sprite:setFillColor(1, 1, 1, 1)
+	  	end
+   end
+   
    --[[local length = self.bulletsInView.size
 	local newInViewQueue = Queue.new()
 	while self.bulletsInView.size > 0 do
@@ -175,7 +187,6 @@ function Hater:update()
 			return
 		end
 	end
-	--self.particleEmitter:updateLoc(self.sprite.x, self.sprite.y)
 end
 
 
@@ -205,6 +216,11 @@ function Hater:onHit(phase, collide)
 			
 			if self.health <= 0 then
 				self:die()
+			else
+				if self.hitColorTimer == 0 then
+					self.sprite:setFillColor(1,0.5,1, 1)
+					self.hitColorTimer = HIT_COLOR_TIMER
+				end
 			end
 			--sound:load(self.soundPath)
 			--haterDeathSFX:play()
@@ -223,13 +239,13 @@ end
 
 
 function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup events
+	--print("YOU HAVE KILLED A HATER!!!")
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'Hater_die'})
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
 	--mainInventory.dollaz = mainInventory.dollaz + (3 * self.maxHealth)
 	--print("dispatchEvent Hater.lua addScore")
 	Runtime:dispatchEvent({name = "addScore", score = (3*self.maxHealth)})
 end
-
 
 --[[
 	FUNCTION NAME: destroy
@@ -239,13 +255,11 @@ end
 	RETURN: VOID
 ]]--
 function Hater:destroy()
-	
 	if(self) then 
 		self.super:destroy()
 	end
 	--self.haterList[self] = nil
 	--self.sceneGroup = nil --trying to solve scoreManager issue of not listening to events
-	
 end
 
 --used to take in group
@@ -259,7 +273,6 @@ function Hater:respawn()
 	self.isFrozen = false
 	self.freezeTimer = 0
 end
-
 
 Hater:virtual("equipRig")
 Hater:virtual("initMuzzleLocations")

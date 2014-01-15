@@ -415,14 +415,14 @@ public class WaveScreen extends JFrame {
 		});
 		
 		// adding in Hater_Carrier enemy option
-		JMenuItem Hater_RandomCarrierItem = new JMenuItem("Hater_RandomCarrier");
-		enemyChoiceMenu.add(Hater_RandomCarrierItem);
-		Hater_RandomCarrierItem.addActionListener(new ActionListener() {
+		JMenuItem Hater_CarrierItem = new JMenuItem("Hater_Carrier");
+		enemyChoiceMenu.add(Hater_CarrierItem);
+		Hater_CarrierItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				System.out.println("CREATING A NEW Hater_RandomCarrier");
-				enemyChoiceMenu.setText("Hater_RandomCarrier");
-				Hater_RandomCarrier newDude = new Hater_RandomCarrier(Grid);
+				System.out.println("CREATING A NEW Hater_Carrier");
+				enemyChoiceMenu.setText("Hater_Carrier");
+				Hater_Carrier newDude = new Hater_Carrier(Grid);
 				newDude.setRotation();
 				newDude.createWeaponList(); // generates the weapons and passive pop ups
 				workingEnemy = newDude;

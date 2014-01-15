@@ -12,7 +12,6 @@ local scrnWidth = display.stageWidth
 local scrnHeight  = display.stageHeight
 
 function Hater_RandomCarrier:init(sceneGroup, player, sameHaterTypeInView, sameHaterTypeOutOfView, haterList, spawnTypeTable, releaseTime)
-	
 	self.super:init(sceneGroup, player, sameHaterTypeInView, sameHaterTypeOutofView, haterList, spawnTypeTable, releaseTime)
 end
 

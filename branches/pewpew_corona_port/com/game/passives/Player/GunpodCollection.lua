@@ -18,20 +18,21 @@ function GunpodCollection:setOwner(objectRef, sceneGroup)
 end
 
 function GunpodCollection: update()
-	self.collection[1]:update(self.oldPositionX - 80, self.oldPositionY)
-	self.collection[2]:update(self.oldPositionX + 80, self.oldPositionY)
-	if self.objectRef.hasFired and self.objectRef ~= nil then
-		self.collection[1].weapon:fire()
-		self.collection[2].weapon:fire()
+	if self.objectRef.alive then
+		self.collection[1]:update(self.oldPositionX - 80, self.oldPositionY)
+		self.collection[2]:update(self.oldPositionX + 80, self.oldPositionY)
+		if self.objectRef.hasFired and self.objectRef ~= nil then
+			self.collection[1].weapon:fire()
+			self.collection[2].weapon:fire()
+		end
+		self.oldPositionX = self.objectRef.sprite.x
+		self.oldPositionY = self.objectRef.sprite.y
 	end
-	self.oldPositionX = self.objectRef.sprite.x
-	self.oldPositionY = self.objectRef.sprite.y
 end
 
-function GunpodCollection:clear(sceneGroup)
-	sceneGroup:remove(self.collection[1].sprite)
-	sceneGroup:remove(self.collection[2].sprite)
-	self.super:clear()
+function GunpodCollection: clear()
+	self.collection[1]:destroy()
+	self.collection[2]:destroy()
 end
 
 return GunpodCollection

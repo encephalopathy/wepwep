@@ -60,6 +60,7 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 		sprite.x, sprite.y = startX, startY
 	else
 		sprite = display.newImageRect(imgSrc, width, height)
+		sprite.anchorX, sprite.anchorY = 0,0
 		if sprite == nil then
 			error('Out of memory')
 		end
@@ -77,7 +78,7 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	--Creates a physics object from a sprite.
 	if bodyType ~= nil then
 		physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter})
-		physics.setDrawMode( "hybrid" )
+		--physics.setDrawMode( "hybrid" )
 		--If the given object is not a bullet, it is given the type dynamic so that
 		--bullets never collide with other bullets. Although this may change in the future.
 		if bodyType == "dynamic" then

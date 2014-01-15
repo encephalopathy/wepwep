@@ -51,7 +51,7 @@ end
 
 function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal, dollazText)
 	local newCarousel = {}
-
+	print('DOLLAZ TEXT: ' .. tostring(dollazText))
 	newCarousel.yPos = y
 	newCarousel.items = Dequeue.new()
 	

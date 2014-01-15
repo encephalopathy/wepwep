@@ -55,7 +55,7 @@ function scene:createScene( event )
 
 	-- display a background image
 	local background = display.newImageRect( "com/resources/art/background/sheet_metal.png", display.contentWidth, display.contentHeight )
-	background:setReferencePoint( display.TopLeftReferencePoint )
+	background.anchorX, background.anchorY = 0.5, 0.5
 	background.x, background.y = 0, 0
 	
 	-- create/position logo/title image on upper-half of the screen

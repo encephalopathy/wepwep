@@ -217,11 +217,11 @@ function scene:createScene( event )
 	
 	-- display a background image
 	local background = display.newImageRect( "com/resources/art/background/sheet_metal.png", display.contentWidth, display.contentHeight )
-	background:setReferencePoint( display.TopLeftReferencePoint )
+	background.anchorX, background.anchorY = 0.5, 0.5
 	background.x, background.y = 0, 0
 
 	pauseScreen = display.newImageRect( "com/resources/art/background/background-green.png", display.contentWidth, display.contentHeight )
-	pauseScreen:setReferencePoint( display.TopLeftReferencePoint )
+	pauseScreen.anchorX, pauseScreen.anchorY = 0.5, 0.5
 	pauseScreen.x, pauseScreen.y = 0, 0
 	pauseScreen.alpha = 0.55
 

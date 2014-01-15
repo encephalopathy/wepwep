@@ -93,7 +93,8 @@ function scene:createScene( event )
 	-- display a background image
 	local background = display.newImageRect( "com/resources/art/background/splash_main_menu.png", display.contentWidth, display.contentHeight )
 	
-	background:setReferencePoint( display.TopLeftReferencePoint )
+	--background.anchorX = 0
+	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
 	createMainMenuMVC(scene, group)
@@ -119,8 +120,7 @@ function scene:enterScene( event )
 	--set up table of soundHandlers
 	soundHandler:addListener()
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
-	
-	print("mainInventory.dollaz: "..mainInventory.dollaz)
+
 end
 
 
