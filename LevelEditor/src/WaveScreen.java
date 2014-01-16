@@ -506,7 +506,7 @@ public class WaveScreen extends JFrame {
 				}
 			}
 		});
-		loadFile("game");
+		//loadFile("game");
 
 	}
 	
