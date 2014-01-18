@@ -227,7 +227,7 @@ function setLevel(levelName)
 	return currentLevel
 end
 
-levels = createGame('com/game/levels/smokeTest.pew')  
+levels = createGame('com/game.pew')  
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	
@@ -307,7 +307,7 @@ function setLevel(levelName)
 end
 
 --levels = createGame('com/game/levels/game.pew')  
-levels = createGame('com/game/levels/game.pew')  
+levels = createGame('game.pew')  
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	
