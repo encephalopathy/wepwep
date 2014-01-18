@@ -230,12 +230,12 @@ public class WaveScreen extends JFrame {
 		                    "Export To File",
 		                    JOptionPane.PLAIN_MESSAGE, null,
 		                    null, "");
-					File newFile = new File("../branches/pewpew_corona_port/com/" +s+".pew");
+					File newFile = new File("../branches/pewpew_corona_port/" +s+".pew");
 					if(newFile.exists()){
 						System.out.println("File Already Exists.");
 						newFile.delete();
 					}
-				    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("../branches/pewpew_corona_port/com/" +s+".pew", true)));
+				    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("../branches/pewpew_corona_port/" +s+".pew", true)));
 				    for (int i = 0; i < levelSet.size(); i++){
 				    	out.print(levelSet.get(i));
 				    }
@@ -514,7 +514,7 @@ public class WaveScreen extends JFrame {
 		String line = null;
 		String[] tokens = null;
 		try {
-			Scanner in = new Scanner(new File("../branches/pewpew_corona_port/com/"+fileName+".pew"));
+			Scanner in = new Scanner(new File("../branches/pewpew_corona_port/"+fileName+".pew"));
 			
 			for(int i = 0; i < levelSet.size(); i++){
 				System.out.println("NOW REMOVING: " + levelSet.get(i).levelName);
