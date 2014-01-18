@@ -30,6 +30,8 @@ local backgroundBuffer = nil
 local currentLevelNumber = 1
 local soundHandler = nil
 local scoreText
+local offPewButton
+local onPewButton
 
 step = 0
 
@@ -181,8 +183,8 @@ function scene:createScene( event )
 	print('Create Scene')
 	local group = self.view
 	
-	local offPewButton
-	local onPewButton
+	-- local offPewButton
+	-- local onPewButton
 	
 	-- creates the scrolling background for the current game
 	createScrollingBackground(group)
@@ -323,6 +325,10 @@ end
 function scene:exitScene( event )
 	print('Exiting scene')
 	local group = self.view
+	
+	offPewButton.isVisible = true
+	onPewButton.isVisible = false
+	player.isFiring = false
 	
 	stopBGM()
 	
