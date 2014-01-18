@@ -10,9 +10,8 @@ require "com.Utility"
 require "com.managers.BGM"
 require "org.Context"
 require "com.mainmenu.views.PlayButton"
-require "com.mainmenu.views.ShopButton"
 require "com.mainmenu.views.EquipButton"
-require "com.shopmenu.Shop"
+require "com.equipmenu.Shop"
 require "com.managers.SFX"
 require "com.managers.AIDirector"
 
@@ -33,14 +32,12 @@ local context
 
 local mainMenuSFXInfo = {
 	enterGame = {path = "com/resources/music/soundfx/enterGame.ogg", channel = 2, setting = 'R'},
-	enterStore = {path = "com/resources/music/soundfx/enterStore.ogg", channel = 2, setting = 'R'},
 	enterEquip = {path = "com/resources/music/soundfx/enterEquip.ogg", channel = 2, setting = 'R'}
 }
 
 local function createMainMenuMVC(scene, group)
 	context = Context:new(scene)
 	context:mapMediator("com.mainmenu.views.PlayButton", "com.mainmenu.mediators.PlayButtonMediator")
-    context:mapMediator("com.mainmenu.views.ShopButton", "com.mainmenu.mediators.ShopButtonMediator")
     context:mapMediator("com.mainmenu.views.EquipButton", "com.mainmenu.mediators.EquipButtonMediator")
 	context:mapMediator("com.mainmenu.views.TestPlayGameButton", "com.mainmenu.mediators.TestGameMediator")
    
@@ -50,30 +47,7 @@ end
 ---------------------------------------------
 
 -- forward declarations and other locals
-local playButton, weaponShopButton, EquipRideButton,soundHandler
-
--- 'onRelease' event listener for newGameButton
-local function onPlayButtonRelease()
-	-- go to level1.lua scene
-	storyboard.gotoScene( "com.game.Game", "fade", 500 )
-	return true	-- indicates successful touch
-end
-
-local function onEquipButtonRelease()
-	storyboard.gotoScene("com.equipmenu.MenuEquip", "fade", 500)
-	return true
-end
-
-local function onWeaponShopButtonRelease()
-	storyboard.gotoScene("com.shopmenu.MenuStore", "fade", 500)
-	return true
-end
-
-local function onDefaultRelease()
-	-- print('hello this button does not do anything')
-	return true
-end
-
+local playButton, weaponShopButton, soundHandler
 
 --Slider listener
 local function sliderListener( event )
