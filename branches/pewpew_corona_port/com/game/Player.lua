@@ -10,7 +10,7 @@ PLAYER_POWAH_REGENERATION_RATE = 3
 
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
-require "com.game.weapons.primary.HomingShotWeapon"
+require "com.game.weapons.primary.HomingshotWeapon"
 require "com.game.weapons.secondary.GrenadeLauncher"
 require "com.game.weapons.primary.SineWaveWeapon"
 require "com.game.weapons.secondary.StandardMissile"
