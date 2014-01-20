@@ -2,7 +2,8 @@ How do I make the player equip the weapon/passive I made?
 =====================================================
 
 1. Open up the file `Shop.lua` located in `com/equipmenu/Shop.lua.`
-2. Look for the `init` function in `Shop.lua` you will see something that looks like: 
+2. Look for the `init` function in `Shop.lua` you will see something that looks like:
+
         self.Weapons = {}
 
         self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = { item = Singleshot:new(scene, true, 25, 200, 0, 0), dollaz = 40 }
