@@ -4,6 +4,7 @@ How do I create a Weapon?
   2. Make sure to read the comments in `Weapon.lua` before continuing making a weapon, you might be able to make a new weapon by modifying the parameters of an existing weapon.  Take a look at the file `Shop.lua` in `com/equipmenu/`.
   3. There is a hidden field for every weapon called `targets` that holds all the haters on screen.  You cannot access this field in the `init` function, you can only access it in the `fire` function.
   3. The fire function is the **HEART** of how weapons work.  Here is a standard template of how weapons work:
+  
             function Singleshot:fire()
                 self.super:fire()
                 if not self:canFire() then return false end
