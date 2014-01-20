@@ -51,7 +51,6 @@ end
 
 function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal, dollazText)
 	local newCarousel = {}
-	print('DOLLAZ TEXT: ' .. tostring(dollazText))
 	newCarousel.yPos = y
 	newCarousel.items = Dequeue.new()
 	
@@ -63,6 +62,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 		overFile = clickedImagePath,
 		id = "",
 		label = "<",
+		font = native.systemFont,
 		onEvent = function (event) 
 			prevItem(newCarousel, numItemsShown)
 		end
@@ -82,6 +82,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 		overFile = clickedImagePath,
 		id = "",
 		label = ">",
+		font = native.systemFont,
 		onEvent = function (event)
 			nextItem(newCarousel, numItemsShown)
 		end
@@ -103,6 +104,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 			defaultFile = package[i],
 			overFile = 'com/resources/art/sprites/sheep.png',
 			id = package[i],
+			font = native.systemFont,
 			onEvent = function(event)
 				equip(id, package[i])
 				dollazText.text = "Dollaz : " .. tostring(mainInventory.dollaz)
