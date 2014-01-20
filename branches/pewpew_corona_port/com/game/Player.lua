@@ -26,6 +26,8 @@ require "com.game.passives.Player.HealthRegen"
 require "com.game.collectibles.Collectible"
 require "com.game.passives.Player.GunpodCollection"
 require "com.game.passives.Player.GunpodSingle"
+require "com.game.passives.Player.NRGRegen"
+require "com.game.passives.Player.HealthUponScrapPickUp"
 
 --[[
 	CLASS NAME: Player
@@ -123,11 +125,14 @@ function Player:equipDebug(sceneGroup)
 	self.weapon.owner = self
 	self.defensePassives[1] = ExtraStartingHealth:new()
 	self.defensePassives[1]:setOwner(self)
-	self.defensePassives[2] = HealthRegen:new()
+	--[[self.defensePassives[2] = HealthRegen:new()
+	self.defensePassives[2]:setOwner(self)]]--
+	self.defensePassives[2] = HealthUponScrapPickUp:new()
 	self.defensePassives[2]:setOwner(self)
 	self.defensePassives[3] = GunpodCollection:new(GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200)
-	--self.defensePassives[3]:setOwner(self, GunpodSingle, sceneGroup, "com/resources/art/sprites/rocket_01.png", 80, 0, AIDirector.haterList, Singleshot, true, 1, 200)
 	self.defensePassives[3]:setOwner(self, sceneGroup)
+	self.defensePassives[4] = NRGRegen:new("powah")
+	self.defensePassives[4]:setOwner(self)
 end
 
 --[[
@@ -276,6 +281,8 @@ function Player:onHit(phase, collide)
 					--playerDeathSFX:play()
 					self:die()
 				end
+			elseif not collide.isPlayerBullet and Collectible:made(collide) then
+				self.defensePassives[2]:increaseHealth()
 			end
 		end
 	end
