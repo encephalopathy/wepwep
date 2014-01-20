@@ -53,6 +53,7 @@ function Shop:createSecondaryWeapons()
    self.SecondaryWeapons['com/resources/art/sprites/missile.png'] = { item = Singleshot:new(scene, true, 1, 200, 0, 0, 'com/resources/art/sprites/missile.png', 0, StandardMissile), dollaz = 70 }
    self.SecondaryWeapons['com/resources/art/sprites/shop_splash_images/FreezeMissile.png'] = { item = Singleshot:new(scene, true, 1, 200, 0, 0, "com/resources/art/sprites/missile.png", 0, FreezeMissile), dollaz = 100 }
    
+   --Sets the max ammo ammount that the secondary weapons can use per game
    self.SecondaryWeapons['com/resources/art/sprites/bomb.png'].item:setAmmoAmount(3)
    self.SecondaryWeapons['com/resources/art/sprites/missile.png'].item:setAmmoAmount(10)
    self.SecondaryWeapons['com/resources/art/sprites/shop_splash_images/FreezeMissile.png'].item:setAmmoAmount(10)
