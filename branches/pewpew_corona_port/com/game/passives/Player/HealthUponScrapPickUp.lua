@@ -21,7 +21,8 @@ function HealthUponScrapPickUp:setOwner(objectRef)
 end
 
 function HealthUponScrapPickUp:increaseHealth()
-	if math.random(0, 100) == 100 and self.objectRef[self.fieldName] < self.objectRef.maxhealth then
+	--if math.random(0, 100) == 100 and self.objectRef[self.fieldName] < self.objectRef.maxhealth then
+	if self.objectRef[self.fieldName] < self.objectRef.maxhealth then
 		self.objectRef[self.fieldName] = self.objectRef[self.fieldName] + self.increaseAmount
 	end
 end

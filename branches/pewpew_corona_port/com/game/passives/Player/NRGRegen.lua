@@ -4,8 +4,8 @@ NRGRegen = Passive:subclass("NRGRegen")
 local DEFAULT_REGENVALUE = 3
 local DEFAULT_COOLDOWN = 30
 
-function NRGRegen:init(fieldName, regenValue, cooldown)
-	self.super:init(fieldName)
+function NRGRegen:init(regenValue, cooldown)
+	self.super:init("powah")
 
 	if regenValue == nil then
 		self.regenValue = DEFAULT_REGENVALUE

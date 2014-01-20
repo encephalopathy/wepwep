@@ -32,7 +32,7 @@ local function createSecondaryItemCarousels(group, dollazText)
 	local secondarySplashImages = {"com/resources/art/sprites/bomb.png", "com/resources/art/sprites/heart.png", 
 	"com/resources/art/sprites/shop_splash_images/Gunpods.png", 
 	"com/resources/art/sprites/shop_splash_images/HealthRegen.png", "com/resources/art/sprites/shop_splash_images/FreezeMissile.png", 
-	"com/resources/art/sprites/missile.png"}
+	"com/resources/art/sprites/missile.png", 'com/resources/art/sprites/shop_splash_images/NRGRegen.jpg', 'com/resources/art/sprites/shop_splash_images/HealthPickUp.png'}
 
 	for i = 1,  numOfSlots, 1 do
 	  secondaryItemCarousels[i] = Carousel.new(group, i, secondarySplashImages, 100, display.contentHeight * 0.3 + i * 80, 300, display.contentHeight * 0.1, 4, false, dollazText)
