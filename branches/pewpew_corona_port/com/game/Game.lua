@@ -259,6 +259,8 @@ function scene:createScene( event )
 	
 	soundHandler = SFX:new(group, gameSFXInfo, "game")
 	scoreText = display.newText("Score: ", display.contentWidth * 0.57, display.contentHeight * 0.03, native.systemFont, 25 )
+	scoreText.anchorX = 0
+	scoreText.anchorY = 0
 	AIDirector.create(group)
 	ScoreManager.create()
 	collectibles = CollectibleHeap:new(group, {'HealthPickUp', 'ScrapPickUp', 'EnergyPickUp'})
@@ -325,9 +327,11 @@ function scene:exitScene( event )
 	print('Exiting scene')
 	local group = self.view
 	
+	print(player.isFiring)
 	offPewButton.isVisible = true
 	onPewButton.isVisible = false
 	player.isFiring = false
+	print(player.isFiring)
 	
 	stopBGM()
 	

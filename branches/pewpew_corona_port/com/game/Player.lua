@@ -274,7 +274,7 @@ function Player:onHit(phase, collide)
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
-			--sound:load(self.soundPathHit) --got hit by a dude
+				Runtime:dispatchEvent({name = "playSound", soundHandle = 'Player_onHit'})
 				if self.health <= 0 and not debugFlag then
 					--sound:load(self.soundPathDeath) 
 					--got the deadness

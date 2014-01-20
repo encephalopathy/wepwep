@@ -18,6 +18,7 @@ function createBttn(widget, display, labelName, x, y, onReleaseCallback)
 		defaultFile="com/resources/art/sprites/button.png",
 		overFile="com/resources/art/sprites/button-over.png",
 		width=154, height=40,
+		font = native.systemFont,
 		onRelease = onReleaseCallback	-- event listener function
 	}
 	
@@ -33,7 +34,7 @@ function createBttn(widget, display, labelName, x, y, onReleaseCallback)
 	if y ~= nil then
 		newGameButton.y = y
 	end
-
+	
 	return newGameButton
 end
 

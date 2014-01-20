@@ -41,5 +41,6 @@
 	Hater_onHit = {path = "com/resources/music/soundfx/enemyHit.ogg", channel = 4, setting = 'NR'},
 	HealthPickUp = {path = "com/resources/music/soundfx/healthTemp.ogg", channel = 5, setting = 'R'},
 	EnergyPickUp = {path = "com/resources/music/soundfx/energyTemp.ogg", channel = 5, setting = 'R'},
-	ScrapPickUp = {path = "com/resources/music/soundfx/ring.ogg", channel = 5, setting = 'R'}
+	ScrapPickUp = {path = "com/resources/music/soundfx/ring.ogg", channel = 5, setting = 'R'},
+	Player_onHit = {path = "com/resources/music/soundfx/playerHitTemp.ogg", channel = 6, setting = 'R'}
 }

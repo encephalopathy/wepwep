@@ -130,6 +130,7 @@ local ENEMY_THRESHOLD_TIME = 1000
 
 function createGame(filename)
 	local filePath = system.pathForFile( filename, system.ResourceDirectory )
+	print('filePath: '..filePath)
 	if filePath == nil then
 		print('Cannot open a file that does not exist in LevelManager.lua:createGame')
 		return nil 
@@ -227,7 +228,7 @@ function setLevel(levelName)
 	return currentLevel
 end
 
-levels = createGame('com/game.pew')  
+--levels = createGame('CarrierTest.pew')
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	
@@ -306,8 +307,7 @@ function setLevel(levelName)
 	return currentLevel
 end
 
---levels = createGame('com/game/levels/game.pew')  
-levels = createGame('game.pew')  
+levels = createGame('game.pew') 
 --[[
 	These functions are strictly used for Debugging purposes. DO NOT TOUCH THESE!!! BRENT WILL BE TOTES MAD!
 	

@@ -106,7 +106,7 @@ function scene:createScene( event )
 	group:insert( subtext )
 
 	group:insert( backButton )
-	print('dollazText: ' .. tostring(dollaztext))
+	
 local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false, dollaztext) 
 	createSecondaryItemCarousels(group, dollaztext)
 end
