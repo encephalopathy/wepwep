@@ -25,6 +25,7 @@ function Button:init(sceneGroup, x, y, buttonImg, buttonImgOnOver, clickEventNam
 		overFile = buttonImgOnOver,
 		width = width,
 		height = height,
+		font = native.systemFont,
 		onRelease = self.sceneGroup.onPress
 	}
 	

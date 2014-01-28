@@ -1,11 +1,10 @@
 --[[
-main.lua (codec.lua?)
+codec.lua
 
 The codec appears, cycles through messages when the codec is touched,
 and then disappears.
 
-TODO: Codec portraits and animation
-TODO: Text input
+TODO: Redo drawing of the codec
 --]]
 
 

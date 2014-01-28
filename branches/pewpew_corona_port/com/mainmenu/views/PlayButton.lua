@@ -4,8 +4,8 @@ PlayButton = Button:subclass("PlayButton")
 --To make views, make sure to call the createView by passing a reference for yourself when you
 --are done.  That way the Context knows that a view has been created.
 function PlayButton:init(sceneGroup)
-	local x = display.contentWidth * 0.5 + 120
-	local y = display.contentHeight - 225
+	local x = display.contentWidth * 0.5
+	local y = display.contentHeight * 0.5 + 80
 	self.super:init(sceneGroup, x, y, "com/resources/art/sprites/button.png", "com/resources/art/sprites/button-over.png", "PlayGame", "Play Now", { default = {255}, over = {128} }, 154, 40)
 	self:createView(self)
 end

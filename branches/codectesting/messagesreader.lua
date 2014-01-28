@@ -14,7 +14,7 @@ local messages = {}
 
 
 messages = {			-- NOTE: messages[0] is the number of total messages
-	[0] = 5,
+	length = 5,
 	{name = "Reggie", content = "Let me tell you a story about my father..."},
 	{name = "Reggie", content = "He was a silly little man, who has no hopes for the future."},
 	{name = "Reggie", content = "He always had a bundle of dishes to clean."},
@@ -45,11 +45,32 @@ function parseLine(line)
 
 	local message = {}
 
-	-- TODO: use gmatch to iterate through your string 
+   	--TODO: figure out what to do if your content has a quotation marks inside it
+   	message.content = line:match('%b""')
 
-	message.name = "name"
-   	message.mood = "mood"
-   	message.content = "content"
+   	if message.content ~= nil then
+		message.content = message.content:gsub('"', "")
+   		line = line:gsub('%b""', "")
+   	end
+
+   	-- grab the name and the mood, in probably a very silly way
+   	i = 1
+   	for word in string.gmatch(line, "%a+") do
+   		if i == 1 then
+   			message.name = word
+   		elseif i == 2 then
+   			message.mood = word
+   		end
+   		i = i + 1
+   	end
+
+   	-- if the input was incorrect, then use the default words
+   	if message.name == nil or message.mood == nil or message.content == nil then
+   		print("ERROR (messagesreader): Input incorrect! Sending default values...")
+   		message.name = "NOW YOU FUCKED UP!"
+   		message.mood = "NOW YOU FUCKED UP!"
+   		message.content = "YOU HAVE FUCKED UP NOW!"
+   	end
 
    	return message
 end
@@ -90,7 +111,7 @@ function mr.readMessagesTextFile(messagesFileName)
 		
 	        -- interpret the line and get the message table
 		    local message = interpretLine(currentLine)
-
+		    
 		    -- if there is a table that is returned from interpret line
 		    if message ~= nil then
 
@@ -101,9 +122,11 @@ function mr.readMessagesTextFile(messagesFileName)
 		    	messagesIndex = messagesIndex + 1
 		    end
 		    
+		    --update the messages count with the correct number of messages
+		    messages.length = messagesIndex - 1
+
 		    -- move to the next line
 		    currentLine = file:read("*l")
-
 		end
 		
 	else
@@ -113,7 +136,6 @@ function mr.readMessagesTextFile(messagesFileName)
 	-- close and remove the file
 	io.close(file)
 	file = nil
-	print("read messages all finished!")
 end
 
 

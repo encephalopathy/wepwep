@@ -3,6 +3,7 @@ require "com.game.weapons.Bullet"
 Spreadshot = Weapon:subclass("Spreadshot")
 
 function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, numberOfWaves, delayBetweenWaves, imgSrc, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle, numberOfShots, firingAngle, numberOfArcs, angleBetweenArcs)
+
 	if rateOfFire ~= nil then
 		self.rateOfFire = rateOfFire
 	else
@@ -109,7 +110,7 @@ function Spreadshot:fire (player)
 	      shots[i] = self:getNextShot()
 		end
 	end
-       
+
    if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
 		for i = 1, (self.numberOfShots), 1 do
 			local bullet = shots[i]

@@ -71,11 +71,11 @@ function Hater_Carrier:update()
 			and self.sprite.x >= scrnWidth/2 and self.sprite.y <= scrnHeight/2 + self.sprite.height 
 			and self.sprite.y >= scrnWidth/2 - self.sprite.height) then
 				self:release()
-				--print("Poooooot")
 		
 		elseif (self.drones > 11) then
 			self:move(1,-1)
-	end
+		end
+		self:fire()
   end
 end
 
@@ -83,7 +83,7 @@ end
 --This is the base function for how Carriers will release their drones
 --TO DO: fix up how carriers and drones equip weapons
 function Hater_Carrier:release()
-	print("Inside Hater_Carrier:release")
+	--print("Inside Hater_Carrier:release")
 	self.drones = self.drones + 1
 
 	--add it to the inView queue
@@ -91,12 +91,11 @@ function Hater_Carrier:release()
 	
 	local enemyInView = nil
 	if self.haterList[haterType] == nil then--this check is only run if this is the very first drone made
-		print("haterList[haterType] is nil")
 		self.haterList[haterType] = {}
 		self.haterList[haterType].outOfView = Queue.new()
 		self.haterList[haterType].inView = Queue.new()
 
-		print(type(require(haterType)))
+		--print(type(require(haterType)))
 		
 		local newHater = require(haterType):new(self.sceneGroup, self.player, 
 										self.inView, self.outOfView,
@@ -107,22 +106,20 @@ function Hater_Carrier:release()
 	else
 		if self.haterList[haterType].outOfView.size > 0 then
 			enemyInView = Queue.removeBack(self.haterList[haterType].outOfView)
-			--enemyInView:respawn()
+			enemyInView:respawn()
 		else
 			enemyInView = require(haterType):new(self.sceneGroup, self.player,
 										self.inView, self.outOfView, self.haterList, self.allHatersInView)
-		enemyInView.sprite.isBodyActive = false
-		enemyInView.sprite.isVisible = false
+			enemyInView.sprite.isBodyActive = false
+			enemyInView.sprite.isVisible = false
 		end
 	end
 	enemyInView.sprite.isBodyActive = true
 	enemyInView.sprite.isVisible = true
 	Queue.insertFront(self.haterList[haterType].inView, enemyInView)
-	
-	self.droneSpawn(enemyInView)
-	
-	--need to figure out how to set up the carriers and drones weapons
-	--enemyInView:equipRig(self.sceneGroup, ,self.defensePassives)
+
+	self:droneSpawn(enemyInView)
+	enemyInView:equipRig(self.sceneGroup, self.Weapons, self.Passives)
 	
 	--need to set the enemyInView into the allHatersInView queue
 	self.allHatersInView[enemyInView] = enemyInView
