@@ -282,13 +282,11 @@ function Player:onHit(phase, collide)
 					self:die()
 				end
 			elseif not collide.isPlayerBullet and Collectible:made(collide) then
-				--[[local size = table.getn(self.defensePassives)
-				for i = 1, size, 1 do
-					if self.defensePassives[i] == HealthUponScrapPickUp then
+				for i = 1, #self.defensePassives, 1 do
+					if self.defensePassives[i].increaseAmount ~= nil then
 						self.defensePassives[i]:increaseHealth()
 					end
-				end]]--
-				
+				end
 			end
 		end
 	end
