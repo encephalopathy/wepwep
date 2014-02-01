@@ -11,10 +11,13 @@ local DEFAULT_WIDTH = 55
 local DEFAULT_HEIGHT = 65
 
 function BulletManager:init (sceneGroup)
+	print('CREATING BULLLET MANAGER')
 	self.playerOnScreenBullets = {}
 	self.playerOffScreenBullets = {}
+	self.nilBulletPlayerQueue = Queue.new()
 	self.haterOnScreenBullets = {}
 	self.haterOffScreenBullets = {}
+	self.nilBulletHaterQueue = Queue.new()
 	self.bulletGroupInView = display.newGroup()
 	sceneGroup:insert(self.bulletGroupInView)
 end
@@ -72,22 +75,32 @@ function BulletManager:offScreen (event)
 	return true
 end
 
-local function cullBulletsOffScreen(onScreenList, offScreenList)
-	for i = onScreenList.first, onScreenList.last, 1 do
-		local bullet = onScreenList[i]
-		if bullet.sprite.y >= display.contentHeight  or bullet.sprite.y <=  -50 or bullet.sprite.x >= display.contentWidth or 
-       		bullet.sprite.x <= -50 or not bullet.alive then
-			bullet.sprite.x = 5000
-			bullet.sprite.y = 5000
-			self:handleBulletOffScreen(bullet)
-	   end
+function BulletManager:cullBulletsOffScreen(onScreenList)
+	
+	for className, typeOfBullets in pairs(onScreenList) do
+		for imgSrc, bullets in pairs(typeOfBullets) do
+			print('Checking to remove bullet by imgSrc')
+			for i = bullets.first, bullets.last, 1 do
+				print('removing bullet')
+				local bullet = bullets[i]
+				if bullet.sprite.y >= display.contentHeight  or bullet.sprite.y <=  -50 or bullet.sprite.x >= display.contentWidth or 
+       					bullet.sprite.x <= -50 or not bullet.alive then
+					print('Culling bullets off screen in bullet manager')
+					bullet.sprite.x = 5000
+					bullet.sprite.y = 5000
+					self:handleBulletOffScreen(bullet)
+	   			end
+			end
+		end
 	end
 end
 
 function BulletManager:update()
-	print('Updating to cull bullets off screen')
-	cullBulletsOffScreen(self.playerOnScreenBullets, self.playerOffScreenBullets)
-	cullBulletsOffScreen(self.haterOnScreenBullets, self.haterOffScreenBullets)
+	--print('BULLET MANAGER UPDATING')
+	--print('onScreenBullets: ' .. tostring(self.playerOnScreenBullets))
+	--print('offScreenBullets: ' .. tostring(self.playerOffScreenBullets))
+	self:cullBulletsOffScreen(self.playerOnScreenBullets)
+	self:cullBulletsOffScreen(self.haterOnScreenBullets)
 end
 
 
@@ -98,7 +111,7 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 		imgSrc = "com/resources/art/sprites/bullet_02.png"
 	end
 
-	if (width == nil) then
+	if width == nil then
 		width = DEFAULT_WIDTH
 	end
 	if (height == nil) then
@@ -114,8 +127,7 @@ function BulletManager:getBullet (bulletClass, imgSrc, isPlayerBullet, width, he
 			offScreenBulletList = self.haterOffScreenBullets
 		end
 	end
-	
-	local bullet = nil;
+	local bullet = nil
 	bullet = self:getBulletFromOffScreen (offScreenBulletList, bulletClass, imgSrc)
 	if (bullet == nil) then
 		bullet = bulletClass:new(self.bulletGroupInView, imgSrc, isPlayerBullet, width, height)
@@ -156,7 +168,7 @@ function BulletManager:addBulletToOnScreen(onScreenList, bullet)
 	if (onScreenList[tostring(bullet)][bullet.imgSrc] == nil) then
 		onScreenList[tostring(bullet)][bullet.imgSrc] = Queue.new()
 	end
-
+	
 	assert(bullet.sprite ~= nil)
 	bullet.sprite.isVisible = true
 	bullet.sprite.isBodyActive = true
@@ -195,7 +207,7 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 
 
 	bullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-
+	if bullet == nil then return end
 	Queue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
