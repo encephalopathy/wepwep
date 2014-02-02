@@ -1,5 +1,5 @@
 require "org.Object"
-require "org.Queue"
+require "org.DynamicQueue"
 require "com.game.weapons.Bullet"
 require "com.game.weapons.primary.SineWaveBullet"
 require "com.game.weapons.secondary.StandardMissile"
@@ -38,7 +38,7 @@ function BulletManager:handleBulletOffScreen(bullet)
 		shipType = 'hater '
 	end
 	
-	--print('Ship type collecting bullets on crash: ' .. shipType)
+	print('Ship type collecting bullets on crash: ' .. shipType)
 	if bullet ~= nil then
 		self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
 	end
@@ -64,21 +64,27 @@ function BulletManager:offScreen (event)
 		shipType = 'hater '
 	end
 	
-	--print('Ship type collecting bullets on crash: ' .. shipType)
+	print('Ship type collecting bullets on crash: ' .. shipType)
 	if bullet ~= nil then
 		self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
 	end
-	
+
 	return true
 end
 
 local function cullBulletsOffScreen(onScreenList, offScreenList)
+	print('Culling Bullets')
+	print('onScreenList: ' .. onScreenList.first)
+	print('onScreenList: ' .. onScreenList.last)
+	for 
 	for i = onScreenList.first, onScreenList.last, 1 do
 		local bullet = onScreenList[i]
+		print('Adding bullet to offScreen')
 		if bullet.sprite.y >= display.contentHeight  or bullet.sprite.y <=  -50 or bullet.sprite.x >= display.contentWidth or 
        		bullet.sprite.x <= -50 or not bullet.alive then
 			bullet.sprite.x = 5000
 			bullet.sprite.y = 5000
+			
 			self:handleBulletOffScreen(bullet)
 	   end
 	end
@@ -129,7 +135,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 	for className, typeOfBullets in pairs(onScreenBullets) do
 		for imgSrc, bullets in pairs(typeOfBullets) do
 			while bullets.size > 0 do
-				local bullet = Queue.removeBack(bullets)
+				local bullet = DynamicQueue.removeBack(bullets)
 				bullet.sprite.isVisible = false
 				bullet.sprite.x = 5000
 				bullet.sprite.y = 5000
@@ -140,10 +146,10 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				end
 				
 				if offScreenBullets[tostring(bullet)][bullet.imgSrc] == nil then
-					offScreenBullets[tostring(bullet)][bullet.imgSrc] = Queue.new()
+					offScreenBullets[tostring(bullet)][bullet.imgSrc] = DynamicQueue.new()
 				end
 				
-				Queue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
+				DynamicQueue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 		end
 	end
@@ -154,14 +160,14 @@ function BulletManager:addBulletToOnScreen(onScreenList, bullet)
 		onScreenList[tostring(bullet)] = {}
 	end
 	if (onScreenList[tostring(bullet)][bullet.imgSrc] == nil) then
-		onScreenList[tostring(bullet)][bullet.imgSrc] = Queue.new()
+		onScreenList[tostring(bullet)][bullet.imgSrc] = DynamicQueue.new()
 	end
 
 	assert(bullet.sprite ~= nil)
 	bullet.sprite.isVisible = true
 	bullet.sprite.isBodyActive = true
 
-	Queue.insertFront(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
+	DynamicQueue.insertFront(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
 function BulletManager:getBulletFromOffScreen (offScreenList, bulletClass, imgSrc)
@@ -172,7 +178,7 @@ function BulletManager:getBulletFromOffScreen (offScreenList, bulletClass, imgSr
 		return nil
 	end
 	
-	return Queue.removeBack(offScreenList[tostring(bulletClass)][imgSrc])
+	return DynamicQueue.removeBack(offScreenList[tostring(bulletClass)][imgSrc])
 end
 
 function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet)
@@ -184,7 +190,7 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 		offScreenList[tostring(bullet)] = {}
 	end
 	if (offScreenList[tostring(bullet)][bullet.imgSrc] == nil) then
-		offScreenList[tostring(bullet)][bullet.imgSrc] = Queue.new()
+		offScreenList[tostring(bullet)][bullet.imgSrc] = DynamicQueue.new()
 	end
 	--Disable Box2D movement here
 	bullet.alive = false
@@ -194,9 +200,10 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
     bullet.sprite.y = 5000
 
 
-	bullet = Queue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-
-	Queue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
+	bullet = DynamicQueue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
+	print('first: ' .. onScreenList[tostring(bullet)][bullet.imgSrc].first)
+	print('last: ' .. onScreenList[tostring(bullet)][bullet.imgSrc].last)
+	DynamicQueue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
 function BulletManager:stop(sceneGroup)
