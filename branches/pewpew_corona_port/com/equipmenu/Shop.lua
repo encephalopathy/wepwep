@@ -10,6 +10,8 @@ require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.passives.Player.ExtraStartingHealth"
 require "com.game.passives.Player.HealthRegen"
 require "com.game.passives.Player.GunpodCollection"
+require "com.game.passives.Player.NRGRegen"
+require "com.game.passives.player.HealthUponScrapPickUp"
 require "com.game.weapons.secondary.GrenadeLauncher"
 require "com.game.weapons.secondary.Bomb"
 require "com.game.weapons.secondary.FreezeMissile"
@@ -65,6 +67,8 @@ function Shop:createPassives()
    self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 100 }
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 }
    self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 }
+   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 }
+   self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100}
 end
 
 -- Unlock a weapon to equip.

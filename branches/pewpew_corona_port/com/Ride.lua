@@ -79,6 +79,7 @@ function Ride:createExplosionSpriteSheet(spriteSheetOptions)
 	local explosion = display.newSprite(explosionSpriteSheet, spriteOptions)
 	--Creates the explosion location to be offscreen so we it doesn't get rendered in the scene.
 	explosion.x = 5000; explosion.y = 5000
+	
 	--Increase the scale dimensions of the animation so we can see it on the screen.
 	explosion.xScale = 3; explosion.yScale = 3
 	--Makes sure we do not see the animation.

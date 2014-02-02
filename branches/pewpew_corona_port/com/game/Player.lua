@@ -26,6 +26,8 @@ require "com.game.passives.Player.HealthRegen"
 require "com.game.collectibles.Collectible"
 require "com.game.passives.Player.GunpodCollection"
 require "com.game.passives.Player.GunpodSingle"
+require "com.game.passives.Player.NRGRegen"
+require "com.game.passives.Player.HealthUponScrapPickUp"
 
 --[[
 	CLASS NAME: Player
@@ -123,11 +125,14 @@ function Player:equipDebug(sceneGroup)
 	self.weapon.owner = self
 	self.defensePassives[1] = ExtraStartingHealth:new()
 	self.defensePassives[1]:setOwner(self)
-	self.defensePassives[2] = HealthRegen:new()
+	--[[self.defensePassives[2] = HealthRegen:new()
+	self.defensePassives[2]:setOwner(self)]]--
+	self.defensePassives[2] = HealthUponScrapPickUp:new()
 	self.defensePassives[2]:setOwner(self)
 	self.defensePassives[3] = GunpodCollection:new(GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200)
-	--self.defensePassives[3]:setOwner(self, GunpodSingle, sceneGroup, "com/resources/art/sprites/rocket_01.png", 80, 0, AIDirector.haterList, Singleshot, true, 1, 200)
 	self.defensePassives[3]:setOwner(self, sceneGroup)
+	self.defensePassives[4] = NRGRegen:new()
+	self.defensePassives[4]:setOwner(self)
 end
 
 --[[
@@ -269,12 +274,18 @@ function Player:onHit(phase, collide)
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
-			--sound:load(self.soundPathHit) --got hit by a dude
+				Runtime:dispatchEvent({name = "playSound", soundHandle = 'Player_onHit'})
 				if self.health <= 0 and not debugFlag then
 					--sound:load(self.soundPathDeath) 
 					--got the deadness
 					--playerDeathSFX:play()
 					self:die()
+				end
+			elseif not collide.isPlayerBullet and Collectible:made(collide) then
+				for i = 1, #self.defensePassives, 1 do
+					if self.defensePassives[i].increaseAmount ~= nil then
+						self.defensePassives[i]:increaseHealth()
+					end
 				end
 			end
 		end

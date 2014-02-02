@@ -200,7 +200,6 @@ function Weapon:cacheAmmoIfOutofBounds(bullet)
 	end
 end
 
-
 --[[
 	FUNCTION NAME: canFire
 	

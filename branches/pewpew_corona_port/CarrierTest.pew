@@ -1,0 +1,8 @@
+Name=carrierTest Number=1
+Time=2 com.game.enemies.Hater_Carrier=3
+   Type=com.game.enemies.Hater_Carrier Location=33,-77 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
+   Type=com.game.enemies.Hater_Carrier Location=82,-29 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
+   Type=com.game.enemies.Hater_Carrier Location=128,-80 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
+Time=4 com.game.enemies.Hater_Carrier=2
+   Type=com.game.enemies.Hater_Carrier Location=51,-55 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
+   Type=com.game.enemies.Hater_Carrier Location=112,-52 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
