@@ -126,7 +126,7 @@ local function update(event)
 	end
 	
 	scoreText.text = "Score: "..tostring(ScoreManager.runScore)
-	
+	bulletManager:update()
 	collectibles:update()
 	AIDirector.update()
 	if(player.isFiring) then 
@@ -136,6 +136,7 @@ local function update(event)
 	end
 	
 	player:updatePassives()
+	bulletManager:update()
 	--player:cullBulletsOffScreen()
 	bulletManager:update()
 	
