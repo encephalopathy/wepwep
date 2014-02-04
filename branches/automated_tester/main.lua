@@ -7,6 +7,7 @@
 -- Your code here
 
 require 'Test.More'
+require 'luaunit_v13.luaunit'
 require 'managers.levelmanager_test'
 
 local storyboard = require "storyboard"

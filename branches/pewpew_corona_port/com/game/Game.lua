@@ -138,6 +138,7 @@ local function update(event)
 	player:updatePassives()
 	bulletManager:update()
 	--player:cullBulletsOffScreen()
+	bulletManager:update()
 	
 	debugUpdate()
 	
