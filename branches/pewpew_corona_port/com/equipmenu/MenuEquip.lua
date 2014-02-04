@@ -28,14 +28,14 @@ local function back()
 	return true	-- indicates successful touch
 end
 
-local function createSecondaryItemCarousels(group, dollazText)
+local function createSecondaryItemCarousels(group, dollazText, weightText)
 	local secondarySplashImages = {"com/resources/art/sprites/bomb.png", "com/resources/art/sprites/heart.png", 
 	"com/resources/art/sprites/shop_splash_images/Gunpods.png", 
 	"com/resources/art/sprites/shop_splash_images/HealthRegen.png", "com/resources/art/sprites/shop_splash_images/FreezeMissile.png", 
 	"com/resources/art/sprites/missile.png", 'com/resources/art/sprites/shop_splash_images/NRGRegen.jpg', 'com/resources/art/sprites/shop_splash_images/HealthPickUp.png'}
 
 	for i = 1,  numOfSlots, 1 do
-	  secondaryItemCarousels[i] = Carousel.new(group, i, secondarySplashImages, 100, display.contentHeight * 0.3 + i * 80, 300, display.contentHeight * 0.1, 4, false, dollazText)
+	  secondaryItemCarousels[i] = Carousel.new(group, i, secondarySplashImages, 100, display.contentHeight * 0.3 + i * 80, 300, display.contentHeight * 0.1, 4, false, dollazText, weightText)
 	end
 end
 
@@ -66,12 +66,14 @@ function scene:createScene( event )
 	bgRect:setFillColor(20/255, 70/255, 10/255, 130/255)
 	
 	--display.newText( string, left, top, font, size )
-	local dollaztext = display.newText( "Dollaz : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
-	dollaztext.anchorX, dollaztext.anchorY = 0, 0
+	local dollaztext = display.newText( "DOLLAZ : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
+	local weighttext = display.newText("WEIGHT : "..mainInventory.weightAvailable, display.contentWidth*0.55, display.contentHeight * 0.05, native.systemFont, 25)
 	local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
 	local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
 	local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
 	
+	dollaztext.anchorX, dollaztext.anchorY = 0, 0
+	weighttext.anchorX, weighttext.anchorY = 0, 0
 	equiptext.anchorX, equiptext.anchorY = 0, 0
 	maintext.anchorX, maintext.anchorY = 0, 0
 	subtext.anchorX, subtext.anchorY = 0, 0
@@ -101,14 +103,15 @@ function scene:createScene( event )
 	group:insert( bgRect )
 	
 	group:insert( dollaztext )
+	group:insert( weighttext )
 	group:insert( equiptext )
 	group:insert( maintext )
 	group:insert( subtext )
 
 	group:insert( backButton )
 	
-local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false, dollaztext) 
-	createSecondaryItemCarousels(group, dollaztext)
+local primaryWeapons = Carousel.new(group, 0, primaryWeapsSplashImages, 100, display.contentHeight * 0.3, 300, display.contentHeight * 0.1, 3, false, dollaztext, weighttext) 
+	createSecondaryItemCarousels(group, dollaztext, weighttext)
 end
 
 

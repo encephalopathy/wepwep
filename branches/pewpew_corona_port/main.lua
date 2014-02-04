@@ -5,6 +5,8 @@
 -----------------------------------------------------------------------------------------
 --require("LevelManager")
 
+system.activate("multitouch")
+
 -- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
 

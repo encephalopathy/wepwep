@@ -1,10 +1,11 @@
 require "com.Ride"
 
---TO DO: PLAYER_MAXHEALTH will later be dependent on what ship and what passives
+--TO DO: PLAYER_MAXHEALTH, PLAYER_MAXPOWAH, etc. will later be dependent on what ship and what passives
 PLAYER_MAXHEALTH = 10
 
 PLAYER_MAXPOWAH = 100
 PLAYER_POWAH_REGENERATION_RATE = 3
+
 --For testing
 --require("SingleshotWeapon")
 
