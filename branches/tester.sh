@@ -18,13 +18,12 @@ chmod 755 -R automated_tester/com
 chmod 755 -R automated_tester/org
 
 echo "Launching App"
-
 #This will need to be changed for a mac computer
-#if [ $OSTYPE -eq "cygwin" ]
+if [ $OSTYPE -eq "cygwin" ]; then
 	C:/Program\ Files\ \(x86\)/Corona\ Labs/Corona\ SDK/Corona\ Simulator.exe ./automated_tester/main.lua
-#else
-#	/Applications/CoronaSDK/Corona\ Simulator.app /automated_tester/main.lua
-#fi
+else
+	/Applications/CoronaSDK/Corona\ Simulator.app/Contents/MacOS/Corona\ Simulator ./automated_tester/main.lua
+fi
 
 
 #simulator /AutomtatedTester/main.lua
