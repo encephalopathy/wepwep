@@ -9,9 +9,9 @@ function HealthUponScrapPickUp:init(increaseAmount)
 
 	if increaseAmount == nil then
 		print("SET DEFAULT STARTING HEALTH")
-		self.increaseAmount = DEFAULT_INCREASE_AMOUNT
+		self.pickupIncreaseAmount = DEFAULT_INCREASE_AMOUNT
 	else
-		self.increaseAmount = increaseAmount
+		self.pickupIncreaseAmount = increaseAmount
 	end
 end
 
