@@ -49,7 +49,7 @@ local function prevItem(carousel)
 end
 
 
-function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal, dollazText)
+function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal, dollazText, weightText)
 	local newCarousel = {}
 	newCarousel.yPos = y
 	newCarousel.items = Dequeue.new()
@@ -107,7 +107,8 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 			font = native.systemFont,
 			onEvent = function(event)
 				equip(id, package[i])
-				dollazText.text = "Dollaz : " .. tostring(mainInventory.dollaz)
+				dollazText.text = "DOLLAZ : " .. tostring(mainInventory.dollaz)
+				weightText.text = "WEIGHT : " .. tostring(mainInventory.weightAvailable)
 			end
 		}
 		newItem.x, newItem.y = spawnPoolLocX, spawnPoolLocY

@@ -6,8 +6,7 @@
 
 -- Your code here
 
-require 'Test.More'
-require 'managers.levelmanager_test'
+require 'luaunit_v13.luaunit'
 
 local storyboard = require "storyboard"
 
@@ -16,7 +15,7 @@ storyboard.gotoScene( "com.mainmenu.MainMenu" )
 local options = { effect = "fade", time = 500, params = { debug = false } }
 storyboard.gotoScene( "com.game.Game", options )
 
-runLevelManagerParseTest()
+
 
 
 

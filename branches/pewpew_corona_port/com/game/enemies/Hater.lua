@@ -156,7 +156,7 @@ function Hater:update()
    
    --ALL THE BULLETS!
    --self.weapon:checkBullets()
-   self:cullBulletsOffScreen()
+   --self:cullBulletsOffScreen()
    
    if self.hitColorTimer > 0 then
 	  self.hitColorTimer = self.hitColorTimer - 1

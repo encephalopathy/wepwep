@@ -20,8 +20,6 @@ local widget = require("widget")
 mainInventory = nil
 mainInventory = Inventory:new(group)
 
-shop = Shop:new()
-
 local storyboard = require("storyboard")
 local scene = storyboard.newScene("MainMenu")
 

@@ -67,16 +67,8 @@ function Bullet:onCollision()
 	self.alive = false
 end
 
-function Bullet:recycle(bullet)
-	self.sprite.x = 5000
-    self.sprite.y = 5000
-	local offScreen
-	if bullet == nil then
-		offScreen = { name = "offScreen", target = self }
-	else
-		offScreen = { name = "offScreen", target = bullet }
-	end
-	Runtime:dispatchEvent(offScreen)
+function Bullet:recycle()
+	self.alive = false
 end
 
 function Bullet:destroy()

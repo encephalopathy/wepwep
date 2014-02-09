@@ -28,14 +28,14 @@ SFX = Object:subclass("SFX")
 
 --constructor
 function SFX:init(sceneGroup, infoTable, debugName)
-	print(debugName)
+	--print(debugName)
 	self.name = debugName
-	print("creating table name:"..self.name)
+	--print("creating table name:"..self.name)
 	self.group = sceneGroup
 	self.sfx = {}
-	print("creating sound table")
+	--print("creating sound table")
 	for soundType,soundInfo in pairs(infoTable) do
-		print("soundType is : "..soundType)
+		--print("soundType is : "..soundType)
 		--print(soundInfo.setting)
 		self.sfx[soundType] = {object = audio.loadSound(soundInfo.path), channel = soundInfo.channel, setting = soundInfo.setting}
 	end
@@ -87,7 +87,7 @@ end
 
 --stop
 function SFX:stopSound(event)
-	print("INSIDE stopSound")
+	----print("INSIDE stopSound")
 	if event.name == "stopSound"then
 		if self.sfx[event.soundHandle].object ~= nil then
 			--the sound handle you want to stop doesn't exist
@@ -101,7 +101,7 @@ end
 
 --dispose
 function SFX:disposeSound()
-	print("INSIDE disposeSound")
+	--print("INSIDE disposeSound")
 	for soundType, sound in pairs(self.sfx) do
 		--print("type: "..type(self.sfx[soundType].object))
 		if(audio.isChannelPlaying(self.sfx[soundType].channel)) then
@@ -111,5 +111,5 @@ function SFX:disposeSound()
 		self.sfx[soundType] = nil --set element in the table to be nil
 	end
 	self.sfx = nil
-	print("memory has been freed up")
+	--print("memory has been freed up")
 end

@@ -26,12 +26,12 @@ function ScoreManager.create()
 end
 
 function ScoreManager:addListener() --grab scene object from the storyBoard for optimization
-	print("Inside addListener")
+	--print("Inside addListener")
 	Runtime:addEventListener("addScore", ScoreManager.addScore)
 end
 
 function ScoreManager:removeListener() --grab scene object from the storyBoard for optimization
-	print("inside removeListener")
+	--print("inside removeListener")
 	Runtime:removeEventListener("addScore", ScoreManager.addScore)
 end
 
@@ -49,7 +49,7 @@ function ScoreManager.addScore(event)
 end
 
 function ScoreManager.resetRunScore(event)
-	print("INSIDE ScoreManger.resetRunScore")
+	--print("INSIDE ScoreManger.resetRunScore")
 	if event.name == "exitScene" then
 		mainInventory.dollaz = mainInventory.dollaz + ScoreManager.runScore
 		--print("mainInventory.dollaz: "..mainInventory.dollaz)
@@ -58,7 +58,7 @@ function ScoreManager.resetRunScore(event)
 end
 
 function ScoreManager.resetSectionScore(event)
-	print("INSIDE ScoreManager.resetSectionScore")
+	--print("INSIDE ScoreManager.resetSectionScore")
 	if event.name == "exitScene" then
 		ScoreManager.sectionScore = 0
 	end

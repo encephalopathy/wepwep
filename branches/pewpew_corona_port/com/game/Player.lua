@@ -1,10 +1,11 @@
 require "com.Ride"
 
---TO DO: PLAYER_MAXHEALTH will later be dependent on what ship and what passives
+--TO DO: PLAYER_MAXHEALTH, PLAYER_MAXPOWAH, etc. will later be dependent on what ship and what passives
 PLAYER_MAXHEALTH = 10
 
 PLAYER_MAXPOWAH = 100
 PLAYER_POWAH_REGENERATION_RATE = 3
+
 --For testing
 --require("SingleshotWeapon")
 
@@ -76,7 +77,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	
 	self.powah = PLAYER_MAXPOWAH
 	
-	self.isFiring = false
+	self.isFiring = true
 	
 	self.secondaryWeapons = {}
 	
@@ -282,13 +283,11 @@ function Player:onHit(phase, collide)
 					self:die()
 				end
 			elseif not collide.isPlayerBullet and Collectible:made(collide) then
-				--[[local size = table.getn(self.defensePassives)
-				for i = 1, size, 1 do
-					if self.defensePassives[i] == HealthUponScrapPickUp then
+				for i = 1, #self.defensePassives, 1 do
+					if self.defensePassives[i].increaseAmount ~= nil then
 						self.defensePassives[i]:increaseHealth()
 					end
-				end]]--
-				
+				end
 			end
 		end
 	end

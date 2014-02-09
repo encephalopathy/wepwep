@@ -20,13 +20,15 @@ require "com.game.weapons.secondary.StandardMissile"
 Inventory = Object:subclass("Inventory")
 
 --Should be based on what ship it is later.
-local NUMBER_OF_EQUIP_SLOTS = 5
+local NUMBER_OF_EQUIP_SLOTS = 3
+WEIGHT_CAPACITY = 10
 
 function Inventory:init (scene)
    -- keep all the weapons in a master list
    self.dollaz = 5000
-   self.primaryWeapon = 1
+   self.primaryWeapon =  Singleshot:new(scene, true, 25, 200, 0, 0)
    self.numOfEquipSlotsAvailable = NUMBER_OF_EQUIP_SLOTS
+   self.weightAvailable = WEIGHT_CAPACITY - 5
    -- permissions list
    
    self.slots = {}
