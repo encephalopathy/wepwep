@@ -21,9 +21,9 @@ end
 
 local function getButtonResolution()
 	--TODO: reset the x and y positions and width and height based on the resolution of the phone.
-	local xPos, yPos = 70, 70
-	local width, height = 50, 50
-	local dy = 50
+	local xPos, yPos = 70, 150
+	local width, height = 75, 75
+	local dy = 125
 	return xPos, yPos, width, height, dy
 end
 

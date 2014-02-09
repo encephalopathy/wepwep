@@ -234,7 +234,7 @@ function scene:createScene( event )
 		end
 	}
 	offPewButton.baseLabel = ""
-	offPewButton.isVisible = true
+	offPewButton.isVisible = false
 	
 	onPewButton = widget.newButton
 	{
@@ -257,7 +257,7 @@ function scene:createScene( event )
 		end
 	}
 	onPewButton.baseLabel = ""
-	onPewButton.isVisible = false
+	onPewButton.isVisible = true
 	
 	soundHandler = SFX:new(group, gameSFXInfo, "game")
 	scoreText = display.newText("Score: ", display.contentWidth * 0.57, display.contentHeight * 0.03, native.systemFont, 25 )
@@ -315,6 +315,11 @@ function scene:enterScene( event )
 	step = 0
 	
 	player.alive = true
+	
+	onPewButton.isVisible = true
+	offPewButton.isVisible = false
+	player.isFiring = true
+	player.hasFired = false
 	
 	collectibles:start()
 	bulletManager:start()

@@ -20,7 +20,7 @@ require "com.game.weapons.secondary.StandardMissile"
 Inventory = Object:subclass("Inventory")
 
 --Should be based on what ship it is later.
-local NUMBER_OF_EQUIP_SLOTS = 5
+local NUMBER_OF_EQUIP_SLOTS = 3
 WEIGHT_CAPACITY = 10
 
 function Inventory:init (scene)

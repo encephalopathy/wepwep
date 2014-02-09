@@ -77,7 +77,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	
 	self.powah = PLAYER_MAXPOWAH
 	
-	self.isFiring = false
+	self.isFiring = true
 	
 	self.secondaryWeapons = {}
 	
