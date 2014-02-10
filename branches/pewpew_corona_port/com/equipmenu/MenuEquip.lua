@@ -17,6 +17,7 @@ local scene = storyboard.newScene()
 -- include Corona's "widget" library
 local widget = require "widget"
 
+
 --------------------------------------------
 
 -- forward declarations and other locals
@@ -53,7 +54,6 @@ end
 function scene:createScene( event )
 	local group = self.view
 	shop = Shop:new()
-
 	-- display a background image
 	local background = display.newImageRect("com/resources/art/background/sheet_metal.png",
 	                                        display.contentWidth, display.contentHeight )
