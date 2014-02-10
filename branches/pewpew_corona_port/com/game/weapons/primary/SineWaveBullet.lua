@@ -36,6 +36,7 @@ end
 
 function SineWaveBullet:recycle()
 	Runtime:removeEventListener("enterFrame", self.update)
+	self.time = 0
 	self.super:recycle(self)
 	
 end

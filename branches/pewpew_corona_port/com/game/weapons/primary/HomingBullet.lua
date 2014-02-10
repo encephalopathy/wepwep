@@ -70,6 +70,7 @@ end
 
 function HomingBullet:recycle()
 	Runtime:removeEventListener("enterFrame", self.update)
+	self.hasTarget = false
 	self.super:recycle(self)
 end
 
