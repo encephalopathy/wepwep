@@ -38,7 +38,7 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
    end
    
    if energyCost == nil then
-	  energyCost = 1
+	  energyCost = 5
    end
    
    if soundHandle == nil then

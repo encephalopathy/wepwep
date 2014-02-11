@@ -4,7 +4,7 @@ require "com.Ride"
 PLAYER_MAXHEALTH = 10
 
 PLAYER_MAXPOWAH = 100
-PLAYER_POWAH_REGENERATION_RATE = 3
+PLAYER_POWAH_REGENERATION_RATE = 1
 
 --For testing
 --require("SingleshotWeapon")
