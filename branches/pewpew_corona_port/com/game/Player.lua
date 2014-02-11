@@ -285,7 +285,7 @@ function Player:onHit(phase, collide)
 			elseif not collide.isPlayerBullet and Collectible:made(collide) then
 				for i = 1, #self.defensePassives, 1 do
 					if self.defensePassives[i].pickupIncreaseAmount ~= nil then
-						self.defensePassives[i]:pickupIncreaseHealth()
+						self.defensePassives[i]:increaseHealth()
 					end
 				end
 			end
