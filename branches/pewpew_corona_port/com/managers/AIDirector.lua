@@ -15,8 +15,11 @@ local enemiesToSpawn
 local spawnClock 
 --local haterGroup = display.newGroup()
 
--- haterPootiePooInViewList = nil
--- haterPootiePooOutofViewList = nil
+local bossSpawn = false
+local levelBoss
+
+-- scene managment api, dictates game scene transition
+local storyboard = require( "storyboard" )
 
 --forward declaration
 local setSpawnClock = nil
@@ -61,12 +64,28 @@ end
 local function spawnHater(enemies)
 	--count is a variable that goes up each time you add a hater to the inView queue. IT IS FOR DEBUGGING!
 	--local count = 0
-	if enemies ~= nil then
 		for enemyIndex, enemyContext in pairs (enemies) do
 			-- for key,value in pairs(enemyContext) do
 				-- print("enemyContext key: "..tostring(key).." enemyContext value: "..tostring(value))
 			-- end
 			local haterType = enemyContext.Type
+			--if a boss, set boss alive to be true
+			
+			--checks to see if the boss is the next enemy to be spawned
+			local startIndex = 1
+			local currentIndex = 1
+			for currentIndex = 1,  string.len(tostring(haterType)) do
+				if haterType:sub(currentIndex,currentIndex) == '.' then
+					local thing = haterType:sub(startIndex, currentIndex-1)
+					if thing == "bosses" then
+						bossSpawn = true
+						--print("AIDirector_spawnHater_bossSpawn: "..tostring(bossSpawn))
+					else
+						startIndex = currentIndex+1
+					end
+				end
+			end
+				
 			local enemyInView = nil
 			if haterList[haterType] == nil then
 				--haterList[haterType] = {}
@@ -96,12 +115,11 @@ local function spawnHater(enemies)
 			enemyInView.sprite.y = enemyContext.y
 			enemyInView.sprite.rotation = enemyContext.Rotation
 			enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
+			if bossSpawn == true then
+				levelBoss = enemyInView
+			end
 			allHatersInView[enemyInView] = enemyInView
 		end
-	else
-		playerWon = true
-		enemyTimer = nil
-	end
 
 	setSpawnClock()
 	return true
@@ -143,19 +161,19 @@ local function emptyHaterList(groupOfHaters)
 end
 
 local function updateHaters()
-	local enemeiesOnScreen = true
 	for haterType,haterGroupOfSameType in pairs (haterList) do
 		for i = haterGroupOfSameType.inView.first, haterGroupOfSameType.inView.last, 1 do
 			local enemy = haterGroupOfSameType.inView[i]
-			enemiesOnScreen = false
 			enemy:update(AIDirector.player)
 			if not enemy.alive then
 				moveHaterOffScreen(enemy)
 			end
 		end
 	end
-	if playerWon and enemiesOnScreen then
-		--director:showScene("MainMenu", "fade")
+	if bossSpawn == true then
+		if levelBoss.alive == false then
+			storyboard.gotoScene("com.mainmenu.MainMenu", "fade", 500)
+		end
 	end
 end
 
@@ -182,6 +200,7 @@ function AIDirector.initialize(player, currentLevel)
 	end
 	AIDirector.active = true
 	setSpawnClock()
+	
 end
 
 function AIDirector.update()
@@ -205,6 +224,8 @@ end
 function AIDirector.uninitialize(sceneGroup)
 	--spawnClock = nil
 	timer.cancel(spawnClock)
+	bossSpawn = false
+	levelBoss = nil
 	
 	for haterKey in pairs(allHatersInView) do
 		allHatersInView[haterKey] = nil
@@ -216,6 +237,5 @@ function AIDirector.uninitialize(sceneGroup)
 	end
 	
 	AIDirector.active = false
-	
 	
 end

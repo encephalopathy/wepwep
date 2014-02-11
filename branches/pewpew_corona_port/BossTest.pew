@@ -1,0 +1,3 @@
+Name=bossTest Number=1
+Time=2 com.game.enemies.bosses.Boss1_1=1
+   Type=com.game.enemies.bosses.Boss1_1 Location=161,51 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
