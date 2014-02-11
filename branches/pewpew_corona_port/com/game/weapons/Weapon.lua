@@ -132,6 +132,7 @@ function Weapon:setMuzzleLocation(spawnVector)
 		--self.muzzleLocation = { x = spawnVector[1], y = spawnVector[2], magnitude = math.sqrt(spawnVector[1]*spawnVector[1] + spawnVector[2]*spawnVector[2]) }
 		self.muzzleLocation = spawnVector
 		self.muzzleLocation.magnitude = math.sqrt((spawnVector.x * spawnVector.x) + (spawnVector.y * spawnVector.y))
+		--print("Weapon.lua_setMuzzleLocation_self.muzzleLocation.magnitude: "..self.muzzleLocation.magnitude)
 	else
 		self.muzzleLocation = { x = 0, y = 0, magnitude = 1 }
 	end

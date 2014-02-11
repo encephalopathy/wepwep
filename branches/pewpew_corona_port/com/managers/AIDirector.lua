@@ -15,6 +15,8 @@ local enemiesToSpawn
 local spawnClock 
 --local haterGroup = display.newGroup()
 
+local bossAlive
+
 -- haterPootiePooInViewList = nil
 -- haterPootiePooOutofViewList = nil
 
@@ -67,6 +69,23 @@ local function spawnHater(enemies)
 				-- print("enemyContext key: "..tostring(key).." enemyContext value: "..tostring(value))
 			-- end
 			local haterType = enemyContext.Type
+			--if a boss, set boss alive to be true
+			
+			--checks to see if the boss is the next enemy to be spawned
+			local startIndex = 1
+			local currentIndex = 1
+			for currentIndex = 1,  string.len(tostring(haterType)) do
+				if haterType:sub(currentIndex,currentIndex) == '.' then
+					local thing = haterType:sub(startIndex, currentIndex-1)
+					if thing == "bosses" then
+						bossAlive = true
+						print("AIDirector_spawnHater_bossAlive: "..tostring(bossAlive))
+					else
+						startIndex = currentIndex+1
+					end
+				end
+			end
+				
 			local enemyInView = nil
 			if haterList[haterType] == nil then
 				--haterList[haterType] = {}
@@ -155,7 +174,7 @@ local function updateHaters()
 		end
 	end
 	if playerWon and enemiesOnScreen then
-		--director:showScene("MainMenu", "fade")
+		director:showScene("MainMenu", "fade")
 	end
 end
 
