@@ -57,7 +57,7 @@ function GrenadeLauncher:fire()
 		local rotationAngle = math.rad(self.owner.sprite.rotation)
 			
 		self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-		local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+		local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 		bullet:fire(bulletVelocity.x, bulletVelocity.y)
 		bullet.detonationTime = self.detonationTime
 		bullet.targets = self.targets
