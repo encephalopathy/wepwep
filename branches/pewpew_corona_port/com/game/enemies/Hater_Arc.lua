@@ -9,6 +9,8 @@ Hater_Arc = Hater:subclass("Hater_Arc")
 
 switched = false
 
+veloY = 2
+
 function Hater_Arc:init(sceneGroup, player)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_03.png", 0, 0, 0, 100, 100,
 	{"com/resources/art/sprites/enemy_03_piece_01.png", 
@@ -49,23 +51,33 @@ function Hater_Arc:update()
 	self.super:update()
 	local player = self.playerRef
 	local speed = 3
-	local width = player.sprite.x - self.sprite.x
-	local height = player.sprite.y - self.sprite.y
+	--local width = player.sprite.x - self.sprite.x
+	--local height = player.sprite.y - self.sprite.y
+   local accel = -.01
 	
    if (self.isFrozen) then
       return
    end
    
    if self.alive then
-	unitWidth = (width/math.sqrt(width*width+height*height))
-	unitHeight = (height/math.sqrt(width*width+height*height))
-	local rotAngle = (180/math.pi) * math.acos(unitHeight)
-	if width >= 0 then
-		rotAngle = -rotAngle
-	end
+	--unitWidth = (width/math.sqrt(width*width+height*height))
+	--unitHeight = (height/math.sqrt(width*width+height*height))
+	--local rotAngle = (180/math.pi) * math.acos(unitHeight)
+   veloY = veloY + accel;
+	--if width >= 0 then
+		--rotAngle = -rotAngle
+	--end
 	self.sprite.rotation = rotAngle
-	self:move(speed*unitWidth,speed*unitHeight)
-	
+	self:move(speed,speed*veloY)
+	--Need to Add Acceleration, probably with some variables
+   -- accel will be negative
+   -- veloY is the Y velocity
+   -- veloX is the X velocity
+   -- veloY needs to change by accel on every update so it needs to be defined outside of the update function
+   -- veloX for now will always move to the right
+   
+   -- Downward curve
+   -- Decrease both x and y until x hits 0 then keep it there
 	self:fire()						
    end
 end

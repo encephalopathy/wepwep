@@ -59,7 +59,7 @@ function Doubleshot:fire(player)
 			self:calibrateMuzzleFlare(self.muzzleLocation.x + self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 			self:calibrateMuzzleFlare(self.muzzleLocation.x - self.bulletSeperationDistance, self.muzzleLocation.y, self.owner, bullet2, rotationAngle)
 			
-			local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+			local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 			
 			bullet:fire(bulletVelocity.x, bulletVelocity.y)
 			bullet2:fire(bulletVelocity.x, bulletVelocity.y)

@@ -60,29 +60,6 @@ function Randomshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
    self.energyCost = 20
 end
 
---[[
-	FUNCTION NAME: calculateBulletVelocity
-	
-	DESCRIPTION: Determines the velocity of the bullet based on the bullet speed and muzzle location 
-				 relative to the ship's origin.
-	PARAMETERS:
-		@bullet: The bullet to fire.
-	@RETURN: A Lua table that has the fields "x", the bullet's velocity in the x direction, 
-			 and "y" the bullet's velocity in the y direction.
-]]--
-function Randomshot:calculateBulletVelocity(bullet)
-	--To calculate a bullet's velocity, we determine the distance first between the bullet and the ship.
-	local firingMagnitude = distance(self.owner.sprite.x, self.owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
-	--We normalize the vector that points from the ship to the bullet.  This will give us the firing direction of bullet.
-	--NOTE: We assume that the bullet has already undergone rotation.
-	local firingDirectionX = (bullet.sprite.x - self.owner.sprite.x) / firingMagnitude
-	local firingDirectionY = (bullet.sprite.y - self.owner.sprite.y) / firingMagnitude
-	
-	--We then fire the bullet in that direction previously computed by multiplying by bullet speed.
-	--This will move the bullet at speed bulletSpeed, in the direction firingDirection.
-	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
-end
-
 function Randomshot:fire (player)
    self.super:fire()
 	if not self:willFire() then return false end
@@ -107,7 +84,7 @@ function Randomshot:fire (player)
 			local rotationAngle = (math.rad(startAngle - math.random(self.firingAngle)))
 			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
          
-         local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+         local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 		   bullet:fire(bulletVelocity.x, bulletVelocity.y)
       end 
    

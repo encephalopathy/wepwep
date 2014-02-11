@@ -259,6 +259,27 @@ function Weapon:calibrateMuzzleFlare(muzzleLocX, muzzleLocY, owner, bullet, rota
 	bullet.sprite.y = owner.sprite.y + muzzleLocY
 end
 
+--[[
+	FUNCTION NAME: calculateBulletVelocity
+	
+	DESCRIPTION: Determines the velocity by rotating the bullet clockwise.
+	PARAMETERS:
+		@bulapplelet: The bullet to fire.
+	@RETURN: A Lua table that has the fields "x", the bullet's velocity in the x direction, 
+			 and "y" the bullet's velocity in the y direction.
+]]--
+function Weapon:calculateBulletVelocity(bullet, rotation, speed)	
+	local firingDirectionX = math.sin(rotation)
+	local firingDirectionY = math.cos(rotation)
+	
+	if bullet.isPlayerBullet then
+		firingDirectionY = -firingDirectionY
+	end
+	
+	--This will move the bullet at speed bulletSpeed, in the direction firingDirection.
+	return { x = firingDirectionX * speed, y = firingDirectionY * speed }
+end
+
 
 --[[
 	FUNCTION NAME: getNextShot
