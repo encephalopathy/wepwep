@@ -3,6 +3,14 @@ require "com.game.collectibles.Collectible"
 ScrapPickUp = Collectible:subclass("ScrapPickUp")
 
 function ScrapPickUp:init(sceneGroup, player, imgSrc, startX, startY, rotation, width, height)
+	if width == nil then
+		width = 70
+	end
+	
+	if height == nil then
+		height = 70
+	end
+	
 	self.super:init(sceneGroup, 'com/resources/art/sprites/swag_01.png', startX, startY, rotation, width, height)
 	
 	self.initialSpeed = 100
