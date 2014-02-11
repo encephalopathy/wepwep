@@ -25,8 +25,10 @@ local function setItemFillColor(item)
 	
 	local itemTable
 	local inventoryItem
+	local primaryWeaponCarousel = false
 	if shop.Weapons[item.id] ~= nil then
 		itemTable = shop.Weapons
+		primaryWeaponCarousel = true
 	elseif shop.SecondaryWeapons[item.id] ~= nil then
 		itemTable = shop.SecondaryWeapons
 		inventoryItem = mainInventory.secondaryWeapons[item.id]
@@ -38,13 +40,27 @@ local function setItemFillColor(item)
 	local actualItem = itemTable[item.id]
 	local weight = actualItem.weight
 	local cost = actualItem.dollaz
-	if inventoryItem ~= nil then
-		item:setFillColor(0.5, 1, 0.5, 1)
-	elseif mainInventory.dollaz - cost < 0 or mainInventory.weightAvailable - weight < 0 then
-		item:setFillColor(1, 1, 1, 0.2)
+	if not primaryWeaponCarousel then
+		if inventoryItem ~= nil then
+			item:setFillColor(0.5, 1, 0.5, 1)
+		elseif mainInventory.dollaz - cost < 0 or mainInventory.weightAvailable - weight < 0 then
+			item:setFillColor(1, 1, 1, 0.2)
+		else
+			item:setFillColor(1, 1, 1, 1)
+		end
 	else
-		item:setFillColor(1, 1, 1, 1)
+		local primaryWeaponAsString = tostring(mainInventory.primaryWeapon)
+		if mainInventory.primaryWeapon == actualItem then
+			item:setFillColor(0.5, 1, 0.5, 1)
+		elseif shop.Weapons[primaryWeaponAsString].weight + mainInventory.weightAvailable - weight < 0 or
+		 shop.Weapons[primaryWeaponAsString].dollaz + mainInventory.dollaz - cost < 0 then
+			 item:setFillColor(1, 1, 1, 0.2)
+		 else
+			 item:setFillColor(1, 1, 1, 1)
+		 end
+			 
 	end
+			
 	
 end
 
@@ -143,7 +159,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 			onEvent = function(event)
 				equip(id, package[i])
 				dollazText.text = "DOLLAZ : " .. tostring(mainInventory.dollaz)
-				weightText.text = "WEIGHT : " .. tostring(mainInventory.weightAvailable)
+				weightText.text = "SPACE LEFT : " .. tostring(mainInventory.weightAvailable)
 			end
 		}
 		newItem.x, newItem.y = spawnPoolLocX, spawnPoolLocY

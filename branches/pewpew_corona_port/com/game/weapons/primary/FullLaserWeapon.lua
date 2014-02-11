@@ -6,6 +6,8 @@ function FullLaser:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, num
 	
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType, bulletWidth, bulletHeight, soundHandle)
    
+end
+
 function FullLaser:calculateBulletVelocity(bullet)
 
 end

@@ -4,7 +4,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
 require "com.game.weapons.primary.SineWaveWeapon"
-require "com.game.weapons.primary.HomingshotWeapon"
+require "com.game.weapons.primary.HomingShotWeapon"
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.passives.Player.ExtraStartingHealth"
@@ -26,11 +26,11 @@ function Shop:init()
    self.Weapons = {}
    
    local SingleshotValues = { item = Singleshot:new(scene, true, 15, 200, 0, 0), dollaz = 40, weight = 5}
-   local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15), dollaz = 500, weight = 7 }
-   local SineWaveValues = { item = SineWave:new(scene, true, 25, 200), dollaz = 50, weight = 6 }
-   local HomingshotValues = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100, weight = 7}
-   local DoubleshotValues = { item = Doubleshot:new(scene, true, 15, 200, 0, 0), dollaz = 70, weight = 6 }
-   local BackshotValues = { item = Backshot:new(scene, true), dollaz = 80, weight = 6}
+   local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15), dollaz = 500, weight = 5 }
+   local SineWaveValues = { item = SineWave:new(scene, true, 25, 200), dollaz = 50, weight = 5 }
+   local HomingshotValues = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100, weight = 5}
+   local DoubleshotValues = { item = Doubleshot:new(scene, true, 15, 200, 0, 0), dollaz = 70, weight = 5 }
+   local BackshotValues = { item = Backshot:new(scene, true), dollaz = 80, weight = 5}
    
    self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = SingleshotValues --black
    self.Weapons['Singleshot'] = SingleshotValues
@@ -127,11 +127,12 @@ function Shop:buyPrimaryWeapon(weaponName, slot)
 	local temp = adjustedWeight - self.Weapons[weaponName].weight
 	if(temp>=0)then 
 		--print("weight left over; allow equip")
-		if mainInventory.primaryWeapon ~= self.Weapons[weaponName].item then 
+		local newDollazAmount = mainInventory.dollaz - self.Weapons[weaponName].dollaz
+		if mainInventory.primaryWeapon ~= self.Weapons[weaponName].item and newDollazAmount > 0 then 
 			mainInventory.weightAvailable = mainInventory.weightAvailable + self.Weapons[tostring(mainInventory.primaryWeapon)].weight 
 			--print('Equipping Weapon: ' .. weaponName)
 			mainInventory.primaryWeapon = self.Weapons[weaponName].item
-			mainInventory.dollaz = mainInventory.dollaz - self.Weapons[weaponName].dollaz
+			mainInventory.dollaz = newDollazAmount
 			mainInventory.weightAvailable = mainInventory.weightAvailable - self.Weapons[weaponName].weight 
 			return true
 		else
@@ -146,7 +147,8 @@ function Shop:buySecondaryWeapon(weaponName, slot)
 	local temp = mainInventory.weightAvailable - self.SecondaryWeapons[weaponName].weight
 	if(temp>=0)then
 		--print("weight left over; allow equip")
-		if not mainInventory:hasSecondaryWeapon(weaponName) then
+		local newDollazAmount = mainInventory.dollaz - self.SecondaryWeapons[weaponName].dollaz
+		if not mainInventory:hasSecondaryWeapon(weaponName) and newDollazAmount > 0 then
 			--print('equipping secondary weapon: ' .. weaponName)
 			
 			if(mainInventory.slots[slot] ~= nil) then
@@ -171,7 +173,8 @@ function Shop:buyPassive(passiveName, slot)
 	local temp = mainInventory.weightAvailable - self.Passives[passiveName].weight
 	if(temp>=0) then
 		--print("weight left over; allow equip")
-		if not mainInventory:hasPassive(passiveName) then
+		local newDollazAmount = mainInventory.dollaz - self.Passives[passiveName].dollaz
+		if not mainInventory:hasPassive(passiveName) and newDollazAmount > 0 then
 			if(mainInventory.slots[slot] ~= nil) then
 				self:refund(slot)
 			end

@@ -17,7 +17,7 @@ function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgS
 	end
 
 	if energyCost == nil then
-	  energyCost = 20
+	  energyCost = 15
    end
 	
 	if soundHandle == nil then

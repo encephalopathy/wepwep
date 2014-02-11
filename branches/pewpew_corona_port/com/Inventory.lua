@@ -8,7 +8,7 @@ require "com.game.weapons.Weapon"
 require "com.game.weapons.primary.SpreadshotWeapon"
 require "com.game.weapons.primary.SingleshotWeapon"
 require "com.game.weapons.primary.SineWaveWeapon"
-require "com.game.weapons.primary.HomingshotWeapon"
+require "com.game.weapons.primary.HomingShotWeapon"
 require "com.game.weapons.primary.DoubleshotWeapon"
 require "com.game.weapons.primary.BackshotWeapon"
 require "com.game.passives.Player.ExtraStartingHealth"
@@ -21,11 +21,11 @@ Inventory = Object:subclass("Inventory")
 
 --Should be based on what ship it is later.
 local NUMBER_OF_EQUIP_SLOTS = 3
-WEIGHT_CAPACITY = 20
+WEIGHT_CAPACITY = 10
 
 function Inventory:init (scene)
    -- keep all the weapons in a master list
-   self.dollaz = 5000
+   self.dollaz = 100
    self.primaryWeapon =  Singleshot:new(scene, true, 15, 200, 0, 0)
    self.numOfEquipSlotsAvailable = NUMBER_OF_EQUIP_SLOTS
    self.weightAvailable = WEIGHT_CAPACITY - 5

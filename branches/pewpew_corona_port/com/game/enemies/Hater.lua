@@ -211,7 +211,8 @@ function Hater:onHit(phase, collide)
 			
 			if FreezeMissile:made(collide) then
 				self.isFrozen = true
-				self.freezeTimer = collide.freezeDuration
+				--TODO:Fix the bug where freeze time is not working
+				self.freezeTimer = 0
 			end
 			
 			if self.health <= 0 then

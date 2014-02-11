@@ -13,7 +13,7 @@ function Homingshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 	end
 	
 	if energyCost == nil then
-	  energyCost = 30
+	  energyCost = 10
    end
 	
 	if bulletType == nil then

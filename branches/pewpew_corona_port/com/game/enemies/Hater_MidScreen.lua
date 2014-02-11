@@ -17,10 +17,12 @@ function Hater_MidScreen:init(sceneGroup)
 	"com/resources/art/sprites/enemy_05_piece_05.png"})
 	--Copy Paste these fields if you plan on using them in the collision function
 	
-	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
-	self.sprite.objRef = self 
+	
 	self.health = 5
 	self.maxHealth = 5
+	
+	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
+	self.sprite.objRef = self 
 end
 
 function Hater_MidScreen:initMuzzleLocations()
