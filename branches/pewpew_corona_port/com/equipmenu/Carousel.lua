@@ -4,6 +4,7 @@ require "com.equipmenu.Dequeue"
 
 local widget = require "widget"
 local storyboard = require( "storyboard" )
+local carousels = {}
 
 
 local spawnPoolLocX, spawnPoolLocY = 200, 5000
@@ -12,10 +13,43 @@ local padding = display.contentWidth * 0.1
 local function equip(id, itemName)
 	print('ADDING ID TO EQUIP: ' .. id)
 	shop:buyItem(itemName, id)
+	for i = 1, #carousels, 1 do
+		displayCarousel(carousels[i])
+	end
+end
+
+local function setItemFillColor(item)
+	if shop.Weapons[item.id] == nil and shop.SecondaryWeapons[item.id] == nil and shop.Passives[item.id] == nil then
+		return
+	end
+	
+	local itemTable
+	local inventoryItem
+	if shop.Weapons[item.id] ~= nil then
+		itemTable = shop.Weapons
+	elseif shop.SecondaryWeapons[item.id] ~= nil then
+		itemTable = shop.SecondaryWeapons
+		inventoryItem = mainInventory.secondaryWeapons[item.id]
+	elseif shop.Passives[item.id] ~= nil then
+		itemTable = shop.Passives
+		inventoryItem = mainInventory.passives[item.id]
+	end
+
+	local actualItem = itemTable[item.id]
+	local weight = actualItem.weight
+	local cost = actualItem.dollaz
+	if inventoryItem ~= nil then
+		item:setFillColor(0.5, 1, 0.5, 1)
+	elseif mainInventory.dollaz - cost < 0 or mainInventory.weightAvailable - weight < 0 then
+		item:setFillColor(1, 1, 1, 0.2)
+	else
+		item:setFillColor(1, 1, 1, 1)
+	end
+	
 end
 
 --TODO: Move the object that is at carousel.last to the pool location.
-local function displayCarousel(carousel)
+function displayCarousel(carousel)
 	local startX = carousel.x
 	local startY = carousel.y
 	local numOfItemsShown = carousel.numItemsShown
@@ -25,6 +59,8 @@ local function displayCarousel(carousel)
 	
 	local index = carousel.items.first
 	for i = 1, numOfItemsShown, 1 do
+		
+		setItemFillColor(carousel.items[index])
 		carousel.items[index].x = startX + seperationDistance * i
 		carousel.items[index].y = startY
 		index = index + 1
@@ -47,7 +83,6 @@ local function prevItem(carousel)
 	
 	displayCarousel(carousel)
 end
-
 
 function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVerticalNotHorizontal, dollazText, weightText)
 	local newCarousel = {}
@@ -127,5 +162,6 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 	newCarousel.numItemsShown = numItemsShown
 	newCarousel.isVerticalNotHorizontal = isVerticalNotHorizontal
 	displayCarousel(newCarousel)
+	table.insert(carousels, newCarousel)
 	return newCarousel
 end

@@ -38,7 +38,7 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
    end
    
    if energyCost == nil then
-	  energyCost = 5
+	  energyCost = 1
    end
    
    if soundHandle == nil then
@@ -74,30 +74,6 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
    --load it here with a string to sound file
 end
 
-
---[[
-	FUNCTION NAME: calculateBulletVelocity
-	
-	DESCRIPTION: Determines the velocity of the bullet based on the bullet speed and muzzle location 
-				 relative to the ship's origin.
-	PARAMETERS:
-		@bulapplelet: The bullet to fire.
-	@RETURN: A Lua table that has the fields "x", the bullet's velocity in the x direction, 
-			 and "y" the bullet's velocity in the y direction.
-]]--
-function Singleshot:calculateBulletVelocity(bullet, owner)
-	--To calculate a bullet's velocity, we determine the distance first between the bullet and the ship.
-	local firingMagnitude = distance(owner.sprite.x, owner.sprite.y, bullet.sprite.x, bullet.sprite.y)
-	--We normalize the vector that points from the ship to the bullet.  This will give us the firing direction of bullet.
-	--NOTE: We assume that the bullet has already undergone rotation.
-	local firingDirectionX = (bullet.sprite.x - owner.sprite.x) / firingMagnitude
-	local firingDirectionY = (bullet.sprite.y - owner.sprite.y) / firingMagnitude
-	
-	--We then fire the bullet in that direction previously computed by multiplying by bullet speed.
-	--This will move the bullet at speed bulletSpeed, in the direction firingDirection.
-	return { x = firingDirectionX * self.bulletSpeed, y = firingDirectionY * self.bulletSpeed }
-end
-
 --[[
 	FUNCTION NAME: fire
 	
@@ -117,7 +93,7 @@ function Singleshot:fire()
 			if self.waveCounter <= self.numberOfWaves and self.delayCounter == 0 then
 				local rotationAngle = math.rad(self.owner.sprite.rotation)
 				self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-				local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+				local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 				--print(bullet.isPlayerBullet)
 				bullet:fire(bulletVelocity.x, bulletVelocity.y)
 				if self.isPlayerOwned == true then

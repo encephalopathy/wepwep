@@ -85,6 +85,7 @@ function BulletManager:cullBulletsOffScreen(onScreenList)
        					bullet.sprite.x <= -50 or not bullet.alive then
 					bullet.sprite.x = 5000
 					bullet.sprite.y = 5000
+					bullet:recycle()
 					self:handleBulletOffScreen(bullet)
 	   			end
 			end
