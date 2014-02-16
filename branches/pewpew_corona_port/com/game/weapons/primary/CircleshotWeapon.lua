@@ -10,10 +10,8 @@ function Circleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, im
 		self.rateOfFire = 35
 	end
 	
-	if imgSrc ~= nil then
-		self.imgSrc = imgSrc
-	else
-		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
+	if imgSrc == nil then
+		imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 	
 	if soundHandle == nil then
