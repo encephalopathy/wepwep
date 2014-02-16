@@ -11,9 +11,7 @@ function SpiralStraightshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletS
 	end
 	
 	if imgSrc ~= nil then
-		self.imgSrc = imgSrc
-	else
-		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
+		imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
 	if soundHandle == nil then

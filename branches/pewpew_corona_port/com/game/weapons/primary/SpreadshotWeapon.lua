@@ -11,9 +11,7 @@ function Spreadshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
 	end
 	
 	if imgSrc ~= nil then
-		self.imgSrc = imgSrc
-	else
-		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
+		imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
 	if energyCost == nil then
