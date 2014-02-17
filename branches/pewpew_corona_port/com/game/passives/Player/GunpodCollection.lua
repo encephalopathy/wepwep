@@ -13,7 +13,7 @@ function GunpodCollection:init(gunpodType, spriteImage, separationDistanceFromOw
 end
 
 function GunpodCollection:setOwner(objectRef, sceneGroup)
-	assert(objectRef ~= nil, 'Did not equip an owner such as player or an enemy to this passive')
+	assert(objectRef ~= nil, 'GunpodCollection: Did not equip an owner such as player or an enemy to this passive')
 	self.objectRef = objectRef
 	self.oldPositionX = self.objectRef.sprite.x
 	self.oldPositionY = self.objectRef.sprite.y
@@ -23,7 +23,7 @@ function GunpodCollection:setOwner(objectRef, sceneGroup)
 	self.collection[2]:equipWeapon(sceneGroup, self.objectRef.haterList, self.weaponType, unpack(self.weaponArguments))
 end
 
-function GunpodCollection: update()
+function GunpodCollection:update()
 	self.collection[1]:update(self.oldPositionX - self.separationDistanceFromOwnerX, self.oldPositionY + self.separationDistanceFromOwnerY)
 	self.collection[2]:update(self.oldPositionX + self.separationDistanceFromOwnerX, self.oldPositionY + self.separationDistanceFromOwnerY)
 	if self.objectRef.hasFired and self.objectRef ~= nil then
@@ -34,9 +34,10 @@ function GunpodCollection: update()
 	self.oldPositionY = self.objectRef.sprite.y
 end
 
-function GunpodCollection: clear()
-	self.collection[1]:destroy()
-	self.collection[2]:destroy()
+function GunpodCollection:clear()
+	for i = 1, #self.collection, 1 do
+		self.collection[i]:destroy()
+	end
 end
 
 return GunpodCollection
