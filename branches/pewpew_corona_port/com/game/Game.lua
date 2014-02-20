@@ -93,6 +93,11 @@ local function debugUpdate()
 			color_swap = false
 			powahRect:setFillColor(50/255, 80/255, 200/255, 140/255)
 		end
+		
+		if player.swapColor and step % 5 == 0 then
+			player.sprite:setFillColor(1, 1, 1)
+			player.swapColor = false
+		end
 	end
 end
 
@@ -318,6 +323,7 @@ function scene:enterScene( event )
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player.powah = PLAYER_MAXPOWAH
 	
+	self.swapColor = false
 	--creating sound table
 	soundHandler:addListener()
 	
@@ -367,6 +373,7 @@ function scene:exitScene( event )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
+	self.swapColor = false
 	soundHandler:removeListener()
 	
 	ScoreManager.removeListener()

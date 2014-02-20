@@ -30,7 +30,7 @@ function Shop:init()
    local SineWaveValues = { item = SineWave:new(scene, true, 25, 200), dollaz = 50, weight = 5 }
    local HomingshotValues = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100, weight = 5}
    local DoubleshotValues = { item = Doubleshot:new(scene, true, 15, 200, 0, 0), dollaz = 70, "com/resources/art/sprites/bullet_02.png", weight = 5 }
-   local BackshotValues = { item = Backshot:new(scene, true), dollaz = 80, weight = 5}
+   local BackshotValues = { item = Backshot:new(scene, true, 15, 200), dollaz = 80, weight = 5}
    
    self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = SingleshotValues --black
    self.Weapons['Singleshot'] = SingleshotValues
@@ -42,7 +42,7 @@ function Shop:init()
    self.Weapons['Homingshot'] = HomingshotValues
    self.Weapons['com/resources/art/sprites/shop_splash_images/DoubleShot.png'] = DoubleshotValues --black split
    self.Weapons['Doubleshot'] = DoubleshotValues
-   self.Weapons['com/resources/art/sprities/shop_splash_images/BackShot.png'] = BackshotValues --purple
+   self.Weapons['com/resources/art/sprites/shop_splash_images/BackShot.png'] = BackshotValues --purple
    self.Weapons['Backshot'] = BackshotValues
    
    -- for key,value in pairs(self.Weapons) do

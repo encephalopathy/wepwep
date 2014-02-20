@@ -10,21 +10,19 @@ function Backshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgS
 		self.rateOfFire = 35
 	end
 	
-	if imgSrc ~= nil then
-		self.imgSrc = imgSrc
-	else
-		self.imgSrc = "com/resources/art/sprites/bullet_06.png"
+	if imgSrc == nil then
+		imgSrc = "com/resources/art/sprites/bullet_06.png"
 	end
 
 	if energyCost == nil then
 	  energyCost = 15
-   end
+    end
 	
 	if soundHandle == nil then
 		--print("THE SOUNDFX IS NIL; USE THE DEFAULT!!")
 		soundHandle = "Backshot"
 		--print("soundFX:"..soundFX)
-   end
+    end
 	
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, bulletType ,bulletWidth, bulletHeight, soundHandle)
    if bulletSpeed ~= nil then
@@ -102,7 +100,7 @@ function Backshot:fire (player)
 		  
 		   local rotationAngle = math.rad(backwardStartAngle + (-i * backwardAngleStep) + 180)
 		   self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-		   local bulletVelocity = self:calculateBulletVelocity(bullet, self.owner)
+		   local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 		   bullet:fire(bulletVelocity.x, bulletVelocity.y)
 		   
 		end

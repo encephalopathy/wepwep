@@ -22,6 +22,6 @@ end
 
 function HealthUponScrapPickUp:increaseHealth()
 	if math.random(0, 10) >= 5  and self.objectRef[self.fieldName] < self.objectRef.maxhealth then
-		self.objectRef[self.fieldName] = self.objectRef[self.fieldName] + self.increaseAmount
+		self.objectRef[self.fieldName] = self.objectRef[self.fieldName] + self.pickupIncreaseAmount
 	end
 end
