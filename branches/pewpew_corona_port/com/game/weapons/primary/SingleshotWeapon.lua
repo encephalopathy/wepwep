@@ -34,7 +34,7 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
    end
    
    if imgSrc == nil then
-     imgSrc = "com/resources/art/sprites/bullet_02.png"
+     imgSrc = "com/resources/art/sprites/bullet_06.png"
    end
    
    if energyCost == nil then
