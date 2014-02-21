@@ -14,10 +14,8 @@ function BulletManager:init (sceneGroup)
 	print('CREATING BULLLET MANAGER')
 	self.playerOnScreenBullets = {}
 	self.playerOffScreenBullets = {}
-	self.nilBulletPlayerDynamicQueue = DynamicQueue.new()
 	self.haterOnScreenBullets = {}
 	self.haterOffScreenBullets = {}
-	self.nilBulletHaterDynamicQueue = DynamicQueue.new()
 	self.bulletGroupInView = display.newGroup()
 	sceneGroup:insert(self.bulletGroupInView)
 end
@@ -143,12 +141,6 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 			
 			print('first: ' .. bullets.first)
 			print('last: ' .. bullets.last)
-			
-			print('size of nil queue: ' .. #bullets.nilSpots)
-			for i = 1, #bullets.nilSpots, 1 do
-				print('nilSpots: ' .. bullets.nilSpots[i])
-			end
-			
 			while bullets.size > 0 do
 				print('bullets.size : ' .. bullets.size)
 				local bullet = DynamicQueue.removeBack(bullets)
@@ -170,18 +162,6 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				DynamicQueue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
 			
-			for i = 0, bullets.first, -1 do
-				if bullets[i] ~= nil then
-					print('We have a garbage bullet at: ' .. i)
-				end
-			end
-			
-			--ultimate garbage check
-			for i = 0, -1000, -1 do
-			  if bullets[i] ~= nil then
-				 print('We have super garbage bullet at: ' .. i) 
-			  end	
-			end
 		end
 	end
 end
