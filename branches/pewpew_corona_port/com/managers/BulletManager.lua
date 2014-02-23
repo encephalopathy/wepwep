@@ -11,7 +11,6 @@ local DEFAULT_WIDTH = 55
 local DEFAULT_HEIGHT = 65
 
 function BulletManager:init (sceneGroup)
-	print('CREATING BULLLET MANAGER')
 	self.playerOnScreenBullets = {}
 	self.playerOffScreenBullets = {}
 	self.haterOnScreenBullets = {}
@@ -51,7 +50,7 @@ function BulletManager:offScreen (event)
 	if (event.name ~= "offScreen" or not Bullet:made(event.target)) then
 		return
 	end
-	print('OFF SCREEN BEING CALLED')
+
 	local bullet = event.target
 	local onScreenBulletList
 	local offScreenBulletList
@@ -138,11 +137,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 	for className, typeOfBullets in pairs(onScreenBullets) do
 		for imgSrc, bullets in pairs(typeOfBullets) do
 			
-			
-			print('first: ' .. bullets.first)
-			print('last: ' .. bullets.last)
 			while bullets.size > 0 do
-				print('bullets.size : ' .. bullets.size)
 				local bullet = DynamicQueue.removeBack(bullets)
 				bullet.alive = false
 				bullet.sprite.isVisible = false
@@ -219,9 +214,7 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 end
 
 function BulletManager:stop(sceneGroup)
-	print('PLAYER BULLETS')
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.bulletGroupInView)
-	print('HATER BULLETS')
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.bulletGroupInView)
 	Runtime:removeEventListener("offScreen", self)
 end

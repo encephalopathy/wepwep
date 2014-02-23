@@ -14,7 +14,6 @@ function insertFront(queue, value)
 		
 end
 
-
 function removeBack(queue)
 	if (queue.size == 0) then
 		return nil
@@ -22,11 +21,6 @@ function removeBack(queue)
 	local last = queue.last
 	if queue.first > last then error("Queue is empty") end
 	local value = queue[last]
-	print('Removing bullet at index: ' .. last)
-	for key, val in pairs(queue.dict) do
-		print('bullet dict key: ' .. tostring(key))
-		print('bullet dict value: ' .. tostring(val))
-	end
 	queue.dict[value] = nil
 	queue[last] = nil
 	queue.last = last - 1
@@ -36,14 +30,6 @@ function removeBack(queue)
 end
 
 function removeIndex (queue, index)
-	print('Removing index: ' .. index)
-	print('first: ' .. queue.first)
-	print('last: ' .. queue.last)
-   print('BEFORE')
-	for key, val in pairs(queue.dict) do
-		print('bullet dict key: ' .. tostring(key))
-		print('bullet dict value: ' .. tostring(val))
-	end
    assert(index >= queue.first and index <= queue.last)
 
    if (index == queue.last) then
@@ -64,12 +50,6 @@ function removeIndex (queue, index)
 	    end
   	  end
    end
-   
-   print('AFTER')
-	for key, val in pairs(queue.dict) do
-		print('bullet dict key: ' .. tostring(key))
-		print('bullet dict value: ' .. tostring(val))
-	end
    
    queue.first = queue.first + 1
    

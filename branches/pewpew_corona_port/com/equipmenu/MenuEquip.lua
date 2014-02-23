@@ -119,6 +119,8 @@ end
 function scene:enterScene( event )
 	local group = self.view
 	
+	dollaztext.text = "DOLLAZ : " .. tostring(mainInventory.dollaz)
+	weighttext.text = "SPACE LEFT : " .. tostring(mainInventory.weightAvailable)
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 	
 end
