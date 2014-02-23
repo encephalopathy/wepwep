@@ -53,7 +53,7 @@ function Homingshot:fire()
 			bullet.sprite.rotation = self.owner.sprite.rotation
 			bullet:fire(math.abs(self.bulletSpeed))
 			
-			if self.isPlayerOwned == true then
+			if self.isPlayerOwned == true and Player:made(self.owner) then
 				--print("PLAYER OWNED. FIRE SOUNDS")
 				self:playFiringSound() --call to play sound for weapons
 			end

@@ -59,7 +59,7 @@ function SineWave:fire(player)
 	   --print('Bullet 2')
 	   bullet2:fire()
 	   
-	   if self.isPlayerOwned == true then
+	   if self.isPlayerOwned == true and Player:made(self.owner) then
 			--print("PLAYER OWNED. FIRE SOUNDS")
 			self:playFiringSound() --call to play sound for weapons
 		end

@@ -96,7 +96,7 @@ function Singleshot:fire()
 				local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 				--print(bullet.isPlayerBullet)
 				bullet:fire(bulletVelocity.x, bulletVelocity.y)
-				if self.isPlayerOwned == true then
+				if self.isPlayerOwned == true and Player:made(self.owner) then
 					self:playFiringSound()
 				end
 				if self.numberOfWaves > 0 then

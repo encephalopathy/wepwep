@@ -79,7 +79,7 @@ function Circleshot:fire (player)
 
 		end
 	
-		if self.isPlayerOwned == true then
+		if self.isPlayerOwned == true and Player:made(self.owner) then
 			--print("PLAYER OWNED. FIRE SOUNDS")
 			self:playFiringSound() --call to play sound for weapons
 		end  
