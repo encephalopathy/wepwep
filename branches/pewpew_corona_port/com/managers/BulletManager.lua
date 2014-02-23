@@ -14,10 +14,8 @@ function BulletManager:init (sceneGroup)
 	print('CREATING BULLLET MANAGER')
 	self.playerOnScreenBullets = {}
 	self.playerOffScreenBullets = {}
-	self.nilBulletPlayerDynamicQueue = DynamicQueue.new()
 	self.haterOnScreenBullets = {}
 	self.haterOffScreenBullets = {}
-	self.nilBulletHaterDynamicQueue = DynamicQueue.new()
 	self.bulletGroupInView = display.newGroup()
 	sceneGroup:insert(self.bulletGroupInView)
 end
@@ -44,6 +42,8 @@ function BulletManager:handleBulletOffScreen(bullet)
 	--print('Ship type collecting bullets on crash: ' .. shipType)
 	if bullet ~= nil then
 		self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
+	else
+		print('Attemptiong to add a nil bullet')
 	end
 end
 
@@ -51,7 +51,7 @@ function BulletManager:offScreen (event)
 	if (event.name ~= "offScreen" or not Bullet:made(event.target)) then
 		return
 	end
-
+	print('OFF SCREEN BEING CALLED')
 	local bullet = event.target
 	local onScreenBulletList
 	local offScreenBulletList
@@ -70,6 +70,8 @@ function BulletManager:offScreen (event)
 	--print('Ship type collecting bullets on crash: ' .. shipType)
 	if bullet ~= nil then
 		self:addBulletToOffScreen(offScreenBulletList, onScreenBulletList, bullet)
+	else
+		print('Attemptiong to add a nil bullet on offScreen Event')
 	end
 	
 	return true
@@ -94,9 +96,6 @@ function BulletManager:cullBulletsOffScreen(onScreenList)
 end
 
 function BulletManager:update()
-	--print('BULLET MANAGER UPDATING')
-	--print('onScreenBullets: ' .. tostring(self.playerOnScreenBullets))
-	--print('offScreenBullets: ' .. tostring(self.playerOffScreenBullets))
 	self:cullBulletsOffScreen(self.playerOnScreenBullets)
 	self:cullBulletsOffScreen(self.haterOnScreenBullets)
 end
@@ -138,12 +137,18 @@ end
 function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 	for className, typeOfBullets in pairs(onScreenBullets) do
 		for imgSrc, bullets in pairs(typeOfBullets) do
+			
+			
+			print('first: ' .. bullets.first)
+			print('last: ' .. bullets.last)
 			while bullets.size > 0 do
 				print('bullets.size : ' .. bullets.size)
 				local bullet = DynamicQueue.removeBack(bullets)
+				bullet.alive = false
 				bullet.sprite.isVisible = false
+				bullet.sprite.isBodyActive = false
 				bullet.sprite.x = 5000
-				bullet.sprite.y = 5000
+			    bullet.sprite.y = 5000
 				--print('Caching Bullet: ' .. tostring(bullet) .. ' imgSrc: ' .. tostring(bullet.imgSrc))
 				
 				if offScreenBullets[tostring(bullet)] == nil then
@@ -156,6 +161,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				
 				DynamicQueue.insertFront(offScreenBullets[tostring(bullet)][bullet.imgSrc], bullet)
 			end
+			
 		end
 	end
 end
@@ -206,12 +212,16 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 
 
 	bullet = DynamicQueue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
-	if bullet == nil then return end
+	if bullet == nil then 
+		--print('Removing a random nil bullet!')
+		return end
 	DynamicQueue.insertFront(offScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 end
 
 function BulletManager:stop(sceneGroup)
+	print('PLAYER BULLETS')
 	self:cacheOnScreenAmmo(self.playerOnScreenBullets, self.playerOffScreenBullets, self.bulletGroupInView)
+	print('HATER BULLETS')
 	self:cacheOnScreenAmmo(self.haterOnScreenBullets, self.haterOffScreenBullets, self.bulletGroupInView)
 	Runtime:removeEventListener("offScreen", self)
 end

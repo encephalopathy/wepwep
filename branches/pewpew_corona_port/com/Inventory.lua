@@ -25,8 +25,8 @@ WEIGHT_CAPACITY = 10
 
 function Inventory:init (scene)
    -- keep all the weapons in a master list
-   self.dollaz = 1000
-   self.primaryWeapon =  Singleshot:new(scene, true, 15, 200, 0, 0)
+   self.dollaz = 100
+   self.primaryWeapon =  Singleshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png")
    self.numOfEquipSlotsAvailable = NUMBER_OF_EQUIP_SLOTS
    self.weightAvailable = WEIGHT_CAPACITY - 5
    -- permissions list

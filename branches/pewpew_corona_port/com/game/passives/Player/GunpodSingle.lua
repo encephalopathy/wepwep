@@ -4,13 +4,14 @@ GunpodSingle = Ride:subclass("GunpodSingle")
 
 function GunpodSingle: init(sceneGroup, imgSrc, x, y)
 	if sceneGroup == nil then
-		print("sceneGroup is nil in Gunpod Single")
+		assert("Gunpod Single: sceneGroup is nil")
 	elseif imgSrc == nil then
-		print("imgSrc is nil in Gunpod Single")
+		print("Gunpod Single: imgSrc is nil, using default image")
+		imgSrc = "com/resources/art/sprites/rocket_01.png"
 	elseif x == nil then
-		print("x is nil in Gunpod Single")
+		assert("Gunpod Single: x is nil")
 	elseif y == nil then
-		print("y is nil in Gunpod Single")
+		assert("Gunpod Single: y is nil")
 	end
 
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, 75, 75, { categoryBits = 1, maskBits = 0 })
@@ -53,7 +54,7 @@ end
 function GunpodSingle: destroy()
 	self.weapon.targets = nil
 	self.weapon.owner = nil
-	print('DESTORYING WEAPON ' .. tostring(self.weapon))
+	print('DESTROYING WEAPON ' .. tostring(self.weapon))
 	self.weapon = nil
 	
 	self.super:destroy()

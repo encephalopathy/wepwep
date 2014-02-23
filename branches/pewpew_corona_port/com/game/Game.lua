@@ -28,6 +28,7 @@ local playerStartLocation = { x = display.contentWidth / 2, y =  display.content
 local background = nil
 local backgroundBuffer = nil
 local currentLevelNumber = 1
+local POWAH_THRESHOLD = 40
 local soundHandler = nil
 local scoreText
 local offPewButton
@@ -45,8 +46,8 @@ local gameContext
 local physics = require "physics"
 physics.start(); physics.pause()
 physics.setGravity(0, 0)
-physics.setVelocityIterations(1)
-physics.setPositionIterations(1)
+physics.setVelocityIterations(3)
+physics.setPositionIterations(3)
 
 usingBulletManagerBullets = true
 
@@ -72,10 +73,31 @@ local function createGameUIMVC(group)
     gameContext:preprocess(group)
 end
 
+local color_swap = false
+
 local function debugUpdate()
 	if not debugFlag then
 		healthRect.width = (display.contentWidth/2.05)*(player.health/player.maxhealth)
 		powahRect.height = (display.contentHeight/2.05)*(player.powah/PLAYER_MAXPOWAH)
+		if player.powah < POWAH_THRESHOLD then
+			if step % 5 == 0 then
+				if not color_swap then
+					powahRect:setFillColor(0, 0.8, 0.8)
+					color_swap = true
+				else
+					powahRect:setFillColor(50/255, 80/255, 200/255, 140/255)
+					color_swap = false
+				end
+			end
+		else
+			color_swap = false
+			powahRect:setFillColor(50/255, 80/255, 200/255, 140/255)
+		end
+		
+		if player.swapColor and step % 5 == 0 then
+			player.sprite:setFillColor(1, 1, 1)
+			player.swapColor = false
+		end
 	end
 end
 
@@ -196,7 +218,7 @@ function scene:createScene( event )
 	local myButton = widget.newButton
 	{
 		left = screenW - screenW*0.3,
-		top = screenH - screenH*0.15,
+		top = 0,
 		width = screenW*0.3,
 		height = screenH*0.2,
 		defaultFile = "com/resources/art/sprites/backtomenu_unpressed.png",
@@ -301,6 +323,7 @@ function scene:enterScene( event )
 	player.sprite.x, player.sprite.y = playerStartLocation.x, playerStartLocation.y
 	player.powah = PLAYER_MAXPOWAH
 	
+	self.swapColor = false
 	--creating sound table
 	soundHandler:addListener()
 	
@@ -344,12 +367,13 @@ function scene:exitScene( event )
 	
 	AIDirector.uninitialize(group)
 	collectibles:stop(group)
+	Runtime:removeEventListener("enterFrame", update )
 	bulletManager:stop(group)
 	destroyParticleManager()
-	Runtime:removeEventListener("enterFrame", update )
 	Runtime:removeEventListener("enterFrame", updateBackground )
 	step = 0
 	
+	self.swapColor = false
 	soundHandler:removeListener()
 	
 	ScoreManager.removeListener()

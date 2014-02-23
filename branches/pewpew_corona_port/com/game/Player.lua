@@ -78,6 +78,7 @@ function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
 	self.powah = PLAYER_MAXPOWAH
 	
 	self.isFiring = true
+	self.swapColor = false
 	
 	self.secondaryWeapons = {}
 	
@@ -275,6 +276,11 @@ function Player:onHit(phase, collide)
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
+				if not self.swapColor then
+					self.sprite:setFillColor(1,0.5,1)
+					self.swapColor = true
+				end
+				
 				Runtime:dispatchEvent({name = "playSound", soundHandle = 'Player_onHit'})
 				if self.health <= 0 and not debugFlag then
 					--sound:load(self.soundPathDeath) 
