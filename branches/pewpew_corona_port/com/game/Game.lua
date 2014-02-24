@@ -213,7 +213,7 @@ function scene:createScene( event )
 	-- creates the scrolling background for the current game
 	createScrollingBackground(group)
 	
-	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, 75, 75)
+	player = Player:new(group, "com/resources/art/sprites/player_01mosaicfilter.png", display.contentWidth / 2, display.contentHeight / 2, 0, -10, 0.15, 0.25, 0, 75, 75)
 	
 	local myButton = widget.newButton
 	{

@@ -34,7 +34,7 @@ MoveableObject = newclass("MoveableObject")
 	what.  For more information of how to set this up.  
 	See: http://developer.coronalabs.com/forum/2010/10/25/collision-filters-helper-chart
 ]]--
-function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotation, width, height, collisionFilter)
+function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotation, width, height, collisionFilter, verticies)
 	local sprite
 	
 	--Start location of the sprite is set to zero if not coordinates are given.
@@ -77,8 +77,13 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 	
 	--Creates a physics object from a sprite.
 	if bodyType ~= nil then
-		physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter})
-		--physics.setDrawMode( "hybrid" )
+		
+		if verticies ~= nil then
+			physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter, shape = verticies})
+		else
+			physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter})
+		end
+		physics.setDrawMode( "hybrid" )
 		--If the given object is not a bullet, it is given the type dynamic so that
 		--bullets never collide with other bullets. Although this may change in the future.
 		if bodyType == "dynamic" then

@@ -64,14 +64,23 @@ Player = Ride:subclass("Player")
 ]]--
 
 --player values set in game.lua
-function Player:init(sceneGroup, imgSrc, x, y, rotation, width, height)
+function Player:init(sceneGroup, imgSrc, x, y, aabStartX, aabStartY, boundingScaleX, boundingScaleY, rotation, width, height)
+	assert(width ~= nil)
+	assert(height ~= nil)
+	
+	local half_W = width * boundingScaleX
+	local half_H = height * boundingScaleY
+	
+	local boundingBoxVerticies = {-half_W + aabStartX, -half_H + aabStartY, half_W + aabStartX, -half_H + aabStartY,
+	 half_W + aabStartX, half_H + aabStartY, -half_W + aabStartX, half_H + aabStartY}
+	
 	self.super:init(sceneGroup, imgSrc, x, y, rotation, width, height, 
 	{"com/resources/art/sprites/player_piece_01.png", 
 	"com/resources/art/sprites/player_piece_02.png", 
 	"com/resources/art/sprites/player_piece_03.png", 
 	"com/resources/art/sprites/player_piece_04.png",
 	"com/resources/art/sprites/player_piece_05.png"},
-	{ categoryBits = 1, maskBits = 26} ) 
+	{ categoryBits = 1, maskBits = 26}, boundingBoxVerticies) 
 
 	
 	self.maxhealth = PLAYER_MAXHEALTH

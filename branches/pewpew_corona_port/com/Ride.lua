@@ -28,8 +28,9 @@ Ride = MoveableObject:subclass("Ride")
 		@see inherit doc.
 	RETURN: VOID
 ]]--
-function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, shipPieces, collisionFilter)
-	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter)
+function Ride:init(sceneGroup, imgSrc, startX, startY, rotation, width, height, shipPieces, collisionFilter, verticies)
+	
+	self.super:init(sceneGroup, imgSrc, "dynamic", startX, startY, rotation, width, height, collisionFilter, verticies)
 	self.health = 0 --this variable represents the ride's current hp
 	self.maxhealth = 0 --this variable represents its maximum possible (and starting) hp
 	self.powah = powah
