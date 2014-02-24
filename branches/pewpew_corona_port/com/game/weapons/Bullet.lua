@@ -40,21 +40,21 @@ function Bullet:move(x, y)
 	self.super:move(x, y)
 end
 
-function Bullet:onHit(phase, collitor)
+function Bullet:onHit(phase, collider)
 	if phase == "began" and self.alive then
-		if not collitor.type == "player" and self.isPlayerBullet then
+		if not collider.type == "player" and self.isPlayerBullet then
 			if self.alive then
 				self:onCollision()
 			end
 		end
 
-		if collitor.type == "player" and not self.isPlayerBullet then
+		if collider.type == "player" and not self.isPlayerBullet then
 			if self.alive then
 				self:onCollision()
 			end
 		end
 		
-		if self.isPlayerBullet and collitor.type == "Hater" then
+		if self.isPlayerBullet and collider.type == "Hater" then
 			if self.alive then
 				self:onCollision()
 			end
