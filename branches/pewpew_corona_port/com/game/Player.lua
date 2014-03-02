@@ -29,6 +29,8 @@ require "com.game.passives.Player.GunpodCollection"
 require "com.game.passives.Player.GunpodSingle"
 require "com.game.passives.Player.NRGRegen"
 require "com.game.passives.Player.HealthUponScrapPickUp"
+require "com.game.passives.Player.PassiveShield"
+require "com.game.passives.Player.PassiveShieldCollection"
 
 --[[
 	CLASS NAME: Player
@@ -134,16 +136,18 @@ function Player:equipDebug(sceneGroup)
 	self.weapon.targets = AIDirector.haterList
 	self.weapon:setMuzzleLocation({ x = 0, y = -100 })
 	self.weapon.owner = self
-	self.defensePassives[1] = ExtraStartingHealth:new()
+	self.defensePassives[1] = PassiveShieldCollection:new("com/resources/art/sprites/bullet_03.png", PassiveShield)
+	self.defensePassives[1]:setOwner(self, sceneGroup)
+	--[[self.defensePassives[1] = ExtraStartingHealth:new()
 	self.defensePassives[1]:setOwner(self)
-	--[[self.defensePassives[2] = HealthRegen:new()
-	self.defensePassives[2]:setOwner(self)]]--
+	self.defensePassives[2] = HealthRegen:new()
+	self.defensePassives[2]:setOwner(self)
 	self.defensePassives[2] = HealthUponScrapPickUp:new()
 	self.defensePassives[2]:setOwner(self)
 	self.defensePassives[3] = GunpodCollection:new(GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200)
 	self.defensePassives[3]:setOwner(self, sceneGroup)
 	self.defensePassives[4] = NRGRegen:new()
-	self.defensePassives[4]:setOwner(self)
+	self.defensePassives[4]:setOwner(self)]]--
 end
 
 --[[
@@ -285,6 +289,7 @@ function Player:onHit(phase, collide)
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
+				print("Player health:", self.health)
 				if not self.swapColor then
 					self.sprite:setFillColor(1,0.5,1)
 					self.swapColor = true

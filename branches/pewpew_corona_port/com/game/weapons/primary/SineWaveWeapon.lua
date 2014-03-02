@@ -54,9 +54,6 @@ function SineWave:fire(player)
 		   bullet2.sprite.rotation = bullet2.sprite.rotation + 180
 	   end
 
-	   -- add some shit to the bullet tables
-	   --bullet1.isSine = true
-	   --bullet2.isSine = true
 	   bullet1.time = 0
 	   bullet2.time = 0
 	   
