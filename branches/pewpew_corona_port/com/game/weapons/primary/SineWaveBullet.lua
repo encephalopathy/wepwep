@@ -23,7 +23,11 @@ function SineWaveBullet:fire()
 		newX = self.initialX + newX
 		newY = self.initialY + newY
 		self:move(newX, newY)
-		self.time = self.time + 1
+		if self.isPlayerBullet then
+			self.time = self.time + 1
+		else
+			self.time = self.time - 1
+		end
 	end
 	self.alive = true
 	Runtime:addEventListener("enterFrame", updateFunction)
