@@ -42,7 +42,7 @@ function SineWaveBullet:recycle()
 end
 
 function SineWaveBullet:destroy()
-	self.updateFunction = nil
+	self:recycle()
 	self.super:destroy()
 end
 
