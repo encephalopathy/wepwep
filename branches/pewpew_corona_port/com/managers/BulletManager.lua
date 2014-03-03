@@ -144,6 +144,7 @@ function BulletManager:cacheOnScreenAmmo(onScreenBullets, offScreenBullets)
 				bullet.sprite.isBodyActive = false
 				bullet.sprite.x = 5000
 			    bullet.sprite.y = 5000
+				bullet:recycle()
 				--print('Caching Bullet: ' .. tostring(bullet) .. ' imgSrc: ' .. tostring(bullet.imgSrc))
 				
 				if offScreenBullets[tostring(bullet)] == nil then
@@ -204,7 +205,7 @@ function BulletManager:addBulletToOffScreen (offScreenList, onScreenList, bullet
 	bullet.sprite.isBodyActive = false
 	bullet.sprite.x = 5000
     bullet.sprite.y = 5000
-
+    
 
 	bullet = DynamicQueue.removeObject(onScreenList[tostring(bullet)][bullet.imgSrc], bullet)
 	if bullet == nil then 

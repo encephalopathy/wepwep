@@ -289,7 +289,7 @@ function Player:onHit(phase, collide)
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
-				print("Player health:", self.health)
+				--print("Player health:", self.health)
 				if not self.swapColor then
 					self.sprite:setFillColor(1,0.5,1)
 					self.swapColor = true

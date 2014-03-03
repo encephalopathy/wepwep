@@ -2,7 +2,8 @@ require "com.game.passives.Player.GunpodSingle"
 
 GunpodCollection = Passive:subclass("GunpodCollection")
 
-function GunpodCollection:init(gunpodType, spriteImage, separationDistanceFromOwnerX, separationDistanceFromOwnerY, weaponType, ...)
+function GunpodCollection:init(isActivatable, gunpodType, spriteImage, separationDistanceFromOwnerX, separationDistanceFromOwnerY, weaponType, ...)
+	self.super:init(nil, isActivatable)
 	self.collection = {}
 	self.gunpodType = gunpodType
 	self.spriteImage = spriteImage

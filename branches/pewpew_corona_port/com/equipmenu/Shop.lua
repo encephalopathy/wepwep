@@ -91,7 +91,7 @@ function Shop:createPassives()
    self.Passives = {}
    self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 100 , weight = 1} --heart
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 ,weight = 1} --red circle
-   self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3} --gunpod
+   self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(false, GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3} --gunpod
    self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2} --battery
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2} --health pick up plus
 end
