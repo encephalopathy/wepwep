@@ -1,6 +1,6 @@
 -- M: global variables module
 local M = require("globals")
-
+local sceneTwo = require( "scene2" )
 -- c: public codec functions that can be called in main.lua
 local c = {}
 
@@ -17,6 +17,8 @@ local images = {
 "images/ffe.jpg",
 }
 
+
+
 local sceneText = {
 "The story of Pew Pew",
 "Once there was spaceship",
@@ -32,6 +34,9 @@ local soundClips = {
 "sounds/s3.wav",
 "sounds/s4.wav",
 }
+
+images = sceneTwo.images;
+sceneText = sceneTwo.sceneText;
 
 local currentImageSpace = 1;
 
