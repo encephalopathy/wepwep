@@ -31,7 +31,7 @@ require "com.game.passives.Player.NRGRegen"
 require "com.game.passives.Player.HealthUponScrapPickUp"
 require "com.game.passives.Player.PassiveShield"
 require "com.game.passives.Player.ShieldCollection"
-require "com.game.passives.Player.ActivatableShield"
+require "com.game.weapons.secondary.ActivatableShield"
 
 --[[
 	CLASS NAME: Player

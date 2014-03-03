@@ -1,5 +1,5 @@
 require "com.game.passives.Player.PassiveShield"
-require "com.game.passives.Player.ActivatableShield"
+require "com.game.weapons.secondary.ActivatableShield"
 
 ShieldCollection = Passive:subclass("ShieldCollection")
 
