@@ -16,8 +16,14 @@ Passive = Object:subclass("Passive")
 	CONSTRUCTOR:
 	@fieldName: The name of the field that is to be modified by this passive.
 ]]--
-function Passive:init(fieldName)
+function Passive:init(fieldName, isActivatable)
 	self.fieldName = fieldName
+	if isActivatable == nil then
+		self.isActivatable = false
+	else
+		self.isActivatable = isActivatable
+	end
+
 end
 
 --[[
