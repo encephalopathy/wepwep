@@ -71,11 +71,31 @@ end
 
 function Boss1_1:update()
 	self.super:update()
+
+	if self.sprite.x > 400 then 
+		self.moveRight = false
+		self.moveLeft = true
+	end
 	
+	if self.sprite.x < 40 then 
+		self.moveRight = true
+		self.moveLeft = false
+	end
 	
    if (self.isFrozen) then
       return
    end
+
+	if self.sprite.y < 250 then
+		self:move(0,3)
+	elseif self.moveRight then
+		self:move(5,0)
+	elseif self.moveLeft then
+		self:move(-5,0)
+	else 
+		self:move(2,0)
+	end
+
    if self.alive then
 	--self:move(3,2)
 	--if (step % 90 == 0 and self.alive == true) then
