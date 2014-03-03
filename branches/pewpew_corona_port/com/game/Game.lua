@@ -219,8 +219,8 @@ function scene:createScene( event )
 	{
 		left = screenW - screenW*0.3,
 		top = 0,
-		width = screenW*0.3,
-		height = screenH*0.2,
+		width = screenW*0.025,
+		height = screenH*0.025,
 		defaultFile = "com/resources/art/sprites/backtomenu_unpressed.png",
 		overFile = "com/resources/art/sprites/backtomenu_pressed.png",
 		label = "",
