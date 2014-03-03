@@ -30,7 +30,8 @@ require "com.game.passives.Player.GunpodSingle"
 require "com.game.passives.Player.NRGRegen"
 require "com.game.passives.Player.HealthUponScrapPickUp"
 require "com.game.passives.Player.PassiveShield"
-require "com.game.passives.Player.PassiveShieldCollection"
+require "com.game.passives.Player.ShieldCollection"
+require "com.game.passives.Player.ActivatableShield"
 
 --[[
 	CLASS NAME: Player
