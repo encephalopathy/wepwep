@@ -146,6 +146,8 @@ local function moveHaterOffScreen(hater)
 	hater.sprite.x = 5000
 	hater.sprite.y = 5000
 	hater.sprite.isVisible = false
+	hater.weapon = {}
+	hater.primaryWeapons = {}
 	allHatersInView[hater] = nil
 	Queue.insertFront(haterList[tostring(hater)].outOfView, hater) --placed in to outOfView
 end

@@ -55,7 +55,7 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.shipComponenets = Queue.new()
 	
 	self.primaryWeapons = {}
-	self.secondaryWeapons = {}
+	--self.secondaryWeapons = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
 	
@@ -158,12 +158,13 @@ function Hater:update()
    --self.weapon:checkBullets()
    --self:cullBulletsOffScreen()
    
-   if self.hitColorTimer > 0 then
-	  self.hitColorTimer = self.hitColorTimer - 1
-	  	if self.hitColorTimer == 0 then
-		  	self.sprite:setFillColor(1, 1, 1, 1)
-	  	end
-   end
+   -- if self.hitColorTimer > 0 then
+	  -- self.hitColorTimer = self.hitColorTimer - 1
+	  	-- if self.hitColorTimer == 0 then
+		  	-- self.sprite:setFillColor(1, 1, 1, 1)
+	  	-- end
+   -- end
+   self:colorTimer()
    
    --[[local length = self.bulletsInView.size
 	local newInViewQueue = Queue.new()
@@ -218,10 +219,11 @@ function Hater:onHit(phase, collide)
 			if self.health <= 0 then
 				self:die()
 			else
-				if self.hitColorTimer == 0 then
-					self.sprite:setFillColor(1,0.5,1, 1)
-					self.hitColorTimer = HIT_COLOR_TIMER
-				end
+				-- if self.hitColorTimer == 0 then
+					-- self.sprite:setFillColor(1,0.5,1, 1)
+					-- self.hitColorTimer = HIT_COLOR_TIMER
+				-- end
+				self:startColorTimer()
 			end
 			--sound:load(self.soundPath)
 			--haterDeathSFX:play()
@@ -238,6 +240,21 @@ function Hater:onHit(phase, collide)
 	self.super:onHit(phase, collide)
 end
 
+function Hater:startColorTimer()
+	if self.hitColorTimer == 0 then
+		self.sprite:setFillColor(1,0.5,1, 1)
+		self.hitColorTimer = HIT_COLOR_TIMER
+	end
+end
+
+function Hater:colorTimer()
+	if self.hitColorTimer > 0 then
+	  self.hitColorTimer = self.hitColorTimer - 1
+	  	if self.hitColorTimer == 0 then
+		  	self.sprite:setFillColor(1, 1, 1, 1)
+	  	end
+   end
+end
 
 function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup events
 	--print("YOU HAVE KILLED A HATER!!!")
@@ -245,6 +262,8 @@ function Hater:die() --TODO: have these Runtime:dispatchEvent as sceneGroup even
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "ScrapPickUp", position =  {x = self.sprite.x + 1, y = self.sprite.y + 1}})
 	--mainInventory.dollaz = mainInventory.dollaz + (3 * self.maxHealth)
 	--print("dispatchEvent Hater.lua addScore")
+	self.weapon = {}
+	self.primaryWeapons = {}
 	Runtime:dispatchEvent({name = "addScore", score = (3*self.maxHealth)})
 end
 
