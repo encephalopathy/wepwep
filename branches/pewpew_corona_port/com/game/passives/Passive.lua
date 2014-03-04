@@ -23,6 +23,7 @@ function Passive:init(fieldName, isActivatable)
 	else
 		self.isActivatable = isActivatable
 	end
+	self.activated = false
 
 end
 
@@ -37,6 +38,7 @@ function Passive:setOwner(objectRef)
 	assert(objectRef ~= nil, 'Did not equip an owner such as player or an enemy to this passive')
 	
 	self.objectRef = objectRef
+	self.activated = false
 end
 
 --[[
@@ -58,7 +60,19 @@ end
 ]]--
 function Passive:clear()
 	self.objectRef = nil
+	self.activated = false
 end
 
+--[[
+	FUNCTION NAME: activate
+	
+	DESCRIPTION: Toggles an activation effect when called by the Player.  If desired, this function should be overriden for
+				 additonal functionality.
+	
+	@RETURN: VOID
+]]--
+function Passive:activate()
+	self.activated = not self.activated
+end
 
 return Passive

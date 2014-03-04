@@ -276,7 +276,7 @@ function Player:fireSecondary(event)
 	if Weapon:made(secondaryItem) then
 		secondaryItem:fire()
 	elseif Passive:made(secondaryItem) then
-		print('passive name: ' .. event.name)
+		secondaryItem:activate()
 	else
 		print('INVALID SECONDARY FIRING')
 	end
