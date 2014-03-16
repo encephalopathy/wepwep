@@ -264,8 +264,8 @@ function Player:__tostring()
 end
 
 function Player:updatePassives()
-	for i = 1, #self.defensePassives, 1 do
-		self.defensePassives[i]:update()
+	for passiveName, passive in pairs(self.defensePassives) do
+		self.defensePassives[passiveName]:update()
 	end
 	--print("player's health is currently", self.health)
 end
@@ -309,9 +309,9 @@ function Player:onHit(phase, collide)
 					self:die()
 				end
 			elseif not collide.isPlayerBullet and Collectible:made(collide) then
-				for i = 1, #self.defensePassives, 1 do
-					if self.defensePassives[i].pickupIncreaseAmount ~= nil then
-						self.defensePassives[i]:increaseHealth()
+				for passiveName, passive in pairs(self.defensePassives) do
+					if self.defensePassives[passiveName].pickupIncreaseAmount ~= nil then
+						self.defensePassives[passiveName]:increaseHealth()
 					end
 				end
 			end
