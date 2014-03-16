@@ -275,8 +275,13 @@ function Player:fireSecondary(event)
 	print('Using secondaryWeapon in Player:fireSecondary: ' .. tostring(secondaryItem))
 	if Weapon:made(secondaryItem) then
 		secondaryItem:fire()
-	elseif Passive:made(secondaryItem) then
+		return
+	end
+	
+	secondaryItem = self.defensePassives[event.item]
+	if Passive:made(secondaryItem) then
 		secondaryItem:activate()
+		return
 	else
 		print('INVALID SECONDARY FIRING')
 	end
