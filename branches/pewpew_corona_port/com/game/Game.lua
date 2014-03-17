@@ -302,7 +302,10 @@ function scene:enterScene( event )
 	print('Enter Scene')
 	local group = self.view
 	
-	playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
+	if muteOption ~= true then
+		playBGM("com/resources/music/bgmusic/gameBackMusic.ogg")
+	end
+	
 	physics.start()
 	physics.setGravity(0, 0)
 	physics.setVelocityIterations(1)

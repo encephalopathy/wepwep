@@ -163,6 +163,7 @@ local function updateHaters()
 			end
 		end
 	end
+	--check to see if the boss has been spawned and if it is alive
 	if bossSpawn == true then
 		if levelBoss.alive == false then
 			storyboard.gotoScene("com.mainmenu.MainMenu", "fade", 500)

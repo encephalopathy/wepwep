@@ -53,33 +53,35 @@ end
 function SFX:playSound(event)
 	--print("INSIDE playSound")
 	--print("name: "..self.name)
-	if event.name == "playSound" then 
-		--print("event.handle "..event.soundHandle)
-		if self.sfx[event.soundHandle] ~= nil then
-			--print('event.soundHandle was not nil')
-			if self.sfx[event.soundHandle].setting == 'R' then
-				--print("type: "..type(self.sfx[event.soundHandle].object))
-				--print("channel: "..self.sfx[event.soundHandle].channel)
-				if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))then 
-					audio.stop(self.sfx[event.soundHandle].channel)
-				end 
-				audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
-				--print(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))
-			elseif self.sfx[event.soundHandle].setting == 'NR' then 
-				--print("playing a setting = NR")
-				if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel)) then 
-					return
-				else 
+	if muteOption ~= true then
+		if event.name == "playSound" then 
+			--print("event.handle "..event.soundHandle)
+			if self.sfx[event.soundHandle] ~= nil then
+				--print('event.soundHandle was not nil')
+				if self.sfx[event.soundHandle].setting == 'R' then
+					--print("type: "..type(self.sfx[event.soundHandle].object))
+					--print("channel: "..self.sfx[event.soundHandle].channel)
+					if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))then 
+						audio.stop(self.sfx[event.soundHandle].channel)
+					end 
 					audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
+					--print(audio.isChannelPlaying(self.sfx[event.soundHandle].channel))
+				elseif self.sfx[event.soundHandle].setting == 'NR' then 
+					--print("playing a setting = NR")
+					if(audio.isChannelPlaying(self.sfx[event.soundHandle].channel)) then 
+						return
+					else 
+						audio.play(self.sfx[event.soundHandle].object, {channel = self.sfx[event.soundHandle].channel})
+					end
+				elseif self.sfx[event.soundHandle].setting == 'NRML' then
+					local freeChannel = audio.findFreeChannel()
+					audio.play(self.sfx[event.soundHandle].object, {channel = freeChannel})
 				end
-			elseif self.sfx[event.soundHandle].setting == 'NRML' then
-				local freeChannel = audio.findFreeChannel()
-				audio.play(self.sfx[event.soundHandle].object, {channel = freeChannel})
+			else
+				print("event.soundHandle was a nil value")
 			end
-		else
-			print("event.soundHandle was a nil value")
+			
 		end
-		
 	end
 	
 	return true
