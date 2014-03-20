@@ -16,6 +16,9 @@ require "com.game.weapons.secondary.GrenadeLauncher"
 require "com.game.weapons.secondary.Bomb"
 require "com.game.weapons.secondary.FreezeMissile"
 require "com.game.weapons.secondary.StandardMissile"
+require "com.game.passives.Player.ShieldCollection"
+require "com.game.passives.Player.PassiveShield"
+require "com.game.weapons.secondary.ActivatableShield"
 
 Shop = Object:subclass("Shop")
 
@@ -71,6 +74,7 @@ function Shop:createSecondaryWeapons()
    local GrenadeLauncherValues = { item = GrenadeLauncher:new(scene, true, 1, 200), dollaz = 50, weight = 2}
    local MissileValues = { item = Singleshot:new(scene, true, 1, 200, 0, 0, 'com/resources/art/sprites/missile.png', 0, StandardMissile), dollaz = 70, weight = 1}
    local FreezeMissileValues = { item = Singleshot:new(scene, true, 1, 200, 0, 0, "com/resources/art/sprites/missile.png", 0, FreezeMissile), dollaz = 100, weight = 3}
+   --local ActivatableShieldValues = { item = ShieldCollection:new(true, "com/resources/art/sprites/shop_splash_images/ActivatableShield.png", ActivatableShield, 10), dollaz = 10, weight = 1}
    
    --Commented out because physics doesn't exist in the menus
    self.SecondaryWeapons['com/resources/art/sprites/bomb.png'] = GrenadeLauncherValues
@@ -79,21 +83,26 @@ function Shop:createSecondaryWeapons()
    self.SecondaryWeapons['Missile'] = MissileValues
    self.SecondaryWeapons['com/resources/art/sprites/shop_splash_images/FreezeMissile.png'] = FreezeMissileValues
    self.SecondaryWeapons['FreezeMissile'] = FreezeMissileValues
+   --[[self.SecondaryWeapons['com/resources/art/sprites/shop_splash_images/ActivatableShield.png'] = ActivatableShieldValues
+   self.SecondaryWeapons['ActivatableShield'] = ActivatableShieldValues]]--
    
    --Sets the max ammo ammount that the secondary weapons can use per game
    self.SecondaryWeapons['com/resources/art/sprites/bomb.png'].item:setAmmoAmount(3)
    self.SecondaryWeapons['com/resources/art/sprites/missile.png'].item:setAmmoAmount(10)
    self.SecondaryWeapons['com/resources/art/sprites/shop_splash_images/FreezeMissile.png'].item:setAmmoAmount(10)
+   --Activatable Shield health/ammo amount set in initialization
    
 end
 
 function Shop:createPassives()
    self.Passives = {}
-   self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 100 , weight = 1} --heart
+   self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 10 , weight = 1} --heart
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 ,weight = 1} --red circle
    self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(false, GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3} --gunpod
    self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2} --battery
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2} --health pick up plus
+   self.Passives['com/resources/art/sprites/shop_splash_images/ActivatableShield.png'] = { item = ShieldCollection:new(true, "com/resources/art/sprites/bullet_03.png", ActivatableShield, 10), dollaz = 10, weight = 1 } --shield you can turn on and off
+   self.Passives['com/resources/art/sprites/shop_splash_images/PassiveShield.png'] = { item = ShieldCollection:new(false, "com/resources/art/sprites/bullet_03.png", PassiveShield, 20), dollaz = 20, weight = 1 }  --shield that starts out on and lasts until it runs out of health
 end
 
 -- Unlock a weapon to equip.
