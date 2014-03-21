@@ -78,7 +78,6 @@ end
 
 --determine a direction for the sprite to move
 function Hater_MidScreen:switch()
-	print("INSDIE SWITCH!")
 	if self.sprite.x <= (display.contentWidth/2) then
 		self.direction = 1
 	else
