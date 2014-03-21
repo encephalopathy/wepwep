@@ -1,0 +1,33 @@
+=== Main menu ===
+-animation of buttons appearing
+-animation of buttons being pressed
+-Options Screen
+-Local High Score Screen
+-Tutorial / Help Screen
+
+=== Hangar ===
+-Weapon Preview Screen
+	-appears on left side, whereas the selection of weapons appears on the right side
+	-could put type (primary, secondary, passive) selector buttons up top
+-after selecting, should proceed to level select screen
+
+=== Level ===
+-Ship launching cinematic for first stage
+-results screen
+	-level clear pop up
+		-either before or during results screen
+-unique big death explosion for player
+-can be busier
+	-the next wave of enemies can have already appeared before you are finished with the current wave
+	-can sometimes see the next wave before you can start attacking them
+	-can be fighting both enemies in the sky and on the ground
+	-enemies can move in motions that run counter to each other
+		-enemies coming down from the top of the screen then leaving via the top of the screen
+		-enemies coming from the left or right side leaving via the other side
+	-enemies don't move in static motions too often
+		-most of the enemies you fight are small enemies who do things such as
+			-fly in, stop, rotate in place while shooting towards you, fly away
+		 -big enemies / ground vehicles tend to move statically
+			-though both can break this "rule" 
+-high contrast between bullets and background
+-more animated background
