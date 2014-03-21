@@ -18,10 +18,10 @@ Passive = Object:subclass("Passive")
 ]]--
 function Passive:init(fieldName, isActivatable)
 	self.fieldName = fieldName
-	if isActivatable == nil then
-		self.isActivatable = false
+	if isActivatable == true then
+		self.isActivatable = true
 	else
-		self.isActivatable = isActivatable
+		self.isActivatable = false
 	end
 	self.activated = false
 
