@@ -21,6 +21,13 @@ function Hater_Normal:init(sceneGroup)
 	self.sprite.objRef = self 
 	self.health = 1
 	self.maxHealth = 1
+	if (self.rotation == nil) then
+		self.rotation = 0
+	end
+	self.speed = 3
+	self.degrees = math.deg(self.rotation)
+	self.XVector = math.sin(self.degrees)
+	self.YVector = math.cos(self.degrees)
 end
 
 function Hater_Normal:initMuzzleLocations()
@@ -28,7 +35,7 @@ function Hater_Normal:initMuzzleLocations()
 end
 
 function Hater_Normal:move(x, y)
-
+	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
 end
@@ -46,7 +53,7 @@ function Hater_Normal:update()
       return
    end
    if self.alive then
-	self:move(0,3)
+	self:move(self.speed*self.XVector,self.speed*self.YVector)
 	--if (step % 90 == 0 and self.alive == true) then
 	if self.alive == true then
 		self:fire()						
