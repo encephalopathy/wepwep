@@ -83,7 +83,7 @@ function Spreadshot:fire (player)
 	if not self:willFire() then return false end
 	local angleStep = self.firingAngle / ((self.numberOfShots) / self.numberOfArcs)
 	local shotsPerArc = math.ceil((self.numberOfShots) / self.numberOfArcs)
-	local startAngle = ((self.firingAngle * self.numberOfArcs) + (self.angleBetweenArcs * (self.numberOfArcs - 1)) + angleStep) /2 + self.owner.sprite.rotation + self.startRotation
+	local startAngle = ((self.firingAngle * self.numberOfArcs) + (self.angleBetweenArcs * (self.numberOfArcs - 1)) + angleStep) /2 + self.owner.sprite.rotation
 
    	local shots = {}
 	if self.owner then
@@ -102,7 +102,7 @@ function Spreadshot:fire (player)
 		
 			local rotationAngle = math.rad(startAngle - (i * angleStep) - ((math.ceil(i / shotsPerArc) - 1) * self.angleBetweenArcs))
 			self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
-         
+
 	      	local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 
 	       	if not self.isPlayerOwned then
