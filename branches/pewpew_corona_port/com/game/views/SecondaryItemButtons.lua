@@ -27,7 +27,7 @@ local function getButtonResolution()
 	return xPos, yPos, width, height, dy
 end
 
-local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive)
+local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive, passiveIsActivatable)
 	if group[i] == nil then
 		--print(type(group.onPress))
 		
@@ -35,7 +35,23 @@ local function createItemButton(group, i, name, xPos, yPos, width, height, isPas
 		local secondaryItem
 		if isPassive then
 			labelColor = { 0.3, 0.3, 0.3, 0.7 }
-			secondaryItem = display.newImageRect(name, width, height)
+			if passiveIsActivatable then
+				secondaryItem = widget.newButton {
+					left = xPos,
+					top = yPos,
+					label = "",
+					id = name,
+					labelAlign = "center",
+					defaultFile = name,
+					overFile = "com/resources/art/sprites/sheep.png",
+					width = width,
+					height = height,
+					labelColor = { default = labelColor, over = labelColor },
+					onRelease = group.onPress
+				}
+			else
+				secondaryItem = display.newImageRect(name, width, height)
+			end
 			secondaryItem.x, secondaryItem.y = xPos, yPos
 			secondaryItem:setFillColor(155, 155, 155, 0.5)
 		else
@@ -83,7 +99,7 @@ function SecondaryItemButtons:createButtons(event)
 	
 	for passiveName, passive in pairs(mainInventory.passives) do
 		--print('passive name: ' .. passiveName)
-		createItemButton(group, i, passiveName, xPos, yPos, width, height, true)
+		createItemButton(group, i, passiveName, xPos, yPos, width, height, true, passive.isActivatable)
 		i = i + 1
 		yPos = yPos + dy
 	end

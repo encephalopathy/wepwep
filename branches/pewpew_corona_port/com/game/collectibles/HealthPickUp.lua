@@ -3,6 +3,13 @@ require "com.game.collectibles.Collectible"
 HealthPickUp = Collectible:subclass("HealthPickUp")
 
 function HealthPickUp:init(sceneGroup, player, imgSrc, startX, startY, rotation, width, height)
+	if width == nil then
+		width = 65
+	end
+	
+	if height == nil then
+		height = 65
+	end
 	self.super:init(sceneGroup, 'com/resources/art/sprites/heart.png', startX, startY, rotation, width, height)
 	
 	self.initialSpeed = 100
@@ -10,6 +17,7 @@ function HealthPickUp:init(sceneGroup, player, imgSrc, startX, startY, rotation,
 end
 
 function HealthPickUp:activateEffect(player)
+	print("HealthPickUp:activateEffect: HealthPickUp collected")
 	Runtime:dispatchEvent({name = "playSound", soundHandle = 'HealthPickUp'})
 	player.health = player.health + (PLAYER_MAXHEALTH * .1) --TODO: THIS VALUE WILL BE AFFECTED BY PASSIVES
 	if player.health > PLAYER_MAXHEALTH then

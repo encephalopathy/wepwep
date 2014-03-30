@@ -21,7 +21,7 @@ Time=6 com.game.enemies.Hater_Normal=9
    Type=com.game.enemies.Hater_Normal Location=369,-42 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=401,-91 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=317,-24 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-Time=8 com.game.enemies.Hater_Normal=3 com.game.enemies.Hater_MidScreen=1
+Time=8 com.game.enemies.Hater_Normal=3 com.game.enemies.Hater_MidScreen=2
    Type=com.game.enemies.Hater_Normal Location=47,-50 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=233,-52 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=410,-50 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
@@ -38,13 +38,13 @@ Time=12 com.game.enemies.Hater_SineWave=2 com.game.enemies.Hater_Normal=1 com.ga
    Type=com.game.enemies.Hater_Normal Location=328,-83 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=
    Type=com.game.enemies.Hater_Health Location=229,-49 Rotation=0 Weapons= Passives=com.game.passives.Player.ExtraStartingHealth,com.game.passives.Player.ExtraStartingHealth
 Time=14 com.game.enemies.Hater_Normal=3
-   Type=com.game.enemies.Hater_Normal Location=86,-78 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=86,-78 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=
    Type=com.game.enemies.Hater_Normal Location=230,-34 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=
-   Type=com.game.enemies.Hater_Normal Location=371,-82 Rotation=0 Weapons=com.game.weapons.primary.SpreadshotWeapon Passives=
+   Type=com.game.enemies.Hater_Normal Location=371,-82 Rotation=0 Weapons=com.game.weapons.primary.DoubleshotWeapon Passives=
 Time=16 com.game.enemies.Hater_Carrier=2
    Type=com.game.enemies.Hater_Carrier Location=51,-55 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
    Type=com.game.enemies.Hater_Carrier Location=112,-52 Rotation=0 Weapons= Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
-Time=20 com.game.enemies.bosses.Boss1_1=1
+Time=22 com.game.enemies.bosses.Boss1_1=1
    Type=com.game.enemies.bosses.Boss1_1 Location=69,-46 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon,com.game.weapons.primary.SingleshotWeapon Passives=com.game.passives.Player.HealthRegen,com.game.passives.Player.HealthRegen
 Name=w1s2 Number=2
 Time=2 com.game.enemies.Hater_HalfStrafe=6

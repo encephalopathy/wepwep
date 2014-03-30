@@ -33,8 +33,6 @@ local function createHater(haterList, haterType)
 	local newHater = require(haterType):new(AIDirector.haterGroup, AIDirector.player, 
 										haterList[haterType].inView, haterList[haterType].outOfView,
 										haterList, allHatersInView)
-	-- newHater.sprite.isBodyActive = false
-	-- newHater.sprite.isVisible = false
 	return newHater
 end
 
@@ -88,9 +86,6 @@ local function spawnHater(enemies)
 				
 			local enemyInView = nil
 			if haterList[haterType] == nil then
-				--haterList[haterType] = {}
-				--haterList[haterType].outOfView = Queue.new()
-				--haterList[haterType].inView = Queue.new()
 				enemyInView = createHater(haterList, enemyContext.Type)
 			else
 				
@@ -107,15 +102,13 @@ local function spawnHater(enemies)
 			end
 			enemyInView.sprite.isBodyActive = true
 			enemyInView.sprite.isVisible = true
-			--print("enemyInView.health: "..enemyInView.health)
+
 			Queue.insertFront(haterList[enemyContext.Type].inView, enemyInView)
-			--count = count + 1
-			--print(count)
 			enemyInView.sprite.x = enemyContext.x
 			enemyInView.sprite.y = enemyContext.y
 			enemyInView.sprite.rotation = enemyContext.Rotation
 			enemyInView:equipRig(haterGroup, enemyContext.Weapons, enemyContext.Passives)
-			if bossSpawn == true then
+			if bossSpawn then
 				levelBoss = enemyInView
 			end
 			allHatersInView[enemyInView] = enemyInView
@@ -146,6 +139,8 @@ local function moveHaterOffScreen(hater)
 	hater.sprite.x = 5000
 	hater.sprite.y = 5000
 	hater.sprite.isVisible = false
+	hater.weapon = {}
+	hater.primaryWeapons = {}
 	allHatersInView[hater] = nil
 	Queue.insertFront(haterList[tostring(hater)].outOfView, hater) --placed in to outOfView
 end
@@ -153,10 +148,8 @@ end
 local function emptyHaterList(groupOfHaters)
 	while groupOfHaters.size > 0 do
 		local hater = Queue.removeBack(groupOfHaters)
-		--if hater ~= nil then
-			hater:destroy()
-			hater = nil
-		--end
+		hater:destroy()
+		hater = nil
 	end
 end
 
@@ -170,6 +163,7 @@ local function updateHaters()
 			end
 		end
 	end
+	--check to see if the boss has been spawned and if it is alive
 	if bossSpawn == true then
 		if levelBoss.alive == false then
 			storyboard.gotoScene("com.mainmenu.MainMenu", "fade", 500)
@@ -221,8 +215,28 @@ function AIDirector.deactivate()
 	Runtime:removeEventListener("enterFrame", AIDirector.update)
 end
 
+--The two functions below are debug functions to profile memory usage for the haters in game.
+local function checkMemoryLeaks(queue)
+	for key, value in pairs(queue) do
+		print('Key: ' .. tostring(key))
+		print('value: ' .. tostring(value))
+	end
+end
+
+local function profileMemoryLeaks(allHatersInView, haterList)
+	print('Checking memory in allHatersInView: allHatersInView')
+	checkMemoryLeaks(allHatersInView)
+	
+	print('Checking memory leaks in the inView and OutofView queues')
+	for haterType, queues in pairs(haterList) do
+		print('haterType: InView ' .. haterType)
+		checkMemoryLeaks(queues.inView)
+		print('haterType: outOfView: ' .. haterType)
+		checkMemoryLeaks(queues.outOfView)
+	end	
+end
+
 function AIDirector.uninitialize(sceneGroup)
-	--spawnClock = nil
 	timer.cancel(spawnClock)
 	bossSpawn = false
 	levelBoss = nil

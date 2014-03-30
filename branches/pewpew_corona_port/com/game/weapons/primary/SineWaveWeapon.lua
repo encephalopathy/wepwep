@@ -33,6 +33,7 @@ function SineWave:fire(player)
 	   local bullet2 = self:getNextShot()
 	   
 	   local rotationAngle = math.rad(self.owner.sprite.rotation)
+	   
 	   local muzzleLocX = self.muzzleLocation.x
 	   local muzzleLocY = self.muzzleLocation.y
 		
@@ -47,10 +48,12 @@ function SineWave:fire(player)
 	   bullet2.initialX = bullet2.sprite.x
 	   bullet2.initialY = bullet2.sprite.y
 	   bullet2.rotation = self.owner.sprite.rotation
+	   
+	   if not self.isPlayerOwned then
+		   bullet1.sprite.rotation = bullet1.sprite.rotation + 180
+		   bullet2.sprite.rotation = bullet2.sprite.rotation + 180
+	   end
 
-	   -- add some shit to the bullet tables
-	   --bullet1.isSine = true
-	   --bullet2.isSine = true
 	   bullet1.time = 0
 	   bullet2.time = 0
 	   

@@ -1,7 +1,7 @@
 require "com.Ride"
 
 --TO DO: PLAYER_MAXHEALTH, PLAYER_MAXPOWAH, etc. will later be dependent on what ship and what passives
-PLAYER_MAXHEALTH = 10
+PLAYER_MAXHEALTH = 100
 
 PLAYER_MAXPOWAH = 100
 PLAYER_POWAH_REGENERATION_RATE = 1
@@ -30,7 +30,8 @@ require "com.game.passives.Player.GunpodSingle"
 require "com.game.passives.Player.NRGRegen"
 require "com.game.passives.Player.HealthUponScrapPickUp"
 require "com.game.passives.Player.PassiveShield"
-require "com.game.passives.Player.PassiveShieldCollection"
+require "com.game.passives.Player.ShieldCollection"
+require "com.game.weapons.secondary.ActivatableShield"
 
 --[[
 	CLASS NAME: Player
@@ -263,8 +264,8 @@ function Player:__tostring()
 end
 
 function Player:updatePassives()
-	for i = 1, #self.defensePassives, 1 do
-		self.defensePassives[i]:update()
+	for passiveName, passive in pairs(self.defensePassives) do
+		self.defensePassives[passiveName]:update()
 	end
 	--print("player's health is currently", self.health)
 end
@@ -274,8 +275,13 @@ function Player:fireSecondary(event)
 	print('Using secondaryWeapon in Player:fireSecondary: ' .. tostring(secondaryItem))
 	if Weapon:made(secondaryItem) then
 		secondaryItem:fire()
-	elseif Passive:made(secondaryItem) then
-		print('passive name: ' .. event.name)
+		return
+	end
+	
+	secondaryItem = self.defensePassives[event.item]
+	if Passive:made(secondaryItem) then
+		secondaryItem:activate()
+		return
 	else
 		print('INVALID SECONDARY FIRING')
 	end
@@ -289,7 +295,7 @@ function Player:onHit(phase, collide)
 		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
-				print("Player health:", self.health)
+				--print("Player health:", self.health)
 				if not self.swapColor then
 					self.sprite:setFillColor(1,0.5,1)
 					self.swapColor = true
@@ -303,9 +309,9 @@ function Player:onHit(phase, collide)
 					self:die()
 				end
 			elseif not collide.isPlayerBullet and Collectible:made(collide) then
-				for i = 1, #self.defensePassives, 1 do
-					if self.defensePassives[i].pickupIncreaseAmount ~= nil then
-						self.defensePassives[i]:increaseHealth()
+				for passiveName, passive in pairs(self.defensePassives) do
+					if self.defensePassives[passiveName].pickupIncreaseAmount ~= nil then
+						self.defensePassives[passiveName]:increaseHealth()
 					end
 				end
 			end

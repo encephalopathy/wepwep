@@ -2,33 +2,31 @@ require "com.Ride"
 
 PassiveShield = Ride:subclass("PassiveShield")
 
-function PassiveShield: init(scenegroup, imgSrc, objectRef, sizeX, sizeY)
+function PassiveShield:init(scenegroup, imgSrc, objectRef, sizeX, sizeY, shieldHealth)
 	if scenegroup == nil then
-		assert("Activatable Shield: scenegroup is nil")
+		assert("Passive Shield: scenegroup is nil")
 	elseif imgSrc == nil then
-		print("Activatable Shield: imgsrc is nil, using default image")
+		print("Passive Shield: imgsrc is nil, using default image")
 		imgSrc = "com/resources/art/sprites/bullet_03.png"
 	end
 
-	self.health = 10
-	self.maxhealth = 10
-	self.i = 1
+	self.health = shieldHealth
+	self.maxhealth = shieldHealth
+	self.i = 0.75
 
 	self.type = "player"
 
-	self.active = true
-
 	self.super:init(sceneGroup, imgSrc, objectRef.sprite.x, objectRef.sprite.y, rotation, sizeX, sizeY, nil, { categoryBits = 1, maskBits = 10 })
 	self.sprite.objRef = self
-	self.sprite:setFillColor(1, 1, 1, 0.5)
+	self.sprite:setFillColor(1, 1, 1, 0.75)
 end
 
 function PassiveShield:onHit(phase, collide)
 	if phase == "ended"  then
-		if self.alive == true and self.active == true then
+		if self.alive == true then
 			if not collide.isPlayerBullet and not Collectible:made(collide)  then
 				self.health = self.health - 1
-				print("PassiveShield: registered hit, health is currently", self.health)
+				--print("PassiveShield: registered hit, health is currently", self.health)
 				Runtime:dispatchEvent({name = "playSound", soundHandle = 'Player_onHit'})
 				if self.health <= 0 and not debugFlag then
 					--sound:load(self.soundPathDeath) 
@@ -50,6 +48,5 @@ function PassiveShield:update(x, y)
 		self.i = self.i - 0.25
 		self.sprite:setFillColor(1, 1, 1, self.i)
 	elseif self.alive == false and self.i == 0 then
-		self.super:destroy()
 	end
 end
