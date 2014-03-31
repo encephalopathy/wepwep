@@ -59,6 +59,9 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
 
+	--TODO change this to something that will work better (currently only exists in this form to work with Hater_Homing)
+	self.playerRef = player
+
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
 	self.sprite.objRef = self
 end
