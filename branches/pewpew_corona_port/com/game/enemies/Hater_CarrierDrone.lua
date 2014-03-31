@@ -5,14 +5,14 @@ require "com.game.enemies.Hater"
 
 Hater_CarrierDrone = Hater:subclass("Hater_CarrierDrone")
 
-function Hater_CarrierDrone:init(sceneGroup)
+function Hater_CarrierDrone:init(sceneGroup, player)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 100, 100, 
 	{"com/resources/art/sprites/enemy_06_piece_01.png",
 	 "com/resources/art/sprites/enemy_06_piece_02.png",
 	 "com/resources/art/sprites/enemy_06_piece_03.png",
 	 "com/resources/art/sprites/enemy_06_piece_04.png",
 	 "com/resources/art/sprites/enemy_06_piece_05.png"
-	 }
+	 }, player
 	)
 	--Copy Paste these fields if you plan on using them in the collision function
 	self.directionx = math.random(-2,2)

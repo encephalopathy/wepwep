@@ -15,9 +15,9 @@ function Hater_Homing:init(sceneGroup, player)
 	"com/resources/art/sprites/enemy_03_piece_02.png", 
 	"com/resources/art/sprites/enemy_03_piece_03.png", 
 	"com/resources/art/sprites/enemy_03_piece_04.png", 
-	"com/resources/art/sprites/enemy_03_piece_05.png"})
+	"com/resources/art/sprites/enemy_03_piece_05.png"}, player)
 	--Copy Paste these fields if you plan on using them in the collision function
-	self.playerRef = player
+	--self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
 	self.health = 2

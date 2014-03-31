@@ -22,7 +22,7 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	 "com/resources/art/sprites/enemy_08_piece_03.png",
 	 "com/resources/art/sprites/enemy_08_piece_04.png",
 	 "com/resources/art/sprites/enemy_08_piece_05.png"
-	 }
+	 }, player
 	)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
@@ -34,7 +34,6 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	print("drone count: ",self.drones)
 	self.step = 0
 	self.sceneGroup = sceneGroup
-	self.player = player
 	
 	--variables used for spawning new drones
 	self.inView = inView
