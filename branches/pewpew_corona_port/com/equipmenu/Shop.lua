@@ -17,20 +17,24 @@ require "com.game.weapons.secondary.Bomb"
 require "com.game.weapons.secondary.FreezeMissile"
 require "com.game.weapons.secondary.StandardMissile"
 
+--Corona specific library that handles reading and writing json.
+local jsonHandler = require 'json'
+
 Shop = Object:subclass("Shop")
 
+local shop
 --[[
 	NOTE: DOLLARZ are not in the game.
 ]]--
-function Shop:init()
+function Shop:init(scene)
    self.Weapons = {}
    
-   local SingleshotValues = { item = Singleshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5}
-   local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"), dollaz = 500, weight = 5 }
-   local SineWaveValues = { item = SineWave:new(scene, true, 25, 200), dollaz = 50, weight = 5 }
-   local HomingshotValues = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100, weight = 5}
-   local DoubleshotValues = { item = Doubleshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 70, weight = 5 }
-   local BackshotValues = { item = Backshot:new(scene, true, 15, 200, "com/resources/art/sprites/bullet_02.png"), dollaz = 80, weight = 5}
+   local SingleshotValues = { item = Singleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5, description = ""}
+   local SpreadshotValues = { item = Spreadshot:new(nil, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"), dollaz = 500, weight = 5, description = ""}
+   local SineWaveValues = { item = SineWave:new(nil, true, 25, 200), dollaz = 50, weight = 5 , description = ""}
+   local HomingshotValues = { item = Homingshot:new(nil, true, 35, 200), dollaz = 100, weight = 5, description = ""}
+   local DoubleshotValues = { item = Doubleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 70, weight = 5, description = "" }
+   local BackshotValues = { item = Backshot:new(nil, true, 15, 200, "com/resources/art/sprites/bullet_02.png"), dollaz = 80, weight = 5, description = ""}
    
    self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = SingleshotValues --black
    self.Weapons['Singleshot'] = SingleshotValues
@@ -61,16 +65,65 @@ function Shop:init()
    
    self:createPassives()
 
+   print('scene: ' .. tostring(scene))
+   --self:parseItemJSONCollection('com/equipmenu/shop_data.json')
    
+   scene:addEventListener("Display", self.displayToolTip)
+   self.scene = scene
+   
+end
+
+function Shop:parseItemJSONCollection(jsonData)
+	local data = {}
+	local name
+	for key, itemField in pairs(jsonData) do	
+		
+		name = tostring(key) 
+		secondKey = tostring(itemField.splash_image)
+		
+		local newItem = {}
+		data[name] = newItem
+		data[secondKey] = newItem
+		
+		newItem.item = require(itemField.classPath):new(unpack(itemField.constructorField))
+		newItem.description = itemField.description
+		newItem.title = itemField.title
+		newItem.weight = tonumber(itemField.weight)
+		newItem.dollaz = tonumber(itemField.dollaz)
+		
+		data[name] = newItem
+		data[name] = data[secondKey]
+	end
+	return data
+end
+
+function Shop:loadData(fileName)
+	local shopData = json.decode(jsonFile(fileName))
+	
+	if shopData == nil then
+		error('Unable to the load the appropiate file that stores all the data pertaining to shop')
+	end
+	
+	--TODO: Load data that determines which carousels are still selected or not.
+	local primaryWeapons = shopData['PrimaryWeapons']
+	local secondaryWeapons = shopData['SceondaryWeapons']
+	local passives = shopData['Passives']
+	
+	
+	self:parseItemJSONCollection(self.Weapons)
+	self.Weapons = self:parseItemJSONCollection(primaryWeapons)
+	self.SecondaryWeapons = self:parseItemJSONCollection(secondaryWeapons)
+	self.Passives = self:parseItemJSONCollection(passives)
+	--TODO: Load the appropiate weapon, passive, and secondary item data from a file so we do not have to hard code it in code. - Brent Arata
 end
 
 function Shop:createSecondaryWeapons()
 	 -- Keep second list for secondary weapons
    self.SecondaryWeapons = {}
    
-   local GrenadeLauncherValues = { item = GrenadeLauncher:new(scene, true, 1, 200), dollaz = 50, weight = 2}
-   local MissileValues = { item = Singleshot:new(scene, true, 1, 200, 0, 0, 'com/resources/art/sprites/missile.png', 0, StandardMissile), dollaz = 70, weight = 1}
-   local FreezeMissileValues = { item = Singleshot:new(scene, true, 1, 200, 0, 0, "com/resources/art/sprites/missile.png", 0, FreezeMissile), dollaz = 100, weight = 3}
+   local GrenadeLauncherValues = { item = GrenadeLauncher:new(nil, true, 1, 200), dollaz = 50, weight = 2, description = ""}
+   local MissileValues = { item = Singleshot:new(nil, true, 1, 200, 0, 0, 'com/resources/art/sprites/missile.png', 0, StandardMissile), dollaz = 70, weight = 1, description = ""}
+   local FreezeMissileValues = { item = Singleshot:new(nil, true, 1, 200, 0, 0, "com/resources/art/sprites/missile.png", 0, FreezeMissile), dollaz = 100, weight = 3, description = ""}
    
    --Commented out because physics doesn't exist in the menus
    self.SecondaryWeapons['com/resources/art/sprites/bomb.png'] = GrenadeLauncherValues
@@ -89,11 +142,30 @@ end
 
 function Shop:createPassives()
    self.Passives = {}
-   self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 100 , weight = 1} --heart
-   self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 ,weight = 1} --red circle
-   self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(false, GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3} --gunpod
-   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2} --battery
-   self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2} --health pick up plus
+   self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 100 , weight = 1, description = ""} --heart
+   self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 ,weight = 1, description = ""} --red circle
+   self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(false, GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3, description = ""} --gunpod
+   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2, description = ""} --battery
+   self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2, description = ""} --health pick up plus
+end
+
+function Shop:GetToolTipData(event)
+	local contentType = event.target.itemType
+	local weaponKey = event.target.item
+	local item
+	
+	if contentType then
+		if contentType == 'Primary' then
+			item = self.Weapons[weaponKey]
+		elseif contentType == 'Secondary' then
+			item = self.SecondaryWeapons[weaponKey]
+		elseif contentType == 'Passive' then
+			item = self.Passives[weaponKey]
+		end
+	end
+	
+	self.scene:dispatchEvent({name = "DisplayToolTip", target = {description = item.description, 
+	title = item.title, cost = item.dollaz, weight = item.weight}})
 end
 
 -- Unlock a weapon to equip.
@@ -107,6 +179,27 @@ function Shop:lock (weaponName)
 end
 
 function Shop:buyItem(itemName, slot)
+	assert(type(itemName) == 'string', 'The parameter itemName must be a string')
+	assert(type(slot) == 'number', 'Did not pass a slot number to buyItem')
+	
+	if self.Weapons[itemName] ~= nil then
+		self:buyPrimaryWeapon(itemName)
+	elseif self.SecondaryWeapons[itemName] ~= nil then
+		self:buySecondaryWeapon(itemName, slot)
+	elseif self.Passives[itemName] ~= nil then
+		self:buyPassive(itemName, slot)
+	else
+		print('WARNING: The item: ' .. itemName .. ' is not a passive or a secondary weapon.')
+	end
+end
+
+function Shop:buyItem(event)
+	local itemName = event.target.itemName
+	local slot = event.target.slot
+	
+	
+	assert(type(itemName) == 'string', 'The parameter itemName must be a string')
+	assert(type(slot) == 'number', 'Did not pass a slot number to buyItem')
 	assert(type(itemName) == 'string', 'The parameter itemName must be a string')
 	assert(type(slot) == 'number', 'Did not pass a slot number to buyItem')
 	
@@ -190,7 +283,6 @@ function Shop:buyPassive(passiveName, slot)
 	else
 		print("Your ship can't carry that much weight!")
 	end
-	
 end
 
 function Shop:refund(slot)
