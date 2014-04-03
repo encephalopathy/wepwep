@@ -41,10 +41,10 @@ function LaserBullet:bulletMiss()
 		hastheBulletHit = true;
 	elseif (currentX < 0) then
 		hastheBulletHit = true;
-	else then
+	elseif (currentX == 0) then --this is junk code to make build work
 		hastheBulletHit = false;
 	end
-	return !hastheBulletHit
+	return hastheBulletHit
 end
 
 function LaserBullet:__tostring()

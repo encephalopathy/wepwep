@@ -21,13 +21,9 @@ function Hater_Normal:init(sceneGroup, player)
 	self.sprite.objRef = self 
 	self.health = 1
 	self.maxHealth = 1
-	if (self.rotation == nil) then
-		self.rotation = 0
-	end
-	self.speed = 3
-	self.degrees = math.deg(self.rotation)
-	self.XVector = math.sin(self.degrees)
-	self.YVector = math.cos(self.degrees)
+	self.speed = 1
+	self.XVector = 0
+	self.YVector = 1
 end
 
 function Hater_Normal:initMuzzleLocations()
@@ -37,7 +33,6 @@ end
 function Hater_Normal:move(x, y)
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
-	
 end
 
 --Used to return the file path of a hater
@@ -46,17 +41,31 @@ function Hater_Normal:__tostring()
 end
 
 function Hater_Normal:update()
+
+	--[[if (self.sprite.rotation == nil) then
+		self.sprite.rotation = 0
+	end
+	if self.XVector == nil and self.YVector == nil then
+		self.degrees = math.rad(self.sprite.rotation - 90)
+		print("self.degrees is ", self.degrees)
+		self.XVector = math.cos(self.degrees)
+		print("self.XVector is ", self.XVector)
+		self.YVector = math.sin(self.degrees)
+		print("self.YVector is ", self.YVector)
+		self.sprite.rotation = self.sprite.rotation * -1
+	end]]--
+
 	self.super:update()
 	
-   if (self.isFrozen) then
-      return
-   end
-   if self.alive then
-	self:move(self.speed*self.XVector,self.speed*self.YVector)
-	--if (step % 90 == 0 and self.alive == true) then
-	if self.alive == true then
-		self:fire()						
-	end					
+   	if (self.isFrozen) then
+    	return
+   	end
+   	if self.alive then
+		self:move(self.speed*self.XVector, self.speed*self.YVector)
+		--if (step % 90 == 0 and self.alive == true) then
+		if self.alive == true then
+			self:fire()						
+		end					
 	--end
    end
 end

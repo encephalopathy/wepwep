@@ -10,10 +10,10 @@ require "com.game.enemies.Hater_CarrierDrone"
 
 Hater_Carrier = Hater:subclass("Hater_Carrier")
 --Assign screen width
-local scrnWidth = display.stageWidth
+local scrnWidth = display.contentWidth
  
 --Assign screen height
-local scrnHeight  = display.stageHeight
+local scrnHeight  = display.contentHeight
 
 function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, allHatersInView)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_08.png", 0, 0, 0, 100, 100, 

@@ -22,8 +22,8 @@ function Hater_Homing:init(sceneGroup, player)
 	self.sprite.objRef = self 
 	self.health = 2
 	self.maxHealth = 2
-	self.moveXDirection = 0
-	self.moveYDirection = 1
+	--[[self.moveXDirection = 0
+	self.moveYDirection = 1]]--
 end
 
 function Hater_Homing:initMuzzleLocations()
