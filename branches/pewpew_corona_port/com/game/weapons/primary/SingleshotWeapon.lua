@@ -95,6 +95,10 @@ function Singleshot:fire()
 				self:calibrateMuzzleFlare(self.muzzleLocation.x, self.muzzleLocation.y, self.owner, bullet, rotationAngle)
 				local bulletVelocity = self:calculateBulletVelocity(bullet, rotationAngle, self.bulletSpeed)
 				--print(bullet.isPlayerBullet)
+				if not self.isPlayerOwned then
+		   			bullet.sprite.rotation = bullet.sprite.rotation + 180
+		   			bulletVelocity.x = bulletVelocity.x * -1
+	   	   		end
 				bullet:fire(bulletVelocity.x, bulletVelocity.y)
 				if self.isPlayerOwned == true and Player:made(self.owner) then
 					self:playFiringSound()

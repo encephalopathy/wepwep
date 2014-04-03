@@ -40,13 +40,13 @@ function SpiralCurveshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpee
    end
    
    if numberOfWaves == nil then
-      self.numberOfWaves = 3
+      self.numberOfWaves = 0
    else
       self.numberOfWaves = numberOfWaves
    end
    
    if delayBetweenWaves == nil then
-      self.delayBetweenWaves = 5
+      self.delayBetweenWaves = 0
    else
       self.delayBetweenWaves = delayBetweenWaves
    end
