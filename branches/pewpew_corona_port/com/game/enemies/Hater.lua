@@ -21,7 +21,7 @@ local HIT_COLOR_TIMER = 10
 Hater = Ride:subclass("Hater")
 
 
-function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces)  --put the initial sound and load it here
+function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPieces, player)  --put the initial sound and load it here
 	if shipPieces == nil then
 		shipPieces = {"com/resources/art/sprites/enemy_02_piece_01.png", "com/resources/art/sprites/enemy_02_piece_02.png", "com/resources/art/sprites/enemy_02_piece_03.png", 
 	"com/resources/art/sprites/enemy_02_piece_04.png", "com/resources/art/sprites/enemy_02_piece_01.png"}
@@ -58,7 +58,10 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	--self.secondaryWeapons = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
-	
+
+	--TODO change this to something that will work better (currently only exists in this form to work with Hater_Homing)
+	self.playerRef = player
+
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF EVERY INIT FILE
 	self.sprite.objRef = self
 end
@@ -96,6 +99,9 @@ end
 
 
 function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
+	
+	--TODO make a targets array/object that will contain the player and/or a secondary weapon such as a decoy
+
 	local newItem = itemClass:new(sceneGroup, false, 90, 400)
 	collection[#collection + 1] = newItem
 	if amount ~= nil then
@@ -105,6 +111,7 @@ function Hater:equip(collection, itemClass, sceneGroup, amount, muzzleLocation)
 		newItem:setMuzzleLocation(muzzleLocation)
 	end
 	newItem.owner = self
+	newItem.targets = self.player
 end
 
 

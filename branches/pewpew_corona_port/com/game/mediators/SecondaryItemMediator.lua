@@ -17,7 +17,7 @@ end
 
 function SecondaryItemMediator:FireSecondaryWeapon(event)
 	local itemName = event.id
-	print('itemName: ' .. tostring(itemName))
+	--print('itemName: ' .. tostring(itemName))
 	print('Fire Secondary Weapon')
 	if event.name == "FireSecondaryWeapon" then
 		Runtime:dispatchEvent({name = 'fireSecondary', item = itemName})

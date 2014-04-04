@@ -20,6 +20,11 @@ local widget = require("widget")
 mainInventory = nil
 mainInventory = Inventory:new(group)
 
+--global variable for mute
+muteOption = true
+local muteButtonOff
+local muteButtonOn
+
 local storyboard = require("storyboard")
 local scene = storyboard.newScene("MainMenu")
 
@@ -73,6 +78,58 @@ function scene:createScene( event )
 	
 	soundHandler = SFX:new(group,mainMenuSFXInfo,"mainMenu")
 	
+	--THESE ARE NOT FINAL! THESE ARE FOR DEBUGGING THE GAME IF YOU DON'T WANT SOUNDS!
+	muteButtonOn = widget.newButton
+	{
+		left = display.contentWidth - display.contentWidth*0.95,
+		top = display.contentHeight - display.contentHeight*0.2,
+		width = display.contentWidth*0.3,
+		height = display.contentHeight*0.2,
+		defaultFile = "com/resources/art/sprites/fire_off_unpressed.png",
+		overFile = "com/resources/art/sprites/fire_off_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			muteOption = false
+			print("MainMenu_muteOption: ",muteOption)
+			playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
+			muteButtonOn.isVisible = false
+			muteButtonOff.isVisible = true
+		end
+	}
+	muteButtonOn.baseLabel = ""
+	muteButtonOn.isVisible = true
+	
+	muteButtonOff = widget.newButton
+	{
+		left = display.contentWidth - display.contentWidth*0.95,
+		top = display.contentHeight - display.contentHeight*0.2,
+		width = display.contentWidth*0.3,
+		height = display.contentHeight*0.2,
+		defaultFile = "com/resources/art/sprites/fire_on_unpressed.png",
+		overFile = "com/resources/art/sprites/fire_on_pressed.png",
+		label = "",
+		labelAlign = "center",
+		font = "Arial",
+		width = width,
+		height = height,
+		onRelease = function(event)
+			muteOption = true
+			print("MainMenu_muteOption: ",muteOption)
+			stopBGM()
+			muteButtonOff.isVisible = false
+			muteButtonOn.isVisible = true
+		end
+	}
+	muteButtonOff.baseLabel = ""
+	muteButtonOff.isVisible = false
+	
+	group:insert(muteButtonOn)
+	group:insert(muteButtonOff)
+	
     --slider = widget.newSlider{top = 750,left = 50,width = 400, listener = sliderListener}
 
 	-- all display objects must be inserted into group.
@@ -87,7 +144,10 @@ end
 function scene:enterScene( event )
 	
 	local group = self.view
-	playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
+	
+	if muteOption ~= true then
+		playBGM("com/resources/music/bgmusic/menuBackMusic.ogg")
+	end
 	
 	--set up table of soundHandlers
 	soundHandler:addListener()

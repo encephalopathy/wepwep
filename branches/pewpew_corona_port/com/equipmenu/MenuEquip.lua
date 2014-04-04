@@ -37,6 +37,7 @@ local function back()
 	return true	-- indicates successful touch
 end
 
+	"com/resources/art/sprites/missile.png", 'com/resources/art/sprites/shop_splash_images/NRGRegen.jpg', 'com/resources/art/sprites/shop_splash_images/HealthPickUp.png', 'com/resources/art/sprites/shop_splash_images/ActivatableShield.png', 'com/resources/art/sprites/shop_splash_images/PassiveShield.png'}
 
 
 -----------------------------------------------------------------------------------------

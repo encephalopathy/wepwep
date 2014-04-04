@@ -8,13 +8,13 @@ Boss1_1 = Hater:subclass("Boss1_1")
 
 switched = false
 
-function Boss1_1:init(sceneGroup)
+function Boss1_1:init(sceneGroup, player)
 	self.super:init(sceneGroup, "com/resources/art/sprites/boss_01.png", 0, 0, 0, 256, 256,
 	{"com/resources/art/sprites/enemy_01_piece_01.png",
 	"com/resources/art/sprites/enemy_01_piece_02.png",
 	"com/resources/art/sprites/enemy_01_piece_03.png",
 	"com/resources/art/sprites/enemy_01_piece_04.png",
-	"com/resources/art/sprites/enemy_01_piece_05.png"})
+	"com/resources/art/sprites/enemy_01_piece_05.png"}, player)
 	
 	self.moveLeft = false
 	self.moveRight = false

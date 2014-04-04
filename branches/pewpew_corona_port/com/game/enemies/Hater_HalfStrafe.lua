@@ -9,13 +9,13 @@ Hater_HalfStrafe = Hater:subclass("Hater_HalfStrafe")
 
 switched = false
 
-function Hater_HalfStrafe:init(sceneGroup)
+function Hater_HalfStrafe:init(sceneGroup, player)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_02.png", 0, 0, 0, 100, 100,
 	{"com/resources/art/sprites/enemy_02_piece_01.png",
 	"com/resources/art/sprites/enemy_02_piece_02.png",
 	"com/resources/art/sprites/enemy_02_piece_03.png",
 	"com/resources/art/sprites/enemy_02_piece_04.png",
-	"com/resources/art/sprites/enemy_02_piece_05.png"})
+	"com/resources/art/sprites/enemy_02_piece_05.png"}, player)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.

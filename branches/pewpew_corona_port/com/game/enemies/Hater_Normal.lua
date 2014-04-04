@@ -8,19 +8,26 @@ Hater_Normal = Hater:subclass("Hater_Normal")
 
 switched = false
 
-function Hater_Normal:init(sceneGroup)
+function Hater_Normal:init(sceneGroup, player)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_01.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_01_piece_01.png",
 	"com/resources/art/sprites/enemy_01_piece_02.png",
 	"com/resources/art/sprites/enemy_01_piece_03.png",
 	"com/resources/art/sprites/enemy_01_piece_04.png",
-	"com/resources/art/sprites/enemy_01_piece_05.png"})
+	"com/resources/art/sprites/enemy_01_piece_05.png"}, player)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
 	self.health = 1
 	self.maxHealth = 1
+	if (self.rotation == nil) then
+		self.rotation = 0
+	end
+	self.speed = 3
+	self.degrees = math.deg(self.rotation)
+	self.XVector = math.sin(self.degrees)
+	self.YVector = math.cos(self.degrees)
 end
 
 function Hater_Normal:initMuzzleLocations()
@@ -28,7 +35,7 @@ function Hater_Normal:initMuzzleLocations()
 end
 
 function Hater_Normal:move(x, y)
-
+	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
 end
@@ -41,12 +48,11 @@ end
 function Hater_Normal:update()
 	self.super:update()
 	
-	
    if (self.isFrozen) then
       return
    end
    if self.alive then
-	self:move(0,3)
+	self:move(self.speed*self.XVector,self.speed*self.YVector)
 	--if (step % 90 == 0 and self.alive == true) then
 	if self.alive == true then
 		self:fire()						
