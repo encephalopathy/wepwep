@@ -99,7 +99,7 @@ function Shop:createPassives()
    self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 10 , weight = 1} --heart
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 ,weight = 1} --red circle
    self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(false, GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3} --gunpod
-   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2} --battery
+   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.png'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2} --battery
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2} --health pick up plus
    self.Passives['com/resources/art/sprites/shop_splash_images/ActivatableShield.png'] = { item = ShieldCollection:new(true, "com/resources/art/sprites/bullet_03.png", ActivatableShield, 10), dollaz = 10, weight = 1 } --shield you can turn on and off
    self.Passives['com/resources/art/sprites/shop_splash_images/PassiveShield.png'] = { item = ShieldCollection:new(false, "com/resources/art/sprites/bullet_03.png", PassiveShield, 20), dollaz = 20, weight = 1 }  --shield that starts out on and lasts until it runs out of health
