@@ -32,7 +32,7 @@ local shop
 function Shop:init(scene)
    self.Weapons = {}
    
-   local SingleshotValues = { item = Singleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5, description = ""}
+   --[[local SingleshotValues = { item = Singleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5, description = ""}
    local SpreadshotValues = { item = Spreadshot:new(nil, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"), dollaz = 500, weight = 5, description = ""}
    local SineWaveValues = { item = SineWave:new(nil, true, 25, 200), dollaz = 50, weight = 5 , description = ""}
    local HomingshotValues = { item = Homingshot:new(nil, true, 35, 200), dollaz = 100, weight = 5, description = ""}
@@ -67,12 +67,12 @@ function Shop:init(scene)
    self:createSecondaryWeapons()
    
    self:createPassives()
+   ]]--
 
-   print('scene: ' .. tostring(scene))
-   --self:parseItemJSONCollection('com/equipmenu/shop_data.json')
-   
-   scene:addEventListener("Display", self.displayToolTip)
-   self.scene = scene
+   --print('scene: ' .. tostring(scene))
+   scene:addEventListener("GetSpriteData", self)
+   self:parseItemJSONCollection('com/equipmenu/shop_data.json')
+   Shop.static.scene = scene
    
 end
 
@@ -120,6 +120,12 @@ function Shop:loadData(fileName)
 	--TODO: Load the appropiate weapon, passive, and secondary item data from a file so we do not have to hard code it in code. - Brent Arata
 end
 
+function Shop:LoadSpriteData(event)
+	local spriteSheetData = display.newSpriteSheet()
+	
+	Shop.static.scene:dispatchEvent({name = "OnLoadSpriteDataComplete", target = spriteData})
+end
+
 function Shop:createSecondaryWeapons()
 	 -- Keep second list for secondary weapons
    self.SecondaryWeapons = {}
@@ -156,6 +162,10 @@ function Shop:createPassives()
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2, description = ""} --health pick up plus
    self.Passives['com/resources/art/sprites/shop_splash_images/ActivatableShield.png'] = { item = ShieldCollection:new(true, "com/resources/art/sprites/bullet_03.png", ActivatableShield, 10), dollaz = 10, weight = 1 } --shield you can turn on and off
    self.Passives['com/resources/art/sprites/shop_splash_images/PassiveShield.png'] = { item = ShieldCollection:new(false, "com/resources/art/sprites/bullet_03.png", PassiveShield, 20), dollaz = 20, weight = 1 }  --shield that starts out on and lasts until it runs out of health
+   
+end
+
+
 function Shop:GetToolTipData(event)
 	local contentType = event.target.itemType
 	local weaponKey = event.target.item
