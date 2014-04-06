@@ -22,6 +22,8 @@ function Hater_UpDown:init(sceneGroup, player)
 	self.health = 10
 	self.maxHealth = 10
 	self.movedown = true
+	self.switches = 0
+	self.leave = false
 end
 
 function Hater_UpDown:initMuzzleLocations()
@@ -48,22 +50,37 @@ function Hater_UpDown:update(player)
    if (self.isFrozen) then
       return
    end
-   if self.alive then
-	if self.sprite.y > 300 then
+
+   --at bottom of screen
+	if self.sprite.y > (display.contentHeight*.6) then
 		self.movedown = false
+		self.switches = self.switches + 1
 	end
-	if self.sprite.y < 10 then
+	
+	--at top of screen
+	if self.sprite.y < (display.contentHeight*.1) then
 		self.movedown = true
+		if self.switches > 0 then
+			self.switches = self.switches + 1
+		end
 	end
-	if self.movedown then
-		self:move(0,1)
-	else
-		self:move(0,-1)
+	
+	if self.switches == 4 then
+		self.leave = true
 	end
-	if self.alive == true then
+	
+	if self.leave == true then
+		self:move(0,5)
+	elseif self.movedown == true then
+		self:move(0,5)
+	elseif self.movedown == false then
+		self:move(0,-5)
+	end
+
+   if self.alive == true then
 		self:fire()						
-	end
    end
+   
 end
 
 --Used to return the file path of a hater
