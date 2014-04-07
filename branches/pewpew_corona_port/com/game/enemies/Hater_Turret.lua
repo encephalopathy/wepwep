@@ -37,18 +37,20 @@ end
 function Hater_Turret:update()
 	self.super:update()
 
-	--print("Hater_Turret:update() self.sprite.rotation is ", self.sprite.rotation)
-	--[[if self.XVector == nil and self.YVector == nil then
+	if self.XVector == nil and self.YVector == nil then
+		print("Hater_Turret:update() self.sprite.rotation is ", self.sprite.rotation)
 		if self.sprite.rotation == 90 or self.sprite.rotation == 270 then
-			self.degrees = math.rad(self.sprite.rotation - 90)
-			self.XVector = math.cos(self.degrees)
-			self.YVector = math.sin(self.degrees)
-			self.sprite.rotation = self.sprite.rotation * -1
+			self.angle = math.rad(self.sprite.rotation - 90)
+			self.XVector = math.cos(self.angle)
+			self.YVector = math.sin(self.angle)
+			--self.sprite.rotation = self.sprite.rotation * -1
 		else
 			self.XVector = 0
 			self.YVector = 1
 		end
-	end]]--
+		print("Hater_Turret:update() self.XVector is ", self.XVector)
+		print("Hater_Turret:update() self.YVector is ", self.YVector)
+	end
 	local player = self.playerRef
 	local width = player.sprite.x - self.sprite.x
 	local height = player.sprite.y - self.sprite.y
