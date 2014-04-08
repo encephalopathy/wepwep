@@ -22,8 +22,6 @@ function Hater_Normal:init(sceneGroup, player)
 	self.health = 1
 	self.maxHealth = 1
 	self.speed = 1
-	self.XVector = 0
-	self.YVector = 1
 end
 
 function Hater_Normal:initMuzzleLocations()
@@ -44,6 +42,12 @@ function Hater_Normal:update()
 
 	self.super:update()
 	
+	if self.XVector == nil and self.YVector == nil then
+		self.angle = math.rad(self.sprite.rotation)
+		self.YVector = math.cos(self.angle)
+		self.XVector = -math.sin(self.angle)
+	end
+
    	if (self.isFrozen) then
     	return
    	end
