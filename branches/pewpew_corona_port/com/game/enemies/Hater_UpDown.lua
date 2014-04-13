@@ -67,6 +67,7 @@ function Hater_UpDown:update(player)
 	
 	if self.switches == 4 then
 		self.leave = true
+		print("self.leave: ",self.leave)
 	end
 	
 	if self.leave == true then
@@ -81,6 +82,13 @@ function Hater_UpDown:update(player)
 		self:fire()						
    end
    
+end
+
+function Hater_UpDown:respawn()
+	self.super:respawn()
+	self.movedown = true
+	self.switches = 0
+	self.leave = false
 end
 
 --Used to return the file path of a hater

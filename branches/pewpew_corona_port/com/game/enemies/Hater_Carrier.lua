@@ -31,7 +31,6 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	self.health = 10
 	self.maxHealth = 10
 	self.drones = 0
-	print("drone count: ",self.drones)
 	self.step = 0
 	self.sceneGroup = sceneGroup
 	
@@ -94,8 +93,8 @@ end
 function Hater_Carrier:release()
 	--print("Inside Hater_Carrier:release")
 	self.drones = self.drones + 1
-	print("drone count: ",self.drones)
-
+	print("self.drones: ",self.drones)
+	
 	--add it to the inView queue
 	local haterType = self.droneType
 	
@@ -144,6 +143,12 @@ function Hater_Carrier:droneSpawn(enemyInView)
 	enemyInView.sprite.rotation = self.rotation
 end
 
+
+function Hater_Carrier:respawn()
+	self.super:respawn()
+	self.drones = 0
+	self.step = 0
+end
 
 --Used to return the file path of a hater
 function Hater_Carrier:__tostring()
