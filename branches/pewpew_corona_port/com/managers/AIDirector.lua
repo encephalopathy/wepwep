@@ -143,6 +143,7 @@ local function moveHaterOffScreen(hater)
 	hater.primaryWeapons = {}
 	allHatersInView[hater] = nil
 	Queue.insertFront(haterList[tostring(hater)].outOfView, hater) --placed in to outOfView
+	hater.hasBeenOnScreen = false
 end
 
 local function emptyHaterList(groupOfHaters)
@@ -158,6 +159,11 @@ local function updateHaters()
 		for i = haterGroupOfSameType.inView.first, haterGroupOfSameType.inView.last, 1 do
 			local enemy = haterGroupOfSameType.inView[i]
 			enemy:update(AIDirector.player)
+			if enemy.hasBeenOnScreen == true then
+				if enemy.sprite.x > display.contentWidth + 25 or enemy.sprite.x < -25 or enemy.sprite.y > display.contentHeight + 25 or enemy.sprite.y < -25 then
+					moveHaterOffScreen(enemy)
+				end
+			end
 			if not enemy.alive then
 				moveHaterOffScreen(enemy)
 			end

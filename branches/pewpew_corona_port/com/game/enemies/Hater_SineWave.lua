@@ -17,8 +17,8 @@ function Hater_SineWave:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 1
-	self.maxHealth = 1
+	self.health = 10
+	self.maxHealth = 10
 end
 
 function Hater_SineWave:initMuzzleLocations()

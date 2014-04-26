@@ -28,8 +28,8 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 10
-	self.maxHealth = 10
+	self.health = 40
+	self.maxHealth = 40
 	self.drones = 0
 	self.step = 0
 	self.sceneGroup = sceneGroup

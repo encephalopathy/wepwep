@@ -18,8 +18,8 @@ function Hater_MidScreen:init(sceneGroup, player)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	
-	self.health = 5
-	self.maxHealth = 5
+	self.health = 15
+	self.maxHealth = 15
 	self.midReached = false
 	
 	--timer related fields

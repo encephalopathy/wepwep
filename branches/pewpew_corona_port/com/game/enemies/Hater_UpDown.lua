@@ -19,8 +19,8 @@ function Hater_UpDown:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 10
-	self.maxHealth = 10
+	self.health = 15
+	self.maxHealth = 15
 	self.movedown = true
 	self.switches = 0
 	self.leave = false

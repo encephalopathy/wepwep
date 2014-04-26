@@ -19,8 +19,8 @@ function Hater_Health:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 5
-	self.maxHealth = 5
+	self.health = 15
+	self.maxHealth = 15
 end
 
 function Hater_Health:initMuzzleLocations()

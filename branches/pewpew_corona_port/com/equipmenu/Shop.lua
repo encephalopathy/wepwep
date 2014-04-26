@@ -28,7 +28,7 @@ Shop = Object:subclass("Shop")
 function Shop:init()
    self.Weapons = {}
    
-   local SingleshotValues = { item = Singleshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5}
+   local SingleshotValues = { item = Singleshot:new(scene, true, 5, 900, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5}
    local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_06.png", 20, nil, nil, nil, nil, 5, 45, 1, 15), dollaz = 5, weight = 2 }
    local SineWaveValues = { item = SineWave:new(scene, true, 25, 200), dollaz = 50, weight = 5 }
    local HomingshotValues = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100, weight = 5}

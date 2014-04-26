@@ -19,9 +19,9 @@ function Hater_Normal:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 1
-	self.maxHealth = 1
-	self.speed = 1
+	self.health = 5
+	self.maxHealth = 5
+	self.speed = 5
 end
 
 function Hater_Normal:initMuzzleLocations()

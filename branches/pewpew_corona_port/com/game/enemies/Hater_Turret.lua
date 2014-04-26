@@ -19,10 +19,10 @@ function Hater_Turret:init(sceneGroup, player)
 	--self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 2
-	self.maxHealth = 2
+	self.health = 25
+	self.maxHealth = 25
 
-	self.speed = 3
+	self.speed = 2
 end
 
 function Hater_Turret:initMuzzleLocations()

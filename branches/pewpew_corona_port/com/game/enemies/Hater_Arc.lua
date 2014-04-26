@@ -22,8 +22,8 @@ function Hater_Arc:init(sceneGroup, player)
 	self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 2
-	self.maxHealth = 2
+	self.health = 10
+	self.maxHealth = 10
 	self.moveXDirection = 0
 	self.moveYDirection = 1
 end
