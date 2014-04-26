@@ -6,7 +6,7 @@ require "com.game.enemies.Hater"
 Hater_CarrierDrone = Hater:subclass("Hater_CarrierDrone")
 
 function Hater_CarrierDrone:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/Hater_Drone1.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_06_piece_01.png",
 	 "com/resources/art/sprites/enemy_06_piece_02.png",
 	 "com/resources/art/sprites/enemy_06_piece_03.png",
@@ -29,15 +29,6 @@ function Hater_CarrierDrone:initMuzzleLocations()
 end
 
 function Hater_CarrierDrone:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	--if self.alive == true then
 		--self:fire()						
 	--end
