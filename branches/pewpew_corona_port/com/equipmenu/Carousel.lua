@@ -114,7 +114,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 		id = "",
 		label = "<",
 		font = native.systemFont,
-		onEvent = function (event) 
+		onRelease = function (event) 
 			prevItem(newCarousel, numItemsShown)
 		end
 	}
@@ -134,7 +134,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 		id = "",
 		label = ">",
 		font = native.systemFont,
-		onEvent = function (event)
+		onRelease = function (event)
 			nextItem(newCarousel, numItemsShown)
 		end
 	}
@@ -156,7 +156,7 @@ function new(sceneGroup, id, package, x, y, width, height, numItemsShown, isVert
 			overFile = 'com/resources/art/sprites/sheep.png',
 			id = package[i],
 			font = native.systemFont,
-			onEvent = function(event)
+			onRelease = function(event)
 				equip(id, package[i])
 				dollazText.text = "DOLLAZ : " .. tostring(mainInventory.dollaz)
 				weightText.text = "SPACE LEFT : " .. tostring(mainInventory.weightAvailable)

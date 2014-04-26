@@ -10,10 +10,10 @@ require "com.game.enemies.Hater_CarrierDrone"
 
 Hater_Carrier = Hater:subclass("Hater_Carrier")
 --Assign screen width
-local scrnWidth = display.stageWidth
+local scrnWidth = display.contentWidth
  
 --Assign screen height
-local scrnHeight  = display.stageHeight
+local scrnHeight  = display.contentHeight
 
 function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, allHatersInView)
 	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_08.png", 0, 0, 0, 100, 100, 
@@ -22,19 +22,17 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	 "com/resources/art/sprites/enemy_08_piece_03.png",
 	 "com/resources/art/sprites/enemy_08_piece_04.png",
 	 "com/resources/art/sprites/enemy_08_piece_05.png"
-	 }
+	 }, player
 	)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
-	self.sprite.objRef = self 
+	
 	self.health = 10
 	self.maxHealth = 10
 	self.drones = 0
-	print("drone count: ",self.drones)
 	self.step = 0
 	self.sceneGroup = sceneGroup
-	self.player = player
 	
 	--variables used for spawning new drones
 	self.inView = inView
@@ -42,6 +40,8 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	self.haterList = haterList
 	self.allHatersInView = allHatersInView
 	self.droneType = "com.game.enemies.Hater_CarrierDrone"
+	self.sprite.objRef = self
+	
 end
 
 function Hater_Carrier:initMuzzleLocations()
@@ -49,15 +49,6 @@ function Hater_Carrier:initMuzzleLocations()
 end
 
 function Hater_Carrier:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print(self.sprite.x .. " " .. self.sprite.y)
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
@@ -71,6 +62,7 @@ function Hater_Carrier:update()
    if (self.isFrozen) then
       return
    end
+   
    if self.alive then
 		self.step = self.step + 1 
 		if self.drones < 5 and self.sprite.x < scrnWidth/2 and self.sprite.y < scrnHeight/2 + self.sprite.height then
@@ -95,8 +87,8 @@ end
 function Hater_Carrier:release()
 	--print("Inside Hater_Carrier:release")
 	self.drones = self.drones + 1
-	print("drone count: ",self.drones)
-
+	--print("self.drones: ",self.drones)
+	
 	--add it to the inView queue
 	local haterType = self.droneType
 	
@@ -145,6 +137,12 @@ function Hater_Carrier:droneSpawn(enemyInView)
 	enemyInView.sprite.rotation = self.rotation
 end
 
+
+function Hater_Carrier:respawn()
+	self.super:respawn()
+	self.drones = 0
+	self.step = 0
+end
 
 --Used to return the file path of a hater
 function Hater_Carrier:__tostring()

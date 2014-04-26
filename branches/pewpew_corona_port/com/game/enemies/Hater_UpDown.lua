@@ -8,13 +8,13 @@ Hater_UpDown = Hater:subclass("Hater_UpDown")
 
 switched = false
 
-function Hater_UpDown:init(sceneGroup)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 100, 100, 
+function Hater_UpDown:init(sceneGroup, player)
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_06_piece_01.png", 
 	"com/resources/art/sprites/enemy_06_piece_02.png", 
 	"com/resources/art/sprites/enemy_06_piece_03.png", 
 	"com/resources/art/sprites/enemy_06_piece_04.png", 
-	"com/resources/art/sprites/enemy_06_piece_05.png"})
+	"com/resources/art/sprites/enemy_06_piece_05.png"}, player)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -22,6 +22,8 @@ function Hater_UpDown:init(sceneGroup)
 	self.health = 10
 	self.maxHealth = 10
 	self.movedown = true
+	self.switches = 0
+	self.leave = false
 end
 
 function Hater_UpDown:initMuzzleLocations()
@@ -29,15 +31,6 @@ function Hater_UpDown:initMuzzleLocations()
 end
 
 function Hater_UpDown:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
@@ -48,22 +41,44 @@ function Hater_UpDown:update(player)
    if (self.isFrozen) then
       return
    end
-   if self.alive then
-	if self.sprite.y > 300 then
+
+   --at bottom of screen
+	if self.sprite.y > (display.contentHeight*.6) then
 		self.movedown = false
+		self.switches = self.switches + 1
 	end
-	if self.sprite.y < 10 then
+	
+	--at top of screen
+	if self.sprite.y < (display.contentHeight*.1) then
 		self.movedown = true
+		if self.switches > 0 then
+			self.switches = self.switches + 1
+		end
 	end
-	if self.movedown then
-		self:move(0,1)
-	else
-		self:move(0,-1)
+	
+	if self.switches == 4 then
+		self.leave = true
 	end
-	if self.alive == true then
+	
+	if self.leave == true then
+		self:move(0,5)
+	elseif self.movedown == true then
+		self:move(0,5)
+	elseif self.movedown == false then
+		self:move(0,-5)
+	end
+
+   if self.alive == true then
 		self:fire()						
-	end
    end
+   
+end
+
+function Hater_UpDown:respawn()
+	self.super:respawn()
+	self.movedown = true
+	self.switches = 0
+	self.leave = false
 end
 
 --Used to return the file path of a hater

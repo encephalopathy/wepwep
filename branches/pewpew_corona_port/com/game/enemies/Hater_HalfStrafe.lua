@@ -9,13 +9,13 @@ Hater_HalfStrafe = Hater:subclass("Hater_HalfStrafe")
 
 switched = false
 
-function Hater_HalfStrafe:init(sceneGroup)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_02.png", 0, 0, 0, 100, 100,
+function Hater_HalfStrafe:init(sceneGroup, player)
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_02.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_02_piece_01.png",
 	"com/resources/art/sprites/enemy_02_piece_02.png",
 	"com/resources/art/sprites/enemy_02_piece_03.png",
 	"com/resources/art/sprites/enemy_02_piece_04.png",
-	"com/resources/art/sprites/enemy_02_piece_05.png"})
+	"com/resources/art/sprites/enemy_02_piece_05.png"}, player)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
@@ -24,6 +24,8 @@ function Hater_HalfStrafe:init(sceneGroup)
 	self.moveRight = true
 	self.health = 1
 	self.maxHealth = 1
+	self.switches = 0 
+	self.leave = false
 end
 
 function Hater_HalfStrafe:initMuzzleLocations()
@@ -31,15 +33,6 @@ function Hater_HalfStrafe:initMuzzleLocations()
 end
 
 function Hater_HalfStrafe:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
@@ -47,27 +40,36 @@ end
 
 function Hater_HalfStrafe:update()
 	self.super:update()
-	if self.sprite.x > 400 then 
+
+	if (self.isFrozen) then
+      return
+    end
+	
+	--right side, switch
+	if self.sprite.x > 400 and self.leave == false then 
 		self.moveRight = false
 		self.moveLeft = true
+		self.switches = self.switches + 1
 	end
-	
-	if self.sprite.x < 40 then 
+	--left side, switch
+	if self.sprite.x < 40 and self.leave == false then 
 		self.moveRight = true
 		self.moveLeft = false
+		self.switches = self.switches + 1
 	end
 	
-   if (self.isFrozen) then
-      return
-   end
-	if self.sprite.y < 250 then
+	if(self.switches == 4 ) then
+		self.leave = true
+	end
+	
+	if(self.leave == true) then
+		self:move(5,0)
+	elseif self.sprite.y < (display.contentHeight/2) then
 		self:move(0,3)
 	elseif self.moveRight then
 		self:move(5,0)
 	elseif self.moveLeft then
 		self:move(-5,0)
-	else 
-		self:move(2,0)
 	end
 	
 	if self.alive == true then
@@ -76,7 +78,7 @@ function Hater_HalfStrafe:update()
 	
 end
 
---Used to return the file path of a hater
+--Used to return the file path
 function Hater_HalfStrafe:__tostring()
 	return 'com.game.enemies.Hater_HalfStrafe'
 end

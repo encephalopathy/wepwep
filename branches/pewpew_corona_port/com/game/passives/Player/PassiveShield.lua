@@ -11,10 +11,11 @@ function PassiveShield:init(scenegroup, imgSrc, objectRef, sizeX, sizeY, shieldH
 	end
 
 	self.health = shieldHealth
-	self.maxhealth = shieldHealth
 	self.i = 0.75
 
 	self.type = "player"
+
+	self.alive = true
 
 	self.super:init(sceneGroup, imgSrc, objectRef.sprite.x, objectRef.sprite.y, rotation, sizeX, sizeY, nil, { categoryBits = 1, maskBits = 10 })
 	self.sprite.objRef = self
