@@ -4,22 +4,23 @@ ActivatableShield = Ride:subclass("ActivatableShield")
 
 function ActivatableShield:init(sceneGroup, imgSrc, objectRef, sizeX, sizeY, shieldHealth)
 	if sceneGroup == nil then
-		assert("Activatable Shield: scenegroup is nil")
+		assert("Activatable Shield:init() scenegroup is nil")
 	elseif imgSrc == nil then
-		print("Activatable Shield: imgsrc is nil, using default image")
+		print("Activatable Shield:init() imgsrc is nil, using default image")
 		imgSrc = "com/resources/art/sprites/bullet_03.png"
+		elseif objectRef == nil then
+		print("ActivatableShield:init() objectRef is nil")
 	end
 
 	self.i = 0
 	self.health = shieldHealth
-	self.maxhealth = shieldHealth
 	self.isOn = false
 
 	self.type = "dead"
 
 	self.super:init(sceneGroup, imgSrc, objectRef.sprite.x, objectRef.sprite.y, rotation, sizeX, sizeY, nil, { categoryBits = 1, maskBits = 10 })
 	self.sprite.objRef = self
-	self.sprite:setFillColor(1, 1, 1, 0)
+	self.sprite:setFillColor(1, 1, 1, 0.01)
 end
 
 function ActivatableShield:onHit(phase, collide)
@@ -49,7 +50,7 @@ function ActivatableShield:update(x, y)
 		self.sprite.x = x
 		self.sprite.y = y
 		self.i = self.i + 0.25
-		self.sprite:setFillColor(1, 1, 1, 1)
+		self.sprite:setFillColor(1, 1, 1, self.i)
 	elseif self.health > 0 and self.isOn == false and self.i > 0 then
 		--if not isOn but still alive, make transparent
 		self.sprite.x = x
@@ -76,5 +77,3 @@ function ActivatableShield:activate()
 		self.type = "dead"
 	end
 end
-
-return ActivatableShield

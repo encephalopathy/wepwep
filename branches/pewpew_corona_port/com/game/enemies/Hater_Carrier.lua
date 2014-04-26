@@ -27,7 +27,7 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
-	self.sprite.objRef = self 
+	
 	self.health = 10
 	self.maxHealth = 10
 	self.drones = 0
@@ -40,6 +40,8 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	self.haterList = haterList
 	self.allHatersInView = allHatersInView
 	self.droneType = "com.game.enemies.Hater_CarrierDrone"
+	self.sprite.objRef = self
+	
 end
 
 function Hater_Carrier:initMuzzleLocations()
@@ -69,6 +71,9 @@ function Hater_Carrier:update()
    if (self.isFrozen) then
       return
    end
+   
+   print('self.drones: ' .. self.drones)
+   
    if self.alive then
 		self.step = self.step + 1 
 		if self.drones < 5 and self.sprite.x < scrnWidth/2 and self.sprite.y < scrnHeight/2 + self.sprite.height then

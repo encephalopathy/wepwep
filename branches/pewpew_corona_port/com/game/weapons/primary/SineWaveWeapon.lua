@@ -22,7 +22,6 @@ function SineWave:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, imgS
    end
    
    self.super:init(sceneGroup, isPlayerOwned, imgSrc, rateOfFire, energyCost, SineWaveBullet, bulletWidth, bulletHeight,soundHandle)
-
 end
 
 function SineWave:fire(player)
