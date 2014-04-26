@@ -33,11 +33,15 @@ function Shop:init(scene)
    self.Weapons = {}
    
    --[[local SingleshotValues = { item = Singleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5, description = ""}
-   local SpreadshotValues = { item = Spreadshot:new(nil, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"), dollaz = 500, weight = 5, description = ""}
+   local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"), dollaz = 5, weight = 2 }
    local SineWaveValues = { item = SineWave:new(nil, true, 25, 200), dollaz = 50, weight = 5 , description = ""}
    local HomingshotValues = { item = Homingshot:new(nil, true, 35, 200), dollaz = 100, weight = 5, description = ""}
    local DoubleshotValues = { item = Doubleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 70, weight = 5, description = "" }
    local BackshotValues = { item = Backshot:new(nil, true, 15, 200, "com/resources/art/sprites/bullet_02.png"), dollaz = 80, weight = 5, description = ""}
+   local SineWaveValues = { item = SineWave:new(scene, true, 25, 200), dollaz = 50, weight = 5 }
+   local HomingshotValues = { item = Homingshot:new(scene, true, 35, 200), dollaz = 100, weight = 5}
+   local DoubleshotValues = { item = Doubleshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 70, weight = 5 }
+   local BackshotValues = { item = Backshot:new(scene, true, 15, 200, "com/resources/art/sprites/bullet_02.png"), dollaz = 80, weight = 5}
    
    self.Weapons['com/resources/art/sprites/shop_splash_images/SingleShot.png'] = SingleshotValues --black
    self.Weapons['Singleshot'] = SingleshotValues
@@ -158,7 +162,7 @@ function Shop:createPassives()
    self.Passives['com/resources/art/sprites/heart.png'] = { item = ExtraStartingHealth:new(), dollaz = 10 , weight = 1} --heart
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthRegen.png'] = { item = HealthRegen:new(), dollaz = 100 ,weight = 1, description = ""} --red circle
    self.Passives['com/resources/art/sprites/shop_splash_images/Gunpods.png'] = { item = GunpodCollection:new(false, GunpodSingle, "com/resources/art/sprites/rocket_01.png", 80, 0, Singleshot, true, 1, 200), dollaz = 100 ,weight = 3, description = ""} --gunpod
-   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.jpg'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2, description = ""} --battery
+   self.Passives['com/resources/art/sprites/shop_splash_images/NRGRegen.png'] = { item = NRGRegen:new(), dollaz = 100 ,weight = 2} --battery
    self.Passives['com/resources/art/sprites/shop_splash_images/HealthPickUp.png'] = { item = HealthUponScrapPickUp:new(), dollaz = 100, weight = 2, description = ""} --health pick up plus
    self.Passives['com/resources/art/sprites/shop_splash_images/ActivatableShield.png'] = { item = ShieldCollection:new(true, "com/resources/art/sprites/bullet_03.png", ActivatableShield, 10), dollaz = 10, weight = 1 } --shield you can turn on and off
    self.Passives['com/resources/art/sprites/shop_splash_images/PassiveShield.png'] = { item = ShieldCollection:new(false, "com/resources/art/sprites/bullet_03.png", PassiveShield, 20), dollaz = 20, weight = 1 }  --shield that starts out on and lasts until it runs out of health

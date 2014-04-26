@@ -83,7 +83,7 @@ function MoveableObject:init(sceneGroup, imgSrc, bodyType, startX, startY, rotat
 		else
 			physics.addBody(sprite, bodyType, {density = 0, filter = collisionFilter})
 		end
-		physics.setDrawMode( "hybrid" )
+		--physics.setDrawMode( "hybrid" )
 		--If the given object is not a bullet, it is given the type dynamic so that
 		--bullets never collide with other bullets. Although this may change in the future.
 		if bodyType == "dynamic" then

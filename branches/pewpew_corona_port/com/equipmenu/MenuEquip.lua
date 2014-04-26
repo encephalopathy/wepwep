@@ -37,7 +37,6 @@ local function back()
 	return true	-- indicates successful touch
 end
 
-
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 -- 
@@ -50,7 +49,6 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	print('Shop group' .. tostring(group))
 	shop = Shop:new(group)
 	-- display a background image
 	local background = display.newImageRect("com/resources/art/background/sheet_metal.png",
@@ -66,15 +64,9 @@ function scene:createScene( event )
 	--display.newText( string, left, top, font, size )
 	dollaztext = display.newText( "DOLLAZ : " .. mainInventory.dollaz, display.contentWidth * 0.1, display.contentHeight * 0.05, native.systemFont, 25 )
 	weighttext = display.newText("SPACE LEFT : ".. mainInventory.weightAvailable, display.contentWidth*0.55, display.contentHeight * 0.05, native.systemFont, 25)
-	--local equiptext = display.newText( "EQUIP MENU",  display.contentWidth * 0.35,  display.contentHeight * 0.1, native.systemFont, 25 )
-	--local maintext = display.newText( "MAIN WEAPONS",  display.contentWidth * 0.1,  display.contentHeight * 0.2, native.systemFont, 25 )
-	--local subtext = display.newText( "SUB WEAPONS",  display.contentWidth * 0.55,  display.contentHeight * 0.2, native.systemFont, 25 )
 	
 	dollaztext.anchorX, dollaztext.anchorY = 0, 0
 	weighttext.anchorX, weighttext.anchorY = 0, 0
-	--equiptext.anchorX, equiptext.anchorY = 0, 0
-	--maintext.anchorX, maintext.anchorY = 0, 0
-	--subtext.anchorX, subtext.anchorY = 0, 0
     -- create the widget buttons
 	local centerOfScreenX = display.contentWidth*0.5
 
@@ -92,9 +84,16 @@ function scene:createScene( event )
 	--group:insert( maintext )
 	--group:insert( subtext )
 	
+	
 	createEquipMenuMVC(scene, group)
-
 	group:insert( backButton )
+	
+	print('DISPATCHING LOAD EVENT')
+	
+	--TODO: MOVE THE LOAD EVENT TO A COMMAND CLASS
+	local fileToLoad = 'com/equipmenu/shop_data.json'
+	local loadDataEvent = {name = "LoadSpriteData", target = {fileToLoad = fileToLoad}}
+	group:dispatchEvent(loadDataEvent)
 end
 
 

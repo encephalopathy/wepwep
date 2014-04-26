@@ -1,0 +1,190 @@
+{
+	"PrimaryWeapons" : {
+		"Singleshot" : {
+			"title" : "Pulsed Electro Weapon",
+			"description" : "Generates a concentrated burst of energy.",
+			"classPath" : "com.game.weapons.primary.SingleshotWeapon",
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/SingleShot.png",
+			"constructorFields" : [
+				"nil", true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"
+			],
+			"weight" : 5,
+			"dollaz" : 40
+		},
+		"Doubleshot" : {
+			"title" : "Twin snake",
+			"description" : "Generates two equally powerful blasts of energy.",
+			"classPath" : "com.game.weapons.primary.DoubleshotWeapon",
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/DoubleShot.png",
+			"constructorFields" : [
+				"nil", true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"
+			]
+			,
+			"weight" : 5,
+			"dollaz" : 70
+		},
+		"Spreadshot" : {
+			"title" : "Hail Mary",
+			"description" : "Unleash a wave of bullets.",
+			"classPath" : "com.game.weapons.primary.SpreadshotWeapon",
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/SpreadShot.png",
+			"constructorFields" : [
+				"nil", true, 15, 200, 0, 0, "nil", "nil", "nil", "nil", "nil", "nil", 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"
+			],
+			"weight" : 5,
+			"dollaz" : 500
+		},
+		"SineWave" : {
+			"title" : "Wave Beam",
+			"description" : "Utilize the power of the natural order. Fires 2 bullets that travel forward in a sine wave path.",
+			"classPath" : "com.game.weapons.primary.SineWaveWeapon",
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/Sinewave.png",
+			"constructorFields" : [
+				"nil", true, 25, 200
+			],
+			"weight" : 5,
+			"dollaz" : 50,
+
+		},
+		"Homingshot" : {
+			"title" : "Guided Fire",
+			"description" : "A weapon that fires bullets that home in on the nearest enemy at the time of fire.",
+			"classPath" : "com.game.weapons.primary.HomingShotWeapon",
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/HomingShot.png",
+			"constructorFields" : [
+				"nil", true, 35, 200
+			],
+			"weight" : 5,
+			"dollaz" : 80
+		},
+		"Backshot" : {
+			"title" : "Trick Shot",
+			"description" : "Fires 2 arcs of bullets, 1 forward and 1 backward.",
+			"classPath" : "com.game.weapons.primary.BackshotWeapon",
+			"constructorFields" : [
+				"nil", true, 15, 200, "com/resources/art/sprites/bullet_02.png"
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/BackShot.png",
+			"weight" : 5,
+			"dollaz" : 50
+		}
+	},
+	"SecondaryWeapons" : {
+		"GrenadeLauncher" : {
+			"title" : "The Big Bang Mk15",
+			"description" : "Fires 2 arcs of bullets, 1 forward and 1 backward.",
+			"classPath" : "com.game.weapons.primary.BackshotWeapon",
+			"constructorFields" : [
+				"nil", true, 1, 200
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/BackShot.png",
+			"weight" : 2,
+			"dollaz" : 50,
+			"ammoAmount" : 3
+		},
+		"Missile" : {
+			"title" : "Lethal Weapon",
+			"description" : "Fires 2 arcs of bullets, 1 forward and 1 backward.",
+			"classPath" : "com.game.weapons.primary.SingleshotWeapon",
+			"constructorFields" : [
+				"nil", true, 1, 200, 0, 0, "com/resources/art/sprites/missile.png", 0, "path:com.game.weapons.secondary.StandardMissile"
+			],
+			"splash_image" : "com/resources/art/sprites/missile.png",
+			"weight" : 1,
+			"dollaz" : 70,
+			"ammoAmount" : 10
+		},
+		"FreezeMissile" : {
+			"title" : "Slam Jammer!",
+			"description" : "A missile that upon contact will disable the enemy it collided with for a short period of time",
+			"classPath" : "com.game.weapons.primary.SingleshotWeapon",
+			"constructorFields" : [
+				"nil", true, 1, 200, 0, 0, "com/resources/art/sprites/missile.png"
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/FreezeMissile.png",
+			"weight" : 3,
+			"dollaz" : 100,
+			"ammoAmount" : 10
+		}
+	},
+	"Passives" : {
+		"Activable Shield" : {
+			"title" : "Ion Shield",
+			"description" : "Disruptive field that protects against enemy fire. Non-rechargable.",
+			"classPath" : "com.game.passives.Player.ShieldCollection",
+			"constructorFields" : [
+				true, "com/resources/art/sprites/bullet_03.png", "path:com.game.weapons.secondary.ActivatableShield", 10
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/ActivatableShield.png",
+			"weight" : 50,
+			"dollaz" : 3
+		},
+		"ExtraStartingHealth" : {
+			"title": "Hardened Plating",
+			"description":"Your ride's maximum health is increased.",
+			"classPath" : "com.game.passives.Player.ExtraStartingHealth",
+			"constructorFields" : [
+				
+			],
+			"splash_image" : "com/resources/art/sprites/heart.png",
+			"weight" : 1,
+			"dollaz" : 50
+		},
+		"GunpodCollection" : {
+			"title" : "Gunpods",
+			"description" : "Our now has 2 Gunpods that will shoot in sync with you.",
+			"classPath" : "com.game.passives.Player.GunpodCollection",
+			"constructorFields" : [
+				false, "path:com.game.passives.Player.GunpodSingle", "com/resources/art/sprites/rocket_01.png", 80, 0, "path:com.game.weapons.primary.SingleshotWeapon", true, 1, 200
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/Gunpods.png",
+			"weight" : 3,
+			"dollaz" : 100
+		},
+		"HealthRegen" : {
+			"title" : "Nano-Machines",
+			"description" : "Your ride's health will slowly regenerate.",
+			"classPath" : "com.game.passives.Player.HealthRegen",
+			"constructorFields" : [
+				
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/HealthRegen.png",
+			"weight" : 1,
+			"dollaz" : 100
+		},
+		"HealthUponScrapPickUp" : {
+			"title" : "Scrap Junky",
+			"description" : "Your ride now has a chance to gain health back when you pick up scrap.",
+			"classPath" : "com.game.passives.Player.ShieldCollection",
+			"constructorFields" : [
+				true, "com/resources/art/sprites/bullet_03.png", "path:com.game.weapons.secondary.ActivatableShield", 10
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/HealthPickUp.png",
+			"weight" : 1,
+			"dollaz" : 100
+		},
+		"NRGRegen" : {
+			"title" : "Arc Reactor",
+			"description" : "Your ride will now regenerate an extra point of NRG after a certain period of time.",
+			"classPath" : "com.game.passives.Player.NRGRegen",
+			"constructorFields" : [
+				
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/NRGRegen.png",
+			"weight" : 2,
+			"dollaz" : 100
+		},
+		"PassiveShield" : {
+			"title" : "Ionic Plating",
+			"description" : "Your ride now has a chance to gain health back when you pick up scrap.",
+			"classPath" : "com.game.passives.Player.ShieldCollection",
+			"constructorFields" : [
+				false, "com/resources/art/sprites/bullet_03.png", "path:com.game.passives.Player.PassiveShield", 20
+			],
+			"splash_image" : "com/resources/art/sprites/shop_splash_images/PassiveShield.png",
+			"weight" : 4,
+			"dollaz" : 100
+		},
+		
+	}
+}
