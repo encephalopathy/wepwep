@@ -57,9 +57,7 @@ function Hater_Turret:update()
 				rotAngle = -rotAngle
 			end
 			self.sprite.rotation = rotAngle
-
 			self:move(self.speed*self.XVector, self.speed*self.YVector)
-
 			self:fire()
 		end
 	end

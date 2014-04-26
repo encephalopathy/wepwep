@@ -29,15 +29,6 @@ function Hater_CarrierDrone:initMuzzleLocations()
 end
 
 function Hater_CarrierDrone:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	--if self.alive == true then
 		--self:fire()						
 	--end

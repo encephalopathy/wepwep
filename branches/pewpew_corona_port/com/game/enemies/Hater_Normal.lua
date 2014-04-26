@@ -53,11 +53,9 @@ function Hater_Normal:update()
    	end
    	if self.alive then
 		self:move(self.speed*self.XVector, self.speed*self.YVector)
-		--if (step % 90 == 0 and self.alive == true) then
 		if self.alive == true then
 			self:fire()						
-		end					
-	--end
+		end	
    end
 end
 

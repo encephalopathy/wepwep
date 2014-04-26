@@ -36,8 +36,6 @@ function Hater_MidScreen:initMuzzleLocations()
 end
 
 function Hater_MidScreen:move(x, y)
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	

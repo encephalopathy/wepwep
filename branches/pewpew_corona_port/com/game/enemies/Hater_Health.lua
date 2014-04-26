@@ -78,7 +78,7 @@ function Hater_Health:die()
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
 end
 
---Used to return the file path of a hater
+--Used to return the file path
 function Hater_Health:__tostring()
 	return 'com.game.enemies.Hater_Health'
 end

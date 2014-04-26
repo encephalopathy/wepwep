@@ -78,7 +78,7 @@ function Hater_HalfStrafe:update()
 	
 end
 
---Used to return the file path of a hater
+--Used to return the file path
 function Hater_HalfStrafe:__tostring()
 	return 'com.game.enemies.Hater_HalfStrafe'
 end
