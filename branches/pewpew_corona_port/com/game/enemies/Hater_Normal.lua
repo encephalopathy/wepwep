@@ -19,9 +19,9 @@ function Hater_Normal:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 1
-	self.maxHealth = 1
-	self.speed = 3
+	self.health = 5
+	self.maxHealth = 5
+	self.speed = 5
 end
 
 function Hater_Normal:initMuzzleLocations()
@@ -53,9 +53,11 @@ function Hater_Normal:update()
    	end
    	if self.alive then
 		self:move(self.speed*self.XVector, self.speed*self.YVector)
+		--if (step % 90 == 0 and self.alive == true) then
 		if self.alive == true then
 			self:fire()						
-		end	
+		end					
+	--end
    end
 end
 

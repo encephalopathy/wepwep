@@ -22,10 +22,11 @@ function Hater_HalfStrafe:init(sceneGroup, player)
 	self.sprite.objRef = self 
 	self.moveLeft = false
 	self.moveRight = true
-	self.health = 1
-	self.maxHealth = 1
+	self.health = 15
+	self.maxHealth = 15
 	self.switches = 0 
 	self.leave = false
+	self.speed = 4
 end
 
 function Hater_HalfStrafe:initMuzzleLocations()

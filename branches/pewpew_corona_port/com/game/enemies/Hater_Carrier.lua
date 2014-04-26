@@ -27,9 +27,9 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
-	
-	self.health = 10
-	self.maxHealth = 10
+	self.sprite.objRef = self 
+	self.health = 40
+	self.maxHealth = 40
 	self.drones = 0
 	self.step = 0
 	self.sceneGroup = sceneGroup
@@ -40,8 +40,6 @@ function Hater_Carrier:init(sceneGroup, player, inView, outOfView, haterList, al
 	self.haterList = haterList
 	self.allHatersInView = allHatersInView
 	self.droneType = "com.game.enemies.Hater_CarrierDrone"
-	self.sprite.objRef = self
-	
 end
 
 function Hater_Carrier:initMuzzleLocations()
@@ -49,6 +47,15 @@ function Hater_Carrier:initMuzzleLocations()
 end
 
 function Hater_Carrier:move(x, y)
+	--[[
+		I want this enemy to fly in one direction
+		then about halfway down to switch 
+		horizontal direction
+		so like it goes from right to left or left to right
+		This just starts them off in a single direction though
+	]]--
+	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
+	--print(self.sprite.x .. " " .. self.sprite.y)
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
@@ -62,7 +69,6 @@ function Hater_Carrier:update()
    if (self.isFrozen) then
       return
    end
-   
    if self.alive then
 		self.step = self.step + 1 
 		if self.drones < 5 and self.sprite.x < scrnWidth/2 and self.sprite.y < scrnHeight/2 + self.sprite.height then
@@ -87,7 +93,7 @@ end
 function Hater_Carrier:release()
 	--print("Inside Hater_Carrier:release")
 	self.drones = self.drones + 1
-	--print("self.drones: ",self.drones)
+	print("self.drones: ",self.drones)
 	
 	--add it to the inView queue
 	local haterType = self.droneType

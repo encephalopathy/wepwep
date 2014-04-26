@@ -21,8 +21,8 @@ function Hater_SpeedUp:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 2
-	self.maxHealth = 2
+	self.health = 10
+	self.maxHealth = 10
 end
 
 function Hater_SpeedUp:initMuzzleLocations()

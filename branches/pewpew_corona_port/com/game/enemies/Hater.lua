@@ -40,8 +40,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 
 	--self.sceneGroup = sceneGroup --wanted to give Hater a reference to the sceneGroup; took out since it wasn't needed
 	
-	self.health = 1
-	self.maxHealth = 1
+	self.health = 5
+	self.maxHealth = 5
 	
 	self.type = "Hater"
 	
@@ -58,6 +58,8 @@ function Hater:init(sceneGroup, imgSrc, x, y, rotation, width, height, shipPiece
 	--self.secondaryWeapons = {}
 	self.muzzleLocations = {}
 	self:initMuzzleLocations()
+
+	self.hasBeenOnScreen = false
 
 	--TODO change this to something that will work better (currently only exists in this form to work with Hater_Homing)
 	self.playerRef = player
@@ -149,7 +151,12 @@ function Hater:update()
       self:explode()
    end
    
-   
+   	if self.hasBeenOnScreen == false then
+   		if self.sprite.x > 0 and self.sprite.x < display.contentWidth and self.sprite.y > 0 and self.sprite.y < display.contentHeight then
+   			self.hasBeenOnScreen = true
+   		end
+   	end
+
    if (self.isFrozen and self.alive) then
 	  print('IN HATERS UPDATE')
 	  print(self.health)
@@ -299,6 +306,7 @@ function Hater:respawn()
 	self.alive = true
 	self.isFrozen = false
 	self.freezeTimer = 0
+	self.hasBeenOnScreen = false
 end
 
 Hater:virtual("equipRig")

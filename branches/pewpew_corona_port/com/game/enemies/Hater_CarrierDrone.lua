@@ -19,8 +19,8 @@ function Hater_CarrierDrone:init(sceneGroup, player)
 	self.directiony = math.random(1,4)
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 1
-	self.maxHealth = 1
+	self.health = 10
+	self.maxHealth = 10
 	self.step = 0
 end
 
