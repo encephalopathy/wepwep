@@ -9,7 +9,7 @@ Hater_Turret = Hater:subclass("Hater_Turret")
 switched = false
 
 function Hater_Turret:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/turret.png", 0, 0, 0, 100, 100,
+	self.super:init(sceneGroup, "com/resources/art/sprites/turret.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_03_piece_01.png", 
 	"com/resources/art/sprites/enemy_03_piece_02.png", 
 	"com/resources/art/sprites/enemy_03_piece_03.png", 
@@ -57,9 +57,7 @@ function Hater_Turret:update()
 				rotAngle = -rotAngle
 			end
 			self.sprite.rotation = rotAngle
-
 			self:move(self.speed*self.XVector, self.speed*self.YVector)
-
 			self:fire()
 		end
 	end

@@ -9,7 +9,7 @@ Hater_UpDown = Hater:subclass("Hater_UpDown")
 switched = false
 
 function Hater_UpDown:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_06_piece_01.png", 
 	"com/resources/art/sprites/enemy_06_piece_02.png", 
 	"com/resources/art/sprites/enemy_06_piece_03.png", 
@@ -31,15 +31,6 @@ function Hater_UpDown:initMuzzleLocations()
 end
 
 function Hater_UpDown:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
@@ -67,7 +58,6 @@ function Hater_UpDown:update(player)
 	
 	if self.switches == 4 then
 		self.leave = true
-		print("self.leave: ",self.leave)
 	end
 	
 	if self.leave == true then

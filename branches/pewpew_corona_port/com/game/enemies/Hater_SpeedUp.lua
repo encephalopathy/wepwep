@@ -11,7 +11,7 @@ Hater_SpeedUp = Hater:subclass("Hater_SpeedUp")
 switched = false
 
 function Hater_SpeedUp:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_07.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_07.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_07_piece_01.png", 
 	"com/resources/art/sprites/enemy_07_piece_02.png", 
 	"com/resources/art/sprites/enemy_07_piece_03.png", 
@@ -30,15 +30,6 @@ function Hater_SpeedUp:initMuzzleLocations()
 end
 
 function Hater_SpeedUp:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.y = self.sprite.y + y
 	
 end

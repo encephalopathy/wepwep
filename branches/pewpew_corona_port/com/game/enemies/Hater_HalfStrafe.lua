@@ -10,7 +10,7 @@ Hater_HalfStrafe = Hater:subclass("Hater_HalfStrafe")
 switched = false
 
 function Hater_HalfStrafe:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_02.png", 0, 0, 0, 100, 100,
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_02.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_02_piece_01.png",
 	"com/resources/art/sprites/enemy_02_piece_02.png",
 	"com/resources/art/sprites/enemy_02_piece_03.png",
@@ -79,7 +79,7 @@ function Hater_HalfStrafe:update()
 	
 end
 
---Used to return the file path of a hater
+--Used to return the file path
 function Hater_HalfStrafe:__tostring()
 	return 'com.game.enemies.Hater_HalfStrafe'
 end
