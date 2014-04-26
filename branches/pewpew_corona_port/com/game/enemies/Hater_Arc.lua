@@ -122,11 +122,3 @@ function Hater_Arc:__tostring()
 end
 
 return Hater_Arc
-
-
-
-
-
-
-
-

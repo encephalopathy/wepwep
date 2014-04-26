@@ -82,7 +82,7 @@ After launching the application:
 `Find the “Enemy” Tab on the top menu bar`  
 `Click Enemy. This will open up a drop down menu listing all of the available Haters to create`  
 `Click the Hater type you wish to make`  
-`A pop up will appear asking you to put in a rotation for your Hater. Click OK once you are done.`  
+`A pop up will appear asking you to put in a rotation for your Hater. Rotation should be in degrees and rotates counterclockwise.  Click OK once you are done.`  
 `Two pop ups will be displayed: Passives and Weapons.`  
 `Choose which Passives to give a Hater. To do this:`  
 `1.Click on the Passive Number on the top menu bar. Doing this will open up a drop down menu with all available Passives. The number of slot is dependent on the enemy type.`  

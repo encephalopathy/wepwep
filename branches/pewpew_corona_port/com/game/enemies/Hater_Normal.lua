@@ -22,8 +22,6 @@ function Hater_Normal:init(sceneGroup, player)
 	self.health = 1
 	self.maxHealth = 1
 	self.speed = 1
-	self.XVector = 0
-	self.YVector = 1
 end
 
 function Hater_Normal:initMuzzleLocations()
@@ -42,21 +40,14 @@ end
 
 function Hater_Normal:update()
 
-	--[[if (self.sprite.rotation == nil) then
-		self.sprite.rotation = 0
-	end
-	if self.XVector == nil and self.YVector == nil then
-		self.degrees = math.rad(self.sprite.rotation - 90)
-		print("self.degrees is ", self.degrees)
-		self.XVector = math.cos(self.degrees)
-		print("self.XVector is ", self.XVector)
-		self.YVector = math.sin(self.degrees)
-		print("self.YVector is ", self.YVector)
-		self.sprite.rotation = self.sprite.rotation * -1
-	end]]--
-
 	self.super:update()
 	
+	if self.XVector == nil and self.YVector == nil then
+		self.angle = math.rad(self.sprite.rotation)
+		self.YVector = math.cos(self.angle)
+		self.XVector = -math.sin(self.angle)
+	end
+
    	if (self.isFrozen) then
     	return
    	end
