@@ -9,7 +9,7 @@ Hater_UpDown = Hater:subclass("Hater_UpDown")
 switched = false
 
 function Hater_UpDown:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_06_piece_01.png", 
 	"com/resources/art/sprites/enemy_06_piece_02.png", 
 	"com/resources/art/sprites/enemy_06_piece_03.png", 
@@ -67,7 +67,6 @@ function Hater_UpDown:update(player)
 	
 	if self.switches == 4 then
 		self.leave = true
-		print("self.leave: ",self.leave)
 	end
 	
 	if self.leave == true then

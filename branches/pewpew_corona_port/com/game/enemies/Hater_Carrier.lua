@@ -93,7 +93,7 @@ end
 function Hater_Carrier:release()
 	--print("Inside Hater_Carrier:release")
 	self.drones = self.drones + 1
-	print("self.drones: ",self.drones)
+	--print("self.drones: ",self.drones)
 	
 	--add it to the inView queue
 	local haterType = self.droneType

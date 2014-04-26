@@ -6,7 +6,7 @@ require "com.game.enemies.Hater"
 Hater_CarrierDrone = Hater:subclass("Hater_CarrierDrone")
 
 function Hater_CarrierDrone:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_06.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/Hater_Drone1.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_06_piece_01.png",
 	 "com/resources/art/sprites/enemy_06_piece_02.png",
 	 "com/resources/art/sprites/enemy_06_piece_03.png",

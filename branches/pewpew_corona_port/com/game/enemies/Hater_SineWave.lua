@@ -7,7 +7,7 @@ require "com.game.enemies.Hater"
 Hater_SineWave = Hater:subclass("Hater_SineWave")
 
 function Hater_SineWave:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_04.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_04.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_04_piece_01.png",
 	 "com/resources/art/sprites/enemy_04_piece_02.png",
 	 "com/resources/art/sprites/enemy_04_piece_03.png",

@@ -11,7 +11,7 @@ Hater_SpeedUp = Hater:subclass("Hater_SpeedUp")
 switched = false
 
 function Hater_SpeedUp:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_07.png", 0, 0, 0, 100, 100, 
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_07.png", 0, 0, 0, 75, 75, 
 	{"com/resources/art/sprites/enemy_07_piece_01.png", 
 	"com/resources/art/sprites/enemy_07_piece_02.png", 
 	"com/resources/art/sprites/enemy_07_piece_03.png", 
