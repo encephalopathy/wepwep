@@ -2,7 +2,7 @@ module ( "Carousel", package.seeall )
 
 require "com.equipmenu.Dequeue"
 
-local widget = require "widget"
+local widget = require "widget_corona.widgetLibrary.widget"
 local storyboard = require( "storyboard" )
 local carousels = {}
 
@@ -57,11 +57,8 @@ local function setItemFillColor(item)
 			 item:setFillColor(1, 1, 1, 0.2)
 		 else
 			 item:setFillColor(1, 1, 1, 1)
-		 end
-			 
+		 end		 
 	end
-			
-	
 end
 
 --TODO: Move the object that is at carousel.last to the pool location.

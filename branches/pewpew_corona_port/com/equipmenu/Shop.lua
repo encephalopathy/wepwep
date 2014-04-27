@@ -21,15 +21,19 @@ require "com.game.passives.Player.PassiveShield"
 require "com.game.weapons.secondary.ActivatableShield"
 
 --Corona specific library that handles reading and writing json.
-local jsonHandler = require 'json'
+local json = require('json')
 
 Shop = Object:subclass("Shop")
 
 local shop
+local scene
 --[[
 	NOTE: DOLLARZ are not in the game.
 ]]--
 function Shop:init(scene)
+	print('CREATING SHOP')
+   Shop.static.scene = scene
+   
    self.Weapons = {}
    
    --[[local SingleshotValues = { item = Singleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5, description = ""}
@@ -72,27 +76,61 @@ function Shop:init(scene)
    
    self:createPassives()
    ]]--
-
    --print('scene: ' .. tostring(scene))
-   scene:addEventListener("GetSpriteData", self)
-   self:parseItemJSONCollection('com/equipmenu/shop_data.json')
-   Shop.static.scene = scene
+   scene:addEventListener("LoadSpriteData", self)
+   Runtime:addEventListener("GetToolTipData", self)
    
+end
+
+local function parseConstructor(data)
+	--for key, value in pairs(data) do
+	--	print('key: ' .. tostring(key))
+	--	print('value: ' .. tostring(value))
+	--end
+	if #data == 0 then return end
+	for i = 1, #data, 1 do
+		
+		--path:(%w+%p*[%w+%p*]*)
+		if type(data[i]) == 'string' then
+			local startIndex, endIndex = string.find(data[i], ":")
+			--print('startIndex: ' .. tostring(startIndex))
+			--print('endIndex: ' .. tostring(endIndex))
+			if startIndex then
+				--print('WHAT IS THIS PATH: ' .. tostring(startIndex))
+				--print('startIndex is: ' .. startIndex)
+				--print('path is: ' .. string.sub(data[i], startIndex))
+				data[i] = require(data[i]:sub(startIndex + 1))
+			elseif data[i] == 'nil' then
+				data[i] = nil
+			end
+		end
+	end
+	return unpack(data)
 end
 
 function Shop:parseItemJSONCollection(jsonData)
 	local data = {}
 	local name
+	local imgData = {}
+	
 	for key, itemField in pairs(jsonData) do	
 		
+		
+		--print('key: ' .. tostring(key))
 		name = tostring(key) 
 		secondKey = tostring(itemField.splash_image)
-		
 		local newItem = {}
 		data[name] = newItem
 		data[secondKey] = newItem
 		
-		newItem.item = require(itemField.classPath):new(unpack(itemField.constructorField))
+		if imgData[secondKey] == nil then
+			imgData[secondKey] = secondKey
+		end
+		--print('Parsed: ' .. tostring(name))
+		--print('secondaryKey: ' .. tostring(secondKey))
+		--print('itemField.constructor: ' .. tostring(itemField.constructorFields))
+		
+		newItem.item = require(itemField.classPath):new(parseConstructor(itemField.constructorFields))
 		newItem.description = itemField.description
 		newItem.title = itemField.title
 		newItem.weight = tonumber(itemField.weight)
@@ -101,37 +139,74 @@ function Shop:parseItemJSONCollection(jsonData)
 		data[name] = newItem
 		data[name] = data[secondKey]
 	end
-	return data
+	return data, imgData
 end
 
-function Shop:loadData(fileName)
-	local shopData = json.decode(jsonFile(fileName))
+function Shop:LoadSpriteData(event)
+	print('LOADING SPRITE DATA')
+	if event.target == nil then error('Unable to load sprite data') end
+	local filename = event.target.fileToLoad
 	
+	local filePath = system.pathForFile( filename, system.ResourceDirectory )
+	local file = io.open(filePath, "r")
+	if file == nil then error('Incorrect file to load for items in shop: ' .. tostring(filename)) end
+	print('filePath: ' .. tostring(filePath))
+	print('file: ' .. tostring(file))
+	local contents = file:read("*a")
+	io.close(file)
+	local shopData = json.decode(contents)
 	if shopData == nil then
 		error('Unable to the load the appropiate file that stores all the data pertaining to shop')
 	end
 	
 	--TODO: Load data that determines which carousels are still selected or not.
+	
 	local primaryWeapons = shopData['PrimaryWeapons']
-	local secondaryWeapons = shopData['SceondaryWeapons']
+	
+	local secondaryWeapons = shopData['SecondaryWeapons']
+	
 	local passives = shopData['Passives']
 	
+	print('Loading Primary Weapons')
+	self.Weapons, primarySpriteData = self:parseItemJSONCollection(primaryWeapons)
+	print('Loading Secondary Weapons')
+	self.SecondaryWeapons, secondarySpriteData = self:parseItemJSONCollection(secondaryWeapons)
+	print('Loading Passives')
+	self.Passives, passiveSpriteData = self:parseItemJSONCollection(passives)
 	
-	self:parseItemJSONCollection(self.Weapons)
-	self.Weapons = self:parseItemJSONCollection(primaryWeapons)
-	self.SecondaryWeapons = self:parseItemJSONCollection(secondaryWeapons)
-	self.Passives = self:parseItemJSONCollection(passives)
+	
+	local secondarySplashImages = {}
+	
+	for key, value in pairs(secondarySplashImages) do
+		secondarySplashImages[key] = secondarySpriteData[key]
+	end
+	
+	for key, value in pairs(passiveSpriteData) do
+		secondarySplashImages[key] = passiveSpriteData[key]
+	end
+	
+	--[[print('Images in Shop: ')
+	print('RECIEVED PRIMARY SPLASH IMAGES: ')
+	for key, value in pairs(primarySpriteData) do
+		print('Key: ' .. tostring(key))
+		print('Value: ' .. tostring(value))
+	end
+	
+	print('SECONDARY PRIMARY SPLASH IMAGES')
+	for key, value in pairs(secondarySplashImages) do
+		print('Key: ' .. tostring(key))
+		print('Value: ' .. tostring(value))
+	end
+	]]--
+	
+	Shop.static.scene:dispatchEvent({name = "OnLoadSpriteDataComplete", target = {primarySplashImages = primarySpriteData, 
+																				  secondarySplashImages = secondarySplashImages}
+																				  })
 	--TODO: Load the appropiate weapon, passive, and secondary item data from a file so we do not have to hard code it in code. - Brent Arata
 end
 
-function Shop:LoadSpriteData(event)
-	local spriteSheetData = display.newSpriteSheet()
-	
-	Shop.static.scene:dispatchEvent({name = "OnLoadSpriteDataComplete", target = spriteData})
-end
-
 function Shop:createSecondaryWeapons()
-	 -- Keep second list for secondary weapons
+	-- Keep second list for secondary weapons
    self.SecondaryWeapons = {}
    
    local GrenadeLauncherValues = { item = GrenadeLauncher:new(nil, true, 1, 200), dollaz = 50, weight = 2, description = ""}
@@ -171,6 +246,7 @@ end
 
 
 function Shop:GetToolTipData(event)
+	print('GETTING TOOLTIP DATA')
 	local contentType = event.target.itemType
 	local weaponKey = event.target.item
 	local item
@@ -185,7 +261,7 @@ function Shop:GetToolTipData(event)
 		end
 	end
 	
-	self.scene:dispatchEvent({name = "DisplayToolTip", target = {description = item.description, 
+	Shop.static.scene:dispatchEvent({name = "DisplayToolTip", target = {description = item.description, 
 	title = item.title, cost = item.dollaz, weight = item.weight}})
 end
 
@@ -236,7 +312,7 @@ function Shop:buyItem(event)
 end
 
 function Shop:buyPrimaryWeapon(weaponName, slot)
-	print("equipping: "..weaponName.." weight to be applied: "..self.Weapons[weaponName].weight)
+	print("equipping: ".. sassweaponName .." weight to be applied: "..self.Weapons[weaponName].weight)
 	local adjustedWeight = mainInventory.weightAvailable + self.Weapons[tostring(mainInventory.primaryWeapon)].weight
 	local temp = adjustedWeight - self.Weapons[weaponName].weight
 	if(temp>=0)then 
