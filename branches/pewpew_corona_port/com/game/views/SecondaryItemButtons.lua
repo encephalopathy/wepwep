@@ -21,13 +21,16 @@ end
 
 local function getButtonResolution()
 	--TODO: reset the x and y positions and width and height based on the resolution of the phone.
-	local xPos, yPos = 70, 150
+	local xSidePos, ySidePos = 70, 150
+	local xPassiveStartPos, yPassiveStartPos = display.contentWidth/20, display.contentHeight/50 + display.contentHeight/23
 	local width, height = 75, 75
+	
+	local passiveDx = 50
 	local dy = 125
-	return xPos, yPos, width, height, dy
+	return xSidePos, ySidePos, width, height, dy, xPassiveStartPos, yPassiveStartPos, passiveDx
 end
 
-local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive, passiveIsActivatable)
+local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive)
 	if group[i] == nil then
 		--print(type(group.onPress))
 		
@@ -35,23 +38,19 @@ local function createItemButton(group, i, name, xPos, yPos, width, height, isPas
 		local secondaryItem
 		if isPassive then
 			labelColor = { 0.3, 0.3, 0.3, 0.7 }
-			if passiveIsActivatable then
-				secondaryItem = widget.newButton {
-					left = xPos,
-					top = yPos,
-					label = "",
-					id = name,
-					labelAlign = "center",
-					defaultFile = name,
-					overFile = "com/resources/art/sprites/sheep.png",
-					width = width,
-					height = height,
-					labelColor = { default = labelColor, over = labelColor },
-					onRelease = group.onPress
-				}
-			else
-				secondaryItem = display.newImageRect(name, width, height)
-			end
+			secondaryItem = widget.newButton {
+				left = xPos,
+				top = yPos,
+				label = "",
+				id = name,
+				labelAlign = "center",
+				defaultFile = name,
+				overFile = "com/resources/art/sprites/sheep.png",
+				width = width,
+				height = height,
+				labelColor = { default = labelColor, over = labelColor },
+				onRelease = group.onPress
+			}
 			secondaryItem.x, secondaryItem.y = xPos, yPos
 			secondaryItem:setFillColor(155, 155, 155, 0.5)
 		else
@@ -81,9 +80,15 @@ local function createItemButton(group, i, name, xPos, yPos, width, height, isPas
 	
 end
 
+function SecondaryItemButtons:createPassiveLabel(group, passiveName, xSidePos, ySidePos, width, height, passiveDx)
+	local passiveLabel = display.newImageRect(passiveName, width, height)
+	passiveLabel.x, passiveLabel.y = xSidePos + passiveDx, ySidePos
+	group:insert(passiveLabel)
+end
+
 function SecondaryItemButtons:createButtons(event)
 	local screenWidth, screenHeight = display.contentWidth, display.contentHeight
-	local xPos, yPos, width, height, dy = getButtonResolution()
+	local xSidePos, ySidePos, width, height, dy, xPassiveStartPos, yPassiveStartPos, passiveDx = getButtonResolution()
 	local i = 1
 	
 	local sceneGroup = scene.view
@@ -99,9 +104,14 @@ function SecondaryItemButtons:createButtons(event)
 	
 	for passiveName, passive in pairs(mainInventory.passives) do
 		--print('passive name: ' .. passiveName)
-		createItemButton(group, i, passiveName, xPos, yPos, width, height, true, passive.isActivatable)
-		i = i + 1
-		yPos = yPos + dy
+		if passive.isActivatable then
+			createItemButton(group, i, passiveName, xSidePos, ySidePos, width, height, true, passive.isActivatable)
+			i = i + 1
+			ySidePos = ySidePos + dy
+		else
+			createPassiveLabel(group, passiveName, xSidePos, ySidePos, 20, 20, passiveDx)
+			xSidePos = xSidePos + passiveDx
+		end	
 	end
 
 	--print('mainInventory.secondaryWeapons is: ' .. tostring(mainInventory.secondaryWeapons))
