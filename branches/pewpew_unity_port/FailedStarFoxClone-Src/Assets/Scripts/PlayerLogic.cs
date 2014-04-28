@@ -15,9 +15,14 @@ public class PlayerLogic : MonoBehaviour
     public int currentHealth = 100;
     public float cooldownTime = 0;
 
+	private float previousX;
+	private float previousY;
+
     void Start()
     {
         currentHealth = maxHealth;
+		previousX = Input.GetAxis("Horizontal");
+		previousY = Input.GetAxis("Vertical");
     }
 
     // Update is called once per frame
@@ -28,6 +33,14 @@ public class PlayerLogic : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0, invert * vertical);
         Vector3 finalDirection = new Vector3(horizontal, invert * vertical, 1.0f);
+
+		if (Input.touchCount > 0 && 
+		    Input.GetTouch(0).phase == TouchPhase.Moved) {
+			
+			// Get movement of the finger since last frame
+			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+			direction = new Vector3(touchDeltaPosition.x, 0, invert * touchDeltaPosition.y);
+		}
 
         transform.position += direction * movementSpeed * Time.deltaTime;
         if (transform.position.x > maxX)
@@ -54,14 +67,15 @@ public class PlayerLogic : MonoBehaviour
 
     public void doDamage(int amount)
     {
-        ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera));
-        other.DoShake();
+
         if (cooldownTime <= 0)
         {
             currentHealth -= amount;
             ModifyHealthBar hb = (ModifyHealthBar)GetComponent(typeof(ModifyHealthBar));
             hb.GetHit(-amount);
             cooldownTime = 1;
+			ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera));
+			other.DoShake();
         }
         if (currentHealth <= 0)
         {
