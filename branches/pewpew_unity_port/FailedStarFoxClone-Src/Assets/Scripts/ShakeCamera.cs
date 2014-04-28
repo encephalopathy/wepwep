@@ -5,8 +5,11 @@ public class ShakeCamera : MonoBehaviour
 {
     public bool Shaking;
     public GameObject redScreen;
-    private float ShakeDecay; 
-    private float ShakeIntensity;
+	public float shakeDecay = 0.02f; 
+    public float shakeIntensity = 0.3f;
+
+	private float ShakeDecay; 
+	private float ShakeIntensity;
 
     private Vector3 OriginalPos;
     private Quaternion OriginalRot;
@@ -33,8 +36,9 @@ public class ShakeCamera : MonoBehaviour
         else if (Shaking)
         {
             Shaking = false;
-            transform.position = new Vector3(this.transform.parent.position.x, this.transform.parent.position.y, this.transform.parent.position.z - 7);
+			transform.position = new Vector3(this.transform.parent.position.x, this.transform.parent.position.y + 28.75318f, this.transform.parent.position.z);
             transform.rotation = new Quaternion(0, 0, 0, 0);
+			transform.Rotate(90,0,0);
             redScreen.renderer.enabled = false;
         }
 
@@ -45,8 +49,8 @@ public class ShakeCamera : MonoBehaviour
         OriginalPos = transform.position;
         OriginalRot = transform.rotation;
 
-        ShakeIntensity = 0.3f;
-        ShakeDecay = 0.02f;
+        ShakeIntensity = shakeIntensity;
+        ShakeDecay = shakeDecay;
         Shaking = true;
         redScreen.renderer.enabled = true;
     }
