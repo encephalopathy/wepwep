@@ -3,8 +3,8 @@ using System.Collections;
 
 public class EnemyGun : MonoBehaviour
 {
-	private GameObject bullet = PrefabUtility.CreatePrefab("Assets/normalBullet.prefab", (GameObject)Selection.object, ReplacePrefabOptions.ReplaceNameBased);
-
+	//private GameObject bullet = PrefabUtility.CreatePrefab("Assets/normalBullet.prefab", (GameObject)Selection.object, ReplacePrefabOptions.ReplaceNameBased);
+	public GameObject bullet;
 	public float velocity = -10.0f;
     public float fireRate = 2;
     private float aFireRate;
@@ -24,7 +24,7 @@ public class EnemyGun : MonoBehaviour
                 GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
 				newBullet.name = "EnemyBullet";
 				newBullet.rigidbody.AddForce(transform.forward*velocity,ForceMode.VelocityChange);
-                Destroy(newBullet.gameObject, 3f);
+                Destroy(newBullet.gameObject, 1f);
 			    aFireRate = fireRate;
 
 			}
