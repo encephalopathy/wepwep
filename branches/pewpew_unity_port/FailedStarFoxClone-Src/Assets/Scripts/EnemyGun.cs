@@ -22,7 +22,8 @@ public class EnemyGun : MonoBehaviour
 			if (aFireRate <= 0 ) {
                 GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
 				newBullet.name = "EnemyBullet";
-				newBullet.rigidbody.AddForce(transform.forward*velocity,ForceMode.VelocityChange);
+				//newBullet.rigidbody.velocity = new Vector3(0, velocity,0);
+
                 Destroy(newBullet.gameObject, 3f);
 			    aFireRate = fireRate;
 

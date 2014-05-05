@@ -17,6 +17,7 @@ public class PlayerLogic : MonoBehaviour
 
 	private float previousX;
 	private float previousY;
+    private bool alive = true;
 
     void Start()
     {
@@ -77,10 +78,11 @@ public class PlayerLogic : MonoBehaviour
 			ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera));
 			other.DoShake();
         }
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && alive)
         {
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(this.gameObject);
+            alive = false;
         }        
     }
 
@@ -89,14 +91,14 @@ public class PlayerLogic : MonoBehaviour
     {
         if (theCollision.gameObject.name == "Wall")
         {
-            Debug.Log("Crashed into a wall!");
+            //Debug.Log("Crashed into a wall!");
             doDamage(20);
         }
         else if (theCollision.gameObject.name == "EnemyBullet")
         {
             doDamage(15);
             Destroy(theCollision.gameObject);
-            Debug.Log("You got shot!!");
+            //Debug.Log("You got shot!!");
         }
        /* else if (theCollision.gameObject.name == "BasicEnemy")
         {
@@ -107,5 +109,15 @@ public class PlayerLogic : MonoBehaviour
         }*/
 
     }
+	void OnTriggerEnter(Collider other)
+	{
+
+		/*if (other.gameObject.name == "EnemyBullet")
+		{
+			doD1amage(15);
+			Destroy(other.gameObject);
+			//Debug.Log("You got shot!!");
+		}*/
+	}
 
 }

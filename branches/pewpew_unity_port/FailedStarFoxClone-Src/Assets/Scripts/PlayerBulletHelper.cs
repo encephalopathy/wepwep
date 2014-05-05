@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletHelper : MonoBehaviour
+public class PlayerBulletHelper : MonoBehaviour
 {
 
     public float velX;
@@ -41,13 +41,15 @@ public class BulletHelper : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Ship")
+        //Debug.Log("Up in here");
+        if (other.gameObject.name == "BasicEnemy")
         {
-            PlayerLogic playerlogic = (PlayerLogic)other.gameObject.GetComponent(typeof(PlayerLogic));
-            playerlogic.doDamage(damage);
+
+            EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
+            enemylogic.doDamage(damage);
             Destroy(this.gameObject);
-            //Debug.Log("Up in here");
-        }
+            //SDebug.Log("Up in here");
+        } 
     }
 
 }

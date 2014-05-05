@@ -1,7 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{D3BA1D39-7917-C62D-DF0D-45E81FD1FEE7}") = "FailedStarFoxClone", "Assembly-CSharp-vs.csproj", "{48BA9FD3-C532-4AAB-D2BE-CB221D82A759}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-vs", "Assembly-CSharp-vs.csproj", "{0238D168-0C91-C76F-21BA-EFE58E0DD291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,25 +8,24 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{48BA9FD3-C532-4AAB-D2BE-CB221D82A759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48BA9FD3-C532-4AAB-D2BE-CB221D82A759}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48BA9FD3-C532-4AAB-D2BE-CB221D82A759}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48BA9FD3-C532-4AAB-D2BE-CB221D82A759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0238D168-0C91-C76F-21BA-EFE58E0DD291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0238D168-0C91-C76F-21BA-EFE58E0DD291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0238D168-0C91-C76F-21BA-EFE58E0DD291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0238D168-0C91-C76F-21BA-EFE58E0DD291}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																														GlobalSection(MonoDevelopProperties) = preSolution
+	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
-		$0.TextStylePolicy = $1
+		$0.TextStylePolicy = $3
 		$1.inheritsSet = null
 		$1.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $2
 		$2.inheritsSet = Mono
 		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
 		$3.FileWidth = 120
 		$3.TabWidth = 4
 		$3.EolMarker = Unix
@@ -35,5 +33,4 @@ Global
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 	EndGlobalSection
-
 EndGlobal

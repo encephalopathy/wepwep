@@ -21,7 +21,7 @@ public class ShootForward : MonoBehaviour
 			// turn the projectile to hit.point
 			//projectile.transform.LookAt(hit.point); 
 			// accelerate it
-			projectile.rigidbody.velocity = projectile.transform.forward * velocity;
+			//projectile.rigidbody.velocity = projectile.transform.forward * velocity;
 			//projectile.rigidbody.AddForce(transform.forward * ProjectileSpeed, ForceMode.VelocityChange);
 			Destroy(projectile.gameObject, 3f);
 			pew.Play(0);

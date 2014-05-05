@@ -72,6 +72,7 @@
      <Compile Include="Assets\Scripts\ModifyHealthBar.cs" />
      <Compile Include="Assets\Scripts\MouseClickToShoot.cs" />
      <Compile Include="Assets\Scripts\MoveForward.cs" />
+     <Compile Include="Assets\Scripts\PlayerBulletHelper.cs" />
      <Compile Include="Assets\Scripts\PlayerLogic.cs" />
      <Compile Include="Assets\Scripts\ShakeCamera.cs" />
      <Compile Include="Assets\Scripts\ShootForward.cs" />
