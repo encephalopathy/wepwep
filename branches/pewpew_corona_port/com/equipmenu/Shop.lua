@@ -36,8 +36,8 @@ function Shop:init(scene)
    
    self.Weapons = {}
    
-   --[[local SingleshotValues = { item = Singleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5, description = ""}
-   local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, nil, nil, nil, nil, nil, nil, 4, 15, 4, 15, "com/resources/art/sprites/bullet_02.png"), dollaz = 5, weight = 2 }
+   local SingleshotValues = { item = Singleshot:new(scene, true, 5, 900, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 40, weight = 5}
+   local SpreadshotValues = { item = Spreadshot:new(scene, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_06.png", 20, nil, nil, nil, nil, 5, 45, 1, 15), dollaz = 5, weight = 2 }
    local SineWaveValues = { item = SineWave:new(nil, true, 25, 200), dollaz = 50, weight = 5 , description = ""}
    local HomingshotValues = { item = Homingshot:new(nil, true, 35, 200), dollaz = 100, weight = 5, description = ""}
    local DoubleshotValues = { item = Doubleshot:new(nil, true, 15, 200, 0, 0, "com/resources/art/sprites/bullet_02.png"), dollaz = 70, weight = 5, description = "" }

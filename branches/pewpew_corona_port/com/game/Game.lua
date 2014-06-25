@@ -249,7 +249,7 @@ function scene:createScene( event )
 		width = width,
 		height = height,
 		onRelease = function(event)
-			print("offPewButton Event")
+			--print("offPewButton Event")
 			player:switchMode()
 			offPewButton.isVisible = false
 			onPewButton.isVisible = true
@@ -272,7 +272,7 @@ function scene:createScene( event )
 		width = width,
 		height = height,
 		onRelease = function(event)
-			print("onPewButton Event")
+			--print("onPewButton Event")
 			player:switchMode()
 			onPewButton.isVisible = false
 			offPewButton.isVisible = true

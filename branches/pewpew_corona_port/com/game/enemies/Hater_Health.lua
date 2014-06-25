@@ -19,8 +19,8 @@ function Hater_Health:init(sceneGroup, player)
 	
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 5
-	self.maxHealth = 5
+	self.health = 15
+	self.maxHealth = 15
 end
 
 function Hater_Health:initMuzzleLocations()
@@ -78,7 +78,7 @@ function Hater_Health:die()
 	Runtime:dispatchEvent({name = "spawnCollectible", target = "HealthPickUp", position =  {x = self.sprite.x, y = self.sprite.y}})
 end
 
---Used to return the file path of a hater
+--Used to return the file path
 function Hater_Health:__tostring()
 	return 'com.game.enemies.Hater_Health'
 end

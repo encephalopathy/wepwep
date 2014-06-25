@@ -31,13 +31,16 @@ local function getButtonResolution()
 end
 
 local function createItemButton(group, i, name, xPos, yPos, width, height, isPassive)
+
 	if group[i] == nil then
 		--print(type(group.onPress))
 		
 		local labelColor
 		local secondaryItem
+		print("SecondaryItemButtons, before if check, passiveIsActivatable is", passiveIsActivatable)
 		if isPassive then
 			labelColor = { 0.3, 0.3, 0.3, 0.7 }
+			print("SecondaryItemButtons, inside if check, passiveIsActivatable is", passiveIsActivatable)
 			secondaryItem = widget.newButton {
 				left = xPos,
 				top = yPos,

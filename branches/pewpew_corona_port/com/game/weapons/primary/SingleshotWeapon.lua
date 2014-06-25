@@ -15,7 +15,7 @@ Singleshot = Weapon:subclass("Singleshot")
 ]]--
 
 --Default values if no bullet velocity and/or bullet speed or not passed through via constructor.
-local DEFUALT_BULLET_VELOCITY = 200
+local DEFUALT_BULLET_VELOCITY = 1000
 local DEFAULT_RATE_OF_FIRE = 25
 
 --[[
@@ -38,7 +38,7 @@ function Singleshot:init (sceneGroup, isPlayerOwned, rateOfFire, bulletSpeed, nu
    end
    
    if energyCost == nil then
-	  energyCost = 5
+	  energyCost = 1
    end
    
    if soundHandle == nil then

@@ -9,7 +9,7 @@ Hater_Turret = Hater:subclass("Hater_Turret")
 switched = false
 
 function Hater_Turret:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/turret.png", 0, 0, 0, 100, 100,
+	self.super:init(sceneGroup, "com/resources/art/sprites/turret.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_03_piece_01.png", 
 	"com/resources/art/sprites/enemy_03_piece_02.png", 
 	"com/resources/art/sprites/enemy_03_piece_03.png", 
@@ -19,10 +19,10 @@ function Hater_Turret:init(sceneGroup, player)
 	--self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 2
-	self.maxHealth = 2
+	self.health = 25
+	self.maxHealth = 25
 
-	self.speed = 3
+	self.speed = 2
 end
 
 function Hater_Turret:initMuzzleLocations()
@@ -36,23 +36,13 @@ end
 
 function Hater_Turret:update()
 	self.super:update()
-
-	--print("Hater_Turret:update() self.sprite.rotation is ", self.sprite.rotation)
+	
 	if self.XVector == nil and self.YVector == nil then
-		if self.sprite.rotation == 90 or self.sprite.rotation == 270 then
-			--print("Hater_Turret:update() self.sprite.rotation is ", self.sprite.rotation)
-			self.degrees = math.rad(self.sprite.rotation - 90)
-			--print("Hater_Turret:update() self.degrees is ", self.degrees)
-			self.XVector = math.cos(self.degrees)
-			self.YVector = math.sin(self.degrees)
-			self.sprite.rotation = self.sprite.rotation * -1
-			--[[self.XVector = math.rad(math.sin(self.sprite.rotation))
-			self.YVector = math.rad(math.cos(self.sprite.rotation)]]--
-		else
-			self.XVector = 0
-			self.YVector = 1
-		end
+		self.angle = math.rad(self.sprite.rotation)
+		self.YVector = math.cos(self.angle)
+		self.XVector = -math.sin(self.angle)
 	end
+	
 	local player = self.playerRef
 	local width = player.sprite.x - self.sprite.x
 	local height = player.sprite.y - self.sprite.y
@@ -67,9 +57,7 @@ function Hater_Turret:update()
 				rotAngle = -rotAngle
 			end
 			self.sprite.rotation = rotAngle
-
 			self:move(self.speed*self.XVector, self.speed*self.YVector)
-
 			self:fire()
 		end
 	end

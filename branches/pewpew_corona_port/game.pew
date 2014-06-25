@@ -1,11 +1,11 @@
 Name=w1s1 Number=1
-Time=1 com.game.enemies.Hater_Normal=6
-   Type=com.game.enemies.Hater_Normal Location=45,-16 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-   Type=com.game.enemies.Hater_Normal Location=125,-18 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-   Type=com.game.enemies.Hater_Normal Location=197,-12 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-   Type=com.game.enemies.Hater_Normal Location=269,-15 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-   Type=com.game.enemies.Hater_Normal Location=343,-20 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
-   Type=com.game.enemies.Hater_Normal Location=419,-20 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+Time=1 com.game.enemies.Hater_Turret=6
+   Type=com.game.enemies.Hater_Turret Location=45,-16 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Turret Location=125,-18 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Turret Location=197,-12 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Turret Location=269,-15 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Turret Location=343,-20 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
+   Type=com.game.enemies.Hater_Turret Location=419,-20 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
 Time=2 com.game.enemies.Hater_HalfStrafe=3
    Type=com.game.enemies.Hater_HalfStrafe Location=114,-22 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=
    Type=com.game.enemies.Hater_HalfStrafe Location=228,-25 Rotation=0 Weapons=com.game.weapons.primary.SingleshotWeapon Passives=

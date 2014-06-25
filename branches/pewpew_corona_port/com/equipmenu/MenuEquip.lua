@@ -33,7 +33,8 @@ end
 -- 'onRelease' event listener for newGameButton
 local function back()	
 	-- go to menu
-	storyboard.gotoScene( "com.mainmenu.MainMenu", "fade", 500 )
+	local options = { effect = "fade", time = 500, params = { debug = false } }
+	storyboard.gotoScene( "com.game.Game", options )
 	return true	-- indicates successful touch
 end
 

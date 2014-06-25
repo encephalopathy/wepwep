@@ -10,7 +10,7 @@ Hater_Homing = Hater:subclass("Hater_Homing")
 switched = false
 
 function Hater_Homing:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_03.png", 0, 0, 0, 100, 100,
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_03.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_03_piece_01.png", 
 	"com/resources/art/sprites/enemy_03_piece_02.png", 
 	"com/resources/art/sprites/enemy_03_piece_03.png", 
@@ -20,8 +20,8 @@ function Hater_Homing:init(sceneGroup, player)
 	--self.playerRef = player
 	--COPY THIS LINE AND PASTE IT AT THE VERY BOTTOM OF THE FILE.
 	self.sprite.objRef = self 
-	self.health = 2
-	self.maxHealth = 2
+	self.health = 10
+	self.maxHealth = 10
 	--[[self.moveXDirection = 0
 	self.moveYDirection = 1]]--
 end
@@ -31,15 +31,6 @@ function Hater_Homing:initMuzzleLocations()
 end
 
 function Hater_Homing:move(x, y)
-	--[[
-		I want this enemy to fly in one direction
-		then about halfway down to switch 
-		horizontal direction
-		so like it goes from right to left or left to right
-		This just starts them off in a single direction though
-	]]--
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	

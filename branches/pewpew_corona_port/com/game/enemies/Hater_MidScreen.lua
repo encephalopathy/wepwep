@@ -9,7 +9,7 @@ Hater_MidScreen = Hater:subclass("Hater_MidScreen")
 --switched = false
 
 function Hater_MidScreen:init(sceneGroup, player)
-	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_05.png", 0, 0, 0, 50, 50,
+	self.super:init(sceneGroup, "com/resources/art/sprites/enemy_05.png", 0, 0, 0, 75, 75,
 	{"com/resources/art/sprites/enemy_05_piece_01.png", 
 	"com/resources/art/sprites/enemy_05_piece_02.png", 
 	"com/resources/art/sprites/enemy_05_piece_03.png", 
@@ -18,8 +18,8 @@ function Hater_MidScreen:init(sceneGroup, player)
 	--Copy Paste these fields if you plan on using them in the collision function
 	
 	
-	self.health = 5
-	self.maxHealth = 5
+	self.health = 15
+	self.maxHealth = 15
 	self.midReached = false
 	
 	--timer related fields
@@ -36,8 +36,6 @@ function Hater_MidScreen:initMuzzleLocations()
 end
 
 function Hater_MidScreen:move(x, y)
-	--self:move(math.sin(self.time*4*math.pi/400)*2,3)
-	--print("LOLOLOLOL")
 	self.sprite.x = self.sprite.x + x
 	self.sprite.y = self.sprite.y + y
 	
