@@ -13,7 +13,9 @@ local storyboard = require "storyboard"
 storyboard.gotoScene( "com.mainmenu.MainMenu" )
 
 local options = { effect = "fade", time = 500, params = { debug = false } }
-storyboard.gotoScene( "com.game.Game", options )
+
+storyboard.gotoScene( "com.equipmenu.MenuEquip")
+
 
 
 

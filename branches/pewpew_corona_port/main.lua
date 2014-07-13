@@ -4,6 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 --require("LevelManager")
+require 'org.DynamicQueue'
 
 system.activate("multitouch")
 
