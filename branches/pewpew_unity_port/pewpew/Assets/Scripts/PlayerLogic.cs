@@ -32,7 +32,7 @@ public class PlayerLogic : MonoBehaviour
     void Update()
     {
 		if(currentNRG < maxNRG) {
-			currentNRG+= .1f;
+			currentNRG+= 20f*Time.deltaTime;
 		}
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -66,6 +66,9 @@ public class PlayerLogic : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y, -maxZ);
         }        
 
+
+		ModifyEnergyBar eb = (ModifyEnergyBar)GetComponent(typeof(ModifyEnergyBar));
+		eb.Set (currentNRG);
 
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(finalDirection), Mathf.Deg2Rad * 40.0f);
         if (cooldownTime > 0) cooldownTime -= Time.deltaTime;
