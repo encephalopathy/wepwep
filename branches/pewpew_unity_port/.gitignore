@@ -4,13 +4,6 @@
 *.pidb
 *.unityproj
 .DS_Store
-/pewpew/Library/FailedAssetImports.txt
-/pewpew/Library/cache/
-/pewpew/Library/previews/
-/pewpew/Library/ScriptAssemblies
+/pewpew/Library/
 /pewpew/obj
 /pewpew/Temp
-/pewpew/Library/guidmapper
-/pewpew/Library/assetDatabase3
-/pewpew/Library/InspectorExpandedItems
-/pewpew/Library/CurrentLayout.dwlt
