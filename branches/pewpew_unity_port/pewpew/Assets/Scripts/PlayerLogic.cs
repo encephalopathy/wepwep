@@ -68,7 +68,7 @@ public class PlayerLogic : MonoBehaviour
 
 
 		ModifyEnergyBar eb = (ModifyEnergyBar)GetComponent(typeof(ModifyEnergyBar));
-		eb.Set (currentNRG);
+		//eb.Set(currentNRG);
 
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(finalDirection), Mathf.Deg2Rad * 40.0f);
         if (cooldownTime > 0) cooldownTime -= Time.deltaTime;
