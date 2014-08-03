@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpreadShot : MonoBehaviour
+public class SpiralCurveShot : MonoBehaviour
 {
 
     public GameObject bullet;
@@ -9,26 +9,26 @@ public class SpreadShot : MonoBehaviour
     public GameObject spawnPt;
     public AudioSource SoundEffect;
     public float bulletLife = 3f;
-    public float firingAngle = 30f;
-    public int numberOfBullets = 3;
+    private float firingAngle = 360f;
+    public int numberOfBullets = 90;
     private Transform spawnBullet;
     public Vector3 bulletOffSetVector = new Vector3(0f, 0f, 0f);
     public GameObject player;
     public int energyCost = 15;
     public float delayBetweenWaves = 0.2f; // higher number for a longer delay
-    public int numberOfWaves = 3;
-    public int numberOfArcs = 2;
-    public float angleBetweenArcs = 10f;
+    public int numberOfWaves = 99;
+    private int angleShiftValue = 0;
+    public int angleShiftIncrement = 7;
 
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            StartCoroutine("fireSpread");
+            StartCoroutine("fireCircle");
         }
     }
 
-    IEnumerator fireSpread()
+    IEnumerator fireCircle()
     {
         if (player.GetComponent<PlayerLogic>().canFire(energyCost))
         {
@@ -49,16 +49,17 @@ public class SpreadShot : MonoBehaviour
 
     IEnumerator wave()
     {
-        float angleStep = ((firingAngle - (angleBetweenArcs * (numberOfArcs - 1 ))) / (numberOfBullets - 1));
-        float bulletsPerArc = Mathf.Ceil(numberOfBullets / numberOfArcs);
+        float angleStep = (firingAngle/(numberOfBullets - 1));
 
         for (int i = 1; i <= numberOfBullets; i++)
         {
-            float rotationAngle = firingAngle/2 - ((i - 1) * angleStep) - ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs);
+            //float rotationAngle = firingAngle/2 - ((i - 1) * angleStep - angleShiftValue);
+            float rotationAngle = -i * angleStep - angleShiftValue;
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffSetVector, Quaternion.identity) as GameObject;
             projectile.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
-            projectile.gameObject.name = "SpreadShot";
+            projectile.gameObject.name = "SpiralCurveShot";
             Destroy(projectile.gameObject, bulletLife);
+            angleShiftValue = angleShiftValue + angleShiftIncrement;
         }
         return null;
     }
