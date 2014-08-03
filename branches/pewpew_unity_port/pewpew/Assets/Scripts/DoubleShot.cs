@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpreadShot : MonoBehaviour
+public class DoubleShot : MonoBehaviour
 {
 
     public GameObject bullet;
@@ -9,26 +9,22 @@ public class SpreadShot : MonoBehaviour
     public GameObject spawnPt;
     public AudioSource SoundEffect;
     public float bulletLife = 3f;
-    public float firingAngle = 30f;
-    public int numberOfBullets = 3;
     private Transform spawnBullet;
-    public Vector3 bulletOffSetVector = new Vector3(0f, 0f, 0f);
+    public Vector3 bulletOffSetVector = new Vector3(1f, 0f, 0f);
     public GameObject player;
     public int energyCost = 15;
     public float delayBetweenWaves = 0.2f; // higher number for a longer delay
     public int numberOfWaves = 3;
-    public int numberOfArcs = 2;
-    public float angleBetweenArcs = 10f;
 
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            StartCoroutine("fireSpread");
+            StartCoroutine("fireSingle");
         }
     }
 
-    IEnumerator fireSpread()
+    IEnumerator fireSingle()
     {
         if (player.GetComponent<PlayerLogic>().canFire(energyCost))
         {
@@ -43,23 +39,19 @@ public class SpreadShot : MonoBehaviour
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
             player.GetComponent<PlayerLogic>().isFiring = false;
-
         }
     }
 
     IEnumerator wave()
     {
-        float angleStep = ((firingAngle - (angleBetweenArcs * (numberOfArcs - 1 ))) / (numberOfBullets - 1));
-        float bulletsPerArc = Mathf.Ceil(numberOfBullets / numberOfArcs);
-
-        for (int i = 1; i <= numberOfBullets; i++)
-        {
-            float rotationAngle = firingAngle/2 - ((i - 1) * angleStep) - ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs);
-            GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffSetVector, Quaternion.identity) as GameObject;
-            projectile.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
-            projectile.gameObject.name = "SpreadShot";
-            Destroy(projectile.gameObject, bulletLife);
-        }
-        return null;
+            GameObject projectile1 = Instantiate(bullet, spawnPt.transform.position + bulletOffSetVector, Quaternion.identity) as GameObject;
+            GameObject projectile2 = Instantiate(bullet, spawnPt.transform.position - bulletOffSetVector, Quaternion.identity) as GameObject;
+            projectile1.transform.rotation = Quaternion.Euler(0, 0, 0);
+            projectile2.transform.rotation = Quaternion.Euler(0, 0, 0);
+            projectile1.gameObject.name = "SingleShot";
+            projectile2.gameObject.name = "SingleShot";
+            Destroy(projectile1.gameObject, bulletLife);
+            Destroy(projectile2.gameObject, bulletLife);
+            return null;
     }
 }

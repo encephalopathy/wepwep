@@ -20,6 +20,7 @@ public class PlayerLogic : MonoBehaviour
 	private float previousX;
 	private float previousY;
     private bool alive = true;
+    public bool isFiring = false; //Do not touch
 
     void Start()
     {
@@ -131,11 +132,12 @@ public class PlayerLogic : MonoBehaviour
 
 	public bool canFire(int cost)
 	{
-		Debug.Log(currentNRG + " is the players nrg" );
+		//Debug.Log(currentNRG + " is the players nrg" );
 		bool _canFire=false;
-		if(currentNRG > cost){
+		if(currentNRG > cost && isFiring == false){
 			currentNRG -= cost;
 			_canFire=true;
+            isFiring = true;
 		}
 		return _canFire;
 	}
