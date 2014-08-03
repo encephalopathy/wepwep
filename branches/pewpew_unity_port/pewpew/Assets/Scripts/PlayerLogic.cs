@@ -21,6 +21,8 @@ public class PlayerLogic : MonoBehaviour
 	private float previousY;
     private bool alive = true;
 
+	public int score = 10000;
+
     void Start()
     {
         currentHealth = maxHealth;

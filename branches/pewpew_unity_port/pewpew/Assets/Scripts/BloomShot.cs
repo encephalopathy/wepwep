@@ -12,7 +12,7 @@ public class BloomShot : MonoBehaviour
 	private float bulletSpread = 180f;
 	private int numberOfBullets = 90;
 	private Transform spawnBullet;
-	private Vector3 tmpVector = new Vector3 (.5f, 0f, 0f);
+	private Vector3 tmpVector = new Vector3 (0f, 0f, 0f);
 	public GameObject player;
 	
 	void Update ()
