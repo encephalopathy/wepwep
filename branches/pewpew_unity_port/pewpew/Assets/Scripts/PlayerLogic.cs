@@ -20,6 +20,7 @@ public class PlayerLogic : MonoBehaviour
 	private float previousX;
 	private float previousY;
     private bool alive = true;
+    public bool isFiring = false; //Do not touch
 
     void Start()
     {
@@ -32,7 +33,7 @@ public class PlayerLogic : MonoBehaviour
     void Update()
     {
 		if(currentNRG < maxNRG) {
-			currentNRG+= .1f;
+			currentNRG+= 20f*Time.deltaTime;
 		}
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -66,6 +67,9 @@ public class PlayerLogic : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y, -maxZ);
         }        
 
+
+		ModifyEnergyBar eb = (ModifyEnergyBar)GetComponent(typeof(ModifyEnergyBar));
+		eb.Set (currentNRG);
 
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(finalDirection), Mathf.Deg2Rad * 40.0f);
         if (cooldownTime > 0) cooldownTime -= Time.deltaTime;
@@ -128,11 +132,12 @@ public class PlayerLogic : MonoBehaviour
 
 	public bool canFire(int cost)
 	{
-		Debug.Log(currentNRG + " is the players nrg" );
+		//Debug.Log(currentNRG + " is the players nrg" );
 		bool _canFire=false;
-		if(currentNRG > cost){
+		if(currentNRG > cost && isFiring == false){
 			currentNRG -= cost;
 			_canFire=true;
+            isFiring = true;
 		}
 		return _canFire;
 	}

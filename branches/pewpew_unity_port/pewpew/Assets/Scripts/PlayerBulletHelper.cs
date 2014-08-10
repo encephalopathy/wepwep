@@ -19,9 +19,7 @@ public class PlayerBulletHelper : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    Vector3 temp = this.gameObject.transform.position;
-	    float deltaTime = Time.deltaTime;
-        this.gameObject.transform.position = new Vector3(temp.x + velX * deltaTime, temp.y + velY * deltaTime, temp.z + velZ * deltaTime);
+	   	this.gameObject.transform.Translate(Vector3.forward * 50 * Time.deltaTime);
 	}
 
 
