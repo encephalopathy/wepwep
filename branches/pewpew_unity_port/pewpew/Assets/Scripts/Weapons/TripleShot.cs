@@ -33,8 +33,7 @@ public class TripleShot : MonoBehaviour
 								pew.Play (0);
 								yield return new WaitForSeconds (.2f);
 						}
-						
-			
+                        player.GetComponent<PlayerLogic>().isFiring = false;
 				}
 		}
 

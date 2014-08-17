@@ -34,7 +34,7 @@ public class BloomShot : MonoBehaviour
 				yield return new WaitForSeconds (.5f);
 			}
 			pew.Play (0);
-			
+            player.GetComponent<PlayerLogic>().isFiring = false;
 		}
 	}
 	
