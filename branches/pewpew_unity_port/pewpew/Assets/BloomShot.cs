@@ -31,29 +31,35 @@ public class BloomShot : MonoBehaviour
 			for (int j = 0; j < 5; j++) {
 				StartCoroutine ("wave");
 				StartCoroutine ("wave2");
+				StartCoroutine("wave3");
 				yield return new WaitForSeconds (.5f);
 			}
 			pew.Play (0);
 			
 		}
 	}
-	
+
+	int bulletBreak = 5;
 	IEnumerator wave ()
 	{
 		float angle = (bulletSpread / (numberOfBullets - 1));
 		for (int i = 0; i < numberOfBullets; i++) {
+			if(i % bulletBreak == 0) {
 			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
 			projectile.transform.rotation = Quaternion.Euler (0, (angle * i) - (bulletSpread / 2), 0);
 			projectile.gameObject.name = "TripleShot";
 			yield return new WaitForSeconds (.001f);
 			Destroy (projectile.gameObject, BulletLife);
+			}
 		}
 		for (int i = numberOfBullets; i > 0; i--) {
+			if(i % bulletBreak == 0) {
 			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
 			projectile.transform.rotation = Quaternion.Euler (0, (angle * i) - (bulletSpread / 2), 0);
 			projectile.gameObject.name = "TripleShot";
 			yield return new WaitForSeconds (.001f);
 			Destroy (projectile.gameObject, BulletLife);
+			}
 		}
 	}
 	
@@ -62,19 +68,37 @@ public class BloomShot : MonoBehaviour
 		float angle = (bulletSpread / (numberOfBullets - 1));
 		
 		for (int i = numberOfBullets; i > 0; i--) {
+			if(i % bulletBreak == 0) {
 			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
 			projectile.transform.rotation = Quaternion.Euler (0, (angle * i) - (bulletSpread / 2), 0);
 			projectile.gameObject.name = "TripleShot";
 			yield return new WaitForSeconds (.001f);
 			Destroy (projectile.gameObject, BulletLife);
+			}
 		}
 		for (int i = 0; i < numberOfBullets; i++) {
+			if(i % bulletBreak == 0) {
 			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
 			projectile.transform.rotation = Quaternion.Euler (0, (angle * i) - (bulletSpread / 2), 0);
 			projectile.gameObject.name = "TripleShot";
 			yield return new WaitForSeconds (.001f);
 			Destroy (projectile.gameObject, BulletLife);
+			}
 		}
+	}
+
+	IEnumerator wave3 ()
+	{
+		float angle = (bulletSpread / (numberOfBullets - 1));
+		
+		for (int i = numberOfBullets; i > 0; i--) {
+			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
+			//projectile.transform.rotation = Quaternion.Euler (0, (angle * i) - (bulletSpread / 2), 0);
+			projectile.gameObject.name = "TripleShot";
+			yield return new WaitForSeconds (.001f);
+			Destroy (projectile.gameObject, BulletLife);
+		}
+
 	}
 	
 	
