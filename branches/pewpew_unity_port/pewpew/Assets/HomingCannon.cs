@@ -41,7 +41,6 @@ public class HomingCannon : MonoBehaviour
 		GameObject homingShot = Instantiate (homingBullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
 		homingShot.gameObject.name = "homingBullet";
 		Destroy (homingShot.gameObject, radarLife);
-
 	}
 
 

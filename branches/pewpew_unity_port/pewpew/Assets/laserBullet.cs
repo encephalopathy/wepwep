@@ -10,20 +10,25 @@ public class laserBullet : MonoBehaviour {
 	public int NRGCost = 5;
 	public GameObject player;
 	public Vector3 movementVector;
-	public float moveZ;
+	public float moveZ = 0;
 
 	void Start () {
 		player = GameObject.Find("Ship");
 		moveZ = player.transform.position.z + 2.0f;
+
 		movementVector = new Vector3 (player.transform.position.x,0,moveZ);
 		this.gameObject.transform.position = movementVector;
 	}
 
 	void Update ()
 	{
-		movementVector = new Vector3 (player.transform.position.x,0,moveZ);
-		moveZ++;
-		this.gameObject.transform.position = movementVector;
+		if (Input.GetButton ("Fire1")) {
+						movementVector = new Vector3 (player.transform.position.x, 0, moveZ);
+						moveZ = moveZ + .5f;
+						this.gameObject.transform.position = movementVector;
+		} else {
+			this.gameObject.transform.Translate(0,0,1);
+		}
 	}
 	
 	void OnTriggerEnter(Collider other)
@@ -34,5 +39,4 @@ public class laserBullet : MonoBehaviour {
 			enemylogic.doDamage(damage);
 		}
 	}
-
 }

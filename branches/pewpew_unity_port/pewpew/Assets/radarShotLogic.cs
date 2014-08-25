@@ -12,7 +12,7 @@ public class radarShotLogic : MonoBehaviour
 	public GameObject target;
 	public GameObject bullet;
 	public HomingCannon homingScript;
-	private float radarRange = 45.0f;
+	private float radarRange = 200.0f;
 	private HomingCannon homingCannon;
 
 	void Update ()
@@ -28,11 +28,13 @@ public class radarShotLogic : MonoBehaviour
 		{
 			target = other.gameObject;
 			spawnPt = GameObject.Find("Right Blaster");
-			homingCannon = spawnPt.GetComponent<HomingCannon>();
-			homingCannon.spawnPt = spawnPt;
-			homingCannon.fireHomingBullet();
-			Destroy(this.gameObject);
 
+			if(spawnPt) {
+				homingCannon = spawnPt.GetComponent<HomingCannon>();
+				homingCannon.spawnPt = spawnPt;
+				homingCannon.fireHomingBullet();
+				Destroy(this.gameObject);
+			}
 		}
 	}
 	

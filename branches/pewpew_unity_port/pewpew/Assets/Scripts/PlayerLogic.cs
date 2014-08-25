@@ -132,11 +132,11 @@ public class PlayerLogic : MonoBehaviour
 
 	public bool canFire(int cost)
 	{
-		//Debug.Log(currentNRG + " is the players nrg" );
+		Debug.Log ("can fire occuring. Cost is :" + cost);
 		bool _canFire=false;
 		if(currentNRG > cost && isFiring == false){
 			currentNRG -= cost;
-			_canFire=true;
+			_canFire = true;
             isFiring = true;
 		}
 		return _canFire;
