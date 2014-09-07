@@ -12,7 +12,7 @@ public class SpiralCurveShot : MonoBehaviour
     private float firingAngle = 360f;
     public int numberOfBullets = 90;
     private Transform spawnBullet;
-    public Vector3 bulletOffSetVector = new Vector3(0f, 0f, 0f);
+    public Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
     public GameObject player;
     public int energyCost = 15;
     public float delayBetweenWaves = 0.2f; // higher number for a longer delay
@@ -55,7 +55,7 @@ public class SpiralCurveShot : MonoBehaviour
         {
             //float rotationAngle = firingAngle/2 - ((i - 1) * angleStep - angleShiftValue);
             float rotationAngle = -i * angleStep - angleShiftValue;
-            GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffSetVector, Quaternion.identity) as GameObject;
+            GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
             projectile.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
             projectile.gameObject.name = "SpiralCurveShot";
             Destroy(projectile.gameObject, bulletLife);

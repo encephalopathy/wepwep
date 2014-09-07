@@ -14,6 +14,7 @@ public class TripleShot : MonoBehaviour
 		private Transform spawnBullet;
 		private Vector3 tmpVector = new Vector3 (0f, 0f, 0f);
 		public GameObject player;
+        public bool isPlayerWeapon = true;
 
 		void Update ()
 		{
@@ -24,17 +25,36 @@ public class TripleShot : MonoBehaviour
 
 		IEnumerator fireSpread ()
 		{
-				if (player.GetComponent<PlayerLogic> ().canFire (15)) {
-						if (!spawnPt) {
-								spawnPt = GameObject.Find ("oneSpawn");
-						}
-						for (int j = 0; j < 3; j++) {
-								StartCoroutine ("wave");
-								pew.Play (0);
-								yield return new WaitForSeconds (.2f);
-						}
-                        player.GetComponent<PlayerLogic>().isFiring = false;
-				}
+            if (isPlayerWeapon)
+            {
+                if (player.GetComponent<PlayerLogic>().canFire(15))
+                {
+                    if (!spawnPt)
+                    {
+                        spawnPt = GameObject.Find("oneSpawn");
+                    }
+                    for (int j = 0; j < 3; j++)
+                    {
+                        StartCoroutine("wave");
+                        pew.Play(0);
+                        yield return new WaitForSeconds(.2f);
+                    }
+                    player.GetComponent<PlayerLogic>().isFiring = false;
+                }
+            }
+            else
+            {
+                if (!spawnPt)
+                {
+                    spawnPt = GameObject.Find("oneSpawn");
+                }
+                for (int j = 0; j < 3; j++)
+                {
+                    StartCoroutine("wave");
+                    pew.Play(0);
+                    yield return new WaitForSeconds(.2f);
+                }
+            }
 		}
 
 		IEnumerator wave ()

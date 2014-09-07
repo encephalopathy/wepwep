@@ -10,7 +10,7 @@ public class DoubleShot : MonoBehaviour
     public AudioSource SoundEffect;
     public float bulletLife = 3f;
     private Transform spawnBullet;
-    public Vector3 bulletOffSetVector = new Vector3(1f, 0f, 0f);
+    public Vector3 bulletOffsetVector = new Vector3(1f, 0f, 0f);
     public GameObject player;
     public int energyCost = 15;
     public float delayBetweenWaves = 0.2f; // higher number for a longer delay
@@ -44,8 +44,8 @@ public class DoubleShot : MonoBehaviour
 
     IEnumerator wave()
     {
-            GameObject projectile1 = Instantiate(bullet, spawnPt.transform.position + bulletOffSetVector, Quaternion.identity) as GameObject;
-            GameObject projectile2 = Instantiate(bullet, spawnPt.transform.position - bulletOffSetVector, Quaternion.identity) as GameObject;
+            GameObject projectile1 = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
+            GameObject projectile2 = Instantiate(bullet, spawnPt.transform.position - bulletOffsetVector, Quaternion.identity) as GameObject;
             projectile1.transform.rotation = Quaternion.Euler(0, 0, 0);
             projectile2.transform.rotation = Quaternion.Euler(0, 0, 0);
             projectile1.gameObject.name = "SingleShot";
