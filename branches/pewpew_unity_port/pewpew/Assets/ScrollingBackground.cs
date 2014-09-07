@@ -13,6 +13,6 @@ public class ScrollingBackground : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float offset = Time.time * scrollSpeed;
-		renderer.material.SetTextureOffset ("_MainTex", new Vector2 (0, offset));
+		renderer.material.SetTextureOffset ("_MainTex", new Vector2 (0, -offset));
 	}
 }
