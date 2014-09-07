@@ -84,8 +84,8 @@ public class PlayerLogic : MonoBehaviour
             ModifyHealthBar hb = (ModifyHealthBar)GetComponent(typeof(ModifyHealthBar));
             hb.GetHit(-amount);
             cooldownTime = 1;
-			ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera));
-			other.DoShake();
+			//ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera)); // taken out at the moment, may be added in for boss intros
+			//other.DoShake();
         }
         if (currentHealth <= 0 && alive)
         {
