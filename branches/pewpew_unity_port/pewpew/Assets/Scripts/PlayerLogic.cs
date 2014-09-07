@@ -22,6 +22,8 @@ public class PlayerLogic : MonoBehaviour
     private bool alive = true;
     public bool isFiring = false; //Do not touch
 
+	public int score = 10000;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -69,7 +71,7 @@ public class PlayerLogic : MonoBehaviour
 
 
 		ModifyEnergyBar eb = (ModifyEnergyBar)GetComponent(typeof(ModifyEnergyBar));
-		//eb.Set (currentNRG);
+		eb.Set(currentNRG);
 
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(finalDirection), Mathf.Deg2Rad * 40.0f);
         if (cooldownTime > 0) cooldownTime -= Time.deltaTime;
@@ -132,11 +134,11 @@ public class PlayerLogic : MonoBehaviour
 
 	public bool canFire(int cost)
 	{
-		Debug.Log ("can fire occuring. Cost is :" + cost);
+		//Debug.Log(currentNRG + " is the players nrg" );
 		bool _canFire=false;
 		if(currentNRG > cost && isFiring == false){
 			currentNRG -= cost;
-			_canFire = true;
+			_canFire=true;
             isFiring = true;
 		}
 		return _canFire;

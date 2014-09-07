@@ -5,7 +5,7 @@ public class Healthbar : MonoBehaviour {
 
 	private int MaxHealth = 100;
 	public int CurrentHealth = 100; 
-	private float HealthBarInitialLength; 
+	private float HealthBarInitialLength;
 	private float HealthBarCurrentLength;
 	public Texture HealthBarBackground;
 	public Texture HealthBar;

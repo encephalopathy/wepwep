@@ -40,8 +40,10 @@ public class PlayerBulletHelper : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+		//Debug.Log(other);
         //Debug.Log("Up in here");
-        if (other.gameObject.name == "BasicEnemy") //change later to tags for any enemy
+		if (other.gameObject.tag == "Enemy")
+        //if (other.gameObject.name == "BasicEnemy" || other.gameObject.tag == "Enemy") //change later to tags for any enemy
         {
             EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
             enemylogic.doDamage(damage);
