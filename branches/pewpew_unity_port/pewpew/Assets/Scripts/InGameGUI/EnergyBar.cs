@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Energybar : MonoBehaviour {
+public class EnergyBar : MonoBehaviour {
 
 	private float MaxEnergy = 100;
 	public float CurrentEnergy = 100; 
 	private float EnergyBarInitialLength; 
 	private float EnergyBarCurrentLength;
 	public Texture EnergyBarBackground;
-	public Texture EnergyBar;
+	public Texture Energybar;
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +23,7 @@ public class Energybar : MonoBehaviour {
 	void OnGUI () {
 		float percentage = CurrentEnergy / (float)MaxEnergy;
 		GUI.DrawTexture (new Rect (8, 50, 24, EnergyBarInitialLength + 4), EnergyBarBackground);
-		GUI.DrawTextureWithTexCoords (new Rect (10, 52 + EnergyBarInitialLength, 20, -EnergyBarCurrentLength), EnergyBar, new Rect(0, 0, 1f, -percentage));
+		GUI.DrawTextureWithTexCoords (new Rect (10, 52 + EnergyBarInitialLength, 20, -EnergyBarCurrentLength), Energybar, new Rect(0, 0, 1f, -percentage));
 	}
 
 	public void SetCurrentEnergy (float adj) {

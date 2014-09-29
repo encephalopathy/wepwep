@@ -19,7 +19,7 @@ public class SingleShot : MonoBehaviour
     public float angleStep = 5f; // amount of rotation between each shot
     public int bulletsPerWave = 18;
     public float delayBetweenBullets = 0.5f;
-    public bool isPlayerWeapon = true;
+    public bool SingleShotIsPlayerWeapon = true;
     public float enemyFireRate = 2;
     private float aEnemyFireRate;
 
@@ -30,7 +30,7 @@ public class SingleShot : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerWeapon)
+        if (SingleShotIsPlayerWeapon)
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -43,14 +43,14 @@ public class SingleShot : MonoBehaviour
             if (aEnemyFireRate <= 0)
             {
                 StartCoroutine("fireSingle");
+                aEnemyFireRate = enemyFireRate;
             }
-            aEnemyFireRate = enemyFireRate;
         }
     }
 
     IEnumerator fireSingle()
     {
-        if (isPlayerWeapon)
+        if (SingleShotIsPlayerWeapon)
         {
             if (player.GetComponent<PlayerLogic>().canFire(energyCost))
             {
@@ -104,14 +104,14 @@ public class SingleShot : MonoBehaviour
                 for (int j = 0; j < numberOfWaves; j++)
                 {
                     StartCoroutine("rotatingWave");
-                    if (SoundEffect != null)
+                    /*if (SoundEffect != null)
                     {
                         SoundEffect.Play(0);
                     }
                     else
                     {
                         Debug.Log("sound effects are null in SingleShot");
-                    }
+                    }*/
                     yield return new WaitForSeconds(delayBetweenWaves);
                 }
             }
@@ -120,14 +120,14 @@ public class SingleShot : MonoBehaviour
                 for (int j = 0; j < numberOfWaves; j++)
                 {
                     StartCoroutine("wave");
-                    if (SoundEffect != null)
+                    /*if (SoundEffect != null)
                     {
                         SoundEffect.Play(0);
                     }
                     else
                     {
                         Debug.Log("sound effects are null in SingleShot");
-                    }
+                    }*/
                     yield return new WaitForSeconds(delayBetweenWaves);
                 }
             }
@@ -137,7 +137,8 @@ public class SingleShot : MonoBehaviour
     IEnumerator wave()
     {
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
-            projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
+            //projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
+            projectile.transform.rotation = spawnPt.transform.rotation;
             projectile.gameObject.name = "SingleShot";
             Destroy(projectile.gameObject, bulletLife);
             return null;

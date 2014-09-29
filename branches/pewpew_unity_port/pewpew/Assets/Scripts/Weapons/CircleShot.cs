@@ -17,18 +17,55 @@ public class CircleShot : MonoBehaviour
     public int energyCost = 15;
     public float delayBetweenWaves = 0.2f; // higher number for a longer delay
     public int numberOfWaves = 1;
+    public bool isPlayerWeapon = true;
+    public float enemyFireRate = 2;
+    private float aEnemyFireRate;
+
+    void start()
+    {
+        aEnemyFireRate = enemyFireRate;
+    }
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (isPlayerWeapon)
         {
-            StartCoroutine("fireCircle");
+            if (Input.GetButtonDown("Fire1"))
+            {
+                StartCoroutine("fireCircle");
+            }
+        }
+        else
+        {
+            aEnemyFireRate -= Time.deltaTime;
+            if (aEnemyFireRate <= 0)
+            {
+                StartCoroutine("fireSingle");
+                aEnemyFireRate = enemyFireRate;
+            }
         }
     }
 
     IEnumerator fireCircle()
     {
-        if (player.GetComponent<PlayerLogic>().canFire(energyCost))
+        if (isPlayerWeapon)
+        {
+            if (player.GetComponent<PlayerLogic>().canFire(energyCost))
+            {
+                if (!spawnPt)
+                {
+                    spawnPt = GameObject.Find("oneSpawn");
+                }
+                for (int j = 0; j < numberOfWaves; j++)
+                {
+                    StartCoroutine("wave");
+                    SoundEffect.Play(0);
+                    yield return new WaitForSeconds(delayBetweenWaves);
+                }
+                player.GetComponent<PlayerLogic>().isFiring = false;
+            }
+        }
+        else
         {
             if (!spawnPt)
             {
@@ -37,11 +74,16 @@ public class CircleShot : MonoBehaviour
             for (int j = 0; j < numberOfWaves; j++)
             {
                 StartCoroutine("wave");
-                SoundEffect.Play(0);
+                /*if (SoundEffect != null)
+                {
+                    SoundEffect.Play(0);
+                }
+                else
+                {
+                    Debug.Log("sound effects are null in SingleShot");
+                }*/
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
-            player.GetComponent<PlayerLogic>().isFiring = false;
-
         }
     }
 

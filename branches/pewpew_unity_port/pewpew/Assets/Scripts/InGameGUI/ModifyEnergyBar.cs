@@ -6,12 +6,12 @@ public class ModifyEnergyBar : MonoBehaviour {
 	public GameObject target;
 
 	public void GetHit (float adj) {
-		Energybar PlayerEnergyBar = (Energybar)target.GetComponent("Energybar");
+		EnergyBar PlayerEnergyBar = (EnergyBar)target.GetComponent("EnergyBar");
 		PlayerEnergyBar.AdjustCurrentEnergy(adj);
 	} 
 
 	public void Set (float adj) {
-		Energybar PlayerEnergyBar = (Energybar)target.GetComponent("Energybar");
+		EnergyBar PlayerEnergyBar = (EnergyBar)target.GetComponent("EnergyBar");
 		PlayerEnergyBar.SetCurrentEnergy(adj);
 	}
 }
