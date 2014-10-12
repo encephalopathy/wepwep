@@ -5,12 +5,13 @@ public class EnemyLogic : MonoBehaviour
 {
 
     public GameObject explosion;
-    public int health = 100;
+    public int MaxHealth = 100;
+    public int CurrentHealth;
 
     private bool alive = true;
 	// Use this for initialization
 	void Start () {
-	
+        CurrentHealth = MaxHealth;
 	}
 	
 	// Update is called once per frame
@@ -26,8 +27,10 @@ public class EnemyLogic : MonoBehaviour
 
     public void doDamage(int amount)
     {
-        health -= amount;
-        if (health <= 0 && alive)
+        Debug.Log("EnemyLogic: CurrentHealth before damage is "+CurrentHealth);
+        CurrentHealth -= amount;
+        Debug.Log("EnemyLogic: CurrentHealth after damage is "+CurrentHealth);
+        if (CurrentHealth <= 0 && alive)
         {
             Die();
             alive = false;
@@ -42,7 +45,7 @@ public class EnemyLogic : MonoBehaviour
         if (theCollision.gameObject.name == "Ship")
         {
             Die();
-            PlayerLogic other = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
+            EnemyLogic other = (EnemyLogic)theCollision.gameObject.GetComponent(typeof(EnemyLogic));
             other.doDamage(50);
             //Debug.Log("You crashed!");
         }

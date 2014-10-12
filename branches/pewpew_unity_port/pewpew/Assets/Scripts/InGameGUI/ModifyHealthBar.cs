@@ -6,7 +6,7 @@ public class ModifyHealthBar : MonoBehaviour {
 	public GameObject target;
 
 	public void GetHit (int adj) {
-		Healthbar PlayerHealthBar = (Healthbar)target.GetComponent("Healthbar");
+		HealthBar PlayerHealthBar = (HealthBar)target.GetComponent("HealthBar");
 		PlayerHealthBar.AdjustCurrentHealth(adj);
 	} 
 }
