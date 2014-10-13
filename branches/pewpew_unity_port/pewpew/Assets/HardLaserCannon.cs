@@ -11,13 +11,34 @@ public class HardLaserCannon : MonoBehaviour {
 	private float radarLife = 2f;
 	private Transform spawnBullet;
 	private Vector3 tmpVector = new Vector3 (.5f, 0f, 0f);
+    [SerializeField] private float enemyFireRate = 2;
+    private float aEnemyFireRate;
+
+    void start()
+    {
+        aEnemyFireRate = enemyFireRate;
+    }
 
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Fire1")) {
-			StartCoroutine ("fire");
-			pew.Play (0);
-		}
+        if (transform.parent.tag == "Player")
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                StartCoroutine("fire");
+                pew.Play(0);
+            }
+        }
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
+        {
+            aEnemyFireRate -= Time.deltaTime;
+            if (aEnemyFireRate <= 0)
+            {
+                StartCoroutine("fire");
+                aEnemyFireRate = enemyFireRate;
+            }
+        }
+		
 	}
 	
 	IEnumerator fire ()

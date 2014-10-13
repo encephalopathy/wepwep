@@ -3,25 +3,23 @@ using System.Collections;
 
 public class DoubleShot : MonoBehaviour
 {
-
-    public GameObject bullet;
     public float bulletSpeed = 10.0f; //currently unused
-    public GameObject spawnPt;
-    public AudioSource SoundEffect;
-    public float bulletLife = 3f;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject spawnPt;
+    [SerializeField] private AudioSource SoundEffect;
+    [SerializeField] private float bulletLife = 3f;
     private Transform spawnBullet;
-    public Vector3 bulletOffsetVector = new Vector3(1f, 0f, 0f);
-    public GameObject player;
-    public int energyCost = 15;
-    public float delayBetweenWaves = 0.2f; // higher number for a longer delay
-    public int numberOfWaves = 3;
-    public bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
-    public float rotationStartingAngle = 45f; // starting angle
-    public float angleStep = 5f; // amount of rotation between each shot
-    public int bulletsPerWave = 18;
-    public float delayBetweenBullets = 0.5f;
-    public bool DoubleShotIsPlayerWeapon = true;
-    public float enemyFireRate = 2;
+    [SerializeField] private Vector3 bulletOffsetVector = new Vector3(1f, 0f, 0f);
+    [SerializeField] private GameObject player;
+    [SerializeField] private int energyCost = 15;
+    [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
+    [SerializeField] private int numberOfWaves = 3;
+    [SerializeField] private bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
+    [SerializeField] private float rotationStartingAngle = 45f; // starting angle
+    [SerializeField] private float angleStep = 5f; // amount of rotation between each shot
+    [SerializeField] private int bulletsPerWave = 18;
+    [SerializeField] private float delayBetweenBullets = 0.5f;
+    [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
 
     void start()
@@ -31,14 +29,15 @@ public class DoubleShot : MonoBehaviour
 
     void Update()
     {
-        if (DoubleShotIsPlayerWeapon)
+        //if (DoubleShotIsPlayerWeapon)
+        if (transform.parent.tag == "Player")
         {
             if (Input.GetButtonDown("Fire1"))
             {
                 StartCoroutine("fireDouble");
             }
         }
-        else
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             aEnemyFireRate -= Time.deltaTime;
             if (aEnemyFireRate <= 0)
@@ -51,9 +50,8 @@ public class DoubleShot : MonoBehaviour
 
     IEnumerator fireDouble()
     {
-        if (DoubleShotIsPlayerWeapon)
+        if (transform.parent.tag == "Player")
         {
-            Debug.Log("DoubleShotIsPlayerWeapon is "+DoubleShotIsPlayerWeapon);
             if (player.GetComponent<PlayerLogic>().canFire(energyCost))
             {
                 if (!spawnPt)
@@ -69,7 +67,7 @@ public class DoubleShot : MonoBehaviour
                 player.GetComponent<PlayerLogic>().isFiring = false;
             }
         }
-        else
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             if (!spawnPt)
             {
@@ -108,19 +106,18 @@ public class DoubleShot : MonoBehaviour
                 }
             }
         }
-        
     }
 
     IEnumerator wave()
     {
         GameObject projectile1 = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
         GameObject projectile2 = Instantiate(bullet, spawnPt.transform.position - bulletOffsetVector, Quaternion.identity) as GameObject;
-            projectile1.transform.rotation = spawnPt.transform.rotation;
-            projectile2.transform.rotation = spawnPt.transform.rotation;
-            projectile1.gameObject.name = "DoubleShot";
-            projectile2.gameObject.name = "DoubleShot";
-            Destroy(projectile1.gameObject, bulletLife);
-            Destroy(projectile2.gameObject, bulletLife);
-            return null;
+        projectile1.transform.rotation = spawnPt.transform.rotation;
+        projectile2.transform.rotation = spawnPt.transform.rotation;
+        projectile1.gameObject.name = "DoubleShot";
+        projectile2.gameObject.name = "DoubleShot";
+        Destroy(projectile1.gameObject, bulletLife);
+        Destroy(projectile2.gameObject, bulletLife);
+        return null;
     }
 }

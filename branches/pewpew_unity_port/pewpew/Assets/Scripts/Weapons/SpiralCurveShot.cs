@@ -3,47 +3,87 @@ using System.Collections;
 
 public class SpiralCurveShot : MonoBehaviour
 {
-
-    public GameObject bullet;
-    public float bulletSpeed = 10.0f; //currently unused
-    public GameObject spawnPt;
-    public AudioSource SoundEffect;
-    public float bulletLife = 3f;
-    private float firingAngle = 360f;
-    public int numberOfBullets = 90;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private float bulletSpeed = 10.0f; //currently unused
+    [SerializeField] private GameObject spawnPt;
+    [SerializeField] private AudioSource SoundEffect;
+    [SerializeField] private float bulletLife = 3f;
+    [SerializeField] private float firingAngle = 360f;
+    [SerializeField] private int numberOfBullets = 90;
     private Transform spawnBullet;
-    public Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
-    public GameObject player;
-    public int energyCost = 15;
-    public float delayBetweenWaves = 0.2f; // higher number for a longer delay
-    public int numberOfWaves = 99;
-    private int angleShiftValue = 0;
-    public int angleShiftIncrement = 7;
+    [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
+    [SerializeField] private GameObject player;
+    [SerializeField] private int energyCost = 15;
+    [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
+    [SerializeField] private int numberOfWaves = 99;
+    [SerializeField] private int angleShiftValue = 0;
+    [SerializeField] private int angleShiftIncrement = 7;
+    [SerializeField] private float enemyFireRate = 2;
+    private float aEnemyFireRate;
+
+    void start()
+    {
+        aEnemyFireRate = enemyFireRate;
+    }
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (transform.parent.tag == "Player")
         {
-            StartCoroutine("fireCircle");
+            if (Input.GetButtonDown("Fire1"))
+            {
+                StartCoroutine("fireCircle");
+            }
+        }
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
+        {
+            aEnemyFireRate -= Time.deltaTime;
+            if (aEnemyFireRate <= 0)
+            {
+                StartCoroutine("fireCircle");
+                aEnemyFireRate = enemyFireRate;
+            }
         }
     }
 
     IEnumerator fireCircle()
     {
-        if (player.GetComponent<PlayerLogic>().canFire(energyCost))
+        if (transform.parent.tag == "Player")
+        {
+            if (player.GetComponent<PlayerLogic>().canFire(energyCost))
+            {
+                if (!spawnPt)
+                {
+                    spawnPt = GameObject.Find("oneSpawn");
+                }
+                for (int j = 0; j < numberOfWaves; j++)
+                {
+                    StartCoroutine("wave");
+                    SoundEffect.Play(0);
+                    yield return new WaitForSeconds(delayBetweenWaves);
+                }
+                player.GetComponent<PlayerLogic>().isFiring = false;
+            }
+        }
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             if (!spawnPt)
             {
-                spawnPt = GameObject.Find("oneSpawn");
+                Debug.Log("spawn point is false/null");
             }
             for (int j = 0; j < numberOfWaves; j++)
             {
                 StartCoroutine("wave");
-                SoundEffect.Play(0);
+                /*if (SoundEffect != null)
+                {
+                    SoundEffect.Play(0);
+                }
+                else
+                {
+                    Debug.Log("sound effects are null in SingleShot");
+                }*/
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
-            player.GetComponent<PlayerLogic>().isFiring = false;
-
         }
     }
 

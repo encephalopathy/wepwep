@@ -3,24 +3,24 @@ using System.Collections;
 
 public class SingleShot : MonoBehaviour
 {
-    public GameObject bullet;
-    public float bulletSpeed = 10.0f; //currently unused
-    public GameObject spawnPt;
-    public AudioSource SoundEffect;
-    public float bulletLife = 3f;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private float bulletSpeed = 10.0f; //currently unused
+    [SerializeField] private GameObject spawnPt;
+    [SerializeField] private AudioSource SoundEffect;
+    [SerializeField] private float bulletLife = 3f;
     private Transform spawnBullet;
-    public Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
-    public GameObject player;
-    public int energyCost = 15;
-    public float delayBetweenWaves = 0.2f; // higher number for a longer delay
-    public int numberOfWaves = 3;
-    public bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
-    public float rotationStartingAngle = 45f; // starting angle
-    public float angleStep = 5f; // amount of rotation between each shot
-    public int bulletsPerWave = 18;
-    public float delayBetweenBullets = 0.5f;
-    public bool SingleShotIsPlayerWeapon = true;
-    public float enemyFireRate = 2;
+    [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
+    [SerializeField] private GameObject player;
+    [SerializeField] private int energyCost = 15;
+    [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
+    [SerializeField] private int numberOfWaves = 3;
+    [SerializeField] private bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
+    [SerializeField] private float rotationStartingAngle = 45f; // starting angle
+    [SerializeField] private float angleStep = 5f; // amount of rotation between each shot
+    [SerializeField] private int bulletsPerWave = 18;
+    [SerializeField] private float delayBetweenBullets = 0.5f;
+    //[SerializeField] private bool SingleShotIsPlayerWeapon = true;
+    [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
 
     void start()
@@ -30,14 +30,15 @@ public class SingleShot : MonoBehaviour
 
     void Update()
     {
-        if (SingleShotIsPlayerWeapon)
+        //if (SingleShotIsPlayerWeapon)
+        if (transform.parent.tag == "Player")
         {
             if (Input.GetButtonDown("Fire1"))
             {
                 StartCoroutine("fireSingle");
             }
         }
-        else
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             aEnemyFireRate -= Time.deltaTime;
             if (aEnemyFireRate <= 0)
@@ -50,7 +51,8 @@ public class SingleShot : MonoBehaviour
 
     IEnumerator fireSingle()
     {
-        if (SingleShotIsPlayerWeapon)
+        //if (SingleShotIsPlayerWeapon)
+        if (transform.parent.tag == "Player")
         {
             if (player.GetComponent<PlayerLogic>().canFire(energyCost))
             {
@@ -93,7 +95,7 @@ public class SingleShot : MonoBehaviour
                 player.GetComponent<PlayerLogic>().isFiring = false;
             }
         }
-        else
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             if (!spawnPt)
             {
