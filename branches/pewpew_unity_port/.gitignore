@@ -1,9 +1,9 @@
 *.sln
-*.suo
-*.user
 *.userprefs
 *.csproj
 *.pidb
 *.unityproj
 .DS_Store
 /pewpew/Library/
+/pewpew/obj
+/pewpew/Temp

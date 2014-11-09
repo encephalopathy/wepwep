@@ -58,7 +58,7 @@ function Context:mapMediator(viewClass, mediatorClass)
 	self.mediators[viewClassName] = mediatorClass
 	
 	self.viewInstantiation[viewClass] = viewClass
-	print('Mapping the view: ' .. viewClassName .. ' to ' .. self.mediators[viewClassName])
+	--print('Mapping the view: ' .. viewClassName .. ' to ' .. self.mediators[viewClassName])
 end
 
 --Unmaps the view class to the particular mediator so that when this view is created, the associated mediator
