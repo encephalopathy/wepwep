@@ -3,22 +3,21 @@ using System.Collections;
 
 public class CircleShot : MonoBehaviour
 {
-
-    public GameObject bullet;
-    public float bulletSpeed = 10.0f; //currently unused
-    public GameObject spawnPt;
-    public AudioSource SoundEffect;
-    public float bulletLife = 3f;
-    private float firingAngle = 360f;
-    public int numberOfBullets = 90;
-    private Transform spawnBullet;
-    public Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
-    public GameObject player;
-    public int energyCost = 15;
-    public float delayBetweenWaves = 0.2f; // higher number for a longer delay
-    public int numberOfWaves = 1;
-    public bool isPlayerWeapon = true;
-    public float enemyFireRate = 2;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private float bulletSpeed = 10.0f; //currently unused
+    [SerializeField] private GameObject spawnPt;
+    [SerializeField] private AudioSource SoundEffect;
+    [SerializeField] private float bulletLife = 3f;
+    [SerializeField] private float firingAngle = 360f;
+    [SerializeField] private int numberOfBullets = 90;
+    [SerializeField] private Transform spawnBullet;
+    [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
+    [SerializeField] private GameObject player;
+    [SerializeField] private int energyCost = 15;
+    [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
+    [SerializeField] private int numberOfWaves = 1;
+    [SerializeField] private bool isPlayerWeapon = true;
+    [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
 
     void start()
@@ -28,14 +27,14 @@ public class CircleShot : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerWeapon)
+        if (transform.parent.tag == "Player")
         {
             if (Input.GetButtonDown("Fire1"))
             {
                 StartCoroutine("fireCircle");
             }
         }
-        else
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             aEnemyFireRate -= Time.deltaTime;
             if (aEnemyFireRate <= 0)
@@ -48,7 +47,7 @@ public class CircleShot : MonoBehaviour
 
     IEnumerator fireCircle()
     {
-        if (isPlayerWeapon)
+        if (transform.parent.tag == "Player")
         {
             if (player.GetComponent<PlayerLogic>().canFire(energyCost))
             {
@@ -65,7 +64,7 @@ public class CircleShot : MonoBehaviour
                 player.GetComponent<PlayerLogic>().isFiring = false;
             }
         }
-        else
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
             if (!spawnPt)
             {

@@ -23,7 +23,6 @@ public class PlayerBulletHelper : MonoBehaviour
         if (hasCollided == true)
         {
             this.collider.enabled = false;
-            Debug.Log("playerBulletHelper: "+this.collider+" is " + this.collider.enabled);
         }
 	}
 
@@ -44,12 +43,11 @@ public class PlayerBulletHelper : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        hasCollided = true;
+        //Destroy(this.gameObject);
         //this.collider.enabled = false;
         //Debug.Log("playerBulletHelper: "+this.collider+" is " + this.collider.enabled);
-        Destroy(this.gameObject);
         //Debug.Log("PlayerBulletHelper.cs: We hit something");
-		if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss")
+		if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss")
         //if (other.gameObject.name == "BasicEnemy" || other.gameObject.tag == "Enemy") //change later to tags for any enemy
         {
             if (other.gameObject.tag == "Enemy")
@@ -57,7 +55,9 @@ public class PlayerBulletHelper : MonoBehaviour
                 //Destroy(this.gameObject);
                 EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
                 enemylogic.doDamage(damage);
-                //SDebug.Log("Up in here");
+                hasCollided = true;
+                Destroy(this.gameObject);
+                //Debug.Log("Up in here");
                 //Debug.Log("PlayerBulletHelper.cs: We hit an enemy");
             }
             else if (other.gameObject.tag == "Boss")
@@ -68,12 +68,16 @@ public class PlayerBulletHelper : MonoBehaviour
                 enemylogic.doDamage(damage);
                 ModifyBossHealthBar bossHealthBar = (ModifyBossHealthBar)other.gameObject.GetComponent(typeof(ModifyBossHealthBar));
                 bossHealthBar.GetHit(damage);
+                hasCollided = true;
+                Destroy(this.gameObject);
             }
             else if (other.gameObject.tag == "BossPart")
             {
                 //Destroy(this.gameObject);
                 BossPartLogic bossPartLogic = (BossPartLogic)other.gameObject.GetComponent(typeof(BossPartLogic));
                 bossPartLogic.doDamage(damage);
+                hasCollided = true;
+                Destroy(this.gameObject);
                 //SDebug.Log("Up in here");
                 //Debug.Log("PlayerBulletHelper.cs: hit a boss part");
             }
