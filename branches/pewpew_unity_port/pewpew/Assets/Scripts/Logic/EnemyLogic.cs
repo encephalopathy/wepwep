@@ -11,7 +11,7 @@ public class EnemyLogic : MonoBehaviour
     private bool alive = true;
 	// Use this for initialization
 	void Start () {
-        CurrentHealth = MaxHealth;
+        //CurrentHealth = MaxHealth;
 	}
 	
 	// Update is called once per frame
@@ -27,9 +27,9 @@ public class EnemyLogic : MonoBehaviour
 
     public void doDamage(int amount)
     {
-        Debug.Log("EnemyLogic: CurrentHealth before damage is "+CurrentHealth);
+        //Debug.Log("EnemyLogic: CurrentHealth before damage is "+CurrentHealth);
         CurrentHealth -= amount;
-        Debug.Log("EnemyLogic: CurrentHealth after damage is "+CurrentHealth);
+        //Debug.Log("EnemyLogic: CurrentHealth after damage is "+CurrentHealth);
         if (CurrentHealth <= 0 && alive)
         {
             Die();

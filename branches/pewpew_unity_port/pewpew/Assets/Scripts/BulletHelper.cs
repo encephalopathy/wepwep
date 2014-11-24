@@ -4,11 +4,9 @@ using System.Collections;
 public class BulletHelper : MonoBehaviour
 {
 
-    public float velX;
-    public float velY;
-    public float velZ;
+    [SerializeField] private float bulletVelocity = 10;
 
-    public int damage = 15;
+    [SerializeField] private int damage = 15;
 
 
 	// Use this for initialization
@@ -19,11 +17,7 @@ public class BulletHelper : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        // ask Matt what he's doing here?
-	    /*Vector3 temp = this.gameObject.transform.position;
-	    float deltaTime = Time.deltaTime;
-        this.gameObject.transform.position = new Vector3(temp.x + velX * deltaTime, temp.y + velY * deltaTime, temp.z + velZ * deltaTime);*/
-        this.gameObject.transform.Translate(Vector3.forward * 10 * Time.deltaTime);
+        this.gameObject.transform.Translate(Vector3.forward * bulletVelocity * Time.deltaTime);
 	}
 
 
@@ -44,12 +38,16 @@ public class BulletHelper : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Ship")
+        if (other.tag == "Player")
         {
             PlayerLogic playerlogic = (PlayerLogic)other.gameObject.GetComponent(typeof(PlayerLogic));
             playerlogic.doDamage(damage);
             Destroy(this.gameObject);
             //Debug.Log("Up in here");
+        }
+        else if (other.tag == "Destroy")
+        {
+            Destroy(this.gameObject);
         }
     }
 

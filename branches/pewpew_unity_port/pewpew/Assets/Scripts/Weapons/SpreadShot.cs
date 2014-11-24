@@ -10,13 +10,12 @@ public class SpreadShot : MonoBehaviour
     [SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 30f;
     [SerializeField] private int numberOfBullets = 3;
-    private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
     [SerializeField] private GameObject player;
     [SerializeField] private int energyCost = 15;
     [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
     [SerializeField] private int numberOfWaves = 3;
-    [SerializeField] private int numberOfArcs = 2;
+    [SerializeField] private int numberOfArcs = 1;
     [SerializeField] private float angleBetweenArcs = 10f;
     [SerializeField] private bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
     [SerializeField] private float rotationStartingAngle = 45f; // starting angle
@@ -113,16 +112,16 @@ public class SpreadShot : MonoBehaviour
 
     IEnumerator wave()
     {
-        float angleStep = ((firingAngle - (angleBetweenArcs * (numberOfArcs - 1 ))) / (numberOfBullets - 1));
+        float angleStep = ((firingAngle - (angleBetweenArcs * (numberOfArcs - 1))) / (numberOfBullets - 1));
+        //Debug.Log("Spreadshot: anglestep is " + angleStep);
         float bulletsPerArc = Mathf.Ceil(numberOfBullets / numberOfArcs);
 
         for (int i = 1; i <= numberOfBullets; i++)
         {
             //float rotationAngle = firingAngle/2 - ((i - 1) * angleStep) - ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs);
-            float rotationAngle = -1 * firingAngle / 2 + ((i - 1) * angleStep) + ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs);
-            Debug.Log("rotationAngle = " + rotationAngle);
-            GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
-            projectile.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
+            float rotationAngle = (-1 * firingAngle / 2 + ((i - 1) * angleStep) + ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs)) + transform.eulerAngles.y;
+            GameObject projectile = Instantiate(bullet, spawnPt.transform.position, Quaternion.identity) as GameObject;
+            projectile.transform.rotation = Quaternion.Euler(spawnPt.transform.rotation.x, rotationAngle, spawnPt.transform.rotation.z);
             projectile.gameObject.name = "SpreadShot";
             Destroy(projectile.gameObject, bulletLife);
         }

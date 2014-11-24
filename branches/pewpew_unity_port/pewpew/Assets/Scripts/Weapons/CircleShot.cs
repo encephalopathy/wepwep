@@ -10,13 +10,11 @@ public class CircleShot : MonoBehaviour
     [SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 360f;
     [SerializeField] private int numberOfBullets = 90;
-    [SerializeField] private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
     [SerializeField] private GameObject player;
     [SerializeField] private int energyCost = 15;
     [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
     [SerializeField] private int numberOfWaves = 1;
-    [SerializeField] private bool isPlayerWeapon = true;
     [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
 
@@ -39,7 +37,7 @@ public class CircleShot : MonoBehaviour
             aEnemyFireRate -= Time.deltaTime;
             if (aEnemyFireRate <= 0)
             {
-                StartCoroutine("fireSingle");
+                StartCoroutine("fireCircle");
                 aEnemyFireRate = enemyFireRate;
             }
         }

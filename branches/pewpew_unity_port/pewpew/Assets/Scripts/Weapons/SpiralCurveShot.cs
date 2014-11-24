@@ -10,13 +10,12 @@ public class SpiralCurveShot : MonoBehaviour
     [SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 360f;
     [SerializeField] private int numberOfBullets = 90;
-    private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
     [SerializeField] private GameObject player;
     [SerializeField] private int energyCost = 15;
     [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
     [SerializeField] private int numberOfWaves = 99;
-    [SerializeField] private int angleShiftValue = 0;
+    private float angleShiftValue = 0f;
     [SerializeField] private int angleShiftIncrement = 7;
     [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
@@ -32,7 +31,7 @@ public class SpiralCurveShot : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                StartCoroutine("fireCircle");
+                StartCoroutine("spiralCurve");
             }
         }
         else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
@@ -40,13 +39,13 @@ public class SpiralCurveShot : MonoBehaviour
             aEnemyFireRate -= Time.deltaTime;
             if (aEnemyFireRate <= 0)
             {
-                StartCoroutine("fireCircle");
+                StartCoroutine("spiralCurve");
                 aEnemyFireRate = enemyFireRate;
             }
         }
     }
 
-    IEnumerator fireCircle()
+    IEnumerator spiralCurve()
     {
         if (transform.parent.tag == "Player")
         {
@@ -89,8 +88,7 @@ public class SpiralCurveShot : MonoBehaviour
 
     IEnumerator wave()
     {
-        float angleStep = (firingAngle/(numberOfBullets - 1));
-
+        float angleStep = (firingAngle/numberOfBullets);
         for (int i = 1; i <= numberOfBullets; i++)
         {
             //float rotationAngle = firingAngle/2 - ((i - 1) * angleStep - angleShiftValue);

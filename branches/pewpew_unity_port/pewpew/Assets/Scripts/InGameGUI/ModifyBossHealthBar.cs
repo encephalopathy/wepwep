@@ -8,6 +8,6 @@ public class ModifyBossHealthBar : MonoBehaviour {
 	public void GetHit (int adj) {
 		BossHealthBar BossHealthbar = (BossHealthBar)target.GetComponent("BossHealthBar");
 		BossHealthbar.AdjustCurrentBossHealth(adj);
-        Debug.Log("modifybosshealthbar: adjusting health by "+adj);
+        //Debug.Log("modifybosshealthbar: adjusting health by "+adj);
 	} 
 }

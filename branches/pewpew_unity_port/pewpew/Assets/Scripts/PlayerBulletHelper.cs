@@ -3,13 +3,10 @@ using System.Collections;
 
 public class PlayerBulletHelper : MonoBehaviour
 {
+    [SerializeField] private int bulletVelocity = 10;
 
-    public float velX;
-    public float velY;
-    public float velZ;
-
-    public int damage = 1;
-	public int NRGCost = 5;
+    [SerializeField] private int damage = 1;
+    [SerializeField] private int NRGCost = 5;
     private bool hasCollided = false;
 
 	// Use this for initialization
@@ -19,11 +16,11 @@ public class PlayerBulletHelper : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	   	this.gameObject.transform.Translate(Vector3.forward * 50 * Time.deltaTime);
         if (hasCollided == true)
         {
             this.collider.enabled = false;
         }
+	   	this.gameObject.transform.Translate(Vector3.forward * bulletVelocity * Time.deltaTime);
 	}
 
 

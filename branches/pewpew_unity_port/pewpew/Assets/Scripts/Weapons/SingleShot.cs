@@ -22,6 +22,9 @@ public class SingleShot : MonoBehaviour
     //[SerializeField] private bool SingleShotIsPlayerWeapon = true;
     [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
+    private float rotationX = 0;
+    private float rotationY = 0;
+    private float rotationZ = 0;
 
     void start()
     {
@@ -138,12 +141,32 @@ public class SingleShot : MonoBehaviour
 
     IEnumerator wave()
     {
-            GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
-            //projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
-            projectile.transform.rotation = spawnPt.transform.rotation;
-            projectile.gameObject.name = "SingleShot";
-            Destroy(projectile.gameObject, bulletLife);
-            return null;
+        GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
+        //projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
+        /*if (projectile.transform.eulerAngles.x != 0f)
+        {
+            rotationX = projectile.transform.eulerAngles.x;
+            Debug.Log("rotationX is " + rotationX);
+        }
+        if (projectile.transform.eulerAngles.y != 0f)
+        {
+            rotationY = projectile.transform.eulerAngles.y;
+            Debug.Log("rotationY is " + rotationY);
+        }
+        if (projectile.transform.eulerAngles.z != 0f)
+        {
+            rotationZ = projectile.transform.eulerAngles.z;
+            Debug.Log("rotationZ is " + rotationZ);
+        }
+        projectile.transform.eulerAngles =  new Vector3(spawnPt.transform.eulerAngles.x + rotationX, spawnPt.transform.eulerAngles.y + rotationY, spawnPt.transform.eulerAngles.z + rotationZ);
+        //projectile.transform.forward.Set(projectile.transform.eulerAngles.x - rotationX, projectile.transform.eulerAngles.y - rotationY, projectile.transform.eulerAngles.z - rotationZ);
+        projectile.transform.forward = new Vector3(0f, 0f, 1f);
+        Debug.Log("projectile.transform.eulerAngles is " + projectile.transform.eulerAngles);
+        Debug.Log("projectile.transform.forward is " + projectile.transform.forward);*/
+        projectile.transform.rotation = spawnPt.transform.rotation;
+        projectile.gameObject.name = "SingleShot";
+        Destroy(projectile.gameObject, bulletLife);
+        return null;
     }
 
     IEnumerator rotatingWave()

@@ -37,11 +37,29 @@ public class PlayerLogic : MonoBehaviour
 		if(currentNRG < maxNRG) {
 			currentNRG+= 20f*Time.deltaTime;
 		}
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        /*if (horizontal < 1 && horizontal > 0)
+        {
+            horizontal = 1;
+        }
+        else if(horizontal > -1 && horizontal < 0)
+        {
+            horizontal = -1;
+        }
+        if (vertical < 1 && vertical > 0)
+        {
+            vertical = 1;
+        }
+        else if (vertical > -1 && vertical < 0)
+        {
+            vertical = -1;
+        }*/
 
         Vector3 direction = new Vector3(horizontal, 0, invert * vertical);
         Vector3 finalDirection = new Vector3(horizontal, invert * vertical, 1.0f);
+        Debug.Log("direction is " + direction);
 
 		if (Input.touchCount > 0 && 
 		    Input.GetTouch(0).phase == TouchPhase.Moved) {

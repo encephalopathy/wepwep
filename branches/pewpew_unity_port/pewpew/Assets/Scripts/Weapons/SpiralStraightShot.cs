@@ -11,7 +11,6 @@ public class SpiralStraightShot : MonoBehaviour
     [SerializeField] private float angle = 360f;
     [SerializeField] private int numberOfBullets = 90;
     [SerializeField] private int numberOfWaves = 5;
-    [SerializeField] private Transform spawnBullet;
     [SerializeField] private Vector3 tmpVector = new Vector3(0f, 0f, 0f);
     [SerializeField] private GameObject player;
     [SerializeField] private bool clockwise = true;
@@ -24,14 +23,13 @@ public class SpiralStraightShot : MonoBehaviour
         aEnemyFireRate = enemyFireRate;
     }
 
-
     void Update()
     {
         if (transform.parent.tag == "Player")
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                StartCoroutine("fireCircle");
+                StartCoroutine("spiralStraight");
             }
         }
         else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
@@ -39,13 +37,13 @@ public class SpiralStraightShot : MonoBehaviour
             aEnemyFireRate -= Time.deltaTime;
             if (aEnemyFireRate <= 0)
             {
-                StartCoroutine("fireCircle");
+                StartCoroutine("spiralStraight");
                 aEnemyFireRate = enemyFireRate;
             }
         }
     }
 
-    IEnumerator fireCircle()
+    IEnumerator spiralStraight()
     {
         if (transform.parent.tag == "Player")
         {
