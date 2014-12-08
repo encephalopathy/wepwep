@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyTurretLogic : MonoBehaviour {
+public class EnemyTurretLogic : MonoBehaviour
+{
 
-    public Transform player;
+    [SerializeField] private Transform player;
 
 	// Use this for initialization
 	void Start () {

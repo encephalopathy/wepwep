@@ -22,7 +22,9 @@ public class PlayerLogic : MonoBehaviour
     private bool alive = true;
     public bool isFiring = false; //Do not touch
 
-	public int score = 10000;
+    public bool isPlayerInvincible = false;
+
+	public int score = 0;
 
     void Start()
     {
@@ -97,22 +99,24 @@ public class PlayerLogic : MonoBehaviour
 
     public void doDamage(int amount)
     {
-
-        if (cooldownTime <= 0)
+        if (!isPlayerInvincible)
         {
-            currentHealth -= amount;
-            ModifyHealthBar hb = (ModifyHealthBar)GetComponent(typeof(ModifyHealthBar));
-            hb.GetHit(-amount);
-            cooldownTime = 1;
-			//ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera)); // taken out at the moment, may be added in for boss intros
-			//other.DoShake();
+            if (cooldownTime <= 0)
+            {
+                currentHealth -= amount;
+                ModifyHealthBar hb = (ModifyHealthBar)GetComponent(typeof(ModifyHealthBar));
+                hb.GetHit(-amount);
+                cooldownTime = 1;
+                //ShakeCamera other = (ShakeCamera)camera.GetComponent(typeof(ShakeCamera)); // taken out at the moment, may be added in for boss intros
+                //other.DoShake();
+            }
+            if (currentHealth <= 0 && alive)
+            {
+                Instantiate(explosion, transform.position, transform.rotation);
+                Destroy(this.gameObject);
+                alive = false;
+            }
         }
-        if (currentHealth <= 0 && alive)
-        {
-            Instantiate(explosion, transform.position, transform.rotation);
-            Destroy(this.gameObject);
-            alive = false;
-        }        
     }
 
     //Basic collision detection checking for two differently named objects

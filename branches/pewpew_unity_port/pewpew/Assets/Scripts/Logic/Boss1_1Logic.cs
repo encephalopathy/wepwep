@@ -5,12 +5,15 @@ public class Boss1_1Logic : EnemyLogic {
 
     private int phase;
     private int subPhase;
+    private bool changingPhase = false;
     [SerializeField] private GameObject boss;
     [SerializeField] private GameObject LeftTurret;
     [SerializeField] private GameObject RightTurret;
     [SerializeField] private GameObject LeftBooster;
     [SerializeField] private GameObject RightBooster;
-    [SerializeField] private float subPhaseDuration = 5;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float initialSubPhaseDuration = 5;
+    private float subPhaseDuration;
     [SerializeField] private float phase1HPCondition = 0.6f;
     [SerializeField] private float phase2HPCondition = 0.3f;
 
@@ -20,6 +23,7 @@ public class Boss1_1Logic : EnemyLogic {
         //CurrentHealth = 1000;
         phase = 1;
         subPhase = 1;
+        subPhaseDuration = initialSubPhaseDuration;
 	}
 	
 	// Update is called once per frame
@@ -46,7 +50,7 @@ public class Boss1_1Logic : EnemyLogic {
                         subPhase = 1;
                         subPhase1Attacks();
                     }
-                    subPhaseDuration = 5;
+                    subPhaseDuration = initialSubPhaseDuration;
                 }
             }
             else
@@ -56,7 +60,17 @@ public class Boss1_1Logic : EnemyLogic {
         }
         else if (phase == 2)
         {
-            if (subPhaseDuration <= 0)
+            if (changingPhase)
+            {
+                // code for switching splines
+                // enable the next set of weapons as well
+                if (subPhaseDuration <= 0)
+                {
+                    changingPhase = false;
+                    subPhaseDuration = initialSubPhaseDuration;
+                }
+            }
+            else if (subPhaseDuration <= 0)
             {
                 if (subPhase == 3)
                 {
@@ -68,20 +82,28 @@ public class Boss1_1Logic : EnemyLogic {
                     subPhase = 3;
                     subPhase3Attacks();
                 }
-                subPhaseDuration = 5;
+                subPhaseDuration = initialSubPhaseDuration;
             }
         }
 	}
+
+    public void Die()
+    {
+        player.GetComponent<PlayerLogic>().isPlayerInvincible = true;
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(this.gameObject);
+    }
 
     void phaseChange1And2To3And4()
     {
         phase = 2;
         subPhase = 3;
-        subPhase3Attacks();
+        //subPhase3Attacks();
         RightTurret.GetComponent<SingleShot>().enabled = false;
         LeftTurret.GetComponent<SingleShot>().enabled = false;
         RightTurret.GetComponent<DoubleShot>().enabled = false;
         LeftTurret.GetComponent<DoubleShot>().enabled = false;
+        changingPhase = true;
     }
 
     void subPhase1Attacks()
