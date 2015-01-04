@@ -22,11 +22,14 @@ public class EnemySplineController : SplineController {
 
 	protected override void DrawGoKitSplineController ()
 	{
-		List<SplineNode> splineNodes = new List<SplineNode>(); 
+		List<SplineNode> splineNodes = new List<SplineNode>();
 		for (int i = 0; i < SpawnGroup.Length; ++i) {
 			ChangeGizmoColor(i);
 			SplineRoot = SpawnGroup[i];
 			base.DrawGoKitSplineController();
+		}
+		if (SpawnGroup.Length > 0) {
+			SplineRoot = SpawnGroup[SplineToExecute];
 		}
 	}
 
@@ -48,11 +51,11 @@ public class EnemySplineController : SplineController {
 	public override void FollowSpline (OnPathEndCallback endCallback, OnNodeArrivalCallback nodeCallback1, OnNodeLeavingCallback nodeCallback2)
 	{
 		base.FollowSpline (endCallback, nodeCallback1, nodeCallback2);
-		if (mSplineNodeInfo.Length == 0 ) {
+		/*if (mSplineNodeInfo.Length == 0 ) {
 		    if (SplineToExecute < SpawnGroup.Length) {
 				SplineToExecute++;
 			}
-		}
+		}*/
 
 	}
 
