@@ -23,7 +23,7 @@ public class SplineController : MonoBehaviour
 	public bool AutoClose = true;
 	public bool HideOnExecute = true;
 
-	SplineInterpolator mSplineInterp;
+	protected SplineInterpolator mSplineInterp;
 	
 	// for better performance we precompute the list of nodes and we re-use the
 	// same SplineNode class used by SplineInterpolator (which is what does the real job);
@@ -33,7 +33,7 @@ public class SplineController : MonoBehaviour
 	//   - Rot
 	//   - BreakTime
 	//   - Name
-	SplineNode[] mSplineNodeInfo;
+	protected SplineNode[] mSplineNodeInfo;
 	
 	
 	// --------------------------------------------------------------------------------------------
@@ -42,20 +42,25 @@ public class SplineController : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
+		Gizmos.color = Color.red;
+		DrawGoKitSplineController();
+	}
+
+	protected virtual void DrawGoKitSplineController() {
 		//Debug.Log("drawing gizmos SplineController");
 		SplineNode[] info = GetSplineNodes();
 		if (info.Length < 2)
 			return;
-
+		
 		SplineInterpolator interp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 		SetupSplineInterpolator(interp, info);
 		interp.StartInterpolation(null, null, null, /* callbacks */
-								  false /* no rotations */, WrapMode);
-
+		                          false /* no rotations */, WrapMode);
+		
 		Vector3 prevPos = info[0].Point;
 		float endTime = GetDuration(info);
 		
-		Gizmos.color = Color.red;
+
 		for (int c = 0; c <= 100; c++)
 		{
 			Vector3 currPos = interp.GetHermiteAtTime((float)c * endTime / 100.0f);
@@ -63,7 +68,7 @@ public class SplineController : MonoBehaviour
 			/* USEFUL SANITY CHECK TO DO IN THE DEBUGGER*/
 			if (float.IsNaN(currPos.x))
 				Debug.Log("NaN while drawing gizmos!!!!"); // should never arrive here!
-		
+			
 			//float mag = (currPos-prevPos).magnitude * 2;
 			//Gizmos.color = new Color(mag, 0, 0, 1);
 			Gizmos.DrawLine(prevPos, currPos);
@@ -74,13 +79,17 @@ public class SplineController : MonoBehaviour
 
 	void Start()
 	{
+		OnStart();
+	}
+
+	protected virtual void OnStart() {
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
-
+		
 		mSplineNodeInfo = GetSplineNodes();
-
+		
 		if (HideOnExecute)
 			DisableNodeObjects();
-
+		
 		if (AutoStart)
 			FollowSpline();
 	}
@@ -119,7 +128,7 @@ public class SplineController : MonoBehaviour
 	/// <summary>
 	/// Starts the interpolation
 	/// </summary>
-	public void FollowSpline(OnPathEndCallback endCallback, 
+	public virtual void FollowSpline(OnPathEndCallback endCallback, 
 							 OnNodeArrivalCallback nodeCallback1, OnNodeLeavingCallback nodeCallback2)
 	{
 		if (mSplineNodeInfo.Length > 0)
@@ -188,7 +197,7 @@ public class SplineController : MonoBehaviour
 	/// <summary>
 	/// Returns children transforms, sorted by name.
 	/// </summary>
-	SplineNode[] GetSplineNodes()
+	protected SplineNode[] GetSplineNodes()
 	{
 		if (SplineRoot == null)
 			return null;
