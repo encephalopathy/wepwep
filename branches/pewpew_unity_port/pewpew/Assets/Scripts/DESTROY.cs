@@ -14,6 +14,6 @@ public class DESTROY : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.name != "EnemyTrain")Destroy(other.gameObject);
+		if(other.name != "EnemyTrain" && other.tag == "Enemy")Destroy(other.gameObject);
 	}
 }
