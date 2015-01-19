@@ -16,7 +16,7 @@ using System.Collections.Generic;
 /// </summary>
 public class EnemySplineController : SplineController {
 	/// <summary>
-	/// The spawn group.
+	/// The spawn group: A colection of splines that make up which enemy flights paths that this game object can switch to.
 	/// </summary>
 	public GameObject[] SpawnGroup;
 	private bool _hasSwappedSpline;
@@ -24,7 +24,7 @@ public class EnemySplineController : SplineController {
 	public int _splineToExecute = 0;
 
 	/// <summary>
-	/// 
+	/// Sets which spline to activate within the SpawnGroup, the default value for this is zero.
 	/// </summary>
 	/// <value>The spline to execute.</value>
 	public int SplineToExecute { 
@@ -89,6 +89,9 @@ public class EnemySplineController : SplineController {
 		base.FollowSpline (endCallback, nodeCallback1, nodeCallback2);
 	}
 
+	/// <summary>
+	/// Disables the spline objects, we don't need them outside design-time.
+	/// </summary>
 	public override void DisableNodeObjects ()
 	{
 		for (int i = 0; i < SpawnGroup.Length; ++i) {
