@@ -5,18 +5,39 @@ using System.Collections.Generic;
 [AddComponentMenu("Splines/Spline Controller")]
 [RequireComponent(typeof(SplineInterpolator))]
 
+/// <summary>
+/// Enemy spline controller.
+/// Enemy Spline Controller holds all the spline roots, the splines which are used to animate our enemies, in an array
+/// called Spawn Group.  Every Spline has its own color and can be manipulated in the editor screen.  There is a event handler you can subscrine to
+/// called "OnSplineSwapped" if you want to listen to when a spline has swapped for the enemy that owns this spline controller.  This is useful for when we need an enemy to switch to a different
+/// path based on in-game events.  We can switch to a different spline by grabbing this component and setting the "SplineToExecute: property to a
+/// different number.  The "SplineToExcute" flag maps an index in the array so be careful not to set the SplineToExecute property to value that is not
+/// contained within the length of the array.
+/// </summary>
 public class EnemySplineController : SplineController {
+	/// <summary>
+	/// The spawn group.
+	/// </summary>
 	public GameObject[] SpawnGroup;
-	public bool isSpawning = false;
+	private bool _hasSwappedSpline;
+	public SplineSwappedEventHandler OnSplineSwapped;
 	public int _splineToExecute = 0;
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <value>The spline to execute.</value>
 	public int SplineToExecute { 
 		get {
 			return _splineToExecute;
 		} 
 		set {
-			if (value < SpawnGroup.Length) {
+			if (value < SpawnGroup.Length && value > 0) {
 				SpawnGroup[_splineToExecute].SetActive(false);
 				SpawnGroup[value].SetActive(true);
+				if (OnSplineSwapped != null) {
+					OnSplineSwapped(this, value);
+				}
 			}
 			_splineToExecute = value;
 		}
@@ -106,3 +127,9 @@ public class EnemySplineController : SplineController {
 	}
 
 }
+
+/// <summary>
+/// The Spline Swapped Event Handler is used to register functions that want to listen to when a spline has switched for this
+/// EnemySplineController.
+/// </summary>
+public delegate void SplineSwappedEventHandler(EnemySplineController sender, int splineNumber);
