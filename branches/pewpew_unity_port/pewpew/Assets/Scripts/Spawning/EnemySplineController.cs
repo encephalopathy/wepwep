@@ -8,7 +8,21 @@ using System.Collections.Generic;
 public class EnemySplineController : SplineController {
 	public GameObject[] SpawnGroup;
 	public bool isSpawning = false;
-	public int SplineToExecute = 0;
+	public int _splineToExecute = 0;
+	public int SplineToExecute { 
+		get {
+			return _splineToExecute;
+		} 
+		set {
+			if (value < SpawnGroup.Length) {
+				SpawnGroup[_splineToExecute].SetActive(false);
+				SpawnGroup[value].SetActive(true);
+			}
+			_splineToExecute = value;
+		}
+	}
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +43,7 @@ public class EnemySplineController : SplineController {
 			base.DrawGoKitSplineController();
 		}
 		if (SpawnGroup.Length > 0) {
-			SplineRoot = SpawnGroup[SplineToExecute];
+			SplineRoot = SpawnGroup[_splineToExecute];
 		}
 	}
 
@@ -37,13 +51,14 @@ public class EnemySplineController : SplineController {
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
 		if (SplineToExecute < SpawnGroup.Length) {
-			SplineRoot = SpawnGroup[SplineToExecute];
+			SplineRoot = SpawnGroup[_splineToExecute];
+
 			mSplineNodeInfo = GetSplineNodes();
 		}
 		
 		if (HideOnExecute)
 			DisableNodeObjects();
-		
+
 		if (AutoStart)
 			FollowSpline();
 	}
@@ -51,12 +66,15 @@ public class EnemySplineController : SplineController {
 	public override void FollowSpline (OnPathEndCallback endCallback, OnNodeArrivalCallback nodeCallback1, OnNodeLeavingCallback nodeCallback2)
 	{
 		base.FollowSpline (endCallback, nodeCallback1, nodeCallback2);
-		/*if (mSplineNodeInfo.Length == 0 ) {
-		    if (SplineToExecute < SpawnGroup.Length) {
-				SplineToExecute++;
-			}
-		}*/
+	}
 
+	public override void DisableNodeObjects ()
+	{
+		for (int i = 0; i < SpawnGroup.Length; ++i) {
+			if (SpawnGroup[i] != null) {
+				SpawnGroup[i].SetActive(false);
+			}
+		}
 	}
 
 	private void ChangeGizmoColor(int i) {
