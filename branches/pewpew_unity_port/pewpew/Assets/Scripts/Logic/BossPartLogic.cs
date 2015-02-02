@@ -13,6 +13,7 @@ public class BossPartLogic : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+
 	}
 	
 	// Update is called once per frame
@@ -31,7 +32,9 @@ public class BossPartLogic : MonoBehaviour
     {
         health -= amount;
         amount *= damageModifier;
-        boss.GetComponent<EnemyLogic>().doDamage(amount);
+        //boss.GetComponent<EnemyLogic>().doDamage(amount);
+        BossLogic enemylogic = (BossLogic)boss.gameObject.GetComponent(typeof(BossLogic));
+        enemylogic.doDamage(amount);
         ModifyBossHealthBar bossHealthBar = (ModifyBossHealthBar) boss.gameObject.GetComponent(typeof(ModifyBossHealthBar));
         bossHealthBar.GetHit(amount);
         if (health <= 0 && alive)

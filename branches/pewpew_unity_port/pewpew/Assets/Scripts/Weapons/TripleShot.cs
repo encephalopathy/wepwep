@@ -7,7 +7,7 @@ public class TripleShot : MonoBehaviour
     [SerializeField] private float velocity = 10.0f;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource pew;
-    [SerializeField] private float BulletLife = 3f;
+    //[SerializeField] private float BulletLife = 3f;
     [SerializeField] private float bulletSpread = 30f;
     [SerializeField] private int numberOfBullets = 3;
     [SerializeField] private Vector3 tmpVector = new Vector3(0f, 0f, 0f);
@@ -82,7 +82,7 @@ public class TripleShot : MonoBehaviour
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
             projectile.transform.rotation = Quaternion.Euler(0, (angle * i) - (bulletSpread / 2), 0);
             projectile.gameObject.name = "TripleShot";
-            Destroy(projectile.gameObject, BulletLife);
+            //Destroy(projectile.gameObject, BulletLife);
         }
         return null;
     }

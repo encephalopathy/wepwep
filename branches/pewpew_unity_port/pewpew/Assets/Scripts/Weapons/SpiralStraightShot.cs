@@ -7,7 +7,7 @@ public class SpiralStraightShot : MonoBehaviour
     [SerializeField] private float velocity = 10.0f;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource pew;
-    [SerializeField] private float BulletLife = 3f;
+    //[SerializeField] private float BulletLife = 3f;
     [SerializeField] private float angle = 360f;
     [SerializeField] private int numberOfBullets = 90;
     [SerializeField] private int numberOfWaves = 5;
@@ -94,7 +94,7 @@ public class SpiralStraightShot : MonoBehaviour
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - (angle / 2), 0);
                 projectile.gameObject.name = "SpiralStraightShot";
                 yield return new WaitForSeconds(.001f);
-                Destroy(projectile.gameObject, BulletLife);
+                //Destroy(projectile.gameObject, BulletLife);
             }
         }
         else
@@ -105,7 +105,7 @@ public class SpiralStraightShot : MonoBehaviour
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - (angle / 2), 0);
                 projectile.gameObject.name = "SpiralStraightShot";
                 yield return new WaitForSeconds(.001f);
-                Destroy(projectile.gameObject, BulletLife);
+                //Destroy(projectile.gameObject, BulletLife);
             }
         }
     }
