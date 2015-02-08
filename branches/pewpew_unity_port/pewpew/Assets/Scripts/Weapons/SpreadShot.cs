@@ -7,7 +7,7 @@ public class SpreadShot : MonoBehaviour
     [SerializeField] private float bulletSpeed = 10.0f; //currently unused
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
+    //[SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 30f;
     [SerializeField] private int numberOfBullets = 3;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
@@ -123,7 +123,7 @@ public class SpreadShot : MonoBehaviour
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position, Quaternion.identity) as GameObject;
             projectile.transform.rotation = Quaternion.Euler(spawnPt.transform.rotation.x, rotationAngle, spawnPt.transform.rotation.z);
             projectile.gameObject.name = "SpreadShot";
-            Destroy(projectile.gameObject, bulletLife);
+            //Destroy(projectile.gameObject, bulletLife);
         }
         return null;
     }

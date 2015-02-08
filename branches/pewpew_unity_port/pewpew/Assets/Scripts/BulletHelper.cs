@@ -5,13 +5,14 @@ public class BulletHelper : MonoBehaviour
 {
 
     [SerializeField] private float bulletVelocity = 10;
-
+    [SerializeField] private float bulletLife = 5f;
     [SerializeField] private int damage = 15;
 
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+        Destroy(this.gameObject, bulletLife);
 	}
 	
 	// Update is called once per frame
@@ -45,6 +46,12 @@ public class BulletHelper : MonoBehaviour
             Destroy(this.gameObject);
             //Debug.Log("Up in here");
         }
+        else if (other.tag == "PlayerShield")
+        {
+            ShieldLogic shieldLogic = (ShieldLogic)other.gameObject.GetComponent(typeof(ShieldLogic));
+            shieldLogic.doDamage(damage);
+            Destroy(this.gameObject);
+        }    
         else if (other.tag == "Destroy")
         {
             Destroy(this.gameObject);

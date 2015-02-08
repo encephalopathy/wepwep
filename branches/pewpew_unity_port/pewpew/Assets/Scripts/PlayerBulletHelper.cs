@@ -4,13 +4,15 @@ using System.Collections;
 public class PlayerBulletHelper : MonoBehaviour
 {
     [SerializeField] private int bulletVelocity = 10;
-
+    [SerializeField] private float bulletLife = 5f;
     [SerializeField] private int damage = 1;
     [SerializeField] private int NRGCost = 5;
     private bool hasCollided = false;
 
 	// Use this for initialization
-	void Start () {
+    void Start()
+    {
+        Destroy(this.gameObject, bulletLife);
 	}
 	
 	// Update is called once per frame
@@ -61,7 +63,7 @@ public class PlayerBulletHelper : MonoBehaviour
             {
                 //Debug.Log("playerBullethelper.cs: hitting a boss and the damage is "+damage);
                 //Destroy(this.gameObject);
-                EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
+                BossLogic enemylogic = (BossLogic)other.gameObject.GetComponent(typeof(BossLogic));
                 enemylogic.doDamage(damage);
                 ModifyBossHealthBar bossHealthBar = (ModifyBossHealthBar)other.gameObject.GetComponent(typeof(ModifyBossHealthBar));
                 bossHealthBar.GetHit(damage);

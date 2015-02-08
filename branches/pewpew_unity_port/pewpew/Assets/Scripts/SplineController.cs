@@ -49,7 +49,7 @@ public class SplineController : MonoBehaviour
 	protected virtual void DrawGoKitSplineController() {
 		//Debug.Log("drawing gizmos SplineController");
 		SplineNode[] info = GetSplineNodes();
-		if (info.Length < 2)
+		if (info == null || info.Length < 2)
 			return;
 		
 		SplineInterpolator interp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
@@ -199,8 +199,10 @@ public class SplineController : MonoBehaviour
 	/// </summary>
 	protected SplineNode[] GetSplineNodes()
 	{
-		if (SplineRoot == null)
+		if (SplineRoot == null) {
+			Debug.Log("Spline root is null");
 			return null;
+		}
 		
 		List<Component> components = 
 			new List<Component>(SplineRoot.GetComponentsInChildren(typeof(Transform)));
@@ -225,7 +227,10 @@ public class SplineController : MonoBehaviour
 			else
 				info.Add(new SplineNode("", element.transform, 0));
 		}
-
+		//Debug.Log("Spline nodes created");
+		//for (int i = 0; i < info.Count; ++i) {
+			//Debug.Log("Spline Node: " + info[i].GetLeaveTime());
+		//}
 		return info.ToArray();
 	}
 }

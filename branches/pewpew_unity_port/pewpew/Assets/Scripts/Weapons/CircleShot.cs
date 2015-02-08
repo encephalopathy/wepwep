@@ -7,7 +7,7 @@ public class CircleShot : MonoBehaviour
     [SerializeField] private float bulletSpeed = 10.0f; //currently unused
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
+    //[SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 360f;
     [SerializeField] private int numberOfBullets = 90;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
@@ -94,7 +94,7 @@ public class CircleShot : MonoBehaviour
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
             projectile.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
             projectile.gameObject.name = "CircleShot";
-            Destroy(projectile.gameObject, bulletLife);
+            //Destroy(projectile.gameObject, bulletLife);
         }
         return null;
     }

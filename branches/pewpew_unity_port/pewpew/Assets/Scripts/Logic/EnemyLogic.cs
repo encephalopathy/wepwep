@@ -5,13 +5,14 @@ public class EnemyLogic : MonoBehaviour
 {
 
     public GameObject explosion;
-    public int MaxHealth = 100;
+    public int MaxHealth = 1;
     public int CurrentHealth;
-
+    [SerializeField] private bool itemDroppable = false;
     private bool alive = true;
+
 	// Use this for initialization
 	void Start () {
-        //CurrentHealth = MaxHealth;
+        CurrentHealth = MaxHealth;
 	}
 	
 	// Update is called once per frame
@@ -19,17 +20,21 @@ public class EnemyLogic : MonoBehaviour
 	
 	}
 
-    public void Die()
+    public virtual void Die()
     {
         Instantiate(explosion, transform.position, transform.rotation);
+        if (itemDroppable)
+        {
+            this.gameObject.GetComponent<ItemDropLogic>().SpawnItem();
+        }
+        //Debug.Log("EnemyLogic, enemy Die()");
         Destroy(this.gameObject);
+        //this.gameObject.GetComponent<ItemDropLogic>().
     }
 
-    public void doDamage(int amount)
+    public virtual void doDamage(int amount)
     {
-        //Debug.Log("EnemyLogic: CurrentHealth before damage is "+CurrentHealth);
         CurrentHealth -= amount;
-        //Debug.Log("EnemyLogic: CurrentHealth after damage is "+CurrentHealth);
         if (CurrentHealth <= 0 && alive)
         {
             Die();
@@ -42,12 +47,17 @@ public class EnemyLogic : MonoBehaviour
     {
         //Debug.Log("An enemy got hit");
         
-        if (theCollision.gameObject.name == "Ship")
+        //if (theCollision.gameObject.name == "Ship")
+        if (theCollision.gameObject.tag == "Player")
         {
             Die();
-            EnemyLogic other = (EnemyLogic)theCollision.gameObject.GetComponent(typeof(EnemyLogic));
-            other.doDamage(50);
+            PlayerLogic player = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
+            player.doDamage(50);
             //Debug.Log("You crashed!");
+        }
+        else if (theCollision.gameObject.tag == "Destroy")
+        {
+            Destroy(this.gameObject);
         }
 
     }

@@ -7,7 +7,7 @@ public class DoubleShot : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
+    //[SerializeField] private float bulletLife = 3f;
     private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(1f, 0f, 0f);
     [SerializeField] private GameObject player;
@@ -116,8 +116,8 @@ public class DoubleShot : MonoBehaviour
         projectile2.transform.rotation = spawnPt.transform.rotation;
         projectile1.gameObject.name = "DoubleShot";
         projectile2.gameObject.name = "DoubleShot";
-        Destroy(projectile1.gameObject, bulletLife);
-        Destroy(projectile2.gameObject, bulletLife);
+        /*Destroy(projectile1.gameObject, bulletLife);
+        Destroy(projectile2.gameObject, bulletLife);*/
         return null;
     }
 }

@@ -7,7 +7,7 @@ public class SingleShot : MonoBehaviour
     [SerializeField] private float bulletSpeed = 10.0f; //currently unused
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
+    //[SerializeField] private float bulletLife = 3f;
     private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
     [SerializeField] private GameObject player;
@@ -102,7 +102,9 @@ public class SingleShot : MonoBehaviour
         {
             if (!spawnPt)
             {
-                spawnPt = GameObject.Find("oneSpawn");
+                Debug.Log("SingleShot, no spawnpoint for bullets");
+                spawnPt = this.gameObject;
+                //spawnPt = GameObject.Find("oneSpawn");
             }
             if (willRotate)
             {
@@ -165,7 +167,7 @@ public class SingleShot : MonoBehaviour
         Debug.Log("projectile.transform.forward is " + projectile.transform.forward);*/
         projectile.transform.rotation = spawnPt.transform.rotation;
         projectile.gameObject.name = "SingleShot";
-        Destroy(projectile.gameObject, bulletLife);
+        //Destroy(projectile.gameObject, bulletLife);
         return null;
     }
 
@@ -180,7 +182,7 @@ public class SingleShot : MonoBehaviour
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - rotationStartingAngle, 0);
                 projectile.gameObject.name = "SingleShot";
                 yield return new WaitForSeconds(delayBetweenBullets);
-                Destroy(projectile.gameObject, bulletLife);
+                //Destroy(projectile.gameObject, bulletLife);
             }
             // right to left
             for (int i = bulletsPerWave; i > 0; i--)
@@ -189,7 +191,7 @@ public class SingleShot : MonoBehaviour
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - rotationStartingAngle, 0);
                 projectile.gameObject.name = "SingleShot";
                 yield return new WaitForSeconds(delayBetweenBullets);
-                Destroy(projectile.gameObject, bulletLife);
+                //Destroy(projectile.gameObject, bulletLife);
             }
         }
         

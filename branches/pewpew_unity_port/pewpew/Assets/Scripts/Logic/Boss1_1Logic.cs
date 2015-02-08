@@ -29,6 +29,38 @@ public class Boss1_1Logic : EnemyLogic {
 	// Update is called once per frame
 	void Update () {
         subPhaseDuration -= Time.deltaTime;
+
+        if (player.GetComponent<BombWeapon>().bombActivated == true)
+        {
+            //Debug.Log("boss1_1logic, bombActivated is true inside update");
+            bombStun();
+        }
+        else if (player.GetComponent<BombWeapon>().bombActivated == false)
+        {
+            if (phase == 1)
+            {
+                if (subPhase == 1)
+                {
+                    subPhase1Attacks();
+                }
+                else if (subPhase == 2)
+                {
+                    subPhase2Attacks();
+                }
+            }
+            else if (phase == 2)
+            {
+                if (subPhase == 3)
+                {
+                    subPhase3Attacks();
+                }
+                else if (subPhase == 4)
+                {
+                    subPhase4Attacks();
+                }
+            }
+        }
+
         if (phase == 1)
         {
             if (RightBooster == null && LeftBooster == null)
@@ -43,12 +75,18 @@ public class Boss1_1Logic : EnemyLogic {
                     if (subPhase == 1)
                     {
                         subPhase = 2;
-                        subPhase2Attacks();
+                        if (player.GetComponent<BombWeapon>().bombActivated == false)
+                        {
+                            subPhase2Attacks();
+                        }
                     }
                     else if (subPhase == 2)
                     {
                         subPhase = 1;
-                        subPhase1Attacks();
+                        if (player.GetComponent<BombWeapon>().bombActivated == false)
+                        {
+                            subPhase1Attacks();
+                        }
                     }
                     subPhaseDuration = initialSubPhaseDuration;
                 }
@@ -75,24 +113,25 @@ public class Boss1_1Logic : EnemyLogic {
                 if (subPhase == 3)
                 {
                     subPhase = 4;
-                    subPhase4Attacks();
+                    if (player.GetComponent<BombWeapon>().bombActivated == false)
+                    {
+                        subPhase4Attacks();
+                    }
                 }
                 else if (subPhase == 4)
                 {
                     subPhase = 3;
-                    subPhase3Attacks();
+                    if (player.GetComponent<BombWeapon>().bombActivated == false)
+                    {
+                        subPhase3Attacks();
+                    }
                 }
                 subPhaseDuration = initialSubPhaseDuration;
             }
         }
-	}
+        
 
-    public void Die()
-    {
-        player.GetComponent<PlayerLogic>().isPlayerInvincible = true;
-        Instantiate(explosion, transform.position, transform.rotation);
-        Destroy(this.gameObject);
-    }
+	}
 
     void phaseChange1And2To3And4()
     {
@@ -136,5 +175,18 @@ public class Boss1_1Logic : EnemyLogic {
         LeftTurret.GetComponent<SpreadShot>().enabled = true;
         RightTurret.GetComponent<CircleShot>().enabled = false;
         LeftTurret.GetComponent<CircleShot>().enabled = false;
+    }
+
+    void bombStun()
+    {
+        //Debug.Log("boss1_1logic, boss stunned");
+        RightTurret.GetComponent<SpreadShot>().enabled = false;
+        LeftTurret.GetComponent<SpreadShot>().enabled = false;
+        RightTurret.GetComponent<CircleShot>().enabled = false;
+        LeftTurret.GetComponent<CircleShot>().enabled = false;
+        RightTurret.GetComponent<SingleShot>().enabled = false;
+        LeftTurret.GetComponent<SingleShot>().enabled = false;
+        RightTurret.GetComponent<DoubleShot>().enabled = false;
+        LeftTurret.GetComponent<DoubleShot>().enabled = false;
     }
 }
