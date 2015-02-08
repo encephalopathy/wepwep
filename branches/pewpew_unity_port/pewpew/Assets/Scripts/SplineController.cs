@@ -103,7 +103,7 @@ public class SplineController : MonoBehaviour
 	/// <summary>
 	/// Disables the spline objects, we don't need them outside design-time.
 	/// </summary>
-	public void DisableNodeObjects()
+	public virtual void DisableNodeObjects()
 	{
 		if (SplineRoot != null)
 		{
