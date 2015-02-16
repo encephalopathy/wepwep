@@ -20,7 +20,8 @@ public class SpawnEnemies : MonoBehaviour {
 			{
 				child.gameObject.SetActive(true);
 			} 
-			cube.transform.position = this.transform.position;
+			//cube.transform.position = this.transform.position;
+            cube.transform.position = new Vector3(0, 0, 0);
 			//SplineController _splineController = (SplineController)cube.GetComponent(typeof(SplineController));
 			//_splineController.FollowSpline();
 	}
