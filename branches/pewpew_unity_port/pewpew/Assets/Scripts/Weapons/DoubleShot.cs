@@ -7,7 +7,10 @@ public class DoubleShot : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    //[SerializeField] private float bulletLife = 3f;
+    [SerializeField] private string bulletName = "DoubleShot";
+    [SerializeField] private int bulletVelocity = 30;
+    [SerializeField] private float bulletLife = 10f;
+    [SerializeField] private int bulletDamage = 1;
     private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(1f, 0f, 0f);
     [SerializeField] private GameObject player;
@@ -112,10 +115,34 @@ public class DoubleShot : MonoBehaviour
     {
         GameObject projectile1 = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
         GameObject projectile2 = Instantiate(bullet, spawnPt.transform.position - bulletOffsetVector, Quaternion.identity) as GameObject;
+        if (transform.parent.tag == "Player")
+        {
+            projectile1.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+            projectile1.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+            projectile1.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+        }
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+        {
+            projectile1.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+            projectile1.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+            projectile1.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+        }
+        if (transform.parent.tag == "Player")
+        {
+            projectile2.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+            projectile2.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+            projectile2.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+        }
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+        {
+            projectile2.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+            projectile2.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+            projectile2.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+        }
         projectile1.transform.rotation = spawnPt.transform.rotation;
         projectile2.transform.rotation = spawnPt.transform.rotation;
-        projectile1.gameObject.name = "DoubleShot";
-        projectile2.gameObject.name = "DoubleShot";
+        projectile1.gameObject.name = bulletName;
+        projectile2.gameObject.name = bulletName;
         /*Destroy(projectile1.gameObject, bulletLife);
         Destroy(projectile2.gameObject, bulletLife);*/
         return null;
