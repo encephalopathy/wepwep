@@ -61,7 +61,7 @@ public class PlayerLogic : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0, invert * vertical);
         Vector3 finalDirection = new Vector3(horizontal, invert * vertical, 1.0f);
-        Debug.Log("direction is " + direction);
+        //Debug.Log("direction is " + direction);
 
 		if (Input.touchCount > 0 && 
 		    Input.GetTouch(0).phase == TouchPhase.Moved) {
