@@ -4,10 +4,12 @@ using System.Collections;
 public class SpiralCurveShot : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private float bulletSpeed = 10.0f; //currently unused
+    [SerializeField] private string bulletName = "SpiralCurveShot";
+    [SerializeField] private int bulletVelocity = 10;
+    [SerializeField] private float bulletLife = 3f;
+    [SerializeField] private int bulletDamage = 1;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 360f;
     [SerializeField] private int numberOfBullets = 90;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
@@ -94,9 +96,21 @@ public class SpiralCurveShot : MonoBehaviour
             //float rotationAngle = firingAngle/2 - ((i - 1) * angleStep - angleShiftValue);
             float rotationAngle = -i * angleStep - angleShiftValue;
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
+            if (transform.parent.tag == "Player")
+            {
+                projectile.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+                projectile.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+                projectile.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+            }
+            else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+            {
+                projectile.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+                projectile.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+                projectile.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+            }
             projectile.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
-            projectile.gameObject.name = "SpiralCurveShot";
-            Destroy(projectile.gameObject, bulletLife);
+            projectile.gameObject.name = bulletName;
+            //Destroy(projectile.gameObject, bulletLife);
             angleShiftValue = angleShiftValue + angleShiftIncrement;
         }
         return null;

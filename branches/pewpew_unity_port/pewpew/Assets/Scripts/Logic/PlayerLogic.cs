@@ -5,7 +5,7 @@ public class PlayerLogic : MonoBehaviour
 {
     public float movementSpeed = 1.0f;
     public int invert = -1; //Negative 1 for invert, positive 1 for not
-    public static int maxHealth = 100;
+    public int maxHealth = 100;
 
     public GameObject explosion;
     public GameObject camera;
@@ -13,8 +13,8 @@ public class PlayerLogic : MonoBehaviour
     public float maxX = 6.2f;
     public float maxZ = 2.3f;
     public int currentHealth = 100;
-	public float currentNRG = 100;
-	public float maxNRG = 100;
+	public float currentEnergy = 100;
+	public float maxEnergy = 100;
     public float cooldownTime = 0;
 
 	private float previousX;
@@ -36,8 +36,8 @@ public class PlayerLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if(currentNRG < maxNRG) {
-			currentNRG+= 20f*Time.deltaTime;
+		if(currentEnergy < maxEnergy) {
+			currentEnergy+= 20f*Time.deltaTime;
 		}
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -91,7 +91,7 @@ public class PlayerLogic : MonoBehaviour
 
 
 		ModifyEnergyBar eb = (ModifyEnergyBar)GetComponent(typeof(ModifyEnergyBar));
-		eb.Set(currentNRG);
+		eb.Set(currentEnergy);
 
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(finalDirection), Mathf.Deg2Rad * 40.0f);
         if (cooldownTime > 0) cooldownTime -= Time.deltaTime;
@@ -103,7 +103,9 @@ public class PlayerLogic : MonoBehaviour
         {
             if (cooldownTime <= 0)
             {
+                //Debug.Log("EnemyLogic: CurrentHealth before damage is " + currentHealth);
                 currentHealth -= amount;
+                //Debug.Log("EnemyLogic: CurrentHealth after damage is " + currentHealth);
                 ModifyHealthBar hb = (ModifyHealthBar)GetComponent(typeof(ModifyHealthBar));
                 hb.GetHit(-amount);
                 cooldownTime = 1;
@@ -156,10 +158,10 @@ public class PlayerLogic : MonoBehaviour
 
 	public bool canFire(int cost)
 	{
-		//Debug.Log(currentNRG + " is the players nrg" );
+		//Debug.Log(currentEnergy + " is the players nrg" );
 		bool _canFire=false;
-		if(currentNRG > cost && isFiring == false){
-			currentNRG -= cost;
+		if(currentEnergy > cost && isFiring == false){
+			currentEnergy -= cost;
 			_canFire=true;
             isFiring = true;
 		}

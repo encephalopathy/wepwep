@@ -4,10 +4,13 @@ using System.Collections;
 public class SingleShot : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private float bulletSpeed = 10.0f; //currently unused
+    [SerializeField] private string bulletName = "SingleShot";
+    [SerializeField] private int bulletVelocity = 30;
+    [SerializeField] private float bulletLife = 5f;
+    [SerializeField] private int bulletDamage = 5;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
+    //[SerializeField] private float bulletLife = 3f;
     private Transform spawnBullet;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
     [SerializeField] private GameObject player;
@@ -22,9 +25,9 @@ public class SingleShot : MonoBehaviour
     //[SerializeField] private bool SingleShotIsPlayerWeapon = true;
     [SerializeField] private float enemyFireRate = 2;
     private float aEnemyFireRate;
-    private float rotationX = 0;
+    /*private float rotationX = 0;
     private float rotationY = 0;
-    private float rotationZ = 0;
+    private float rotationZ = 0;*/ 
 
     void start()
     {
@@ -102,7 +105,9 @@ public class SingleShot : MonoBehaviour
         {
             if (!spawnPt)
             {
-                spawnPt = GameObject.Find("oneSpawn");
+                Debug.Log("SingleShot, no spawnpoint for bullets");
+                spawnPt = this.gameObject;
+                //spawnPt = GameObject.Find("oneSpawn");
             }
             if (willRotate)
             {
@@ -163,9 +168,21 @@ public class SingleShot : MonoBehaviour
         projectile.transform.forward = new Vector3(0f, 0f, 1f);
         Debug.Log("projectile.transform.eulerAngles is " + projectile.transform.eulerAngles);
         Debug.Log("projectile.transform.forward is " + projectile.transform.forward);*/
+        if (transform.parent.tag == "Player")
+        {
+            projectile.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+            projectile.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+            projectile.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+        }
+        else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+        {
+            projectile.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+            projectile.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+            projectile.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+        }
         projectile.transform.rotation = spawnPt.transform.rotation;
-        projectile.gameObject.name = "SingleShot";
-        Destroy(projectile.gameObject, bulletLife);
+        projectile.gameObject.name = bulletName;
+        //Destroy(projectile.gameObject, bulletLife);
         return null;
     }
 
@@ -180,7 +197,7 @@ public class SingleShot : MonoBehaviour
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - rotationStartingAngle, 0);
                 projectile.gameObject.name = "SingleShot";
                 yield return new WaitForSeconds(delayBetweenBullets);
-                Destroy(projectile.gameObject, bulletLife);
+                //Destroy(projectile.gameObject, bulletLife);
             }
             // right to left
             for (int i = bulletsPerWave; i > 0; i--)
@@ -189,7 +206,7 @@ public class SingleShot : MonoBehaviour
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - rotationStartingAngle, 0);
                 projectile.gameObject.name = "SingleShot";
                 yield return new WaitForSeconds(delayBetweenBullets);
-                Destroy(projectile.gameObject, bulletLife);
+                //Destroy(projectile.gameObject, bulletLife);
             }
         }
         

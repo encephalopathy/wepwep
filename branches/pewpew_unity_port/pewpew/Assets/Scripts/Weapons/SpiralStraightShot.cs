@@ -4,10 +4,13 @@ using System.Collections;
 public class SpiralStraightShot : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private float velocity = 10.0f;
+    [SerializeField] private string bulletName = "SpiralStraightShot";
+    [SerializeField] private int bulletVelocity = 10;
+    [SerializeField] private float bulletLife = 5f;
+    [SerializeField] private int bulletDamage = 5;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource pew;
-    [SerializeField] private float BulletLife = 3f;
+    //[SerializeField] private float BulletLife = 3f;
     [SerializeField] private float angle = 360f;
     [SerializeField] private int numberOfBullets = 90;
     [SerializeField] private int numberOfWaves = 5;
@@ -92,9 +95,21 @@ public class SpiralStraightShot : MonoBehaviour
             {
                 GameObject projectile = Instantiate(bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - (angle / 2), 0);
-                projectile.gameObject.name = "SpiralStraightShot";
+                if (transform.parent.tag == "Player")
+                {
+                    projectile.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+                    projectile.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+                    projectile.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+                }
+                else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+                {
+                    projectile.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+                    projectile.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+                    projectile.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+                }
+                projectile.gameObject.name = bulletName;
                 yield return new WaitForSeconds(.001f);
-                Destroy(projectile.gameObject, BulletLife);
+                //Destroy(projectile.gameObject, BulletLife);
             }
         }
         else
@@ -103,9 +118,21 @@ public class SpiralStraightShot : MonoBehaviour
             {
                 GameObject projectile = Instantiate(bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
                 projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - (angle / 2), 0);
-                projectile.gameObject.name = "SpiralStraightShot";
+                if (transform.parent.tag == "Player")
+                {
+                    projectile.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+                    projectile.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+                    projectile.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+                }
+                else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+                {
+                    projectile.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+                    projectile.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+                    projectile.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+                }
+                projectile.gameObject.name = bulletName;
                 yield return new WaitForSeconds(.001f);
-                Destroy(projectile.gameObject, BulletLife);
+                //Destroy(projectile.gameObject, BulletLife);
             }
         }
     }

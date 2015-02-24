@@ -3,14 +3,18 @@ using System.Collections;
 
 public class PlayerBulletHelper : MonoBehaviour
 {
-    [SerializeField] private int bulletVelocity = 10;
-
-    [SerializeField] private int damage = 1;
-    [SerializeField] private int NRGCost = 5;
+    //[SerializeField] private int playerBulletVelocity = 10;
+    //[SerializeField] private float playerBulletLife = 5f;
+    //[SerializeField] private int playerBulletDamage = 1;
+    public int playerBulletVelocity = 10;
+    public float playerBulletLife = 5f;
+    public int playerBulletDamage = 1;
     private bool hasCollided = false;
 
 	// Use this for initialization
-	void Start () {
+    void Start()
+    {
+        Destroy(this.gameObject, playerBulletLife);
 	}
 	
 	// Update is called once per frame
@@ -20,7 +24,7 @@ public class PlayerBulletHelper : MonoBehaviour
         {
             this.collider.enabled = false;
         }
-	   	this.gameObject.transform.Translate(Vector3.forward * bulletVelocity * Time.deltaTime);
+	   	this.gameObject.transform.Translate(Vector3.forward * playerBulletVelocity * Time.deltaTime);
 	}
 
 
@@ -51,7 +55,7 @@ public class PlayerBulletHelper : MonoBehaviour
             {
                 //Destroy(this.gameObject);
                 EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
-                enemylogic.doDamage(damage);
+                enemylogic.doDamage(playerBulletDamage);
                 hasCollided = true;
                 Destroy(this.gameObject);
                 //Debug.Log("Up in here");
@@ -59,12 +63,12 @@ public class PlayerBulletHelper : MonoBehaviour
             }
             else if (other.gameObject.tag == "Boss")
             {
-                //Debug.Log("playerBullethelper.cs: hitting a boss and the damage is "+damage);
+                //Debug.Log("playerBullethelper.cs: hitting a boss and the playerBulletDamage is "+playerBulletDamage);
                 //Destroy(this.gameObject);
-                EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
-                enemylogic.doDamage(damage);
+                BossLogic enemylogic = (BossLogic)other.gameObject.GetComponent(typeof(BossLogic));
+                enemylogic.doDamage(playerBulletDamage);
                 ModifyBossHealthBar bossHealthBar = (ModifyBossHealthBar)other.gameObject.GetComponent(typeof(ModifyBossHealthBar));
-                bossHealthBar.GetHit(damage);
+                bossHealthBar.GetHit(playerBulletDamage);
                 hasCollided = true;
                 Destroy(this.gameObject);
             }
@@ -72,7 +76,7 @@ public class PlayerBulletHelper : MonoBehaviour
             {
                 //Destroy(this.gameObject);
                 BossPartLogic bossPartLogic = (BossPartLogic)other.gameObject.GetComponent(typeof(BossPartLogic));
-                bossPartLogic.doDamage(damage);
+                bossPartLogic.doDamage(playerBulletDamage);
                 hasCollided = true;
                 Destroy(this.gameObject);
                 //SDebug.Log("Up in here");

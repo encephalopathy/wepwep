@@ -4,20 +4,24 @@ using System.Collections;
 public class BulletHelper : MonoBehaviour
 {
 
-    [SerializeField] private float bulletVelocity = 10;
-
-    [SerializeField] private int damage = 15;
-
+    /*[SerializeField] private float enemyBulletVelocity = 10;
+    [SerializeField] private float enemyBulletLife = 5f;
+    [SerializeField] private int enemyBulletDamage = 15;*/
+    public int enemyBulletVelocity = 10;
+    public float enemyBulletLife = 5f;
+    public int enemyBulletDamage = 15;
+    //public int singleShotDamage = 0;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+        Destroy(this.gameObject, enemyBulletLife);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-        this.gameObject.transform.Translate(Vector3.forward * bulletVelocity * Time.deltaTime);
+        this.gameObject.transform.Translate(Vector3.forward * enemyBulletVelocity * Time.deltaTime);
 	}
 
 
@@ -41,10 +45,16 @@ public class BulletHelper : MonoBehaviour
         if (other.tag == "Player")
         {
             PlayerLogic playerlogic = (PlayerLogic)other.gameObject.GetComponent(typeof(PlayerLogic));
-            playerlogic.doDamage(damage);
+            playerlogic.doDamage(enemyBulletDamage);
             Destroy(this.gameObject);
             //Debug.Log("Up in here");
         }
+        else if (other.tag == "PlayerShield")
+        {
+            ShieldLogic shieldLogic = (ShieldLogic)other.gameObject.GetComponent(typeof(ShieldLogic));
+            shieldLogic.doDamage(enemyBulletDamage);
+            Destroy(this.gameObject);
+        }    
         else if (other.tag == "Destroy")
         {
             Destroy(this.gameObject);

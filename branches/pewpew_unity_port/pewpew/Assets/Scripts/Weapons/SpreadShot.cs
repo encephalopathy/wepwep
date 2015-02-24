@@ -4,10 +4,13 @@ using System.Collections;
 public class SpreadShot : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private float bulletSpeed = 10.0f; //currently unused
+    [SerializeField] private string bulletName = "SpreadShot";
+    [SerializeField] private int bulletVelocity = 30;
+    [SerializeField] private float bulletLife = 10f;
+    [SerializeField] private int bulletDamage = 1;
     [SerializeField] private GameObject spawnPt;
     [SerializeField] private AudioSource SoundEffect;
-    [SerializeField] private float bulletLife = 3f;
+    //[SerializeField] private float bulletLife = 3f;
     [SerializeField] private float firingAngle = 30f;
     [SerializeField] private int numberOfBullets = 3;
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
@@ -121,9 +124,21 @@ public class SpreadShot : MonoBehaviour
             //float rotationAngle = firingAngle/2 - ((i - 1) * angleStep) - ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs);
             float rotationAngle = (-1 * firingAngle / 2 + ((i - 1) * angleStep) + ((Mathf.Ceil(i / bulletsPerArc) - 1) * angleBetweenArcs)) + transform.eulerAngles.y;
             GameObject projectile = Instantiate(bullet, spawnPt.transform.position, Quaternion.identity) as GameObject;
+            if (transform.parent.tag == "Player")
+            {
+                projectile.GetComponent<PlayerBulletHelper>().playerBulletDamage = bulletDamage;
+                projectile.GetComponent<PlayerBulletHelper>().playerBulletLife = bulletLife;
+                projectile.GetComponent<PlayerBulletHelper>().playerBulletVelocity = bulletVelocity;
+            }
+            else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss" || transform.parent.tag == "BossPart")
+            {
+                projectile.GetComponent<BulletHelper>().enemyBulletDamage = bulletDamage;
+                projectile.GetComponent<BulletHelper>().enemyBulletLife = bulletLife;
+                projectile.GetComponent<BulletHelper>().enemyBulletVelocity = bulletVelocity;
+            }
             projectile.transform.rotation = Quaternion.Euler(spawnPt.transform.rotation.x, rotationAngle, spawnPt.transform.rotation.z);
-            projectile.gameObject.name = "SpreadShot";
-            Destroy(projectile.gameObject, bulletLife);
+            projectile.gameObject.name = bulletName;
+            //Destroy(projectile.gameObject, bulletLife);
         }
         return null;
     }
