@@ -39,7 +39,7 @@ public class ShakeCamera : MonoBehaviour
 			transform.position = new Vector3(this.transform.parent.position.x, this.transform.parent.position.y + 28.75318f, this.transform.parent.position.z);
             transform.rotation = new Quaternion(0, 0, 0, 0);
 			transform.Rotate(90,0,0);
-            redScreen.renderer.enabled = false;
+            redScreen.GetComponent<Renderer>().enabled = false;
         }
 
     }
@@ -52,6 +52,6 @@ public class ShakeCamera : MonoBehaviour
         ShakeIntensity = shakeIntensity;
         ShakeDecay = shakeDecay;
         Shaking = true;
-        redScreen.renderer.enabled = true;
+        redScreen.GetComponent<Renderer>().enabled = true;
     }
 }

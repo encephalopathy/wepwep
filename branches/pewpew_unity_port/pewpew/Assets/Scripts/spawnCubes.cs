@@ -28,7 +28,7 @@ public class spawnCubes : MonoBehaviour {
 				//_splineController.FollowSpline();
 				cube.AddComponent<Rigidbody>();
 				cube.transform.position = new Vector3(i, i, 0);
-			    cube.renderer.material.color = new Color(Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f));
+			    cube.GetComponent<Renderer>().material.color = new Color(Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f));
 				Destroy(cube.gameObject,2.5f);
 		}
 	}

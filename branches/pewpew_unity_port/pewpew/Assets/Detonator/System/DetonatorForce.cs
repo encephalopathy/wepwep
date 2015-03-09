@@ -61,12 +61,12 @@ public class DetonatorForce : DetonatorComponent {
 					continue;
 				}
 				
-				if (hit.rigidbody)
+				if (hit.GetComponent<Rigidbody>())
 				{
 					//align the force along the object's rotation
 					//this is wrong - need to attenuate the velocity according to distance from the explosion center			
 					//offsetting the explosion force position by the negative of the explosion's direction may help
-					hit.rigidbody.AddExplosionForce((power * size), _explosionPosition, (radius * size), (4f * MyDetonator().upwardsBias * size));
+					hit.GetComponent<Rigidbody>().AddExplosionForce((power * size), _explosionPosition, (radius * size), (4f * MyDetonator().upwardsBias * size));
 					
 					SendMessage("OnDetonatorForceHit", null, SendMessageOptions.DontRequireReceiver);
 					
@@ -82,9 +82,9 @@ public class DetonatorForce : DetonatorComponent {
 						_tempFireObject = (Instantiate(fireObject, this.transform.position, this.transform.rotation)) as GameObject;
 						_tempFireObject.transform.parent = hit.transform;
 						_tempFireObject.transform.localPosition = new Vector3(0f,0f,0f);
-						if (_tempFireObject.particleEmitter)
+						if (_tempFireObject.GetComponent<ParticleEmitter>())
 						{
-							_tempFireObject.particleEmitter.emit = true;
+							_tempFireObject.GetComponent<ParticleEmitter>().emit = true;
 							Destroy(_tempFireObject,fireObjectLife);
 						}
 					}

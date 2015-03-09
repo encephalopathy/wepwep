@@ -7,7 +7,7 @@ public class Crosshair : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Screen.showCursor = false; //Default mouse pointer disabled
+		Cursor.visible = false; //Default mouse pointer disabled
 	}
 	
 	// Update is called once per frame
