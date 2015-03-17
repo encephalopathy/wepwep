@@ -22,7 +22,7 @@ public class PlayerBulletHelper : MonoBehaviour
 	{
         if (hasCollided == true)
         {
-            this.collider.enabled = false;
+            this.GetComponent<Collider>().enabled = false;
         }
 	   	this.gameObject.transform.Translate(Vector3.forward * playerBulletVelocity * Time.deltaTime);
 	}

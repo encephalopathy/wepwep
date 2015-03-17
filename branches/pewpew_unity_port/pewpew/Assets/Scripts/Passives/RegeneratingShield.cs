@@ -26,8 +26,8 @@ public class RegeneratingShield : ShieldLogic {
             {
                 this.GetComponent<ShieldLogic>().currentShieldHealth = this.GetComponent<ShieldLogic>().maxShieldHealth;
                 this.GetComponent<ShieldLogic>().alive = true;
-                this.renderer.enabled = true;
-                this.collider.enabled = true;
+                this.GetComponent<Renderer>().enabled = true;
+                this.GetComponent<Collider>().enabled = true;
                 currentShieldCooldown = initialShieldCooldown;
             }
         }

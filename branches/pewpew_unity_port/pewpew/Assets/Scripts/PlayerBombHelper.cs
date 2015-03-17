@@ -89,8 +89,8 @@ public class PlayerBombHelper : MonoBehaviour
         if (other.gameObject.tag == "EnemyBullet")
         {
             //Debug.Log("playerBombHelper.cs: hitting enemy bullet");
-            other.gameObject.collider.enabled = false;
-            other.gameObject.renderer.enabled = false;
+            other.gameObject.GetComponent<Collider>().enabled = false;
+            other.gameObject.GetComponent<Renderer>().enabled = false;
         }
     }
 

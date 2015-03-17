@@ -9,6 +9,7 @@ public class EnemyLogic : MonoBehaviour
     public int CurrentHealth;
     [SerializeField] private bool itemDroppable = false;
     private bool alive = true;
+    [SerializeField] private bool dieUponCollision = true;
 
 	// Use this for initialization
 	void Start () {
@@ -50,9 +51,17 @@ public class EnemyLogic : MonoBehaviour
         //if (theCollision.gameObject.name == "Ship")
         if (theCollision.gameObject.tag == "Player")
         {
-            Die();
-            PlayerLogic player = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
-            player.doDamage(50);
+            if (dieUponCollision)
+            {
+                Die();
+                PlayerLogic player = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
+                player.doDamage(50);
+            }
+            else
+            {
+                PlayerLogic player = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
+                player.doDamage(1000000000);
+            }
             //Debug.Log("You crashed!");
         }
         else if (theCollision.gameObject.tag == "Destroy")

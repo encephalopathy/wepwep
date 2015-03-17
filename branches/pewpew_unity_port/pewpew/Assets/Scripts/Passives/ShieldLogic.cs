@@ -26,8 +26,8 @@ public class ShieldLogic : MonoBehaviour {
         if (currentShieldHealth <= 0 && alive)
         {
             alive = false;
-            this.renderer.enabled = false;
-            this.collider.enabled = false;
+            this.GetComponent<Renderer>().enabled = false;
+            this.GetComponent<Collider>().enabled = false;
         }
     }
 
