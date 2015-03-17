@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SingleShot : MonoBehaviour
 {
+    [Tooltip("Use the player/enemy bullet prefabs")]
     [SerializeField] private GameObject bullet;
     [SerializeField] private string bulletName = "SingleShot";
     [SerializeField] private int bulletVelocity = 30;
