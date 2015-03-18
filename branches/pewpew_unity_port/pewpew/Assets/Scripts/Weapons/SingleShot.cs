@@ -3,36 +3,51 @@ using System.Collections;
 
 public class SingleShot : MonoBehaviour
 {
-    [Tooltip("Use the player/enemy bullet prefabs")]
+    [Tooltip("Use the player/enemy bullet prefabs.")]
     [SerializeField] private GameObject bullet;
     [SerializeField] private string bulletName = "SingleShot";
+    [Tooltip("Speed of the bullet.")]
     [SerializeField] private int bulletVelocity = 30;
+    [Tooltip("Amount of time before the bullet is destroyed automatically.")]
     [SerializeField] private float bulletLife = 5f;
     [SerializeField] private int bulletDamage = 5;
+    [Tooltip("Game object whose forward Z vector determines which direction the bullets travel.")]
     [SerializeField] private GameObject spawnPt;
+    [Tooltip("Enemies should not have sound effects unless they are bosses and/or using special weapons.")]
     [SerializeField] private AudioSource SoundEffect;
     //[SerializeField] private float bulletLife = 3f;
     private Transform spawnBullet;
+    [Tooltip("Used if you want the bullet to not shoot from exactly where the Spawn Point is.")]
     [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
+    [Tooltip("The Player game object is only necessary if the player is using the weapon.")]
     [SerializeField] private GameObject player;
+    [Tooltip("Only the player will utilize the energy cost.")]
     [SerializeField] private int energyCost = 15;
-    [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
+    [Tooltip("The amount of waves of bullets that will be shot when the weapon is fired once. ie: 3 waves will shoot the weapon 3 times for 1 mouseclick.")]
     [SerializeField] private int numberOfWaves = 3;
+    [Tooltip("The length of the delay between each automatically fired wave of bullets. A higher number will result in a longer delay.")]
+    [SerializeField] private float delayBetweenWaves = 0.2f; // higher number for a longer delay
+    [Tooltip("The delay between each time an enemy fires the weapon. A higher number will result in a longer delay.")]
+    [SerializeField] private float enemyFireRateDelay = 2;
+    private float aEnemyFireRateDelay;
+    [Tooltip("Toggles whether or not the weapon will shoot straight forward or rotate while shooting. Functionality needs testing.")]
     [SerializeField] private bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
+    [Tooltip("The starting angle of rotation when rotating and firing. Value will be subtracted from 0.")]
     [SerializeField] private float rotationStartingAngle = 45f; // starting angle
-    [SerializeField] private float angleStep = 5f; // amount of rotation between each shot
+    [Tooltip("The amount of rotation between each shot.")]
+    [SerializeField] private float rotationAngleStep = 5f; // amount of rotation between each shot
+    [Tooltip("The total amount of automatically fired bullets per one weapon fire.")]
     [SerializeField] private int bulletsPerWave = 18;
+    [Tooltip("The delay between each automatically fired bullet.")]
     [SerializeField] private float delayBetweenBullets = 0.5f;
     //[SerializeField] private bool SingleShotIsPlayerWeapon = true;
-    [SerializeField] private float enemyFireRate = 2;
-    private float aEnemyFireRate;
     /*private float rotationX = 0;
     private float rotationY = 0;
     private float rotationZ = 0;*/ 
 
     void start()
     {
-        aEnemyFireRate = enemyFireRate;
+        aEnemyFireRateDelay = enemyFireRateDelay;
     }
 
     void Update()
@@ -47,11 +62,11 @@ public class SingleShot : MonoBehaviour
         }
         else if (transform.parent.tag == "Enemy" || transform.parent.tag == "Boss")
         {
-            aEnemyFireRate -= Time.deltaTime;
-            if (aEnemyFireRate <= 0)
+            aEnemyFireRateDelay -= Time.deltaTime;
+            if (aEnemyFireRateDelay <= 0)
             {
                 StartCoroutine("fireSingle");
-                aEnemyFireRate = enemyFireRate;
+                aEnemyFireRateDelay = enemyFireRateDelay;
             }
         }
     }
@@ -195,7 +210,7 @@ public class SingleShot : MonoBehaviour
             for (int i = 0; i < bulletsPerWave; i++)
             {
                 GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
-                projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - rotationStartingAngle, 0);
+                projectile.transform.rotation = Quaternion.Euler(0, (rotationAngleStep * i) - rotationStartingAngle, 0);
                 projectile.gameObject.name = "SingleShot";
                 yield return new WaitForSeconds(delayBetweenBullets);
                 //Destroy(projectile.gameObject, bulletLife);
@@ -204,7 +219,7 @@ public class SingleShot : MonoBehaviour
             for (int i = bulletsPerWave; i > 0; i--)
             {
                 GameObject projectile = Instantiate(bullet, spawnPt.transform.position + bulletOffsetVector, Quaternion.identity) as GameObject;
-                projectile.transform.rotation = Quaternion.Euler(0, (angleStep * i) - rotationStartingAngle, 0);
+                projectile.transform.rotation = Quaternion.Euler(0, (rotationAngleStep * i) - rotationStartingAngle, 0);
                 projectile.gameObject.name = "SingleShot";
                 yield return new WaitForSeconds(delayBetweenBullets);
                 //Destroy(projectile.gameObject, bulletLife);
