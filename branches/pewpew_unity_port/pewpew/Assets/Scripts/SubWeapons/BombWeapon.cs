@@ -5,9 +5,10 @@ public class BombWeapon : MonoBehaviour {
 
     [SerializeField] private GameObject bomb;
     [SerializeField] private int ammo = 3;
+    [SerializeField] private int bombDamage = 10;
+    [SerializeField] private float bombLife = 2f;
     //[SerializeField] private float delayBetweenBombs = 0.5f;
     [SerializeField] private Vector3 spawnPoint = new Vector3(0, 2, 0);
-    [SerializeField] private float bombLife = 2f;
     [SerializeField] private AudioSource SoundEffect;
     public bool bombActivated = false;
 
@@ -50,6 +51,7 @@ public class BombWeapon : MonoBehaviour {
     {
         GameObject projectile = Instantiate(bomb, spawnPoint, Quaternion.identity) as GameObject;
         projectile.gameObject.name = "Bomb";
+        projectile.gameObject.GetComponent<PlayerBombHelper>().damage = bombDamage;
         Destroy(projectile.gameObject, bombLife);
         return null;
     }

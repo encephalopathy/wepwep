@@ -9,7 +9,7 @@ public class EnemyLogic : MonoBehaviour
     [Tooltip("Health is generally low (ie: small enemies usually have 1 HP to die in 1 hit).")]
     public int MaxHealth = 1;
     [Tooltip("Leave this alone, it'll get set automatically upon Game Start.")]
-    public int CurrentHealth;
+    public int CurrentHealth = 0;
     [Tooltip("If the enemy needs to drop a pickup, enable this and attach the Item Drop Logic script.")]
     [SerializeField] private bool itemDroppable = false;
     private bool alive = true;

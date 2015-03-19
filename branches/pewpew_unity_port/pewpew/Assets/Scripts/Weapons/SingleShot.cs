@@ -10,7 +10,7 @@ public class SingleShot : MonoBehaviour
     [SerializeField] private int bulletVelocity = 30;
     [Tooltip("Amount of time before the bullet is destroyed automatically.")]
     [SerializeField] private float bulletLife = 5f;
-    [SerializeField] private int bulletDamage = 5;
+    [SerializeField] private int bulletDamage = 10;
     [Tooltip("Game object whose forward Z vector determines which direction the bullets travel.")]
     [SerializeField] private GameObject spawnPt;
     [Tooltip("Enemies should not have sound effects unless they are bosses and/or using special weapons.")]

@@ -20,8 +20,8 @@ public class SpreadShot : MonoBehaviour
     [SerializeField] private float firingAngle = 30f;
     [Tooltip("Total amount of bullets that will be shot per wave. Please use numbers that break the angle up nicely (ie: for a 30 degree angle, 3 bullets will work nicely).")]
     [SerializeField] private int numberOfBullets = 3;
-    [Tooltip("Used if you want the bullet to not shoot from exactly where the Spawn Point is.")]
-    [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);
+    /*[Tooltip("Used if you want the bullet to not shoot from exactly where the Spawn Point is.")]
+    [SerializeField] private Vector3 bulletOffsetVector = new Vector3(0f, 0f, 0f);*/
     [Tooltip("The Player game object is only necessary if the player is using the weapon.")]
     [SerializeField] private GameObject player;
     [Tooltip("Only the player will utilize the energy cost.")]
@@ -37,7 +37,7 @@ public class SpreadShot : MonoBehaviour
     [Tooltip("The delay between each time an enemy fires the weapon. A higher number will result in a longer delay.")]
     [SerializeField] private float enemyFireRateDelay = 2;
     private float aEnemyFireRateDelay;
-    [Tooltip("Toggles whether or not the weapon will shoot straight forward or rotate while shooting. Functionality needs testing.")]
+    /*[Tooltip("Toggles whether or not the weapon will shoot straight forward or rotate while shooting. Functionality needs testing.")]
     [SerializeField] private bool willRotate = false; // used for if the weapon will be used on a rotating turret on a boss or such
     [Tooltip("The starting angle of rotation when rotating and firing. Value will be subtracted from 0.")]
     [SerializeField] private float rotationStartingAngle = 45f; // starting angle
@@ -46,7 +46,7 @@ public class SpreadShot : MonoBehaviour
     [Tooltip("The total amount of automatically fired bullets per one weapon fire.")]
     [SerializeField] private int bulletsPerWave = 18;
     [Tooltip("The delay between each automatically fired bullet.")]
-    [SerializeField] private float delayBetweenBullets = 0.5f;
+    [SerializeField] private float delayBetweenBullets = 0.5f;*/
    
 
     void start()
@@ -99,37 +99,18 @@ public class SpreadShot : MonoBehaviour
             {
                 spawnPt = GameObject.Find("oneSpawn");
             }
-            if (willRotate)
+            for (int j = 0; j < numberOfWaves; j++)
             {
-                for (int j = 0; j < numberOfWaves; j++)
+                StartCoroutine("wave");
+                /*if (SoundEffect != null)
                 {
-                    StartCoroutine("rotatingWave");
-                    /*if (SoundEffect != null)
-                    {
-                        SoundEffect.Play(0);
-                    }
-                    else
-                    {
-                        Debug.Log("sound effects are null in SingleShot");
-                    }*/
-                    yield return new WaitForSeconds(delayBetweenWaves);
+                    SoundEffect.Play(0);
                 }
-            }
-            else
-            {
-                for (int j = 0; j < numberOfWaves; j++)
+                else
                 {
-                    StartCoroutine("wave");
-                    /*if (SoundEffect != null)
-                    {
-                        SoundEffect.Play(0);
-                    }
-                    else
-                    {
-                        Debug.Log("sound effects are null in SingleShot");
-                    }*/
-                    yield return new WaitForSeconds(delayBetweenWaves);
-                }
+                    Debug.Log("sound effects are null in SingleShot");
+                }*/
+                yield return new WaitForSeconds(delayBetweenWaves);
             }
         }
     }
