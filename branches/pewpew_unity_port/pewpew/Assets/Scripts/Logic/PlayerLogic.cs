@@ -5,20 +5,21 @@ public class PlayerLogic : MonoBehaviour
 {
     public float movementSpeed = 1.0f;
     public int invert = -1; //Negative 1 for invert, positive 1 for not
-    public int maxHealth = 100;
+    
 
     public GameObject explosion;
-    public GameObject camera;
+    //public GameObject camera;
 
     public float maxX = 6.2f;
     public float maxZ = 2.3f;
+    public int maxHealth = 100;
     public int currentHealth = 100;
 	public float currentEnergy = 100;
 	public float maxEnergy = 100;
     public float cooldownTime = 0;
 
-	private float previousX;
-	private float previousY;
+	/*private float previousX;
+	private float previousY;*/
     private bool alive = true;
     public bool isFiring = false; //Do not touch
 
@@ -29,8 +30,8 @@ public class PlayerLogic : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-		previousX = Input.GetAxis("Horizontal");
-		previousY = Input.GetAxis("Vertical");
+		/*previousX = Input.GetAxis("Horizontal");
+		previousY = Input.GetAxis("Vertical");*/
     }
 
     // Update is called once per frame
@@ -60,7 +61,7 @@ public class PlayerLogic : MonoBehaviour
         }*/
 
         Vector3 direction = new Vector3(horizontal, 0, invert * vertical);
-        Vector3 finalDirection = new Vector3(horizontal, invert * vertical, 1.0f);
+        //Vector3 finalDirection = new Vector3(horizontal, invert * vertical, 1.0f);
         //Debug.Log("direction is " + direction);
 
 		if (Input.touchCount > 0 && 
@@ -129,11 +130,11 @@ public class PlayerLogic : MonoBehaviour
             //Debug.Log("Crashed into a wall!");
             doDamage(20);
         }
-        else if (theCollision.gameObject.name == "EnemyBullet")
+        //else if (theCollision.gameObject.name == "EnemyBullet")
+        else if (theCollision.gameObject.tag == "EnemyBullet")
         {
-            doDamage(15);
+            doDamage(theCollision.gameObject.gameObject.GetComponent<BulletHelper>().enemyBulletDamage);
             Destroy(theCollision.gameObject);
-            //Debug.Log("You got shot!!");
         }
        /* else if (theCollision.gameObject.name == "BasicEnemy")
         {

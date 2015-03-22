@@ -3,14 +3,14 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
-	Rigidbody rigidbody;
+	Rigidbody bulletRigidBody;
 	public Bullet (Vector3 nposition, Quaternion nrotiation)
 	{
-		rigidbody = new Rigidbody();
-		rigidbody.useGravity = false;
-		rigidbody.freezeRotation = true;
-		rigidbody.position = nposition;
-		rigidbody.rotation = nrotiation;
+		bulletRigidBody = new Rigidbody();
+		bulletRigidBody.useGravity = false;
+		bulletRigidBody.freezeRotation = true;
+		bulletRigidBody.position = nposition;
+		bulletRigidBody.rotation = nrotiation;
 	}
 
 		//Basic collision detection checking for two differently named objects

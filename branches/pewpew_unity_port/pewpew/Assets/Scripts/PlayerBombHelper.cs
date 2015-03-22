@@ -5,9 +5,9 @@ public class PlayerBombHelper : MonoBehaviour
 {
     //[SerializeField] private int bulletVelocity = 10;
 
-    [SerializeField] private int damage = 10;
+    public int damage = 10;
     private bool hasCollided = false;
-    private float damageCooldown = 0.25f;
+    //private float damageCooldown = 0.25f;
 
 	// Use this for initialization
 	void Start () {

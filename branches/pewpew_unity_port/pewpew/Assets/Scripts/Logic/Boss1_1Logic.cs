@@ -15,7 +15,7 @@ public class Boss1_1Logic : EnemyLogic {
     [SerializeField] private float initialSubPhaseDuration = 5;
     private float subPhaseDuration;
     [SerializeField] private float phase1HPCondition = 0.6f;
-    [SerializeField] private float phase2HPCondition = 0.3f;
+    //[SerializeField] private float phase2HPCondition = 0.3f;
 
 	// Use this for initialization
 	void Start ()
@@ -67,8 +67,7 @@ public class Boss1_1Logic : EnemyLogic {
             {
                 phaseChange1And2To3And4();
             }
-            else if ((boss.GetComponent<EnemyLogic>().CurrentHealth > (boss.GetComponent<EnemyLogic>().MaxHealth * phase1HPCondition)))
-            //else if ((CurrentHealth > (MaxHealth * phase1HPCondition)))
+            else if ((boss.GetComponent<BossLogic>().CurrentHealth > (boss.GetComponent<BossLogic>().MaxHealth * phase1HPCondition)))
             {
                 if (subPhaseDuration <= 0)
                 {

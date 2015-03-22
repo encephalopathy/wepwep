@@ -4,11 +4,16 @@ using System.Collections;
 public class EnemyLogic : MonoBehaviour
 {
 
+    [Tooltip("Use one of the Detonator prefabs, default is Detonator-Sounds")]
     public GameObject explosion;
+    [Tooltip("Health is generally low (ie: small enemies usually have 1 HP to die in 1 hit).")]
     public int MaxHealth = 1;
-    public int CurrentHealth;
+    [Tooltip("Leave this alone, it'll get set automatically upon Game Start.")]
+    public int CurrentHealth = 0;
+    [Tooltip("If the enemy needs to drop a pickup, enable this and attach the Item Drop Logic script.")]
     [SerializeField] private bool itemDroppable = false;
     private bool alive = true;
+    [Tooltip("Enabled if the enemy should die when the player runs into them.")]
     [SerializeField] private bool dieUponCollision = true;
 
 	// Use this for initialization
