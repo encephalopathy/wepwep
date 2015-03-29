@@ -66,7 +66,7 @@ public class EnemyLogic : MonoBehaviour
             else
             {
                 PlayerLogic player = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
-                player.doDamage(20);
+                player.doDamage(player.currentHealth);
             }
             //Debug.Log("You crashed!");
         }

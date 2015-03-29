@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpawnEnemies : MonoBehaviour {
+public class SpawnEnemies : MonoBehaviour
+    {
+    [Tooltip("The enemy game object that is contained in the wave.")] 
 	public GameObject enemy;
 	private bool spawned = false;
     
+    [Tooltip("The time when the enemy spawns in seconds since the level starts.")]
     [SerializeField] private float spawnTime = 0;
     private GameObject enemyClone;
 	// Use this for initialization
