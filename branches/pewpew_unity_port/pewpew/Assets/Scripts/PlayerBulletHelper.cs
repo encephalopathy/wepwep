@@ -48,7 +48,7 @@ public class PlayerBulletHelper : MonoBehaviour
         //this.collider.enabled = false;
         //Debug.Log("playerBulletHelper: "+this.collider+" is " + this.collider.enabled);
         //Debug.Log("PlayerBulletHelper.cs: We hit something");
-		if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss")
+		if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "Destroy")
         //if (other.gameObject.name == "BasicEnemy" || other.gameObject.tag == "Enemy") //change later to tags for any enemy
         {
             if (other.gameObject.tag == "Enemy")
@@ -81,6 +81,9 @@ public class PlayerBulletHelper : MonoBehaviour
                 Destroy(this.gameObject);
                 //SDebug.Log("Up in here");
                 //Debug.Log("PlayerBulletHelper.cs: hit a boss part");
+            }
+            else if (other.gameObject.tag == "Destroy"){
+                Destroy(this.gameObject);
             }
         }
     }
