@@ -43,6 +43,8 @@ public delegate void OnNodeLeavingCallback(int idxLeaving, SplineNode nodeLeavin
 
 public class SplineInterpolator : MonoBehaviour
 {
+	public float speed = -1;
+
 	List<SplineNode> mNodes = new List<SplineNode>();
 	
 	eEndPointsMode mEndPointsMode = eEndPointsMode.AUTO;
@@ -129,10 +131,32 @@ public class SplineInterpolator : MonoBehaviour
 	
 				// Smooth the param
 				param = MathUtils.Ease(param, mNodes[mCurrentIdx].EaseIO.x, mNodes[mCurrentIdx].EaseIO.y);
-				
+
 				// Move attached transform
-				transform.position = GetHermiteInternal(mCurrentIdx, param);
-				
+				Vector3 lastPosition = transform.position;
+				Vector3 newPosition = GetHermiteInternal(mCurrentIdx, param);
+
+				Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
+				Debug.Log("Velocity: " + TESTvelocity.magnitude);
+				Debug.Log("Leave time: " + mNodes[mCurrentIdx].GetLeaveTime());
+
+				//If the user sets the speed of the curve, we need to adjust the curve's speed with the rest of the game.
+				if (speed > 0) {
+					//Gets the current hermite velocity at this point.
+					Vector3 velocity = GetHermiteVelocity(mCurrentIdx, param);
+					float curveCurrentSpeed = velocity.magnitude;
+
+					//Compare the current speed at this point of the curve to the speed we want to travel at, the faster the curve move, the slower we must go, and vice versa.
+					float ratio = curveCurrentSpeed / speed;
+					//Debug.Log("Ratio: " + ratio);
+					Debug.Log("Curve speed: " + curveCurrentSpeed);
+					//Adjust our position to be where we need it to be.
+					transform.position = lastPosition + (newPosition - lastPosition) * ratio;
+
+				}
+				else {
+					transform.position = newPosition;
+				}
 				/*
 				// simulate human walking (FIXME)
 				Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
@@ -346,6 +370,35 @@ public class SplineInterpolator : MonoBehaviour
 		}
 		
 		throw new System.Exception("logic error");
-		//return new Vector3();		// to avoid warnings
+		return new Vector3();		// to avoid warnings
+	}
+
+	Vector3 GetHermiteVelocity(int idxFirstPoint, float t) {
+		if (idxFirstPoint == 0 ||(idxFirstPoint == mNodes.Count - 1 ||
+		         idxFirstPoint == mNodes.Count - 2))
+			return Vector3.zero;
+		else if (idxFirstPoint > 0 && idxFirstPoint < mNodes.Count - 2)
+		{
+			float t2 = t * t;
+			float t3 = t2 * t;
+			
+			Vector3 P0 = mNodes[idxFirstPoint - 1].Point;		// take previous node
+			Vector3 P1 = mNodes[idxFirstPoint].Point;
+			Vector3 P2 = mNodes[idxFirstPoint + 1].Point;		// take following node
+			Vector3 P3 = mNodes[idxFirstPoint + 2].Point;		// take the following of the following!!
+			
+			float tension = 0.5f;	// 0.5 equivale a catmull-rom
+			
+			Vector3 T1 = tension * (P2 - P0);
+			Vector3 T2 = tension * (P3 - P1);
+			
+			float Blend1 = 6 * t2 - 6 * t;
+			float Blend2 = -3 * t2 + 4 * t + 1;
+			float Blend3 = -6 * t2 + 6 * t;
+			float Blend4 = 3 * t2 - 2 * t;
+			
+			return Blend1 * P1 + Blend2 * P2 + Blend3 * T1 + Blend4 * T2;
+		}
+		return new Vector3(); //Here to avoid warnings.
 	}
 }
