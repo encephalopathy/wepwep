@@ -166,6 +166,7 @@ public class SplineInterpolator : MonoBehaviour
 				if (mRotations)
 				{
 					// Rotate attached transform
+                    //Debug.Log("SplineInterpolator: rotation values are " + transform.rotation);
 					transform.rotation = GetSquad(mCurrentIdx, param);
 				}
 			}

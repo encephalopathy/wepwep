@@ -16,6 +16,7 @@ public class Boss1_1Logic : EnemyLogic {
     private float subPhaseDuration;
     [SerializeField] private float phase1HPCondition = 0.6f;
     //[SerializeField] private float phase2HPCondition = 0.3f;
+    private bool hasRotated = false;
 
 	// Use this for initialization
 	void Start ()
@@ -65,7 +66,7 @@ public class Boss1_1Logic : EnemyLogic {
         {
             if (RightBooster == null && LeftBooster == null)
             {
-                phaseChange1And2To3And4();
+                startPhaseChange();
             }
             else if ((boss.GetComponent<BossLogic>().CurrentHealth > (boss.GetComponent<BossLogic>().MaxHealth * phase1HPCondition)))
             {
@@ -92,7 +93,7 @@ public class Boss1_1Logic : EnemyLogic {
             }
             else
             {
-                phaseChange1And2To3And4();
+                startPhaseChange();
             }
         }
         else if (phase == 2)
@@ -103,9 +104,19 @@ public class Boss1_1Logic : EnemyLogic {
                 // enable the next set of weapons as well
                 if (subPhaseDuration <= 0)
                 {
+                    //boss.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+                    if (!hasRotated)
+                    {
+                        boss.transform.Rotate(new Vector3(0f, 0f, 180f));
+                        hasRotated = true;
+                    }
+                }
+                /*if (subPhaseDuration <= -10)
+                {
                     changingPhase = false;
                     subPhaseDuration = initialSubPhaseDuration;
-                }
+                    endPhaseChange();
+                }*/
             }
             else if (subPhaseDuration <= 0)
             {
@@ -132,8 +143,9 @@ public class Boss1_1Logic : EnemyLogic {
 
 	}
 
-    void phaseChange1And2To3And4()
+    void startPhaseChange()
     {
+        Debug.Log("Boss 1-1, changing phases");
         phase = 2;
         subPhase = 3;
         //subPhase3Attacks();
@@ -141,7 +153,21 @@ public class Boss1_1Logic : EnemyLogic {
         LeftTurret.GetComponent<SingleShot>().enabled = false;
         RightTurret.GetComponent<DoubleShot>().enabled = false;
         LeftTurret.GetComponent<DoubleShot>().enabled = false;
+        RightTurret.GetComponent<SpreadShot>().enabled = false;
+        LeftTurret.GetComponent<SpreadShot>().enabled = false;
+        RightTurret.GetComponent<CircleShot>().enabled = false;
+        LeftTurret.GetComponent<CircleShot>().enabled = false;
         changingPhase = true;
+        boss.GetComponentInParent<EnemySplineController>().SplineToExecute = 1;
+        Debug.Log("Boss 1-1 Logic, splineToExecute is " + boss.GetComponentInParent<EnemySplineController>().SplineToExecute);
+        boss.GetComponentInParent<EnemySplineController>().WrapMode = eWrapMode.ONCE;
+    }
+
+    void endPhaseChange()
+    {
+        Debug.Log("Boss 1-1, ending phase change");
+        boss.GetComponentInParent<EnemySplineController>().SplineToExecute = 0;
+        boss.GetComponentInParent<EnemySplineController>().WrapMode = eWrapMode.LOOP;
     }
 
     void subPhase1Attacks()

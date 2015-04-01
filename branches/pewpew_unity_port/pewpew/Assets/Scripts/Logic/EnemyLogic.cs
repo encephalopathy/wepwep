@@ -15,6 +15,7 @@ public class EnemyLogic : MonoBehaviour
     private bool alive = true;
     [Tooltip("Enabled if the enemy should die when the player runs into them.")]
     [SerializeField] private bool dieUponCollision = true;
+    private bool hasSpawned = false;
 
 	// Use this for initialization
 	void Start () {
@@ -65,13 +66,20 @@ public class EnemyLogic : MonoBehaviour
             else
             {
                 PlayerLogic player = (PlayerLogic)theCollision.gameObject.GetComponent(typeof(PlayerLogic));
-                player.doDamage(1000000000);
+                player.doDamage(player.currentHealth);
             }
             //Debug.Log("You crashed!");
         }
         else if (theCollision.gameObject.tag == "Destroy")
         {
-            Destroy(this.gameObject);
+            if (!hasSpawned)
+            {
+                hasSpawned = true;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
         }
 
     }

@@ -21,27 +21,13 @@ public class EnemySplineController : SplineController {
 	public GameObject[] SpawnGroup;
 	private bool _hasSwappedSpline;
 	public SplineSwappedEventHandler OnSplineSwapped;
-	public int _splineToExecute = 0;
+	public int SplineToExecute;
+    private int oldSplineToExecute;
 
 	/// <summary>
 	/// Sets which spline to activate within the SpawnGroup, the default value for this is zero.
 	/// </summary>
 	/// <value>The spline to execute.</value>
-	public int SplineToExecute { 
-		get {
-			return _splineToExecute;
-		} 
-		set {
-			if (value < SpawnGroup.Length && value > 0) {
-				SpawnGroup[_splineToExecute].SetActive(false);
-				SpawnGroup[value].SetActive(true);
-				if (OnSplineSwapped != null) {
-					OnSplineSwapped(this, value);
-				}
-			}
-			_splineToExecute = value;
-		}
-	}
 
 
 
@@ -51,8 +37,19 @@ public class EnemySplineController : SplineController {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        /*Debug.Log("EnemySplineController: activeInHierarchy is " + SpawnGroup[SplineToExecute].activeInHierarchy + " and activeSelf is " + SpawnGroup[SplineToExecute].activeSelf + " SplineToExecute is " + SplineToExecute);
+        if (SpawnGroup[SplineToExecute].activeInHierarchy)
+        {
+            SpawnGroup[SplineToExecute].SetActive(false);
+        }
+        if (oldSplineToExecute != SplineToExecute)
+        {
+            SpawnGroup[oldSplineToExecute].SetActive(false);
+            SpawnGroup[SplineToExecute].SetActive(true);
+        }*/
+        
 	}
 
 	protected override void DrawGoKitSplineController ()
@@ -64,7 +61,7 @@ public class EnemySplineController : SplineController {
 			base.DrawGoKitSplineController();
 		}
 		if (SpawnGroup.Length > 0) {
-			SplineRoot = SpawnGroup[_splineToExecute];
+			SplineRoot = SpawnGroup[SplineToExecute];
 		}
 	}
 
@@ -72,7 +69,7 @@ public class EnemySplineController : SplineController {
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
 		if (SplineToExecute < SpawnGroup.Length) {
-			SplineRoot = SpawnGroup[_splineToExecute];
+			SplineRoot = SpawnGroup[SplineToExecute];
 
 			mSplineNodeInfo = GetSplineNodes();
 		}
