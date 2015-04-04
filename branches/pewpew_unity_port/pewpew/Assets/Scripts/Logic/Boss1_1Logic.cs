@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class Boss1_1Logic : EnemyLogic {
 
@@ -158,9 +159,10 @@ public class Boss1_1Logic : EnemyLogic {
         RightTurret.GetComponent<CircleShot>().enabled = false;
         LeftTurret.GetComponent<CircleShot>().enabled = false;
         changingPhase = true;
-        boss.GetComponentInParent<EnemySplineController>().SplineToExecute = 1;
-        Debug.Log("Boss 1-1 Logic, splineToExecute is " + boss.GetComponentInParent<EnemySplineController>().SplineToExecute);
-        boss.GetComponentInParent<EnemySplineController>().WrapMode = eWrapMode.ONCE;
+		EnemySplineController bossSplineController = boss.GetComponentInParent<EnemySplineController>();
+		bossSplineController.WrapMode = eWrapMode.ONCE;
+		bossSplineController.SetSpline(1);
+        
     }
 
     void endPhaseChange()

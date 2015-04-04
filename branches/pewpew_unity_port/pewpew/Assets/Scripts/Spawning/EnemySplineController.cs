@@ -19,17 +19,9 @@ public class EnemySplineController : SplineController {
 	/// The spawn group: A colection of splines that make up which enemy flights paths that this game object can switch to.
 	/// </summary>
 	public GameObject[] SpawnGroup;
-	private bool _hasSwappedSpline;
 	public SplineSwappedEventHandler OnSplineSwapped;
 	public int SplineToExecute;
     private int oldSplineToExecute;
-
-	/// <summary>
-	/// Sets which spline to activate within the SpawnGroup, the default value for this is zero.
-	/// </summary>
-	/// <value>The spline to execute.</value>
-
-
 
 	// Use this for initialization
 	void Start () {
@@ -39,16 +31,12 @@ public class EnemySplineController : SplineController {
 	// Update is called once per frame
 	void Update ()
     {
-        /*Debug.Log("EnemySplineController: activeInHierarchy is " + SpawnGroup[SplineToExecute].activeInHierarchy + " and activeSelf is " + SpawnGroup[SplineToExecute].activeSelf + " SplineToExecute is " + SplineToExecute);
-        if (SpawnGroup[SplineToExecute].activeInHierarchy)
-        {
-            SpawnGroup[SplineToExecute].SetActive(false);
-        }
         if (oldSplineToExecute != SplineToExecute)
         {
-            SpawnGroup[oldSplineToExecute].SetActive(false);
             SpawnGroup[SplineToExecute].SetActive(true);
-        }*/
+			OnStart();
+			oldSplineToExecute = SplineToExecute;
+        }
         
 	}
 
@@ -84,6 +72,10 @@ public class EnemySplineController : SplineController {
 	public override void FollowSpline (OnPathEndCallback endCallback, OnNodeArrivalCallback nodeCallback1, OnNodeLeavingCallback nodeCallback2)
 	{
 		base.FollowSpline (endCallback, nodeCallback1, nodeCallback2);
+	}
+
+	public void SetSpline(int splineNum) {
+		SplineToExecute = splineNum;
 	}
 
 	/// <summary>
