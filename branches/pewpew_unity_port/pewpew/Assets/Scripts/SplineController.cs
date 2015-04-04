@@ -19,9 +19,21 @@ public class SplineController : MonoBehaviour
 	public float TimeBetweenAdjacentNodes = 10;
 	public eOrientationMode OrientationMode = eOrientationMode.NODE;
 	public eWrapMode WrapMode = eWrapMode.ONCE;
+	public float Speed;
 	public bool AutoStart = true;
 	public bool AutoClose = true;
 	public bool HideOnExecute = true;
+
+	//Used to determine how fast or how slow we should be moving.  Default value to -1 means we move at whatever.
+	//SplineInterpolator 
+	public float interpolationSpeed {
+		get {
+			return mSplineInterp.speed;
+		}
+		set {
+			mSplineInterp.speed = value;
+		}
+	}
 
 	protected SplineInterpolator mSplineInterp;
 	
@@ -225,7 +237,7 @@ public class SplineController : MonoBehaviour
 			if (p != null)
 				info.Add(new SplineNode(p.Name, element.transform, p.BreakTime));
 			else
-				info.Add(new SplineNode("", element.transform, 0));
+				info.Add(new SplineNode(element.gameObject.name, element.transform, 0));
 		}
 		//Debug.Log("Spline nodes created");
 		//for (int i = 0; i < info.Count; ++i) {

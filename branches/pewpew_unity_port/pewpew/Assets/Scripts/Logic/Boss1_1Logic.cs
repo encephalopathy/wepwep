@@ -26,7 +26,6 @@ public class Boss1_1Logic : EnemyLogic {
         phase = 1;
         subPhase = 1;
         subPhaseDuration = initialSubPhaseDuration;
-        boss.transform.Rotate(new Vector3(0f, 0f, 180f));
 	}
 	
 	// Update is called once per frame
@@ -160,9 +159,10 @@ public class Boss1_1Logic : EnemyLogic {
         RightTurret.GetComponent<CircleShot>().enabled = false;
         LeftTurret.GetComponent<CircleShot>().enabled = false;
         changingPhase = true;
-        boss.GetComponentInParent<EnemySplineController>().SplineToExecute = 1;
-        Debug.Log("Boss 1-1 Logic, splineToExecute is " + boss.GetComponentInParent<EnemySplineController>().SplineToExecute + " before SetDirty");
-        boss.GetComponentInParent<EnemySplineController>().WrapMode = eWrapMode.ONCE;
+		EnemySplineController bossSplineController = boss.GetComponentInParent<EnemySplineController>();
+		bossSplineController.WrapMode = eWrapMode.ONCE;
+		bossSplineController.SetSpline(1);
+        
     }
 
     void endPhaseChange()
