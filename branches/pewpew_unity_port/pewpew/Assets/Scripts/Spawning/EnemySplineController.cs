@@ -39,17 +39,6 @@ public class EnemySplineController : SplineController {
 	// Update is called once per frame
 	void Update ()
     {
-        /*Debug.Log("EnemySplineController: activeInHierarchy is " + SpawnGroup[SplineToExecute].activeInHierarchy + " and activeSelf is " + SpawnGroup[SplineToExecute].activeSelf + " SplineToExecute is " + SplineToExecute);
-        if (SpawnGroup[SplineToExecute].activeInHierarchy)
-        {
-            SpawnGroup[SplineToExecute].SetActive(false);
-        }
-        if (oldSplineToExecute != SplineToExecute)
-        {
-            SpawnGroup[oldSplineToExecute].SetActive(false);
-            SpawnGroup[SplineToExecute].SetActive(true);
-        }*/
-        
 	}
 
 	protected override void DrawGoKitSplineController ()
