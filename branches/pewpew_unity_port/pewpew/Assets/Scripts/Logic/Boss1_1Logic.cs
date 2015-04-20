@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 
 public class Boss1_1Logic : EnemyLogic {
 
-    private int phase;
+    public int phase;
     private int subPhase;
-    private bool changingPhase = false;
+    //private bool changingPhase = false;
     [SerializeField] private GameObject boss;
     [SerializeField] private GameObject LeftTurret;
     [SerializeField] private GameObject RightTurret;
@@ -15,9 +16,10 @@ public class Boss1_1Logic : EnemyLogic {
     [SerializeField] private GameObject player;
     [SerializeField] private float initialSubPhaseDuration = 5;
     private float subPhaseDuration;
-    [SerializeField] private float phase1HPCondition = 0.6f;
+    [SerializeField] private float phase1HPCondition = 0.5f;
     //[SerializeField] private float phase2HPCondition = 0.3f;
     private bool hasRotated = false;
+    private EnemySplineController bossSplineController;
 
 	// Use this for initialization
 	void Start ()
@@ -26,42 +28,46 @@ public class Boss1_1Logic : EnemyLogic {
         phase = 1;
         subPhase = 1;
         subPhaseDuration = initialSubPhaseDuration;
+        bossSplineController = boss.GetComponent<EnemySplineController>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+    void Update()
+    {
         subPhaseDuration -= Time.deltaTime;
-
-        if (player.GetComponent<BombWeapon>().bombActivated == true)
+        /*if (player != null)
         {
-            //Debug.Log("boss1_1logic, bombActivated is true inside update");
-            bombStun();
-        }
-        else if (player.GetComponent<BombWeapon>().bombActivated == false)
-        {
-            if (phase == 1)
+            if (player.GetComponent<BombWeapon>().bombActivated == true)
             {
-                if (subPhase == 1)
+                //Debug.Log("boss1_1logic, bombActivated is true inside update");
+                bombStun();
+            }
+            else if (player.GetComponent<BombWeapon>().bombActivated == false)
+            {
+                if (phase == 1)
                 {
-                    subPhase1Attacks();
+                    if (subPhase == 1)
+                    {
+                        subPhase1Attacks();
+                    }
+                    else if (subPhase == 2)
+                    {
+                        subPhase2Attacks();
+                    }
                 }
-                else if (subPhase == 2)
+                else if (phase == 2)
                 {
-                    subPhase2Attacks();
+                    if (subPhase == 3)
+                    {
+                        subPhase3Attacks();
+                    }
+                    else if (subPhase == 4)
+                    {
+                        subPhase4Attacks();
+                    }
                 }
             }
-            else if (phase == 2)
-            {
-                if (subPhase == 3)
-                {
-                    subPhase3Attacks();
-                }
-                else if (subPhase == 4)
-                {
-                    subPhase4Attacks();
-                }
-            }
-        }
+        }*/
 
         if (phase == 1)
         {
@@ -76,17 +82,23 @@ public class Boss1_1Logic : EnemyLogic {
                     if (subPhase == 1)
                     {
                         subPhase = 2;
-                        if (player.GetComponent<BombWeapon>().bombActivated == false)
+                        if (player != null)
                         {
-                            subPhase2Attacks();
+                            if (player.GetComponent<BombWeapon>().bombActivated == false)
+                            {
+                                subPhase2Attacks();
+                            }
                         }
                     }
                     else if (subPhase == 2)
                     {
                         subPhase = 1;
-                        if (player.GetComponent<BombWeapon>().bombActivated == false)
+                        if (player != null)
                         {
-                            subPhase1Attacks();
+                            if (player.GetComponent<BombWeapon>().bombActivated == false)
+                            {
+                                subPhase1Attacks();
+                            }
                         }
                     }
                     subPhaseDuration = initialSubPhaseDuration;
@@ -99,56 +111,40 @@ public class Boss1_1Logic : EnemyLogic {
         }
         else if (phase == 2)
         {
-            if (changingPhase)
-            {
-                // code for switching splines
-                // enable the next set of weapons as well
-                if (subPhaseDuration <= 0)
-                {
-                    //boss.transform.eulerAngles = new Vector3(0f, 180f, 0f);
-                    if (!hasRotated)
-                    {
-                        boss.transform.Rotate(new Vector3(0f, 0f, 180f));
-                        hasRotated = true;
-                    }
-                }
-                /*if (subPhaseDuration <= -10)
-                {
-                    changingPhase = false;
-                    subPhaseDuration = initialSubPhaseDuration;
-                    endPhaseChange();
-                }*/
-            }
-            else if (subPhaseDuration <= 0)
+            if (subPhaseDuration <= 0)
             {
                 if (subPhase == 3)
                 {
                     subPhase = 4;
-                    if (player.GetComponent<BombWeapon>().bombActivated == false)
+                    if (player != null)
                     {
-                        subPhase4Attacks();
+                        if (player.GetComponent<BombWeapon>().bombActivated == false)
+                        {
+                            subPhase4Attacks();
+                        }
                     }
                 }
                 else if (subPhase == 4)
                 {
                     subPhase = 3;
-                    if (player.GetComponent<BombWeapon>().bombActivated == false)
+                    if (player != null)
                     {
-                        subPhase3Attacks();
+                        if (player.GetComponent<BombWeapon>().bombActivated == false)
+                        {
+                            subPhase3Attacks();
+                        }
                     }
                 }
                 subPhaseDuration = initialSubPhaseDuration;
             }
         }
-        
-
-	}
+    }
 
     void startPhaseChange()
     {
-        Debug.Log("Boss 1-1, changing phases");
-        phase = 2;
-        subPhase = 3;
+        //Debug.Log("Boss 1-1, changing phases");
+        //phase = 2;
+        //subPhase = 3;
         //subPhase3Attacks();
         RightTurret.GetComponent<SingleShot>().enabled = false;
         LeftTurret.GetComponent<SingleShot>().enabled = false;
@@ -158,18 +154,31 @@ public class Boss1_1Logic : EnemyLogic {
         LeftTurret.GetComponent<SpreadShot>().enabled = false;
         RightTurret.GetComponent<CircleShot>().enabled = false;
         LeftTurret.GetComponent<CircleShot>().enabled = false;
-        changingPhase = true;
-		EnemySplineController bossSplineController = boss.GetComponentInParent<EnemySplineController>();
+        //changingPhase = true;
 		bossSplineController.WrapMode = eWrapMode.ONCE;
-		bossSplineController.SetSpline(1);
-        
+        bossSplineController.AutoClose = false;
+        bossSplineController.TimeBetweenAdjacentNodes = 1;
+        bossSplineController.SetSpline(1);
+        //bossSplineController.FollowSpline(endPhaseChange, null, null);
+
+        boss.GetComponent<Collider>().enabled = false;
+        LeftBooster.GetComponent<Collider>().enabled = false;
+        RightBooster.GetComponent<Collider>().enabled = false;
     }
 
     void endPhaseChange()
     {
-        Debug.Log("Boss 1-1, ending phase change");
-        boss.GetComponentInParent<EnemySplineController>().SplineToExecute = 0;
-        boss.GetComponentInParent<EnemySplineController>().WrapMode = eWrapMode.LOOP;
+        phase = 2;
+        subPhase = 3;
+
+        bossSplineController.WrapMode = eWrapMode.LOOP;
+        bossSplineController.AutoClose = true;
+        bossSplineController.TimeBetweenAdjacentNodes = 2;
+        bossSplineController.SetSpline(2);
+        
+        boss.GetComponent<Collider>().enabled = true;
+        LeftBooster.GetComponent<Collider>().enabled = true;
+        RightBooster.GetComponent<Collider>().enabled = true;
     }
 
     void subPhase1Attacks()

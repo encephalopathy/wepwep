@@ -70,7 +70,7 @@ public class EnemyLogic : MonoBehaviour
             }
             //Debug.Log("You crashed!");
         }
-        else if (theCollision.gameObject.tag == "Destroy")
+        else if (theCollision.gameObject.tag == "Destroy" && this.gameObject.tag == "Enemy")
         {
             if (!hasSpawned)
             {

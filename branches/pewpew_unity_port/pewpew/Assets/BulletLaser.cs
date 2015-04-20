@@ -37,5 +37,4 @@ public class BulletLaser : MonoBehaviour
 			enemylogic.doDamage(damage);
 		}
 	}
-	
 }
