@@ -21,7 +21,7 @@ public class DoubleShotWeapon : MonoBehaviour {
 		{
 			// cache oneSpawn object in spawnPt, if not cached yet
 			//myObject.GetComponent<MyScript>().MyFunction();
-			if( player.GetComponent<PlayerLogic>().canFire(10)) {
+			if( player.GetComponent<PlayerLogic>().canFire(10, false)) {
 				if (!spawnPt) 
 				{
 					spawnPt = GameObject.Find("oneSpawn");

@@ -24,7 +24,7 @@ public class BloomShot : MonoBehaviour
 	
 	IEnumerator fireSpread ()
 	{
-		if (player.GetComponent<PlayerLogic> ().canFire (75)) {
+		if (player.GetComponent<PlayerLogic> ().canFire (75, false)) {
 			if (!spawnPt) {
 				spawnPt = GameObject.Find ("oneSpawn");
 			}

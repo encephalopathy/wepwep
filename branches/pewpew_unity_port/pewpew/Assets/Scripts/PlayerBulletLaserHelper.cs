@@ -1,54 +1,80 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerBulletHelper : MonoBehaviour
+public class PlayerBulletLaserHelper : MonoBehaviour
 {
-    //[SerializeField] private int playerBulletVelocity = 10;
-    //[SerializeField] private float playerBulletLife = 5f;
-    //[SerializeField] private int playerBulletDamage = 1;
+	public float velX;
+	public float velY;
+	public float velZ;
+
     public int playerBulletVelocity = 10;
-    public float playerBulletLife = 5f;
     public int playerBulletDamage = 1;
     private bool hasCollided = false;
+	public GameObject player;
+	public Vector3 movementVector;
+	public float moveZ = 0;
+    private GameObject spawnPt;
+    private bool canGrow = true;
+    private float damageCooldown = 0.25f;
 
-	// Use this for initialization
-    void Start()
-    {
-        Destroy(this.gameObject, playerBulletLife);
+	void Start () {
+		/*player = GameObject.Find("Ship");
+		moveZ = player.transform.position.z + 2.0f;
+
+		movementVector = new Vector3 (player.transform.position.x, 0, moveZ);
+		this.gameObject.transform.position = movementVector;*/
+        spawnPt = GameObject.Find("Blaster");
+        moveZ = spawnPt.transform.position.z;
+        this.gameObject.transform.position = spawnPt.transform.position;
 	}
-	
-	// Update is called once per frame
+
 	void Update ()
 	{
-        if (hasCollided == true)
+		if (Input.GetButton ("Fire1")) {
+						/*movementVector = new Vector3 (player.transform.position.x, 0, moveZ);
+						moveZ = moveZ + .5f;
+						this.gameObject.transform.position = movementVector;*/
+            this.gameObject.transform.position = new Vector3 (spawnPt.transform.position.x, 0, moveZ);
+            moveZ += 0.5f;
+		} else {
+            Destroy(this.gameObject);
+            moveZ = spawnPt.transform.position.z;
+		}
+        if (hasCollided)
         {
-            this.GetComponent<Collider>().enabled = false;
+            damageCooldown -= Time.deltaTime;
+            if (damageCooldown <= 0)
+            {
+                hasCollided = false;
+                damageCooldown = 0.25f;
+            }
         }
-	   	this.gameObject.transform.Translate(Vector3.forward * playerBulletVelocity * Time.deltaTime);
+
 	}
 
-
-    //Basic collision detection checking for two differently named objects
-    void OnCollisionEnter(Collision theCollision)
+    /*void onCollisionEnter(Collision theCollision)
     {
-        if (theCollision.gameObject.name == "Bullet")
+        if (theCollision.transform.tag == "Enemy" || theCollision.gameObject.tag == "BossPart" || theCollision.gameObject.tag == "Boss" || theCollision.gameObject.tag == "Destroy")
         {
-            Debug.Log("Bullet hit the wall yo");
-            //Destroy(theCollision.gameObject);
-        }
-        else 
-        {
-            //Destroy(this);
+
         }
     }
 
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.name == "BasicEnemy")
+		{
+			EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
+			enemylogic.doDamage(damage);
+		}
+	}*/
     void OnTriggerEnter(Collider other)
     {
         //Destroy(this.gameObject);
         //this.collider.enabled = false;
         //Debug.Log("playerBulletHelper: "+this.collider+" is " + this.collider.enabled);
         //Debug.Log("PlayerBulletHelper.cs: We hit something");
-		if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "DestroyBullet")
+        if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "DestroyBullet")
         //if (other.gameObject.name == "BasicEnemy" || other.gameObject.tag == "Enemy") //change later to tags for any enemy
         {
             if (other.gameObject.tag == "Enemy")
@@ -82,10 +108,10 @@ public class PlayerBulletHelper : MonoBehaviour
                 //SDebug.Log("Up in here");
                 //Debug.Log("PlayerBulletHelper.cs: hit a boss part");
             }
-            else if (other.gameObject.tag == "DestroyBullet"){
+            else if (other.gameObject.tag == "DestroyBullet")
+            {
                 Destroy(this.gameObject);
             }
         }
     }
-
 }

@@ -47,7 +47,7 @@ public class TripleShot : MonoBehaviour
     {
         if (transform.parent.tag == "Player")
         {
-            if (player.GetComponent<PlayerLogic>().canFire(15))
+            if (player.GetComponent<PlayerLogic>().canFire(15, false))
             {
                 if (!spawnPt)
                 {

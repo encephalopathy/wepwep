@@ -19,7 +19,7 @@ public class ShootForward : MonoBehaviour
 		{
 			// cache oneSpawn object in spawnPt, if not cached yet
 			//myObject.GetComponent<MyScript>().MyFunction();
-			if( player.GetComponent<PlayerLogic>().canFire(10)) {
+			if( player.GetComponent<PlayerLogic>().canFire(10, false)) {
 				if (!spawnPt) spawnPt = GameObject.Find("oneSpawn");
 				GameObject projectile = Instantiate(bullet, spawnPt.transform.position, Quaternion.identity) as GameObject;
 				projectile.gameObject.name = "Bullet";

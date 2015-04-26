@@ -9,11 +9,11 @@ public class SpawnEnemies : MonoBehaviour
     
     [Tooltip("The time when the enemy spawns in seconds since the level starts.")]
     [SerializeField] private float spawnTime = 0;
-    private GameObject enemyClone;
+    //private GameObject enemyClone;
 	// Use this for initialization
 	void Start ()
     {
-        enemyClone = Instantiate(enemy) as GameObject;
+        //enemyClone = Instantiate(enemy) as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -25,13 +25,9 @@ public class SpawnEnemies : MonoBehaviour
         }
         else
         {
-            if (spawned)
+            if (!spawned)
             {
-
-            }
-            else
-            {
-                enemyClone.SetActive(true);
+                enemy.SetActive(true);
                 spawned = false;
             }
         }

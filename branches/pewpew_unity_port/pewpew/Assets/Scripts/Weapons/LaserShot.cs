@@ -14,27 +14,34 @@ public class LaserShot : MonoBehaviour
 	private Transform spawnBullet;
 	private Vector3 tmpVector = new Vector3 (.5f, 0f, 500.0f);
 	public GameObject player;
+    private int energyCost = 3;
 	
 	void Update ()
 	{
 		if (Input.GetButtonDown ("Fire1")) {
-			StartCoroutine ("fireSpread");
+			StartCoroutine ("fireLaser");
 		}
 	}
 	
-	IEnumerator fireSpread ()
+	IEnumerator fireLaser ()
 	{
-		if (player.GetComponent<PlayerLogic> ().canFire(0)) {
-				StartCoroutine("wave");
-				pew.Play (0);
-			
-		}
-		player.GetComponent<PlayerLogic>().isFiring = false;
+        if (transform.parent.tag == "Player")
+        {
+            if (player.GetComponent<PlayerLogic>().canFire(energyCost, true))
+            {
+                StartCoroutine("wave");
+                if (pew != null)
+                {
+                    pew.Play(0);
+                }
+            }
+        }
 		return null;
 	}
+
 	IEnumerator wave ()
 	{	
-		Debug.Log ("wave is happening");
+		//Debug.Log ("wave is happening");
 		//for (int i = numberOfBullets; i > 0; i--) {
 		while(Input.GetButton ("Fire1")) {
 			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
@@ -42,7 +49,7 @@ public class LaserShot : MonoBehaviour
 			yield return new WaitForSeconds (.01f);
 			Destroy (projectile.gameObject, BulletLife);
 		//}
-		Debug.Log ("routine ending");
+		//Debug.Log ("routine ending");
 		}
 	}
 	
