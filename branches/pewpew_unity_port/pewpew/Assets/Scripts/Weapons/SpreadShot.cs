@@ -78,7 +78,7 @@ public class SpreadShot : MonoBehaviour
     {
         if (transform.parent.tag == "Player")
         {
-            if (player.GetComponent<PlayerLogic>().canFire(energyCost))
+            if (player.GetComponent<PlayerLogic>().canFire(energyCost, false))
             {
                 if (!spawnPt)
                 {

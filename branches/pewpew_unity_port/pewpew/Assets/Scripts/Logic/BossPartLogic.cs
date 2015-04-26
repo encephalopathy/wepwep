@@ -49,14 +49,15 @@ public class BossPartLogic : MonoBehaviour
     {
         //Debug.Log("An enemy got hit");
         
-        if (theCollision.gameObject.name == "Ship")
+        //if (theCollision.gameObject.name == "Ship")
+        if(theCollision.gameObject.tag == "Player")
         {
             //Die();
-            EnemyLogic other = (EnemyLogic)theCollision.gameObject.GetComponent(typeof(EnemyLogic));
-            other.doDamage(50);
+            /*EnemyLogic other = (EnemyLogic)theCollision.gameObject.GetComponent(typeof(EnemyLogic));
+            other.doDamage(50);*/
+            theCollision.gameObject.GetComponent<PlayerLogic>().doDamage(theCollision.gameObject.GetComponent<PlayerLogic>().currentHealth);
+            Debug.Log("BossPartLogic: player crashed into the boosters.");
             //Debug.Log("You crashed!");
         }
-
     }
-
 }

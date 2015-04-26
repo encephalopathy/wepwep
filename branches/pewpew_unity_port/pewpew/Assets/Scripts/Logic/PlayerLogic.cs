@@ -100,8 +100,10 @@ public class PlayerLogic : MonoBehaviour
 
     public void doDamage(int amount)
     {
+        //Debug.Log("PlayerLogic: damage is being dealt to the player.");
         if (!isPlayerInvincible)
         {
+            //Debug.Log("PlayerLogic: player is not invincible and will take damage.");
             if (cooldownTime <= 0)
             {
                 //Debug.Log("EnemyLogic: CurrentHealth before damage is " + currentHealth);
@@ -157,14 +159,24 @@ public class PlayerLogic : MonoBehaviour
 		}*/
 	}
 
-	public bool canFire(int cost)
+	public bool canFire(int cost, bool continuousFire)
 	{
 		//Debug.Log(currentEnergy + " is the players nrg" );
 		bool _canFire=false;
-		if(currentEnergy > cost && isFiring == false){
-			currentEnergy -= cost;
-			_canFire=true;
-            isFiring = true;
+		if(currentEnergy > cost)
+        {
+            if (continuousFire)
+            {
+                currentEnergy -= cost;
+                _canFire = true;
+                isFiring = false;
+            }
+            else if (!continuousFire && !isFiring)
+            {
+                currentEnergy -= cost;
+                _canFire = true;
+                isFiring = true;
+            }
 		}
 		return _canFire;
 	}

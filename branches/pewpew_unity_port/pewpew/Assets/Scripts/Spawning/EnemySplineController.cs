@@ -19,31 +19,9 @@ public class EnemySplineController : SplineController {
 	/// The spawn group: A colection of splines that make up which enemy flights paths that this game object can switch to.
 	/// </summary>
 	public GameObject[] SpawnGroup;
-	private bool _hasSwappedSpline;
 	public SplineSwappedEventHandler OnSplineSwapped;
-	public int _splineToExecute = 0;
-
-	/// <summary>
-	/// Sets which spline to activate within the SpawnGroup, the default value for this is zero.
-	/// </summary>
-	/// <value>The spline to execute.</value>
-	public int SplineToExecute { 
-		get {
-			return _splineToExecute;
-		} 
-		set {
-			if (value < SpawnGroup.Length && value > 0) {
-				SpawnGroup[_splineToExecute].SetActive(false);
-				SpawnGroup[value].SetActive(true);
-				if (OnSplineSwapped != null) {
-					OnSplineSwapped(this, value);
-				}
-			}
-			_splineToExecute = value;
-		}
-	}
-
-
+	public int SplineToExecute;
+    private int oldSplineToExecute;
 
 	// Use this for initialization
 	void Start () {
@@ -51,8 +29,15 @@ public class EnemySplineController : SplineController {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        if (oldSplineToExecute != SplineToExecute)
+        {
+            SpawnGroup[SplineToExecute].SetActive(true);
+			OnStart();
+			oldSplineToExecute = SplineToExecute;
+        }
+        
 	}
 
 	protected override void DrawGoKitSplineController ()
@@ -64,7 +49,7 @@ public class EnemySplineController : SplineController {
 			base.DrawGoKitSplineController();
 		}
 		if (SpawnGroup.Length > 0) {
-			SplineRoot = SpawnGroup[_splineToExecute];
+			SplineRoot = SpawnGroup[SplineToExecute];
 		}
 	}
 
@@ -72,7 +57,7 @@ public class EnemySplineController : SplineController {
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
 		if (SplineToExecute < SpawnGroup.Length) {
-			SplineRoot = SpawnGroup[_splineToExecute];
+			SplineRoot = SpawnGroup[SplineToExecute];
 
 			mSplineNodeInfo = GetSplineNodes();
 		}
@@ -87,6 +72,10 @@ public class EnemySplineController : SplineController {
 	public override void FollowSpline (OnPathEndCallback endCallback, OnNodeArrivalCallback nodeCallback1, OnNodeLeavingCallback nodeCallback2)
 	{
 		base.FollowSpline (endCallback, nodeCallback1, nodeCallback2);
+	}
+
+	public void SetSpline(int splineNum) {
+		SplineToExecute = splineNum;
 	}
 
 	/// <summary>
