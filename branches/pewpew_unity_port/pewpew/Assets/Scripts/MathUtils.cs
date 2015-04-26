@@ -7,6 +7,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class MathUtils
 {
@@ -167,5 +168,35 @@ public class MathUtils
 		}
 
 		return ret;
+	}
+
+	public static float Simpson(Func<float, float> functionToEvaluate, float start, float end, int n_limit, float tolerance) {
+		float MAX_TOLERANCE = 0.0000001f;
+		float multiplier = (end - start) / 6.0f;
+		float endSum = functionToEvaluate(start) + functionToEvaluate(end);
+		float interval = (end - start) / 2.0f;
+
+		float leftSum = 0;
+		float rightSum = functionToEvaluate(start + interval);
+		float est1 = multiplier * (endSum + 2 * leftSum + 4 * rightSum);
+		float est0 = 2 * est1;
+
+		for (int n = 1; n < n_limit && Mathf.Abs(est1) > 0 && Mathf.Abs((est1 - est0) / est1) > tolerance; ++n) {
+			n *= 2;
+			multiplier *= 0.5f;
+			interval *= 0.5f;
+			leftSum += rightSum;
+			rightSum = 0f;
+			est0 = est1;
+			float interval_div_2n = interval / (2.0f * n);
+
+			for (int i = 1; i < 2 * n; i += 2) {
+				float t = start + i * interval_div_2n;
+				rightSum += functionToEvaluate(t);
+			}
+
+			est1 = multiplier * (endSum + 2f*leftSum + 4f*rightSum);
+		}
+		return est1;
 	}
 }
