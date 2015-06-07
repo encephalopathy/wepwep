@@ -179,6 +179,7 @@ public class SplineController : MonoBehaviour
 		{
 			if (OrientationMode == eOrientationMode.NODE)
 			{
+				Debug.Log("Adding node[" + c + "] at currTime: " + currTime + " with Break time " + ninfo[c].BreakTime);
 				interp.AddPoint(ninfo[c].Name, ninfo[c].Point, 
 								ninfo[c].Rot, 
 								currTime, ninfo[c].BreakTime, 
@@ -206,7 +207,7 @@ public class SplineController : MonoBehaviour
 			// However, when ninfo[i].StopHereForSecs > 0, then the arrival time of node (i+1)-th needs
 			// to account for the stop time of node i-th
 			currTime += ninfo[c].BreakTime;
-			//Debug.Log("currTime: " + currTime);
+
 			if (Speed <= 0 || Application.isEditor) {
 				currTime += TimeBetweenAdjacentNodes;
 			}
@@ -267,7 +268,8 @@ public class SplineController : MonoBehaviour
 	protected void ConstructCurve(SplineInterpolator interp, SplineNode[] nInfo) {
 		if (Speed <= 0 && nInfo.Length < 3) return;
 		float totalLength = 0;
-		float[] curveLengths = new float[nInfo.Length - 1];
+		float[] curveLengths = new float[nInfo.Length];
+		float[] nodeArrivalTimes = new float[nInfo.Length];
 		float currTime = 0;
 		uint c = 0;
 		bool pathEnded = false;
@@ -317,7 +319,7 @@ public class SplineController : MonoBehaviour
 		for (int i = 0; i < curveLengths.Length; i++)
 		{
 			float hermiteLengthToEvaluate = curveLengths[i];
-			Debug.Log("Curve length[i]: " + hermiteLengthToEvaluate);
+			Debug.Log("Curve length[" + i + "]: " + hermiteLengthToEvaluate);
 			if (hermiteLengthToEvaluate == 0) continue;
 			float speedMultiplier = hermiteLengthToEvaluate / totalLength * (1 / Speed);
 			interp.AddPoint(nInfo[i].Name, nInfo[i].Point, 
