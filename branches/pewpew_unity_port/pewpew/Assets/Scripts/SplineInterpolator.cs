@@ -16,6 +16,7 @@ public class SplineNode
 	internal float ArrivalTime;
 	internal float BreakTime;
 	internal Vector2 EaseIO;
+	public float length;
 
 	internal SplineNode(string n, Vector3 p, Quaternion q, float tArrival, float tBreak, Vector2 io) 
 		{ Name = n; Point = p; Rot = q; ArrivalTime = tArrival; BreakTime = tBreak; EaseIO = io; }
@@ -44,6 +45,7 @@ public delegate void OnNodeLeavingCallback(int idxLeaving, SplineNode nodeLeavin
 public class SplineInterpolator : MonoBehaviour
 {
 	public float speed = -1;
+	public Vector3 velocity { get; private set; }
 
 	List<SplineNode> mNodes = new List<SplineNode>();
 	
@@ -66,16 +68,20 @@ public class SplineInterpolator : MonoBehaviour
 
 	void Awake()
 	{
-		Reset();
+		Clear();
 	}
 	
 	void Update()
 	{
 		if (mState == "Reset" || mState == "Stopped" || mNodes.Count < 4)
 			return;
+		
+		Update(Time.deltaTime);
 
-		mCurrentTime += Time.deltaTime;
+	}
 
+	public void Update(float time) {
+		mCurrentTime += time;
 		if (mCurrentTime >= mNodes[mCurrentIdx + 1].ArrivalTime)
 		{			
 			// advance to next point in the path
@@ -93,13 +99,13 @@ public class SplineInterpolator : MonoBehaviour
 				if (mState != "Loop")
 				{
 					mState = "Stopped";
-
+					
 					// We stop right in the end point
 					transform.position = mNodes[mNodes.Count - 2].Point;
-
+					
 					if (mRotations)
 						transform.rotation = mNodes[mNodes.Count - 2].Rot;
-
+					
 					// We call back to inform that we are ended
 					if (mOnNodeArrivalCallback != null)
 						mOnNodeArrivalCallback(mCurrentIdx+1, mNodes[mCurrentIdx+1]);
@@ -113,7 +119,7 @@ public class SplineInterpolator : MonoBehaviour
 				}
 			}
 		}
-
+		
 		if (mState != "Stopped")
 		{
 			if (mCurrentTime >= mNodes[mCurrentIdx].GetLeaveTime())
@@ -128,31 +134,37 @@ public class SplineInterpolator : MonoBehaviour
 				
 				// Calculates the t param between 0 and 1
 				float param = GetNormalizedTime(mCurrentIdx, mCurrentTime, mCurrentIdx+1);
-	
+				
 				// Smooth the param
 				param = MathUtils.Ease(param, mNodes[mCurrentIdx].EaseIO.x, mNodes[mCurrentIdx].EaseIO.y);
-
+				
 				// Move attached transform
 				Vector3 lastPosition = transform.position;
 				Vector3 newPosition = GetHermiteInternal(mCurrentIdx, param);
-
-				Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
+				
+				//Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
 				//Debug.Log("Velocity: " + TESTvelocity.magnitude);
 				//Debug.Log("Leave time: " + mNodes[mCurrentIdx].GetLeaveTime());
 
+				velocity = GetHermiteVelocity(mCurrentIdx, param);
+				mNodes[mCurrentIdx].length += velocity.magnitude;
+				//Debug.Log(velocity.magnitude);
+				
 				//If the user sets the speed of the curve, we need to adjust the curve's speed with the rest of the game.
 				if (speed > 0) {
+
 					//Gets the current hermite velocity at this point.
-					Vector3 velocity = GetHermiteVelocity(mCurrentIdx, param);
+					/*Vector3 velocity = GetHermiteVelocity(mCurrentIdx, param);
 					float curveCurrentSpeed = velocity.magnitude;
+					float direction = velocity.normalized;
 
 					//Compare the current speed at this point of the curve to the speed we want to travel at, the faster the curve move, the slower we must go, and vice versa.
 					float ratio = curveCurrentSpeed / speed;
-					////Debug.Log("Ratio: " + ratio);
+					//Debug.Log("Ratio: " + ratio);
 					//Debug.Log("Curve speed: " + curveCurrentSpeed);
 					//Adjust our position to be where we need it to be.
-					transform.position = lastPosition + (newPosition - lastPosition) * ratio;
-
+					transform.position = lastPosition + direction * speed;//(newPosition - lastPosition) * ratio;*/
+					
 				}
 				else {
 					transform.position = newPosition;
@@ -162,11 +174,11 @@ public class SplineInterpolator : MonoBehaviour
 				Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 				tmp.y += 0.7f * Mathf.Sin (7*mCurrentTime);
 				transform.position = tmp;*/
-	
+				
 				if (mRotations)
 				{
 					// Rotate attached transform
-                    ////Debug.Log("SplineInterpolator: rotation values are " + transform.rotation);
+					//Debug.Log("SplineInterpolator: rotation values are " + transform.rotation);
 					transform.rotation = GetSquad(mCurrentIdx, param);
 				}
 			}
@@ -198,12 +210,16 @@ public class SplineInterpolator : MonoBehaviour
 
 	public void Reset()
 	{
-		mNodes.Clear();
 		mState = "Reset";
 		mCurrentIdx = 1;
 		mCurrentTime = 0;
 		mRotations = false;
 		mEndPointsMode = eEndPointsMode.AUTO;
+	}
+
+	public void Clear() {
+		mNodes.Clear();
+		Reset();
 	}
 
 	public void AddPoint(string name, Vector3 pos, Quaternion quat, 
@@ -272,6 +288,7 @@ public class SplineInterpolator : MonoBehaviour
 	
 	void SetInput()
 	{
+		//Debug.Log ("Number of Points: " + mNodes.Count);
 		if (mNodes.Count < 2)
 			throw new System.Exception("Invalid number of points");
 
@@ -338,7 +355,7 @@ public class SplineInterpolator : MonoBehaviour
 		return MathUtils.GetQuatSquad(t, Q1, Q2, T1, T2);
 	}
 	
-	Vector3 GetHermiteInternal(int idxFirstPoint, float t)
+	public Vector3 GetHermiteInternal(int idxFirstPoint, float t)
 	{
         //DebugUtils.Assert(idxFirstPoint > 0 && idxFirstPoint < mNodes.Count - 2);
 			// the spline can be computed only from the second node up to the penultimate node!
@@ -374,7 +391,7 @@ public class SplineInterpolator : MonoBehaviour
 		return new Vector3();		// to avoid warnings
 	}
 
-	Vector3 GetHermiteVelocity(int idxFirstPoint, float t) {
+	public Vector3 GetHermiteVelocity(int idxFirstPoint, float t) {
 		if (idxFirstPoint == 0 ||(idxFirstPoint == mNodes.Count - 1 ||
 		         idxFirstPoint == mNodes.Count - 2))
 			return Vector3.zero;

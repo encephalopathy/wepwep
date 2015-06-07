@@ -20,8 +20,18 @@ public class EnemySplineController : SplineController {
 	/// </summary>
 	public GameObject[] SpawnGroup;
 	public SplineSwappedEventHandler OnSplineSwapped;
-	public int SplineToExecute;
-    private int oldSplineToExecute;
+	private int _SplineToExecute;
+
+	public int SplineToExecute {
+		get {
+			return _SplineToExecute;
+		}
+		set {
+			SpawnGroup[value].SetActive(true);
+			_SplineToExecute = SplineToExecute;
+			OnStart();
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -31,12 +41,6 @@ public class EnemySplineController : SplineController {
 	// Update is called once per frame
 	void Update ()
     {
-        if (oldSplineToExecute != SplineToExecute)
-        {
-            SpawnGroup[SplineToExecute].SetActive(true);
-			OnStart();
-			oldSplineToExecute = SplineToExecute;
-        }
         
 	}
 
@@ -49,15 +53,15 @@ public class EnemySplineController : SplineController {
 			base.DrawGoKitSplineController();
 		}
 		if (SpawnGroup.Length > 0) {
-			SplineRoot = SpawnGroup[SplineToExecute];
+			SplineRoot = SpawnGroup[_SplineToExecute];
 		}
 	}
 
 	protected override void OnStart() {
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
-		if (SplineToExecute < SpawnGroup.Length) {
-			SplineRoot = SpawnGroup[SplineToExecute];
+		if (_SplineToExecute < SpawnGroup.Length) {
+			SplineRoot = SpawnGroup[_SplineToExecute];
 
 			mSplineNodeInfo = GetSplineNodes();
 		}
@@ -75,7 +79,7 @@ public class EnemySplineController : SplineController {
 	}
 
 	public void SetSpline(int splineNum) {
-		SplineToExecute = splineNum;
+		_SplineToExecute = splineNum;
 	}
 
 	/// <summary>

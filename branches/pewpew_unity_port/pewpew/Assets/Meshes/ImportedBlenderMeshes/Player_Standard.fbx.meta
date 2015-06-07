@@ -11,12 +11,14 @@ ModelImporter:
     100006: //RootNode
     100008: Spot
     100010: Spot_001
+    100012: Point
     400000: Camera
     400002: Hull
     400004: Lamp
     400006: //RootNode
     400008: Spot
     400010: Spot_001
+    400012: Point
     2300000: Hull
     3300000: Hull
     4300000: Hull
