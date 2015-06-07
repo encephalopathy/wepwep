@@ -137,8 +137,8 @@ public class SplineInterpolator : MonoBehaviour
 				Vector3 newPosition = GetHermiteInternal(mCurrentIdx, param);
 
 				Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
-				Debug.Log("Velocity: " + TESTvelocity.magnitude);
-				Debug.Log("Leave time: " + mNodes[mCurrentIdx].GetLeaveTime());
+				//Debug.Log("Velocity: " + TESTvelocity.magnitude);
+				//Debug.Log("Leave time: " + mNodes[mCurrentIdx].GetLeaveTime());
 
 				//If the user sets the speed of the curve, we need to adjust the curve's speed with the rest of the game.
 				if (speed > 0) {
@@ -149,7 +149,7 @@ public class SplineInterpolator : MonoBehaviour
 					//Compare the current speed at this point of the curve to the speed we want to travel at, the faster the curve move, the slower we must go, and vice versa.
 					float ratio = curveCurrentSpeed / speed;
 					//Debug.Log("Ratio: " + ratio);
-					Debug.Log("Curve speed: " + curveCurrentSpeed);
+					//Debug.Log("Curve speed: " + curveCurrentSpeed);
 					//Adjust our position to be where we need it to be.
 					transform.position = lastPosition + (newPosition - lastPosition) * ratio;
 

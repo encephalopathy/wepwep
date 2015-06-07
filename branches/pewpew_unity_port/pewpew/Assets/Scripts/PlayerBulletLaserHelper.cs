@@ -74,7 +74,7 @@ public class PlayerBulletLaserHelper : MonoBehaviour
         //this.collider.enabled = false;
         //Debug.Log("playerBulletHelper: "+this.collider+" is " + this.collider.enabled);
         //Debug.Log("PlayerBulletHelper.cs: We hit something");
-        if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "DestroyBullet")
+		if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "DestroyBullet" || other.gameObject.tag == "PlayerBullet")
         //if (other.gameObject.name == "BasicEnemy" || other.gameObject.tag == "Enemy") //change later to tags for any enemy
         {
             if (other.gameObject.tag == "Enemy")
@@ -108,6 +108,7 @@ public class PlayerBulletLaserHelper : MonoBehaviour
                 //SDebug.Log("Up in here");
                 //Debug.Log("PlayerBulletHelper.cs: hit a boss part");
             }
+			else if (other.gameObject.tag == "PlayerBullet"){ Debug.Log("Hitting player bullets");}
             else if (other.gameObject.tag == "DestroyBullet")
             {
                 Destroy(this.gameObject);

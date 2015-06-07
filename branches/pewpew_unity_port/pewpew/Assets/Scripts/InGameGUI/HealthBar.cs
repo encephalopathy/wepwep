@@ -10,20 +10,20 @@ public class HealthBar : MonoBehaviour {
 	private float HealthBarCurrentLength;
 	public Texture HealthBarBackground;
 	public Texture Healthbar;
-	public GameObject textObject;
-	private Text healthText;
+	//public GameObject textObject;
+	//private Text healthText;
 
 	// Use this for initialization
 	void Start () {
 		HealthBarInitialLength = Screen.width / 4;
-		healthText = textObject.GetComponent<Text>();
-		Debug.Log("HealthBar.cs is : " + healthText);
+		//healthText = textObject.GetComponent<Text>();
+		//Debug.Log("HealthBar.cs is : " + healthText);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		AdjustCurrentHealth (0) ;
-		healthText.text = "Health : " + CurrentHealth;
+		//healthText.text = "Health : " + CurrentHealth;
 	}
 
 	void OnGUI () {
