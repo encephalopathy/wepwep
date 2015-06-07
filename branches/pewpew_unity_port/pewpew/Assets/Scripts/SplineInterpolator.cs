@@ -16,6 +16,7 @@ public class SplineNode
 	internal float ArrivalTime;
 	internal float BreakTime;
 	internal Vector2 EaseIO;
+	public float length;
 
 	internal SplineNode(string n, Vector3 p, Quaternion q, float tArrival, float tBreak, Vector2 io) 
 		{ Name = n; Point = p; Rot = q; ArrivalTime = tArrival; BreakTime = tBreak; EaseIO = io; }
@@ -74,13 +75,13 @@ public class SplineInterpolator : MonoBehaviour
 	{
 		if (mState == "Reset" || mState == "Stopped" || mNodes.Count < 4)
 			return;
-
-		mCurrentTime += Time.deltaTime;
-		Update(mCurrentTime);
+		
+		Update(Time.deltaTime);
 
 	}
 
 	public void Update(float time) {
+		mCurrentTime += time;
 		if (mCurrentTime >= mNodes[mCurrentIdx + 1].ArrivalTime)
 		{			
 			// advance to next point in the path
@@ -144,10 +145,14 @@ public class SplineInterpolator : MonoBehaviour
 				//Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
 				//Debug.Log("Velocity: " + TESTvelocity.magnitude);
 				//Debug.Log("Leave time: " + mNodes[mCurrentIdx].GetLeaveTime());
+
+				velocity = GetHermiteVelocity(mCurrentIdx, param);
+				mNodes[mCurrentIdx].length += velocity.magnitude;
+				//Debug.Log(velocity.magnitude);
 				
 				//If the user sets the speed of the curve, we need to adjust the curve's speed with the rest of the game.
 				if (speed > 0) {
-					velocity = GetHermiteVelocity(mCurrentIdx, param);
+
 					//Gets the current hermite velocity at this point.
 					/*Vector3 velocity = GetHermiteVelocity(mCurrentIdx, param);
 					float curveCurrentSpeed = velocity.magnitude;
@@ -252,12 +257,6 @@ public class SplineInterpolator : MonoBehaviour
 		mNodes.Add(lastNode);
 	}
 
-	public void SetSpeed(float speed) {
-		/*foreach (SplineNode node in mNodes) {
-			node.ArrivalTime = speed;
-		}*/
-	}
-
 	public Vector3 GetHermiteAtTime(float t)
 	{
 		// find the indices of the two nodes used for spline interpolation
@@ -289,6 +288,7 @@ public class SplineInterpolator : MonoBehaviour
 	
 	void SetInput()
 	{
+		//Debug.Log ("Number of Points: " + mNodes.Count);
 		if (mNodes.Count < 2)
 			throw new System.Exception("Invalid number of points");
 

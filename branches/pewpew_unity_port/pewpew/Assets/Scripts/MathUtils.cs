@@ -181,6 +181,9 @@ public class MathUtils
 		float est1 = multiplier * (endSum + 2 * leftSum + 4 * rightSum);
 		float est0 = 2 * est1;
 
+		Debug.Log("EST1: " + est1);
+		Debug.Log("EST0: " + est0);
+		Debug.Log("N_LIMIT: " + n_limit);
 		for (int n = 1; n < n_limit && Mathf.Abs(est1) > 0 && Mathf.Abs((est1 - est0) / est1) > tolerance; ++n) {
 			n *= 2;
 			multiplier *= 0.5f;
@@ -189,8 +192,9 @@ public class MathUtils
 			rightSum = 0f;
 			est0 = est1;
 			float interval_div_2n = interval / (2.0f * n);
-
+			Debug.Log ("Computing simpson's in loop 1 at N: " + n);
 			for (int i = 1; i < 2 * n; i += 2) {
+				Debug.Log("Comuting simpson's in loop 2 at i: " + i);
 				float t = start + i * interval_div_2n;
 				rightSum += functionToEvaluate(t);
 			}
