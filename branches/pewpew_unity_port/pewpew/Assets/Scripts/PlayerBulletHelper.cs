@@ -82,7 +82,7 @@ public class PlayerBulletHelper : MonoBehaviour
                 //SDebug.Log("Up in here");
                 //Debug.Log("PlayerBulletHelper.cs: hit a boss part");
             }
-            else if (other.gameObject.tag == "DestroyBullet"){
+            else if (other.gameObject.tag == "Destroy" || other.gameObject.tag == "DestroyBullet"){
                 Destroy(this.gameObject);
             }
         }

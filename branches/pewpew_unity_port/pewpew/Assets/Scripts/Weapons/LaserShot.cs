@@ -14,12 +14,16 @@ public class LaserShot : MonoBehaviour
 	private Transform spawnBullet;
 	private Vector3 tmpVector = new Vector3 (.5f, 0f, 500.0f);
 	public GameObject player;
-    private int energyCost = 3;
+    public int energyCost = 3;
 	
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Fire1")) {
-			StartCoroutine ("fireLaser");
+		if (Input.GetButtonDown ("Fire1"))
+        {
+            if (player.GetComponent<PlayerLogic>().canFire(energyCost, true))
+            {
+                StartCoroutine("fireLaser");
+            }
 		}
 	}
 	
@@ -27,14 +31,16 @@ public class LaserShot : MonoBehaviour
 	{
         if (transform.parent.tag == "Player")
         {
-            if (player.GetComponent<PlayerLogic>().canFire(energyCost, true))
-            {
+            //if (player.GetComponent<PlayerLogic>().canFire(energyCost, false))
+            //{
                 StartCoroutine("wave");
+                /*GameObject projectile = Instantiate(bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
+                projectile.gameObject.name = "LaserShot";*/
                 if (pew != null)
                 {
                     pew.Play(0);
                 }
-            }
+            //}
         }
 		return null;
 	}
@@ -43,14 +49,14 @@ public class LaserShot : MonoBehaviour
 	{	
 		//Debug.Log ("wave is happening");
 		//for (int i = numberOfBullets; i > 0; i--) {
-		while(Input.GetButton ("Fire1")) {
+		/*while(Input.GetButton ("Fire1")) {
 			GameObject projectile = Instantiate (bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
 			projectile.gameObject.name = "LaserShot";
-			yield return new WaitForSeconds (.01f);
-			Destroy (projectile.gameObject, BulletLife);
-		//}
-		//Debug.Log ("routine ending");
-		}
+            yield return new WaitForSeconds(.01f);
+			//Destroy (projectile.gameObject, BulletLife);
+		}*/
+        GameObject projectile = Instantiate(bullet, spawnPt.transform.position + tmpVector, Quaternion.identity) as GameObject;
+        projectile.gameObject.name = "LaserShot";
+        return null;
 	}
-	
 }

@@ -55,7 +55,7 @@ public class BulletHelper : MonoBehaviour
             shieldLogic.doDamage(enemyBulletDamage);
             Destroy(this.gameObject);
         }    
-        else if (other.tag == "Destroy")
+        else if (other.tag == "Destroy" || other.tag == "DestroyBullet")
         {
             Destroy(this.gameObject);
         }
