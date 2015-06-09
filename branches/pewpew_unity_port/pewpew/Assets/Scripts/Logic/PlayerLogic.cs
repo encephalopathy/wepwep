@@ -162,23 +162,21 @@ public class PlayerLogic : MonoBehaviour
 	public bool canFire(int cost, bool continuousFire)
 	{
 		//Debug.Log(currentEnergy + " is the players nrg" );
-		bool _canFire=false;
+		bool _canFire = false;
 		if(currentEnergy > cost)
         {
+            currentEnergy -= cost;
+            _canFire = true;
+
             if (continuousFire)
             {
-                currentEnergy -= cost;
-                _canFire = true;
                 isFiring = false;
             }
             else if (!continuousFire && !isFiring)
             {
-                currentEnergy -= cost;
-                _canFire = true;
                 isFiring = true;
             }
 		}
 		return _canFire;
 	}
-
 }
