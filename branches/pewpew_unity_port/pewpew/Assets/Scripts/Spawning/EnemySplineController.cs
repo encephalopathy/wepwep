@@ -120,6 +120,7 @@ public class EnemySplineController : SplineController {
 				Gizmos.color = newColor;
 			break;
 		}
+		currentColor = Gizmos.color;
 	}
 
 }

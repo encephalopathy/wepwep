@@ -46,6 +46,12 @@ public class SplineInterpolator : MonoBehaviour
 {
 	public float speed = -1;
 	public Vector3 velocity { get; private set; }
+	public int NumberOfNodes {
+		get {
+			if (mNodes == null) return 0;
+			return mNodes.Count;
+		}
+	}
 
 	List<SplineNode> mNodes = new List<SplineNode>();
 	
@@ -139,7 +145,6 @@ public class SplineInterpolator : MonoBehaviour
 				param = MathUtils.Ease(param, mNodes[mCurrentIdx].EaseIO.x, mNodes[mCurrentIdx].EaseIO.y);
 				
 				// Move attached transform
-				Vector3 lastPosition = transform.position;
 				Vector3 newPosition = GetHermiteInternal(mCurrentIdx, param);
 				
 				//Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
@@ -151,7 +156,7 @@ public class SplineInterpolator : MonoBehaviour
 				//Debug.Log(velocity.magnitude);
 				
 				//If the user sets the speed of the curve, we need to adjust the curve's speed with the rest of the game.
-				if (speed > 0) {
+				//if (speed > 0) {
 
 					//Gets the current hermite velocity at this point.
 					/*Vector3 velocity = GetHermiteVelocity(mCurrentIdx, param);
@@ -165,10 +170,10 @@ public class SplineInterpolator : MonoBehaviour
 					//Adjust our position to be where we need it to be.
 					transform.position = lastPosition + direction * speed;//(newPosition - lastPosition) * ratio;*/
 					
-				}
-				else {
+				//}
+				//else {
 					transform.position = newPosition;
-				}
+				//}
 				/*
 				// simulate human walking (FIXME)
 				Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
