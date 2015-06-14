@@ -25,6 +25,7 @@ public class SplineController : MonoBehaviour
 	public bool HideOnExecute = true;
 
 	private float mTotalSegmentSpeed;
+	protected Color currentColor;
 
 	//Used to determine how fast or how slow we should be moving.  Default value to -1 means we move at whatever.
 	//SplineInterpolator 
@@ -56,12 +57,12 @@ public class SplineController : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
-		Gizmos.color = Color.red;
+		currentColor = Color.red;
+		Gizmos.color = currentColor;
 		DrawGoKitSplineController();
 	}
 
 	protected virtual void DrawGoKitSplineController() {
-		//Debug.Log("drawing gizmos SplineController");
 		SplineNode[] info = GetSplineNodes();
 		if (info == null || info.Length < 2)
 			return;
@@ -84,9 +85,9 @@ public class SplineController : MonoBehaviour
 				//Debug.Log("NaN while drawing gizmos!!!!"); // should never arrive here!
 			
 			//float mag = (currPos-prevPos).magnitude * 2;
-			//Gizmos.color = new Color(mag, 0, 0, 1);
+			Gizmos.color = currentColor;
 			Gizmos.DrawLine(prevPos, currPos);
-            //Debug.Log("SplineController prevPos is " + prevPos + " and currPos is " + currPos + " .");
+
 			
 			prevPos = currPos;
 		}
@@ -207,10 +208,10 @@ public class SplineController : MonoBehaviour
 			// However, when ninfo[i].StopHereForSecs > 0, then the arrival time of node (i+1)-th needs
 			// to account for the stop time of node i-th
 			currTime += ninfo[c].BreakTime;
-			//Debug.Log("currTime: " + currTime);
-			if (Speed <= 0 || Application.isEditor) {
+
+			//if (Speed <= 0 || Application.isEditor) {
 				currTime += TimeBetweenAdjacentNodes;
-			}
+			//}
 		}
 
         //Debug.Log("SplineController, there are " + eOrientationMode.NODE + " nodes currently");
@@ -221,9 +222,9 @@ public class SplineController : MonoBehaviour
 		//Normalizes the speed by adjusting which times our spline interpolator
 		//needs to arrive at a particular node before they are added to the actual
 		//interpolator.
-		if (Speed > 0 && Application.isPlaying) {
+		/*if (Speed > 0 && Application.isPlaying) {
 			ConstructCurve(interp, ninfo);
-		}
+		}*/
 
 	}
 
@@ -270,7 +271,8 @@ public class SplineController : MonoBehaviour
 	protected void ConstructCurve(SplineInterpolator interp, SplineNode[] nInfo) {
 		if (Speed <= 0 && nInfo.Length < 3) return;
 		float totalLength = 0;
-		float[] curveLengths = new float[nInfo.Length - 1];
+		float[] curveLengths = new float[nInfo.Length];
+		float[] nodeArrivalTimes = new float[nInfo.Length];
 		float currTime = 0;
 		uint c = 0;
 		bool pathEnded = false;
@@ -320,7 +322,7 @@ public class SplineController : MonoBehaviour
 		for (int i = 0; i < curveLengths.Length; i++)
 		{
 			float hermiteLengthToEvaluate = curveLengths[i];
-			//Debug.Log("Curve length[i]: " + hermiteLengthToEvaluate);
+			Debug.Log("Curve length[" + i + "]: " + hermiteLengthToEvaluate);
 			if (hermiteLengthToEvaluate == 0) continue;
 			float speedMultiplier = hermiteLengthToEvaluate / totalLength * (1 / Speed);
 			interp.AddPoint(nInfo[i].Name, nInfo[i].Point, 
