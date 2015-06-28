@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/// <summary>
+/// Creates a circle from the existing set of nodes on a spline interpolator, the nodes can be anywhere but the centroid of the 
+/// circle is calculated based on the average distance from each node.
+///</summary>
 public class CreateSplineCircle : MonoBehaviour {
-	
+
+	//How long the circle should be in the x-axis.
 	public float yRadius = 0f;
+
+	//How long the circle should be in the z-axis.
 	public float xRadius = 0f;
 
+	//The root of the spline interpolator I want to modify.
 	public GameObject SplineRoot;
 
 	private bool applied = false;
