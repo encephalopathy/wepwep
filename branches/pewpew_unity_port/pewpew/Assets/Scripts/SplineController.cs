@@ -19,7 +19,7 @@ public class SplineController : MonoBehaviour
 	public float TimeBetweenAdjacentNodes = 10;
 	public eOrientationMode OrientationMode = eOrientationMode.NODE;
 	public eWrapMode WrapMode = eWrapMode.ONCE;
-	public float Speed;
+
 	public bool AutoStart = true;
 	public bool AutoClose = true;
 	public bool HideOnExecute = true;
@@ -28,15 +28,8 @@ public class SplineController : MonoBehaviour
 	protected Color currentColor;
 
 	//Used to determine how fast or how slow we should be moving.  Default value to -1 means we move at whatever.
-	//SplineInterpolator 
-	public float interpolationSpeed {
-		get {
-			return mSplineInterp.speed;
-		}
-		set {
-			mSplineInterp.speed = value;
-		}
-	}
+	public float Speed;
+
 
 	protected SplineInterpolator mSplineInterp;
 	
@@ -171,8 +164,7 @@ public class SplineController : MonoBehaviour
 	void SetupSplineInterpolator(SplineInterpolator interp, SplineNode[] ninfo)
 	{
 		interp.Clear();
-
-		interp.speed = Speed;
+	
 		float currTime = 0;
 
 		List<SplineNode> nInfoAsList = new List<SplineNode>(ninfo);
@@ -209,23 +201,23 @@ public class SplineController : MonoBehaviour
 			// to account for the stop time of node i-th
 			currTime += ninfo[c].BreakTime;
 
-			//if (Speed <= 0 || Application.isEditor) {
+			if (Speed <= 0 || Application.isEditor) {
 				currTime += TimeBetweenAdjacentNodes;
-			//}
+			}
 		}
 
         //Debug.Log("SplineController, there are " + eOrientationMode.NODE + " nodes currently");
-
-		if (AutoClose)
-			interp.SetAutoCloseMode(currTime);
-
+		
 		//Normalizes the speed by adjusting which times our spline interpolator
 		//needs to arrive at a particular node before they are added to the actual
 		//interpolator.
-		/*if (Speed > 0 && Application.isPlaying) {
+		if (Speed > 0 && Application.isPlaying) {
 			ConstructCurve(interp, ninfo);
-		}*/
+		}
+		
 
+		if (AutoClose)
+			interp.SetAutoCloseMode(currTime);
 	}
 
 	/// <summary>
@@ -274,8 +266,16 @@ public class SplineController : MonoBehaviour
 		float[] curveLengths = new float[nInfo.Length];
 		float[] nodeArrivalTimes = new float[nInfo.Length];
 		float currTime = 0;
-		uint c = 0;
+		uint c = 1;
 		bool pathEnded = false;
+
+		//Cache the tag so we can reset it after we have calculated how fast the object should move.
+		string actualTag = gameObject.tag;
+
+		//Preserve the original position so that the object doesn't get deleted due to the simulation.
+		Vector3 originalPosition = gameObject.transform.position;
+
+		gameObject.tag = "Simulation";
 		//Swap splines just in case we use mSplineInterp elsewhere.
 		interp.StartInterpolation(
 		
@@ -287,8 +287,6 @@ public class SplineController : MonoBehaviour
 		},
 		//On Node Arrival.
 		(int idxArrival, SplineNode nodeArrival) => {
-			//Debug.Log("Interpolating at " + c);
-			//mTotalSegmentSpeed = nodeArrival.length;
 			curveLengths[c] = mTotalSegmentSpeed;
 			totalLength += mTotalSegmentSpeed;
 			mTotalSegmentSpeed = 0;
@@ -299,9 +297,8 @@ public class SplineController : MonoBehaviour
 			//Debug.Log("On Node callback: " + idxLeavingSpline);
 		
 		}, false, eWrapMode.ONCE);
-		//interp.Reset();
-		//interp.StartInterpolation(null, null, null, false, eWrapMode.ONCE);
-		//Debug.Log("STARTING SIMPSON'S");
+
+		//Starts the Simulation.
 		float deltaTime = 0.000001f;
 		float currentTime = 0f;
 		while (!pathEnded) {
@@ -311,40 +308,30 @@ public class SplineController : MonoBehaviour
 			mTotalSegmentSpeed += currentSpeed;
 			currentTime += deltaTime;
 		}
-		//totalLength = MathUtils.Simpson(InterpolateHermiteSpeed, 0, 1, 100, 100000000);
-		//Debug.Log ("ENDING SIMPSON'S");
 		interp.Clear();
 
-		//Debug.Log("CurveLengths: " + curveLengths.Length);
-		//Debug.Log("Total Length: " + totalLength);
-		//Debug.Log("START");
+		gameObject.transform.position = originalPosition;
 		//From that, evaluate how much distance between each node makes up the curve and scale that time to be the break time.
+		float totalTime = GetDuration(nInfo);
+
+		float averageSpeed = totalLength / totalTime;
+
+		float timeToEnd = 0;
+		float speedMultiplier = 0;
 		for (int i = 0; i < curveLengths.Length; i++)
 		{
 			float hermiteLengthToEvaluate = curveLengths[i];
-			Debug.Log("Curve length[" + i + "]: " + hermiteLengthToEvaluate);
-			if (hermiteLengthToEvaluate == 0) continue;
-			float speedMultiplier = hermiteLengthToEvaluate / totalLength * (1 / Speed);
+			if (hermiteLengthToEvaluate > 0) {
+				speedMultiplier = (hermiteLengthToEvaluate / totalLength) * (1 / Speed);
+				timeToEnd = totalTime * speedMultiplier;
+			}
+
 			interp.AddPoint(nInfo[i].Name, nInfo[i].Point, 
 			                nInfo[i].Rot, 
-			                currTime, speedMultiplier, 
+			                timeToEnd + currTime, 0, 
 			                new Vector2(0, 1));
-			//Debug.Log("speedMuliplier: " + speedMultiplier);
-			//Debug.Log("CurrTime: " + currTime);
-			currTime += nInfo[i].BreakTime;
+			currTime += timeToEnd;
 		}
-
-		//Debug.Log("END");
-		//Debug.Log ("Number of Points: " + interp.);
-	}
-
-	//Used to compute the full distnace for the entire spline
-	public float InterpolateHermiteSpeed(float t) {
-		mSplineInterp.Update(t);
-		Vector3 currentVelocity = mSplineInterp.velocity;
-		float currentSpeed = currentVelocity.magnitude;
-		mTotalSegmentSpeed += currentSpeed;
-		//Debug.Log("mTotalLengthSegment in InterpolateHermiteSpeed: " + mTotalSegmentSpeed);
-		return currentSpeed;
+		gameObject.tag = actualTag;
 	}
 }

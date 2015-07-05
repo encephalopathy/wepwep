@@ -16,7 +16,6 @@ public class SplineNode
 	internal float ArrivalTime;
 	internal float BreakTime;
 	internal Vector2 EaseIO;
-	public float length;
 
 	internal SplineNode(string n, Vector3 p, Quaternion q, float tArrival, float tBreak, Vector2 io) 
 		{ Name = n; Point = p; Rot = q; ArrivalTime = tArrival; BreakTime = tBreak; EaseIO = io; }
@@ -44,7 +43,6 @@ public delegate void OnNodeLeavingCallback(int idxLeaving, SplineNode nodeLeavin
 
 public class SplineInterpolator : MonoBehaviour
 {
-	public float speed = -1;
 	public Vector3 velocity { get; private set; }
 	public int NumberOfNodes {
 		get {
@@ -56,7 +54,7 @@ public class SplineInterpolator : MonoBehaviour
 	List<SplineNode> mNodes = new List<SplineNode>();
 	
 	eEndPointsMode mEndPointsMode = eEndPointsMode.AUTO;
-	string mState = "";			// can be "Reset", "Stopped", "Once" or "Loop"
+	string mState = string.Empty;			// can be "Reset", "Stopped", "Once" or "Loop"
 	bool mRotations;
 	
 	float mCurrentTime;
@@ -79,9 +77,10 @@ public class SplineInterpolator : MonoBehaviour
 	
 	void Update()
 	{
-		if (mState == "Reset" || mState == "Stopped" || mNodes.Count < 4)
+		if (mState == "Reset" || mState == "Stopped" || mNodes.Count < 4) {
 			return;
-		
+		}
+
 		Update(Time.deltaTime);
 
 	}
@@ -95,7 +94,6 @@ public class SplineInterpolator : MonoBehaviour
 			if (mCurrentIdx < mNodes.Count - 3)
 			{
 				mCurrentIdx++;
-				
 				// Inform that we have just arrived to the mCurrentIdx -th node!
 				if (mOnNodeArrivalCallback != null)
 					mOnNodeArrivalCallback(mCurrentIdx, mNodes[mCurrentIdx]);
@@ -136,6 +134,8 @@ public class SplineInterpolator : MonoBehaviour
 					mOnNodeLeavingCallback(mCurrentIdx, mNodes[mCurrentIdx]);
 					mLastNodeCallback++;
 				}
+
+
 				//else: callback has already been called
 				
 				// Calculates the t param between 0 and 1
@@ -146,39 +146,12 @@ public class SplineInterpolator : MonoBehaviour
 				
 				// Move attached transform
 				Vector3 newPosition = GetHermiteInternal(mCurrentIdx, param);
-				
-				//Vector3 TESTvelocity = GetHermiteVelocity(mCurrentIdx, param);
-				//Debug.Log("Velocity: " + TESTvelocity.magnitude);
-				//Debug.Log("Leave time: " + mNodes[mCurrentIdx].GetLeaveTime());
 
-				velocity = GetHermiteVelocity(mCurrentIdx, param);
-				mNodes[mCurrentIdx].length += velocity.magnitude;
-				//Debug.Log(velocity.magnitude);
-				
-				//If the user sets the speed of the curve, we need to adjust the curve's speed with the rest of the game.
-				//if (speed > 0) {
-
-					//Gets the current hermite velocity at this point.
-					/*Vector3 velocity = GetHermiteVelocity(mCurrentIdx, param);
-					float curveCurrentSpeed = velocity.magnitude;
-					float direction = velocity.normalized;
-
-					//Compare the current speed at this point of the curve to the speed we want to travel at, the faster the curve move, the slower we must go, and vice versa.
-					float ratio = curveCurrentSpeed / speed;
-					//Debug.Log("Ratio: " + ratio);
-					//Debug.Log("Curve speed: " + curveCurrentSpeed);
-					//Adjust our position to be where we need it to be.
-					transform.position = lastPosition + direction * speed;//(newPosition - lastPosition) * ratio;*/
-					
-				//}
-				//else {
-					transform.position = newPosition;
-				//}
-				/*
+				transform.position = newPosition;
 				// simulate human walking (FIXME)
 				Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 				tmp.y += 0.7f * Mathf.Sin (7*mCurrentTime);
-				transform.position = tmp;*/
+				transform.position = tmp;
 				
 				if (mRotations)
 				{
@@ -219,6 +192,7 @@ public class SplineInterpolator : MonoBehaviour
 		mCurrentIdx = 1;
 		mCurrentTime = 0;
 		mRotations = false;
+		mLastNodeCallback = 0;
 		mEndPointsMode = eEndPointsMode.AUTO;
 	}
 
