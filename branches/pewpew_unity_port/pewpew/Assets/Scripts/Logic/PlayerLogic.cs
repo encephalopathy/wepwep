@@ -19,7 +19,7 @@ public class PlayerLogic : MonoBehaviour
 	public float maxEnergy = 100;
     public float cooldownTime = 0;
 
-	//UI Testing values
+	//UI Testing values; Make sure they are set up before running.
 	public Slider healthBarSlider;
 	public Text healthText;
 	public Slider energyBarSlider;
