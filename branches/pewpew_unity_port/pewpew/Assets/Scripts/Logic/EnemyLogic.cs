@@ -74,10 +74,12 @@ public class EnemyLogic : MonoBehaviour
         {
             if (!hasSpawned)
             {
+				Debug.Log ("HAS SPWANED ENEMY");
                 hasSpawned = true;
             }
             else
             {
+				Debug.Log("ENEMY DESTROYED");
                 Destroy(this.gameObject);
             }
         }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; //added for health UI
 
 public class PlayerLogic : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class PlayerLogic : MonoBehaviour
 	public float maxEnergy = 100;
     public float cooldownTime = 0;
 
+	//UI Testing values; Make sure they are set up before running.
+	public Slider healthBarSlider;
+	public Text healthText;
+	public Slider energyBarSlider;
+	public Text energyText;
+
 	/*private float previousX;
 	private float previousY;*/
     private bool alive = true;
@@ -30,6 +37,11 @@ public class PlayerLogic : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+
+		//UI Testing
+		healthText.text = "Health: " + currentHealth;
+		energyText.text = "Energy: " + currentEnergy;
+
 		/*previousX = Input.GetAxis("Horizontal");
 		previousY = Input.GetAxis("Vertical");*/
     }
@@ -39,6 +51,13 @@ public class PlayerLogic : MonoBehaviour
     {
 		if(currentEnergy < maxEnergy) {
 			currentEnergy+= 20f*Time.deltaTime;
+			if(currentEnergy > maxEnergy){ 
+				currentEnergy = maxEnergy;
+			}
+
+			energyBarSlider.value = ((float)currentEnergy / maxEnergy)*energyBarSlider.maxValue;
+			energyText.text = "Energy: " + currentEnergy;
+
 		}
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -108,6 +127,12 @@ public class PlayerLogic : MonoBehaviour
             {
                 //Debug.Log("EnemyLogic: CurrentHealth before damage is " + currentHealth);
                 currentHealth -= amount;
+
+				//healthBarSlider.value -= .011f; //reduce health
+				healthBarSlider.value = ((float)currentHealth / maxHealth)*healthBarSlider.maxValue;
+				//Debug.Log ("test_healthBarSlider.value: " + healthBarSlider.value);
+				healthText.text = "Health: " + currentHealth;
+
                 //Debug.Log("EnemyLogic: CurrentHealth after damage is " + currentHealth);
                 ModifyHealthBar hb = (ModifyHealthBar)GetComponent(typeof(ModifyHealthBar));
                 hb.GetHit(-amount);
@@ -176,6 +201,11 @@ public class PlayerLogic : MonoBehaviour
             {
                 isFiring = true;
             }
+
+			energyBarSlider.value = ((float)currentEnergy / maxEnergy)*energyBarSlider.maxValue;
+			//Debug.Log ("test_energyBarSlider: " + energyBarSlider.value);
+			energyText.text = "Energy: " + currentEnergy;
+
 		}
 		return _canFire;
 	}
