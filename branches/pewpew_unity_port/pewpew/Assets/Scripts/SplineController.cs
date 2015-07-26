@@ -268,7 +268,7 @@ public class SplineController : MonoBehaviour
 		float currTime = 0;
 		uint c = 1;
 		bool pathEnded = false;
-        Debug.Log("SplineController: nInfo.Length is " + nInfo.Length);
+        //Debug.Log("SplineController: nInfo.Length is " + nInfo.Length);
 
 		//Cache the tag so we can reset it after we have calculated how fast the object should move.
 		string actualTag = gameObject.tag;
@@ -282,7 +282,7 @@ public class SplineController : MonoBehaviour
 		
 		//On Path End.
 		() => {
-			Debug.Log("On Path Ended");
+			//Debug.Log("On Path Ended");
 			pathEnded = true;
 			
 		},
@@ -296,28 +296,27 @@ public class SplineController : MonoBehaviour
 		},
 		//On Node Callback
 		(int idxLeavingSpline, SplineNode OnNodeArrivalCallback) => {
-			Debug.Log("On Node callback: " + idxLeavingSpline);
+			//Debug.Log("On Node callback: " + idxLeavingSpline);
 		
 		}, false, eWrapMode.ONCE);
 
 		//Starts the Simulation.
-		float deltaTime = 5f;
+		float deltaTime = 0.00005f;
 		float currentTime = 0f;
 		while (!pathEnded) {
 			interp.Update(currentTime);
 			Vector3 currentVelocity = mSplineInterp.velocity;
 			float currentSpeed = currentVelocity.magnitude;
 			mTotalSegmentSpeed += currentSpeed;
-            Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed);
 			currentTime += deltaTime;
 		}
-        Debug.Log("SplineController: totalLength is " + totalLength);
+        //Debug.Log("SplineController: totalLength is " + totalLength);
 		interp.Clear();
 
 		gameObject.transform.position = originalPosition;
 		//From that, evaluate how much distance between each node makes up the curve and scale that time to be the break time.
 		float totalTime = GetDuration(nInfo);
-        Debug.Log("SplineController: totalTime is " + totalTime);
+        //Debug.Log("SplineController: totalTime is " + totalTime);
 
 		float averageSpeed = totalLength / totalTime;
 
@@ -326,11 +325,11 @@ public class SplineController : MonoBehaviour
 		for (int i = 0; i < curveLengths.Length; i++)
 		{
 			float hermiteLengthToEvaluate = curveLengths[i];
-            Debug.Log("SplineController: hermiteLengthToEvaluate is " + hermiteLengthToEvaluate);
+            //Debug.Log("SplineController: hermiteLengthToEvaluate is " + hermiteLengthToEvaluate);
 			if (hermiteLengthToEvaluate > 0) {
 				speedMultiplier = (hermiteLengthToEvaluate / totalLength) * (1 / Speed);
 				timeToEnd = totalTime * speedMultiplier;
-                Debug.Log("SplineController: timeToEnd is " + timeToEnd);
+                //Debug.Log("SplineController: timeToEnd is " + timeToEnd);
 			}
 
 			interp.AddPoint(nInfo[i].Name, nInfo[i].Point, 
