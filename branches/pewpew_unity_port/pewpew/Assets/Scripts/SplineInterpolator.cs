@@ -149,9 +149,9 @@ public class SplineInterpolator : MonoBehaviour
 
 				transform.position = newPosition;
 				// simulate human walking (FIXME)
-				Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+				/*Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 				tmp.y += 0.7f * Mathf.Sin (7*mCurrentTime);
-				transform.position = tmp;
+				transform.position = tmp;*/
                 //velocity = GetHermiteVelocity(mCurrentIdx, mCurrentTime);
 				
 				if (mRotations)
@@ -274,6 +274,7 @@ public class SplineInterpolator : MonoBehaviour
 
 		if (mRotations)
 		{
+			Debug.Log ("Rotations Set");
 			for (int c = 1; c < mNodes.Count; c++)
 			{
 				SplineNode node = mNodes[c];
