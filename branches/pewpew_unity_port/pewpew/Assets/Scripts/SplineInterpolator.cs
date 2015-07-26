@@ -152,7 +152,7 @@ public class SplineInterpolator : MonoBehaviour
 				/*Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 				tmp.y += 0.7f * Mathf.Sin (7*mCurrentTime);
 				transform.position = tmp;*/
-                //velocity = GetHermiteVelocity(mCurrentIdx, mCurrentTime);
+                velocity = GetHermiteVelocity(mCurrentIdx, mCurrentTime);
 				
 				if (mRotations)
 				{
