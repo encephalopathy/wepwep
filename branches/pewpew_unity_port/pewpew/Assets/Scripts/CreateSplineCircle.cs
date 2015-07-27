@@ -44,7 +44,6 @@ public class CreateSplineCircle : MonoBehaviour {
 
 	protected void CreateCircle()
 	{
-		
 		List<Component> components = 
 			new List<Component>(SplineRoot.GetComponentsInChildren(typeof(Transform)));
 		
@@ -58,18 +57,21 @@ public class CreateSplineCircle : MonoBehaviour {
 
 		Vector3 midpoint = Vector3.zero;
 		int numberOfNodes = transforms.Count;
+		if (numberOfNodes <= 1) return;
 		foreach (Transform element in transforms)
 		{
 			midpoint += element.position;
 		}
 	
 		midpoint = midpoint / numberOfNodes;
-		Debug.Log("Midpoint: " + midpoint);
+
 		int i = 0;
 		foreach (Transform element in transforms)
 		{
 			element.position = new Vector3(midpoint.x + xRadius * Mathf.Cos((i * (2* Mathf.PI)) / numberOfNodes), midpoint.y, midpoint.z + yRadius * Mathf.Sin((i *2 * Mathf.PI) / numberOfNodes));
 			++i;
 		}
+
+		transforms[numberOfNodes - 1].position = transforms[0].position;
 	}
 }
