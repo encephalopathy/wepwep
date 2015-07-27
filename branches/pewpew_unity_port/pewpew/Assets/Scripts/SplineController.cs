@@ -289,7 +289,7 @@ public class SplineController : MonoBehaviour
 		//On Node Arrival.
 		(int idxArrival, SplineNode nodeArrival) => {
 			curveLengths[c] = mTotalSegmentSpeed;
-            //Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed);
+            Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed);
 			totalLength += mTotalSegmentSpeed;
 			mTotalSegmentSpeed = 0;
 			++c;

@@ -274,7 +274,7 @@ public class SplineInterpolator : MonoBehaviour
 
 		if (mRotations)
 		{
-			Debug.Log ("Rotations Set");
+			//Debug.Log ("Rotations Set");
 			for (int c = 1; c < mNodes.Count; c++)
 			{
 				SplineNode node = mNodes[c];
