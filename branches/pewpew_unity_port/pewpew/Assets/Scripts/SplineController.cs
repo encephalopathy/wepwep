@@ -161,7 +161,7 @@ public class SplineController : MonoBehaviour
 		return endTime;
 	}
 	
-	void SetupSplineInterpolator(SplineInterpolator interp, SplineNode[] ninfo)
+	protected virtual void SetupSplineInterpolator(SplineInterpolator interp, SplineNode[] ninfo)
 	{
 		interp.Clear();
 	
@@ -260,7 +260,7 @@ public class SplineController : MonoBehaviour
 		return info.ToArray();
 	}
 
-	protected void ConstructCurve(SplineInterpolator interp, SplineNode[] nInfo) {
+	protected virtual void ConstructCurve(SplineInterpolator interp, SplineNode[] nInfo) {
 		if (Speed <= 0 && nInfo.Length < 3) return;
 		float totalLength = 0;
 		float[] curveLengths = new float[nInfo.Length];

@@ -19,6 +19,7 @@ public class EnemySplineController : SplineController {
 	/// The spawn group: A colection of splines that make up which enemy flights paths that this game object can switch to.
 	/// </summary>
 	public GameObject[] SpawnGroup;
+	public float[] Speeds;
 	public SplineSwappedEventHandler OnSplineSwapped;
 	private int _SplineToExecute;
 
@@ -41,7 +42,6 @@ public class EnemySplineController : SplineController {
 	// Update is called once per frame
 	void Update ()
     {
-        
 	}
 
 	protected override void DrawGoKitSplineController ()
@@ -80,6 +80,12 @@ public class EnemySplineController : SplineController {
 
 	public void SetSpline(int splineNum) {
 		_SplineToExecute = splineNum;
+	}
+
+	protected override void SetupSplineInterpolator (SplineInterpolator interp, SplineNode[] ninfo)
+	{
+		Speed = Speeds[_SplineToExecute];
+		base.SetupSplineInterpolator (interp, ninfo);
 	}
 
 	/// <summary>
