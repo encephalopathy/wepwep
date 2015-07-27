@@ -201,7 +201,7 @@ public class SplineController : MonoBehaviour
 			// to account for the stop time of node i-th
 			currTime += ninfo[c].BreakTime;
 
-			if (Speed <= 0 || Application.isEditor) {
+			if ((Speed <= 0 || Application.isEditor) && !Application.isPlaying) {
 				currTime += TimeBetweenAdjacentNodes;
 			}
 		}
