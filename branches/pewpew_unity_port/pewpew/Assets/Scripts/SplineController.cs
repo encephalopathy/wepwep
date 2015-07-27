@@ -16,15 +16,15 @@ public enum eOrientationMode { NODE = 0, TANGENT }
 public class SplineController : MonoBehaviour
 {
 	public GameObject SplineRoot;
-	public float TimeBetweenAdjacentNodes = 10;
+
 	public eOrientationMode OrientationMode = eOrientationMode.NODE;
 	public eWrapMode WrapMode = eWrapMode.ONCE;
-
 	public bool AutoStart = true;
 	public bool AutoClose = true;
 	public bool HideOnExecute = true;
 
 	private float mTotalSegmentSpeed;
+	protected float TimeBetweenAdjacentNodes = 10;
 	protected Color currentColor;
 
 	//Used to determine how fast or how slow we should be moving.  Default value to -1 means we move at whatever.

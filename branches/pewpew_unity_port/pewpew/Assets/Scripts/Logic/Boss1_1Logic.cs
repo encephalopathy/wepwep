@@ -157,7 +157,6 @@ public class Boss1_1Logic : EnemyLogic {
         //changingPhase = true;
 		bossSplineController.WrapMode = eWrapMode.ONCE;
         bossSplineController.AutoClose = false;
-        bossSplineController.TimeBetweenAdjacentNodes = 1;
         bossSplineController.SetSpline(1);
         //bossSplineController.FollowSpline(endPhaseChange, null, null);
 
@@ -173,7 +172,6 @@ public class Boss1_1Logic : EnemyLogic {
 
         bossSplineController.WrapMode = eWrapMode.LOOP;
         bossSplineController.AutoClose = true;
-        bossSplineController.TimeBetweenAdjacentNodes = 2;
         bossSplineController.SetSpline(2);
         
         boss.GetComponent<Collider>().enabled = true;
