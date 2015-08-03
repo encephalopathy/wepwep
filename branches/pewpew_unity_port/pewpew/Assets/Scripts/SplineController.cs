@@ -289,7 +289,7 @@ public class SplineController : MonoBehaviour
 		//On Node Arrival.
 		(int idxArrival, SplineNode nodeArrival) => {
 			curveLengths[c] = mTotalSegmentSpeed;
-            Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed);
+            //Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed);
 			totalLength += mTotalSegmentSpeed;
 			mTotalSegmentSpeed = 0;
 			++c;
@@ -325,7 +325,7 @@ public class SplineController : MonoBehaviour
 		for (int i = 0; i < curveLengths.Length; i++)
 		{
 			float hermiteLengthToEvaluate = curveLengths[i];
-            //Debug.Log("SplineController: hermiteLengthToEvaluate is " + hermiteLengthToEvaluate);
+            //Debug.Log("SplineController: hermiteLengthToEvaluate is " + hermiteLengthToEvaluate + " and the node is " + nInfo[i].Name);
 			if (hermiteLengthToEvaluate > 0) {
 				speedMultiplier = (hermiteLengthToEvaluate / totalLength) * (1 / Speed);
 				timeToEnd = totalTime * speedMultiplier;
