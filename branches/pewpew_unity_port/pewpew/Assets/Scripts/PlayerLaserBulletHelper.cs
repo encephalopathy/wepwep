@@ -15,7 +15,8 @@ public class PlayerLaserBulletHelper : MonoBehaviour
 	public float moveZ = 0;
     private GameObject spawnPt;
     private bool canGrow = true;
-    private float damageCooldown = 0.25f;
+    private bool damageCooldown = false;
+    private float damageCooldownTime = 1f;
     private bool maxLength = false;
     private Vector3 enemyPosition;
     //private GameObject upperBound;
@@ -80,11 +81,11 @@ public class PlayerLaserBulletHelper : MonoBehaviour
 		}
         if (hasCollided)
         {
-            damageCooldown -= Time.deltaTime;
-            if (damageCooldown <= 0)
+            damageCooldownTime -= Time.deltaTime;
+            if (damageCooldownTime <= 0)
             {
-                hasCollided = false;
-                damageCooldown = 0.25f;
+                damageCooldown = false;
+                damageCooldownTime = 1f;
             }
         }
 	}
@@ -92,19 +93,23 @@ public class PlayerLaserBulletHelper : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         //Debug.Log("playerLaserBulletHelper: OnTriggerStay is occurring with " + other + ".");
-        if (hasCollided != true || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "DestroyBullet")
+        if (hasCollided == false || other.gameObject.tag == "Enemy" || other.gameObject.tag == "BossPart" || other.gameObject.tag == "Boss" || other.gameObject.tag == "DestroyBullet")
         {
             if (other.gameObject.tag == "Enemy")
             {
                 //Destroy(this.gameObject);
                 EnemyLogic enemylogic = (EnemyLogic)other.gameObject.GetComponent(typeof(EnemyLogic));
-                enemylogic.doDamage(playerBulletDamage);
+                if (!damageCooldown)
+                {
+                    enemylogic.doDamage(playerBulletDamage);
+                    damageCooldown = true;
+                }
                 hasCollided = true;
                 enemyPosition = other.transform.position;
                 //Debug.Log("playerLaserBulletHelper: enemyPosition is " + enemyPosition + ".");
                 maxLength = true;
                 //Destroy(this.gameObject);
-                //Debug.Log("PlayerBulletHelper.cs: We hit an enemy");
+                Debug.Log("PlayerBulletHelper.cs: We hit an enemy");
                 enemyCollider = other;
             }
             else if (other.gameObject.tag == "Boss")
