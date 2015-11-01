@@ -7,15 +7,30 @@ ModelImporter:
     100002: Camera
     100004: Lamp
     100006: Torus
+    100008: EnemyBase
+    100010: Engine
+    100012: Turrent
     400000: //RootNode
     400002: Camera
     400004: Lamp
     400006: Torus
+    400008: EnemyBase
+    400010: Engine
+    400012: Turrent
     2300000: //RootNode
     2300002: Torus
+    2300004: EnemyBase
+    2300006: Engine
+    2300008: Turrent
     3300000: //RootNode
     3300002: Torus
+    3300004: EnemyBase
+    3300006: Engine
+    3300008: Turrent
     4300000: Torus
+    4300002: EnemyBase
+    4300004: Engine
+    4300006: Turrent
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -27,6 +42,10 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5

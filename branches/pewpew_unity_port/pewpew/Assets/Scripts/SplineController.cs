@@ -268,7 +268,6 @@ public class SplineController : MonoBehaviour
 		float currTime = 0;
 		uint c = 1;
 		bool pathEnded = false;
-        //Debug.Log("SplineController: nInfo.Length is " + nInfo.Length);
 
 		//Cache the tag so we can reset it after we have calculated how fast the object should move.
 		string actualTag = gameObject.tag;
@@ -289,7 +288,7 @@ public class SplineController : MonoBehaviour
 		//On Node Arrival.
 		(int idxArrival, SplineNode nodeArrival) => {
 			curveLengths[c] = mTotalSegmentSpeed;
-            //Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed);
+            //Debug.Log("SplineController: mTotalSegmentSpeed is " + mTotalSegmentSpeed + "from node " + nInfo[idxArrival - 1].Point + " to " + nodeArrival.Point);
 			totalLength += mTotalSegmentSpeed;
 			mTotalSegmentSpeed = 0;
 			++c;
@@ -305,9 +304,7 @@ public class SplineController : MonoBehaviour
 		float currentTime = 0f;
 		while (!pathEnded) {
 			interp.Update(currentTime);
-			Vector3 currentVelocity = mSplineInterp.velocity;
-			float currentSpeed = currentVelocity.magnitude;
-			mTotalSegmentSpeed += currentSpeed;
+			mTotalSegmentSpeed += mSplineInterp.DistanceTraveled;
 			currentTime += deltaTime;
 		}
         //Debug.Log("SplineController: totalLength is " + totalLength);
@@ -325,7 +322,7 @@ public class SplineController : MonoBehaviour
 		for (int i = 0; i < curveLengths.Length; i++)
 		{
 			float hermiteLengthToEvaluate = curveLengths[i];
-            //Debug.Log("SplineController: hermiteLengthToEvaluate is " + hermiteLengthToEvaluate);
+            //Debug.Log("SplineController: hermiteLengthToEvaluate is " + hermiteLengthToEvaluate + " and the node is " + nInfo[i].Name);
 			if (hermiteLengthToEvaluate > 0) {
 				speedMultiplier = (hermiteLengthToEvaluate / totalLength) * (1 / Speed);
 				timeToEnd = totalTime * speedMultiplier;

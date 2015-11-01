@@ -44,7 +44,8 @@ public delegate void OnNodeLeavingCallback(int idxLeaving, SplineNode nodeLeavin
 public class SplineInterpolator : MonoBehaviour
 {
 	public Vector3 velocity { get; private set; }
-	private Vector3 lastPosition;
+	public float DistanceTraveled { get; private set; }
+
 	public int NumberOfNodes {
 		get {
 			if (mNodes == null) return 0;
@@ -96,8 +97,8 @@ public class SplineInterpolator : MonoBehaviour
 			{
 				mCurrentIdx++;
 				// Inform that we have just arrived to the mCurrentIdx -th node!
-				if (mOnNodeArrivalCallback != null)
-					mOnNodeArrivalCallback(mCurrentIdx, mNodes[mCurrentIdx]);
+				//if (mOnNodeArrivalCallback != null)
+				//	mOnNodeArrivalCallback(mCurrentIdx, mNodes[mCurrentIdx]);
 			}
 			else
 			{
@@ -107,7 +108,7 @@ public class SplineInterpolator : MonoBehaviour
 					
 					// We stop right in the end point
 					transform.position = mNodes[mNodes.Count - 2].Point;
-					
+					DistanceTraveled = 0;
 					if (mRotations)
 						transform.rotation = mNodes[mNodes.Count - 2].Rot;
 					
@@ -153,13 +154,9 @@ public class SplineInterpolator : MonoBehaviour
 				/*Vector3 tmp = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 				tmp.y += 0.7f * Mathf.Sin (7*mCurrentTime);
 				transform.position = tmp;*/
-                //velocity = GetHermiteVelocity(mCurrentIdx, mCurrentTime);
-				//Debug.Log(newPosition);
-				velocity = newPosition - lastPosition;
-
-				lastPosition = newPosition;
-
-
+                velocity = GetHermiteVelocity(mCurrentIdx, mCurrentTime);
+				DistanceTraveled += velocity.magnitude;
+				
 				if (mRotations)
 				{
 					// Rotate attached transform

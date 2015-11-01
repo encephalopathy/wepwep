@@ -72,9 +72,10 @@ public class EnemyLogic : MonoBehaviour
         }
         else if (theCollision.gameObject.tag == "Destroy" && this.gameObject.tag == "Enemy")
         {
+            Debug.Log("EnemyLogic: collision with a Destroy object and hasSpawned is " + hasSpawned);
             if (!hasSpawned)
             {
-				Debug.Log ("HAS SPWANED ENEMY");
+				//Debug.Log ("HAS SPWANED ENEMY");
                 hasSpawned = true;
             }
             else
